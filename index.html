@@ -2048,35 +2048,202 @@
     </div>
 </div>
 
-<!-- ==================== DEMO MODAL ==================== -->
+<!-- ==================== DEMO WALKTHROUGH ==================== -->
 <div id="page-demo" class="page">
-    <div class="demo-overlay" onclick="if(event.target===this)showPage('page-landing')">
-        <div class="demo-modal">
-            <button class="close-btn" onclick="showPage('page-landing')"><i class="fas fa-times"></i></button>
+    <div class="demo-overlay" onclick="if(event.target===this)closeDemo()">
+        <div class="demo-modal demo-walkthrough">
+            <button class="close-btn" onclick="closeDemo()"><i class="fas fa-times"></i></button>
+            
+            <!-- Header -->
             <h2>See SaaSIQ in Action</h2>
-            <p>Watch how companies save 30%+ on SaaS spend in under 12 minutes.</p>
-            <div class="demo-video-placeholder">
-                <button class="play-btn-large" onclick="alert('Video player would launch here in production')"><i class="fas fa-play"></i></button>
+            <p>Watch how companies save 30%+ on SaaS spend — a 2-minute interactive walkthrough.</p>
+
+            <!-- Progress Bar -->
+            <div class="demo-progress">
+                <div class="demo-progress-bar" id="demo-progress-bar"></div>
             </div>
-            <div class="demo-features">
-                <div class="demo-feature-item">
-                    <i class="fas fa-search"></i>
-                    <strong>Auto Discovery</strong>
-                    <span>Find every SaaS tool instantly</span>
+            <div class="demo-step-indicator">
+                <span id="demo-step-label">Step 1 of 6</span>
+                <span id="demo-timer">⏱ 0:00</span>
+            </div>
+
+            <!-- Walkthrough Screens -->
+            <div class="demo-screen-container">
+                <!-- Step 1: Connect -->
+                <div class="demo-step active" id="demo-step-1">
+                    <div class="demo-screen">
+                        <div class="demo-screen-header">
+                            <span class="demo-screen-dot red"></span>
+                            <span class="demo-screen-dot yellow"></span>
+                            <span class="demo-screen-dot green"></span>
+                            <span class="demo-screen-title">Connect Your Stack</span>
+                        </div>
+                        <div class="demo-screen-body">
+                            <div class="demo-connect-grid">
+                                <div class="demo-app-tile connected"><i class="fab fa-google"></i><span>Google Workspace</span><i class="fas fa-check-circle demo-tick"></i></div>
+                                <div class="demo-app-tile connected"><i class="fab fa-slack"></i><span>Slack</span><i class="fas fa-check-circle demo-tick"></i></div>
+                                <div class="demo-app-tile connecting"><i class="fab fa-aws"></i><span>AWS</span><i class="fas fa-spinner fa-spin demo-spin"></i></div>
+                                <div class="demo-app-tile"><i class="fab fa-salesforce"></i><span>Salesforce</span></div>
+                                <div class="demo-app-tile"><i class="fab fa-github"></i><span>GitHub</span></div>
+                                <div class="demo-app-tile"><i class="fab fa-figma"></i><span>Figma</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <i class="fas fa-plug"></i>
+                        <div><strong>One-Click Integrations</strong><br>Connect SSO, finance tools, and OAuth providers. SaaSIQ auto-discovers every app in under 60 seconds.</div>
+                    </div>
                 </div>
-                <div class="demo-feature-item">
-                    <i class="fas fa-brain"></i>
-                    <strong>AI Intelligence</strong>
-                    <span>Smart savings recommendations</span>
+
+                <!-- Step 2: Discovery -->
+                <div class="demo-step" id="demo-step-2">
+                    <div class="demo-screen">
+                        <div class="demo-screen-header">
+                            <span class="demo-screen-dot red"></span>
+                            <span class="demo-screen-dot yellow"></span>
+                            <span class="demo-screen-dot green"></span>
+                            <span class="demo-screen-title">SaaS Discovery — 47 Apps Found</span>
+                        </div>
+                        <div class="demo-screen-body">
+                            <div class="demo-discovery-list">
+                                <div class="demo-disc-row"><div class="demo-disc-icon" style="background:#4285F4"><i class="fab fa-google"></i></div><div class="demo-disc-info"><strong>Google Workspace</strong><span>342 users · $18,200/mo</span></div><span class="demo-badge approved">Approved</span></div>
+                                <div class="demo-disc-row"><div class="demo-disc-icon" style="background:#611F69"><i class="fab fa-slack"></i></div><div class="demo-disc-info"><strong>Slack Business+</strong><span>289 users · $4,624/mo</span></div><span class="demo-badge approved">Approved</span></div>
+                                <div class="demo-disc-row highlight"><div class="demo-disc-icon" style="background:#E44D26"><i class="fas fa-cloud"></i></div><div class="demo-disc-info"><strong>CloudApp Pro</strong><span>12 users · $1,440/mo</span></div><span class="demo-badge shadow">Shadow IT</span></div>
+                                <div class="demo-disc-row highlight"><div class="demo-disc-icon" style="background:#FF6B35"><i class="fas fa-database"></i></div><div class="demo-disc-info"><strong>DataDog Lite</strong><span>3 users · $890/mo</span></div><span class="demo-badge shadow">Shadow IT</span></div>
+                                <div class="demo-disc-row"><div class="demo-disc-icon" style="background:#0078D4"><i class="fab fa-microsoft"></i></div><div class="demo-disc-info"><strong>Microsoft 365</strong><span>310 users · $6,200/mo</span></div><span class="demo-badge approved">Approved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <i class="fas fa-search"></i>
+                        <div><strong>Shadow IT Detection</strong><br>Found 8 unapproved tools costing $4,200/mo. AI flags duplicates and security risks automatically.</div>
+                    </div>
                 </div>
-                <div class="demo-feature-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <strong>Risk & Compliance</strong>
-                    <span>Stay audit-ready always</span>
+
+                <!-- Step 3: Spend Analytics -->
+                <div class="demo-step" id="demo-step-3">
+                    <div class="demo-screen">
+                        <div class="demo-screen-header">
+                            <span class="demo-screen-dot red"></span>
+                            <span class="demo-screen-dot yellow"></span>
+                            <span class="demo-screen-dot green"></span>
+                            <span class="demo-screen-title">Spend Intelligence Dashboard</span>
+                        </div>
+                        <div class="demo-screen-body">
+                            <div class="demo-kpi-row">
+                                <div class="demo-kpi"><span class="demo-kpi-val">$2.4M</span><span class="demo-kpi-label">Annual SaaS Spend</span></div>
+                                <div class="demo-kpi savings"><span class="demo-kpi-val">$312K</span><span class="demo-kpi-label">Potential Savings</span></div>
+                                <div class="demo-kpi"><span class="demo-kpi-val">67%</span><span class="demo-kpi-label">License Utilization</span></div>
+                            </div>
+                            <div class="demo-chart">
+                                <div class="demo-bar-chart">
+                                    <div class="demo-bar" style="--h:85%;"><span>G Suite</span></div>
+                                    <div class="demo-bar" style="--h:62%;"><span>MS365</span></div>
+                                    <div class="demo-bar" style="--h:45%;"><span>Slack</span></div>
+                                    <div class="demo-bar" style="--h:38%;"><span>AWS</span></div>
+                                    <div class="demo-bar" style="--h:28%;"><span>Zoom</span></div>
+                                    <div class="demo-bar" style="--h:18%;"><span>Figma</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <i class="fas fa-chart-pie"></i>
+                        <div><strong>Spend Breakdown</strong><br>Real-time spend analytics across departments. Instantly see where budget is being wasted on unused licenses.</div>
+                    </div>
+                </div>
+
+                <!-- Step 4: AI Recommendations -->
+                <div class="demo-step" id="demo-step-4">
+                    <div class="demo-screen">
+                        <div class="demo-screen-header">
+                            <span class="demo-screen-dot red"></span>
+                            <span class="demo-screen-dot yellow"></span>
+                            <span class="demo-screen-dot green"></span>
+                            <span class="demo-screen-title">AI Copilot — Smart Recommendations</span>
+                        </div>
+                        <div class="demo-screen-body">
+                            <div class="demo-ai-chat">
+                                <div class="demo-ai-msg bot"><div class="demo-ai-avatar"><i class="fas fa-robot"></i></div><div class="demo-ai-bubble">I found <strong>3 optimization opportunities</strong> that could save <strong>$8,400/month</strong>:</div></div>
+                                <div class="demo-ai-card"><i class="fas fa-arrow-down" style="color:#10B981"></i><div><strong>Downgrade 45 Slack licenses</strong><br><span>45 users inactive 60+ days → Save $720/mo</span></div></div>
+                                <div class="demo-ai-card"><i class="fas fa-sync" style="color:#F59E0B"></i><div><strong>Consolidate Zoom + Google Meet</strong><br><span>Duplicate video tools detected → Save $3,200/mo</span></div></div>
+                                <div class="demo-ai-card"><i class="fas fa-ban" style="color:#EF4444"></i><div><strong>Remove 8 Shadow IT apps</strong><br><span>Unapproved, low-usage tools → Save $4,480/mo</span></div></div>
+                                <div class="demo-ai-msg bot"><div class="demo-ai-avatar"><i class="fas fa-robot"></i></div><div class="demo-ai-bubble">Shall I draft approval workflows for these changes?</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <i class="fas fa-brain"></i>
+                        <div><strong>AI-Powered Savings</strong><br>The AI Copilot continuously analyzes usage patterns and proactively recommends cost-saving actions.</div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Compliance -->
+                <div class="demo-step" id="demo-step-5">
+                    <div class="demo-screen">
+                        <div class="demo-screen-header">
+                            <span class="demo-screen-dot red"></span>
+                            <span class="demo-screen-dot yellow"></span>
+                            <span class="demo-screen-dot green"></span>
+                            <span class="demo-screen-title">Compliance & Risk Overview</span>
+                        </div>
+                        <div class="demo-screen-body">
+                            <div class="demo-compliance">
+                                <div class="demo-risk-score"><svg viewBox="0 0 120 120" class="demo-gauge"><circle cx="60" cy="60" r="50" fill="none" stroke="#1A1A2E" stroke-width="10"/><circle cx="60" cy="60" r="50" fill="none" stroke="#10B981" stroke-width="10" stroke-dasharray="251" stroke-dashoffset="63" stroke-linecap="round" transform="rotate(-90 60 60)"/><text x="60" y="55" text-anchor="middle" fill="#10B981" font-size="24" font-weight="700">A+</text><text x="60" y="72" text-anchor="middle" fill="#A0AEC0" font-size="10">Risk Score</text></svg></div>
+                                <div class="demo-compliance-list">
+                                    <div class="demo-comp-item pass"><i class="fas fa-check-circle"></i> SOC 2 Type II — Compliant</div>
+                                    <div class="demo-comp-item pass"><i class="fas fa-check-circle"></i> GDPR — All vendors verified</div>
+                                    <div class="demo-comp-item pass"><i class="fas fa-check-circle"></i> ISO 27001 — 42/47 apps certified</div>
+                                    <div class="demo-comp-item warn"><i class="fas fa-exclamation-triangle"></i> HIPAA — 2 apps need review</div>
+                                    <div class="demo-comp-item fail"><i class="fas fa-times-circle"></i> 3 apps missing DPA agreements</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <i class="fas fa-shield-alt"></i>
+                        <div><strong>Always Audit-Ready</strong><br>Continuous compliance monitoring across SOC 2, GDPR, ISO 27001. Get alerts before violations happen.</div>
+                    </div>
+                </div>
+
+                <!-- Step 6: ROI Summary -->
+                <div class="demo-step" id="demo-step-6">
+                    <div class="demo-screen">
+                        <div class="demo-screen-header">
+                            <span class="demo-screen-dot red"></span>
+                            <span class="demo-screen-dot yellow"></span>
+                            <span class="demo-screen-dot green"></span>
+                            <span class="demo-screen-title">Your ROI with SaaSIQ</span>
+                        </div>
+                        <div class="demo-screen-body demo-roi-body">
+                            <div class="demo-roi-hero">
+                                <div class="demo-roi-number">$312K</div>
+                                <div class="demo-roi-label">Projected Annual Savings</div>
+                            </div>
+                            <div class="demo-roi-grid">
+                                <div class="demo-roi-stat"><i class="fas fa-clock"></i><strong>5 min</strong><span>Setup time</span></div>
+                                <div class="demo-roi-stat"><i class="fas fa-calendar-alt"></i><strong>14 days</strong><span>Free trial</span></div>
+                                <div class="demo-roi-stat"><i class="fas fa-percentage"></i><strong>30%+</strong><span>Avg. savings</span></div>
+                                <div class="demo-roi-stat"><i class="fas fa-users"></i><strong>500+</strong><span>Companies trust us</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-lg demo-cta-pulse" onclick="showPage('page-signup')">
+                                <i class="fas fa-rocket"></i> Start Your Free Trial Now
+                            </button>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <i class="fas fa-trophy"></i>
+                        <div><strong>Ready to Save?</strong><br>Join 500+ companies saving millions. No credit card required. Full access for 14 days.</div>
+                    </div>
                 </div>
             </div>
-            <div style="margin-top: 28px;">
-                <button class="btn btn-primary btn-lg" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> Start Free Trial Instead</button>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <button class="demo-ctrl-btn" id="demo-prev" onclick="demoStep(-1)" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                <button class="demo-ctrl-btn play-pause" id="demo-play" onclick="toggleDemoPlay()"><i class="fas fa-pause"></i></button>
+                <div class="demo-dots" id="demo-dots"></div>
+                <button class="demo-ctrl-btn" id="demo-next" onclick="demoStep(1)">Next <i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </div>

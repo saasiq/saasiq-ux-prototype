@@ -200,4 +200,122 @@ document.addEventListener('mouseout', function(e) {
     }
 });
 
+// ========== DEMO WALKTHROUGH ENGINE ==========
+let demoState = { current: 1, total: 6, playing: true, timer: null, elapsed: 0, timerInterval: null };
+
+function initDemo() {
+    demoState.current = 1;
+    demoState.elapsed = 0;
+    buildDemoDots();
+    updateDemoUI();
+    startDemoTimer();
+    if (demoState.playing) startDemoAutoPlay();
+}
+
+function buildDemoDots() {
+    const container = document.getElementById('demo-dots');
+    if (!container) return;
+    container.innerHTML = '';
+    for (let i = 1; i <= demoState.total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'demo-dot' + (i === 1 ? ' active' : '');
+        dot.onclick = () => { demoState.current = i; updateDemoUI(); };
+        container.appendChild(dot);
+    }
+}
+
+function updateDemoUI() {
+    // Steps
+    for (let i = 1; i <= demoState.total; i++) {
+        const step = document.getElementById('demo-step-' + i);
+        if (step) step.classList.toggle('active', i === demoState.current);
+    }
+    // Dots
+    const dots = document.querySelectorAll('.demo-dot');
+    dots.forEach((d, idx) => d.classList.toggle('active', idx + 1 === demoState.current));
+    // Progress bar
+    const bar = document.getElementById('demo-progress-bar');
+    if (bar) bar.style.width = ((demoState.current / demoState.total) * 100) + '%';
+    // Step label
+    const label = document.getElementById('demo-step-label');
+    if (label) label.textContent = 'Step ' + demoState.current + ' of ' + demoState.total;
+    // Prev/Next buttons
+    const prev = document.getElementById('demo-prev');
+    const next = document.getElementById('demo-next');
+    if (prev) prev.disabled = demoState.current === 1;
+    if (next) next.disabled = demoState.current === demoState.total;
+}
+
+function demoStep(dir) {
+    const newStep = demoState.current + dir;
+    if (newStep >= 1 && newStep <= demoState.total) {
+        demoState.current = newStep;
+        updateDemoUI();
+    }
+}
+
+function toggleDemoPlay() {
+    demoState.playing = !demoState.playing;
+    const btn = document.getElementById('demo-play');
+    if (btn) btn.innerHTML = demoState.playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+    if (demoState.playing) {
+        startDemoAutoPlay();
+    } else {
+        clearInterval(demoState.timer);
+    }
+}
+
+function startDemoAutoPlay() {
+    clearInterval(demoState.timer);
+    demoState.timer = setInterval(() => {
+        if (demoState.current < demoState.total) {
+            demoState.current++;
+            updateDemoUI();
+        } else {
+            demoState.current = 1;
+            updateDemoUI();
+        }
+    }, 5000);
+}
+
+function startDemoTimer() {
+    clearInterval(demoState.timerInterval);
+    demoState.elapsed = 0;
+    demoState.timerInterval = setInterval(() => {
+        demoState.elapsed++;
+        const mins = Math.floor(demoState.elapsed / 60);
+        const secs = demoState.elapsed % 60;
+        const el = document.getElementById('demo-timer');
+        if (el) el.textContent = '⏱ ' + mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }, 1000);
+}
+
+function closeDemo() {
+    clearInterval(demoState.timer);
+    clearInterval(demoState.timerInterval);
+    demoState.playing = true;
+    showPage('page-landing');
+}
+
+// Hook into showPage to init demo when navigating to it
+const _origShowPage = showPage;
+showPage = function(pageId) {
+    _origShowPage(pageId);
+    if (pageId === 'page-demo') {
+        initDemo();
+    } else {
+        clearInterval(demoState.timer);
+        clearInterval(demoState.timerInterval);
+    }
+};
+
+// Also handle hash routing for demo
+const _origHandleHash = handleHash;
+handleHash = function() {
+    _origHandleHash();
+    if (window.location.hash === '#demo') {
+        initDemo();
+    }
+};
+
 console.log('🚀 SaaSIQ Prototype loaded. Navigate through all screens using the sidebar or landing page CTAs.');
