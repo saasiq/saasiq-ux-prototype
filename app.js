@@ -93,12 +93,28 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Settings sidebar navigation
+// Settings tab navigation
+function showSettingsTab(tabId) {
+    // Update sidebar active state
+    document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
+    if (event && event.currentTarget) event.currentTarget.classList.add('active');
+    // Show the tab content
+    document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+    const target = document.getElementById('stab-' + tabId);
+    if (target) target.classList.add('active');
+}
+
+// Theme card selection
 document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('settings-nav-item') || e.target.closest('.settings-nav-item')) {
-        const item = e.target.classList.contains('settings-nav-item') ? e.target : e.target.closest('.settings-nav-item');
-        document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
+    const themeCard = e.target.closest('.theme-card');
+    if (themeCard) {
+        document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+        themeCard.classList.add('active');
+    }
+    const colorDot = e.target.closest('.color-dot');
+    if (colorDot) {
+        document.querySelectorAll('.color-dot').forEach(c => c.classList.remove('active'));
+        colorDot.classList.add('active');
     }
 });
 

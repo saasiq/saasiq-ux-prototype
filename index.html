@@ -1965,81 +1965,454 @@
 
                 <div class="settings-layout">
                     <div class="settings-sidebar">
-                        <a class="settings-nav-item active"><i class="fas fa-building"></i> Organization</a>
-                        <a class="settings-nav-item"><i class="fas fa-plug"></i> Integrations</a>
-                        <a class="settings-nav-item"><i class="fas fa-users"></i> Team Members</a>
-                        <a class="settings-nav-item"><i class="fas fa-bell"></i> Notifications</a>
-                        <a class="settings-nav-item"><i class="fas fa-lock"></i> Security</a>
-                        <a class="settings-nav-item"><i class="fas fa-palette"></i> Appearance</a>
-                        <a class="settings-nav-item"><i class="fas fa-code"></i> API & Webhooks</a>
-                        <a class="settings-nav-item"><i class="fas fa-receipt"></i> Billing</a>
+                        <a class="settings-nav-item active" onclick="showSettingsTab('organization')"><i class="fas fa-building"></i> Organization</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('integrations')"><i class="fas fa-plug"></i> Integrations</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('team')"><i class="fas fa-users"></i> Team Members</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('notifications')"><i class="fas fa-bell"></i> Notifications</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('security')"><i class="fas fa-lock"></i> Security</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('appearance')"><i class="fas fa-palette"></i> Appearance</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('api')"><i class="fas fa-code"></i> API & Webhooks</a>
+                        <a class="settings-nav-item" onclick="showSettingsTab('billing')"><i class="fas fa-receipt"></i> Billing</a>
                     </div>
                     <div class="settings-content">
-                        <div class="settings-section">
-                            <h3>Organization Details</h3>
-                            <div class="settings-form">
-                                <div class="form-group">
-                                    <label>Organization Name</label>
-                                    <input type="text" value="TechCorp India Pvt. Ltd.">
+
+                        <!-- TAB 1: Organization -->
+                        <div class="settings-tab active" id="stab-organization">
+                            <div class="settings-section">
+                                <h3>Organization Details</h3>
+                                <div class="settings-form">
+                                    <div class="form-group">
+                                        <label>Organization Name</label>
+                                        <input type="text" value="TechCorp India Pvt. Ltd.">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Primary Domain</label>
+                                            <input type="text" value="techcorp.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Industry</label>
+                                            <select><option>Information Technology</option></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Company Size</label>
+                                            <select><option>201-1000 employees</option></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Primary Currency</label>
+                                            <select><option>INR (₹)</option></select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Primary Domain</label>
-                                        <input type="text" value="techcorp.com">
+                            </div>
+                            <div class="settings-section">
+                                <h3>Connected Integrations</h3>
+                                <div class="integration-status-list">
+                                    <div class="integration-status-item">
+                                        <div class="integration-icon"><i class="fab fa-google" style="color: #4285F4"></i></div>
+                                        <div class="integration-info"><strong>Google Workspace</strong><span>Last synced: 2 hours ago</span></div>
+                                        <span class="status-dot green"></span>
+                                        <button class="btn btn-sm btn-outline">Configure</button>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Industry</label>
-                                        <select><option>Information Technology</option></select>
+                                    <div class="integration-status-item">
+                                        <div class="integration-icon"><i class="fab fa-slack" style="color: #4A154B"></i></div>
+                                        <div class="integration-info"><strong>Slack</strong><span>Last synced: 1 hour ago</span></div>
+                                        <span class="status-dot green"></span>
+                                        <button class="btn btn-sm btn-outline">Configure</button>
+                                    </div>
+                                    <div class="integration-status-item">
+                                        <div class="integration-icon"><i class="fab fa-microsoft" style="color: #00A4EF"></i></div>
+                                        <div class="integration-info"><strong>Azure AD</strong><span>Not connected</span></div>
+                                        <span class="status-dot gray"></span>
+                                        <button class="btn btn-sm btn-primary">Connect</button>
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Company Size</label>
-                                        <select><option>201-1000 employees</option></select>
+                            </div>
+                            <div class="settings-actions">
+                                <button class="btn btn-primary">Save Changes</button>
+                                <button class="btn btn-outline">Cancel</button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: Integrations -->
+                        <div class="settings-tab" id="stab-integrations">
+                            <div class="settings-section">
+                                <h3>Manage Integrations</h3>
+                                <p class="settings-desc">Connect your tools to auto-discover SaaS apps, sync usage data, and enable real-time monitoring.</p>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Connected <span class="badge-count">3</span></h4>
+                                <div class="integration-grid">
+                                    <div class="integration-card-full connected">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#4285F4"><i class="fab fa-google"></i></div><div><strong>Google Workspace</strong><span class="intg-status connected"><i class="fas fa-check-circle"></i> Connected</span></div></div>
+                                        <p>SSO, email scanning, Drive file discovery</p>
+                                        <div class="intg-meta"><span>342 users synced</span><span>Last sync: 2h ago</span></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline">Disconnect</button></div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Primary Currency</label>
-                                        <select><option>INR (₹)</option></select>
+                                    <div class="integration-card-full connected">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#611F69"><i class="fab fa-slack"></i></div><div><strong>Slack</strong><span class="intg-status connected"><i class="fas fa-check-circle"></i> Connected</span></div></div>
+                                        <p>Channel monitoring, bot integration, app discovery</p>
+                                        <div class="intg-meta"><span>289 users synced</span><span>Last sync: 1h ago</span></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline">Disconnect</button></div>
+                                    </div>
+                                    <div class="integration-card-full connected">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#FF9900"><i class="fab fa-aws"></i></div><div><strong>AWS</strong><span class="intg-status connected"><i class="fas fa-check-circle"></i> Connected</span></div></div>
+                                        <p>Cloud spend tracking, resource monitoring</p>
+                                        <div class="intg-meta"><span>28 services tracked</span><span>Last sync: 30m ago</span></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline">Disconnect</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Available <span class="badge-count">5</span></h4>
+                                <div class="integration-grid">
+                                    <div class="integration-card-full">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#00A4EF"><i class="fab fa-microsoft"></i></div><div><strong>Azure AD</strong><span class="intg-status">Not connected</span></div></div>
+                                        <p>SSO, directory sync, conditional access</p>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                    </div>
+                                    <div class="integration-card-full">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#0052CC"><i class="fab fa-jira"></i></div><div><strong>Jira</strong><span class="intg-status">Not connected</span></div></div>
+                                        <p>Project tool usage tracking</p>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                    </div>
+                                    <div class="integration-card-full">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#F24E1E"><i class="fab fa-figma"></i></div><div><strong>Figma</strong><span class="intg-status">Not connected</span></div></div>
+                                        <p>Design tool license tracking</p>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                    </div>
+                                    <div class="integration-card-full">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#333"><i class="fab fa-github"></i></div><div><strong>GitHub</strong><span class="intg-status">Not connected</span></div></div>
+                                        <p>Developer tool spend & seat tracking</p>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                    </div>
+                                    <div class="integration-card-full">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#635BFF"><i class="fab fa-stripe-s"></i></div><div><strong>Stripe</strong><span class="intg-status">Not connected</span></div></div>
+                                        <p>Payment & subscription data sync</p>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="settings-section">
-                            <h3>Connected Integrations</h3>
-                            <div class="integration-status-list">
-                                <div class="integration-status-item">
-                                    <div class="integration-icon"><i class="fab fa-google" style="color: #4285F4"></i></div>
-                                    <div class="integration-info">
-                                        <strong>Google Workspace</strong>
-                                        <span>Last synced: 2 hours ago</span>
-                                    </div>
-                                    <span class="status-dot green"></span>
-                                    <button class="btn btn-sm btn-outline">Configure</button>
+
+                        <!-- TAB 3: Team Members -->
+                        <div class="settings-tab" id="stab-team">
+                            <div class="settings-section">
+                                <div class="section-header-row">
+                                    <h3>Team Members</h3>
+                                    <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Invite Member</button>
                                 </div>
-                                <div class="integration-status-item">
-                                    <div class="integration-icon"><i class="fab fa-slack" style="color: #4A154B"></i></div>
-                                    <div class="integration-info">
-                                        <strong>Slack</strong>
-                                        <span>Last synced: 1 hour ago</span>
+                                <p class="settings-desc">Manage who has access to your SaaSIQ workspace and their roles.</p>
+                            </div>
+                            <div class="settings-section">
+                                <div class="team-table">
+                                    <div class="team-row header">
+                                        <span>Member</span><span>Role</span><span>Status</span><span>Last Active</span><span>Actions</span>
                                     </div>
-                                    <span class="status-dot green"></span>
-                                    <button class="btn btn-sm btn-outline">Configure</button>
-                                </div>
-                                <div class="integration-status-item">
-                                    <div class="integration-icon"><i class="fab fa-microsoft" style="color: #00A4EF"></i></div>
-                                    <div class="integration-info">
-                                        <strong>Azure AD</strong>
-                                        <span>Not connected</span>
+                                    <div class="team-row">
+                                        <div class="team-member"><div class="avatar-sm" style="background:var(--primary)">RS</div><div><strong>Rahul Sharma</strong><span>rahul@techcorp.com</span></div></div>
+                                        <span class="role-badge admin">Admin</span>
+                                        <span class="status-pill active">Active</span>
+                                        <span>Just now</span>
+                                        <span class="team-actions"><button class="btn-icon" title="Edit"><i class="fas fa-pen"></i></button></span>
                                     </div>
-                                    <span class="status-dot gray"></span>
-                                    <button class="btn btn-sm btn-primary">Connect</button>
+                                    <div class="team-row">
+                                        <div class="team-member"><div class="avatar-sm" style="background:#3B82F6">AP</div><div><strong>Ananya Patel</strong><span>ananya@techcorp.com</span></div></div>
+                                        <span class="role-badge editor">Editor</span>
+                                        <span class="status-pill active">Active</span>
+                                        <span>2 hours ago</span>
+                                        <span class="team-actions"><button class="btn-icon" title="Edit"><i class="fas fa-pen"></i></button><button class="btn-icon" title="Remove"><i class="fas fa-trash"></i></button></span>
+                                    </div>
+                                    <div class="team-row">
+                                        <div class="team-member"><div class="avatar-sm" style="background:#10B981">VK</div><div><strong>Vikram Kumar</strong><span>vikram@techcorp.com</span></div></div>
+                                        <span class="role-badge editor">Editor</span>
+                                        <span class="status-pill active">Active</span>
+                                        <span>1 day ago</span>
+                                        <span class="team-actions"><button class="btn-icon" title="Edit"><i class="fas fa-pen"></i></button><button class="btn-icon" title="Remove"><i class="fas fa-trash"></i></button></span>
+                                    </div>
+                                    <div class="team-row">
+                                        <div class="team-member"><div class="avatar-sm" style="background:#F59E0B">PM</div><div><strong>Priya Mehta</strong><span>priya@techcorp.com</span></div></div>
+                                        <span class="role-badge viewer">Viewer</span>
+                                        <span class="status-pill active">Active</span>
+                                        <span>3 days ago</span>
+                                        <span class="team-actions"><button class="btn-icon" title="Edit"><i class="fas fa-pen"></i></button><button class="btn-icon" title="Remove"><i class="fas fa-trash"></i></button></span>
+                                    </div>
+                                    <div class="team-row">
+                                        <div class="team-member"><div class="avatar-sm" style="background:#A0AEC0">DG</div><div><strong>Deepak Gupta</strong><span>deepak@techcorp.com</span></div></div>
+                                        <span class="role-badge viewer">Viewer</span>
+                                        <span class="status-pill pending">Pending</span>
+                                        <span>Invited 5 days ago</span>
+                                        <span class="team-actions"><button class="btn-icon" title="Resend"><i class="fas fa-redo"></i></button><button class="btn-icon" title="Revoke"><i class="fas fa-times"></i></button></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="settings-actions">
-                            <button class="btn btn-primary">Save Changes</button>
-                            <button class="btn btn-outline">Cancel</button>
+
+                        <!-- TAB 4: Notifications -->
+                        <div class="settings-tab" id="stab-notifications">
+                            <div class="settings-section">
+                                <h3>Notification Preferences</h3>
+                                <p class="settings-desc">Control how and when SaaSIQ sends you alerts and updates.</p>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Alert Channels</h4>
+                                <div class="notif-options">
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-envelope"></i><div><strong>Email Notifications</strong><span>Receive alerts at rahul@techcorp.com</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fab fa-slack"></i><div><strong>Slack Alerts</strong><span>Post to #saasiq-alerts channel</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-sms"></i><div><strong>SMS Notifications</strong><span>Critical alerts only via SMS</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-bell"></i><div><strong>In-App Push</strong><span>Browser push notifications</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Alert Types</h4>
+                                <div class="notif-options">
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-exclamation-triangle" style="color:#EF4444"></i><div><strong>Shadow IT Detected</strong><span>New unapproved SaaS app found</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-file-contract" style="color:#F59E0B"></i><div><strong>Contract Renewals</strong><span>Upcoming renewals within 30 days</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-dollar-sign" style="color:#10B981"></i><div><strong>Budget Threshold</strong><span>Spend exceeds 80% of department budget</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-shield-alt" style="color:#6366F1"></i><div><strong>Compliance Issues</strong><span>Policy violations and risk alerts</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="notif-option">
+                                        <div class="notif-info"><i class="fas fa-chart-line" style="color:#3B82F6"></i><div><strong>Weekly Digest</strong><span>Summary report every Monday 9 AM</span></div></div>
+                                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-actions">
+                                <button class="btn btn-primary">Save Preferences</button>
+                                <button class="btn btn-outline">Reset to Defaults</button>
+                            </div>
                         </div>
+
+                        <!-- TAB 5: Security -->
+                        <div class="settings-tab" id="stab-security">
+                            <div class="settings-section">
+                                <h3>Security Settings</h3>
+                                <p class="settings-desc">Protect your SaaSIQ workspace with authentication and access controls.</p>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Authentication</h4>
+                                <div class="security-cards">
+                                    <div class="security-card">
+                                        <div class="sec-card-header"><i class="fas fa-key" style="color:var(--primary)"></i><div><strong>Two-Factor Authentication</strong><span>Add an extra layer of security to your account</span></div></div>
+                                        <span class="status-pill active">Enabled</span>
+                                    </div>
+                                    <div class="security-card">
+                                        <div class="sec-card-header"><i class="fas fa-id-badge" style="color:#3B82F6"></i><div><strong>Single Sign-On (SSO)</strong><span>SAML 2.0 via Google Workspace</span></div></div>
+                                        <span class="status-pill active">Active</span>
+                                    </div>
+                                    <div class="security-card">
+                                        <div class="sec-card-header"><i class="fas fa-clock" style="color:#F59E0B"></i><div><strong>Session Timeout</strong><span>Auto-logout after inactivity</span></div></div>
+                                        <select class="sec-select"><option>30 minutes</option><option selected>1 hour</option><option>4 hours</option><option>8 hours</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Access Controls</h4>
+                                <div class="security-cards">
+                                    <div class="security-card">
+                                        <div class="sec-card-header"><i class="fas fa-network-wired" style="color:#10B981"></i><div><strong>IP Allowlist</strong><span>Restrict access to specific IP ranges</span></div></div>
+                                        <span class="status-pill pending">Not configured</span>
+                                    </div>
+                                    <div class="security-card">
+                                        <div class="sec-card-header"><i class="fas fa-user-shield" style="color:#EF4444"></i><div><strong>Role-Based Access Control</strong><span>Admin, Editor, Viewer roles configured</span></div></div>
+                                        <span class="status-pill active">3 roles active</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Audit Log</h4>
+                                <div class="audit-log">
+                                    <div class="audit-entry"><span class="audit-time">Today, 2:34 PM</span><span>Rahul Sharma changed notification settings</span></div>
+                                    <div class="audit-entry"><span class="audit-time">Today, 11:15 AM</span><span>Ananya Patel connected Slack integration</span></div>
+                                    <div class="audit-entry"><span class="audit-time">Yesterday, 4:50 PM</span><span>Vikram Kumar exported compliance report</span></div>
+                                    <div class="audit-entry"><span class="audit-time">Yesterday, 10:22 AM</span><span>System: Auto-discovered 3 new SaaS apps</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 6: Appearance -->
+                        <div class="settings-tab" id="stab-appearance">
+                            <div class="settings-section">
+                                <h3>Appearance</h3>
+                                <p class="settings-desc">Customize the look and feel of your SaaSIQ dashboard.</p>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Theme</h4>
+                                <div class="theme-options">
+                                    <div class="theme-card active">
+                                        <div class="theme-preview dark"><div class="tp-sidebar"></div><div class="tp-content"><div class="tp-bar"></div><div class="tp-block"></div></div></div>
+                                        <span>Dark Mode</span>
+                                        <i class="fas fa-check-circle theme-check"></i>
+                                    </div>
+                                    <div class="theme-card">
+                                        <div class="theme-preview light"><div class="tp-sidebar"></div><div class="tp-content"><div class="tp-bar"></div><div class="tp-block"></div></div></div>
+                                        <span>Light Mode</span>
+                                    </div>
+                                    <div class="theme-card">
+                                        <div class="theme-preview system"><div class="tp-sidebar"></div><div class="tp-content"><div class="tp-bar"></div><div class="tp-block"></div></div></div>
+                                        <span>System Default</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Accent Color</h4>
+                                <div class="color-options">
+                                    <button class="color-dot active" style="background:#7C3AED" title="Purple"></button>
+                                    <button class="color-dot" style="background:#3B82F6" title="Blue"></button>
+                                    <button class="color-dot" style="background:#10B981" title="Green"></button>
+                                    <button class="color-dot" style="background:#F59E0B" title="Amber"></button>
+                                    <button class="color-dot" style="background:#EF4444" title="Red"></button>
+                                    <button class="color-dot" style="background:#EC4899" title="Pink"></button>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Dashboard Density</h4>
+                                <div class="density-options">
+                                    <label class="radio-option"><input type="radio" name="density"> <span>Comfortable</span></label>
+                                    <label class="radio-option active"><input type="radio" name="density" checked> <span>Default</span></label>
+                                    <label class="radio-option"><input type="radio" name="density"> <span>Compact</span></label>
+                                </div>
+                            </div>
+                            <div class="settings-actions">
+                                <button class="btn btn-primary">Apply Changes</button>
+                                <button class="btn btn-outline">Reset to Defaults</button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 7: API & Webhooks -->
+                        <div class="settings-tab" id="stab-api">
+                            <div class="settings-section">
+                                <h3>API & Webhooks</h3>
+                                <p class="settings-desc">Integrate SaaSIQ programmatically with your existing tools and workflows.</p>
+                            </div>
+                            <div class="settings-section">
+                                <h4>API Keys</h4>
+                                <div class="api-key-list">
+                                    <div class="api-key-item">
+                                        <div class="api-key-info"><strong>Production Key</strong><span>Created: Jan 15, 2026</span></div>
+                                        <code class="api-key-value">sk_live_••••••••••••••••3a7f</code>
+                                        <div class="api-key-actions"><button class="btn btn-sm btn-outline"><i class="fas fa-copy"></i> Copy</button><button class="btn btn-sm btn-outline btn-danger-outline"><i class="fas fa-trash"></i></button></div>
+                                    </div>
+                                    <div class="api-key-item">
+                                        <div class="api-key-info"><strong>Development Key</strong><span>Created: Feb 20, 2026</span></div>
+                                        <code class="api-key-value">sk_test_••••••••••••••••9b2e</code>
+                                        <div class="api-key-actions"><button class="btn btn-sm btn-outline"><i class="fas fa-copy"></i> Copy</button><button class="btn btn-sm btn-outline btn-danger-outline"><i class="fas fa-trash"></i></button></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" style="margin-top:12px"><i class="fas fa-plus"></i> Generate New Key</button>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Webhooks</h4>
+                                <div class="api-key-list">
+                                    <div class="api-key-item">
+                                        <div class="api-key-info"><strong>Slack Notifier</strong><span>POST → https://hooks.slack.com/services/T0••••/B0••••</span></div>
+                                        <span class="status-pill active">Active</span>
+                                        <div class="api-key-actions"><button class="btn btn-sm btn-outline">Edit</button><button class="btn btn-sm btn-outline btn-danger-outline">Delete</button></div>
+                                    </div>
+                                    <div class="api-key-item">
+                                        <div class="api-key-info"><strong>Jira Ticket Creator</strong><span>POST → https://techcorp.atlassian.net/rest/webhooks/••••</span></div>
+                                        <span class="status-pill pending">Paused</span>
+                                        <div class="api-key-actions"><button class="btn btn-sm btn-outline">Edit</button><button class="btn btn-sm btn-outline btn-danger-outline">Delete</button></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-primary" style="margin-top:12px"><i class="fas fa-plus"></i> Add Webhook</button>
+                            </div>
+                            <div class="settings-section">
+                                <h4>API Documentation</h4>
+                                <div class="api-docs-link">
+                                    <i class="fas fa-book"></i>
+                                    <div><strong>SaaSIQ REST API v2</strong><span>Full API reference with examples and SDKs</span></div>
+                                    <button class="btn btn-sm btn-outline"><i class="fas fa-external-link-alt"></i> View Docs</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 8: Billing -->
+                        <div class="settings-tab" id="stab-billing">
+                            <div class="settings-section">
+                                <h3>Billing & Subscription</h3>
+                                <p class="settings-desc">Manage your SaaSIQ plan, payment methods, and invoices.</p>
+                            </div>
+                            <div class="settings-section">
+                                <div class="billing-plan-card">
+                                    <div class="plan-info">
+                                        <span class="plan-badge">Business Plan</span>
+                                        <div class="plan-price"><span class="plan-amount">$49</span><span class="plan-period">/user/month</span></div>
+                                        <span class="plan-detail">25 users · Billed annually · Renews Apr 1, 2026</span>
+                                    </div>
+                                    <div class="plan-actions">
+                                        <button class="btn btn-sm btn-primary">Upgrade Plan</button>
+                                        <button class="btn btn-sm btn-outline">Manage Subscription</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Payment Method</h4>
+                                <div class="payment-card">
+                                    <div class="pcard-info"><i class="fab fa-cc-visa" style="font-size:28px;color:#1A1F71"></i><div><strong>Visa ending in 4242</strong><span>Expires 08/2027</span></div></div>
+                                    <button class="btn btn-sm btn-outline">Update</button>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Recent Invoices</h4>
+                                <div class="invoice-list">
+                                    <div class="invoice-row">
+                                        <span class="invoice-date">Mar 1, 2026</span>
+                                        <span>Business Plan – 25 users</span>
+                                        <span class="invoice-amount">$1,225.00</span>
+                                        <span class="status-pill active">Paid</span>
+                                        <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> PDF</button>
+                                    </div>
+                                    <div class="invoice-row">
+                                        <span class="invoice-date">Feb 1, 2026</span>
+                                        <span>Business Plan – 25 users</span>
+                                        <span class="invoice-amount">$1,225.00</span>
+                                        <span class="status-pill active">Paid</span>
+                                        <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> PDF</button>
+                                    </div>
+                                    <div class="invoice-row">
+                                        <span class="invoice-date">Jan 1, 2026</span>
+                                        <span>Business Plan – 22 users</span>
+                                        <span class="invoice-amount">$1,078.00</span>
+                                        <span class="status-pill active">Paid</span>
+                                        <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> PDF</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-section">
+                                <h4>Usage This Month</h4>
+                                <div class="usage-bar-container">
+                                    <div class="usage-bar-labels"><span>21 of 25 seats used</span><span>84%</span></div>
+                                    <div class="usage-bar-track"><div class="usage-bar-fill" style="width:84%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
