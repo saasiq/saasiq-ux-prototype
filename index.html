@@ -600,13 +600,21 @@
                 </div>
             </div>
             <div class="sidebar-org">
-                <div class="org-selector">
+                <div class="org-selector" onclick="toggleOrgDropdown()">
                     <div class="avatar-sm">TC</div>
                     <div>
                         <strong>TechCorp India</strong>
                         <span>Business Plan</span>
                     </div>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down org-chevron"></i>
+                </div>
+                <div class="org-dropdown" id="org-dropdown">
+                    <div class="org-dropdown-item active"><div class="avatar-xs">TC</div><div><strong>TechCorp India</strong><span>Business Plan · 25 users</span></div><i class="fas fa-check"></i></div>
+                    <div class="org-dropdown-item"><div class="avatar-xs" style="background:#3B82F6">TG</div><div><strong>TechCorp Global</strong><span>Enterprise · 120 users</span></div></div>
+                    <div class="org-dropdown-item"><div class="avatar-xs" style="background:#10B981">TS</div><div><strong>TechCorp Sandbox</strong><span>Free Trial · 5 users</span></div></div>
+                    <div class="org-dropdown-divider"></div>
+                    <div class="org-dropdown-item add-org"><i class="fas fa-plus-circle"></i><span>Create New Organization</span></div>
+                    <div class="org-dropdown-item add-org"><i class="fas fa-cog"></i><span>Manage Organizations</span></div>
                 </div>
             </div>
             <nav class="sidebar-nav">
@@ -665,13 +673,21 @@
                 </div>
             </nav>
             <div class="sidebar-footer">
-                <div class="user-profile">
+                <div class="user-profile" onclick="toggleUserDropdown()">
                     <div class="avatar-sm">RS</div>
                     <div>
                         <strong>Rahul Sharma</strong>
                         <span>Admin</span>
                     </div>
                     <i class="fas fa-ellipsis-v"></i>
+                </div>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="user-dropdown-item" onclick="showToast('info','Opening your profile...')"><i class="fas fa-user"></i> My Profile</div>
+                    <div class="user-dropdown-item" onclick="showDashSectionDirect('settings');toggleUserDropdown()"><i class="fas fa-cog"></i> Settings</div>
+                    <div class="user-dropdown-item" onclick="showToast('info','Opening help center...')"><i class="fas fa-question-circle"></i> Help Center</div>
+                    <div class="user-dropdown-item" onclick="showToast('info','Opening keyboard shortcuts...')"><i class="fas fa-keyboard"></i> Shortcuts</div>
+                    <div class="user-dropdown-divider"></div>
+                    <div class="user-dropdown-item danger" onclick="showPage('page-login');toggleUserDropdown()"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
                 </div>
             </div>
         </aside>
@@ -999,7 +1015,7 @@
                     </div>
                     <div class="header-actions">
                         <button class="btn btn-outline"><i class="fas fa-sync"></i> Re-scan Now</button>
-                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Application</button>
+                        <button class="btn btn-primary" onclick="openModal('modal-add-app')"><i class="fas fa-plus"></i> Add Application</button>
                     </div>
                 </div>
 
@@ -1575,7 +1591,7 @@
                     </div>
                     <div class="header-actions">
                         <button class="btn btn-outline"><i class="fas fa-upload"></i> Upload Contract</button>
-                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Contract</button>
+                        <button class="btn btn-primary" onclick="openModal('modal-add-contract')"><i class="fas fa-plus"></i> Add Contract</button>
                     </div>
                 </div>
 
@@ -1665,7 +1681,7 @@
                         <p>Define and enforce SaaS governance policies across your organization</p>
                     </div>
                     <div class="header-actions">
-                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Create Policy</button>
+                        <button class="btn btn-primary" onclick="openModal('modal-create-policy')"><i class="fas fa-plus"></i> Create Policy</button>
                     </div>
                 </div>
 
@@ -1732,8 +1748,8 @@
                             <div class="impact-metric"><span>Risk Level</span><strong>Very Low</strong></div>
                         </div>
                         <div class="insight-actions">
-                            <button class="btn btn-primary">Apply Recommendation</button>
-                            <button class="btn btn-outline">Dismiss</button>
+                            <button class="btn btn-primary" onclick="showToast('success','Recommendation applied! 35 Figma licenses queued for removal.')">Apply Recommendation</button>
+                            <button class="btn btn-outline" onclick="this.closest('.ai-insight-card').style.opacity='0.4';showToast('info','Insight dismissed')">Dismiss</button>
                         </div>
                     </div>
                     <div class="ai-insight-card security">
@@ -1749,8 +1765,8 @@
                             <div class="impact-metric"><span>Data Types</span><strong>Code, Docs</strong></div>
                         </div>
                         <div class="insight-actions">
-                            <button class="btn btn-danger">Block Immediately</button>
-                            <button class="btn btn-primary">Upgrade to Enterprise</button>
+                            <button class="btn btn-danger" onclick="showToast('danger','Blocked! 8 unsanctioned AI tools have been restricted.')">Block Immediately</button>
+                            <button class="btn btn-primary" onclick="showToast('success','Upgrade request sent to ChatGPT Enterprise team.')">Upgrade to Enterprise</button>
                         </div>
                     </div>
                     <div class="ai-insight-card prediction">
@@ -1766,8 +1782,8 @@
                             <div class="impact-metric"><span>Increase</span><strong>+₹1.55L/mo</strong></div>
                         </div>
                         <div class="insight-actions">
-                            <button class="btn btn-primary">Set Budget Alert</button>
-                            <button class="btn btn-outline">View Details</button>
+                            <button class="btn btn-primary" onclick="showToast('success','Budget alert set at ₹8.5L/month for Q2 2026.')">Set Budget Alert</button>
+                            <button class="btn btn-outline" onclick="showToast('info','Opening detailed spend projection...')">View Details</button>
                         </div>
                     </div>
                     <div class="ai-insight-card negotiation">
@@ -1783,8 +1799,8 @@
                             <div class="impact-metric"><span>Benchmark</span><strong>₹16.2L avg</strong></div>
                         </div>
                         <div class="insight-actions">
-                            <button class="btn btn-primary">Generate Brief</button>
-                            <button class="btn btn-outline">View Benchmark</button>
+                            <button class="btn btn-primary" onclick="showToast('success','Negotiation brief generated and sent to procurement team.')">Generate Brief</button>
+                            <button class="btn btn-outline" onclick="showToast('info','Opening industry benchmark report...')">View Benchmark</button>
                         </div>
                     </div>
                 </div>
@@ -1866,8 +1882,8 @@
                         </div>
                     </div>
                     <div class="copilot-input">
-                        <input type="text" placeholder="Ask SaaSIQ AI anything about your SaaS landscape...">
-                        <button class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                        <input type="text" id="copilot-input-field" placeholder="Ask SaaSIQ AI anything about your SaaS landscape..." onkeydown="if(event.key==='Enter')sendCopilotMsg()">
+                        <button class="btn btn-primary" onclick="sendCopilotMsg()"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -2621,6 +2637,85 @@
         </div>
     </div>
 </div>
+
+<!-- ==================== GLOBAL MODALS ==================== -->
+
+<!-- Add Application Modal -->
+<div class="modal-overlay" id="modal-add-app" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog">
+        <div class="modal-header"><h2><i class="fas fa-plus-circle" style="color:var(--primary)"></i> Add Application</h2><button class="close-btn" onclick="closeModal('modal-add-app')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div class="form-group"><label>Application Name</label><input type="text" placeholder="e.g., Notion, Datadog, Postman"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Category</label><select><option value="">Select category...</option><option>Productivity</option><option>Development</option><option>Communication</option><option>Design</option><option>Analytics</option><option>Security</option><option>Finance</option><option>HR</option><option>Marketing</option></select></div>
+                <div class="form-group"><label>Status</label><select><option>Approved</option><option>Under Review</option><option>Shadow IT</option></select></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Monthly Cost</label><input type="text" placeholder="e.g., ₹25,000"></div>
+                <div class="form-group"><label>Number of Users</label><input type="number" placeholder="e.g., 50"></div>
+            </div>
+            <div class="form-group"><label>Vendor URL</label><input type="url" placeholder="https://www.example.com"></div>
+            <div class="form-group"><label>Owner / Department</label><select><option value="">Select department...</option><option>Engineering</option><option>Product</option><option>Design</option><option>Marketing</option><option>Sales</option><option>HR</option><option>Finance</option><option>IT</option></select></div>
+            <div class="form-group"><label>Notes</label><textarea rows="3" placeholder="Add any notes about the application..."></textarea></div>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-app')">Cancel</button><button class="btn btn-primary" onclick="closeModal('modal-add-app');showToast('success','Application added successfully! AI scan will begin shortly.')"><i class="fas fa-plus"></i> Add Application</button></div>
+    </div>
+</div>
+
+<!-- Add Contract Modal -->
+<div class="modal-overlay" id="modal-add-contract" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog">
+        <div class="modal-header"><h2><i class="fas fa-file-contract" style="color:var(--primary)"></i> Add Contract</h2><button class="close-btn" onclick="closeModal('modal-add-contract')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div class="form-group"><label>Vendor / Application</label><input type="text" placeholder="e.g., Salesforce, AWS, Slack"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Contract Type</label><select><option>Annual Subscription</option><option>Monthly Subscription</option><option>Multi-Year Agreement</option><option>Pay-As-You-Go</option><option>Enterprise License</option></select></div>
+                <div class="form-group"><label>Contract Value</label><input type="text" placeholder="e.g., ₹24,00,000/yr"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Start Date</label><input type="date" value="2026-03-05"></div>
+                <div class="form-group"><label>End Date</label><input type="date" value="2027-03-04"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Licensed Seats</label><input type="number" placeholder="e.g., 500"></div>
+                <div class="form-group"><label>Auto-Renew</label><select><option>Yes</option><option>No</option></select></div>
+            </div>
+            <div class="form-group"><label>Renewal Reminder</label><select><option>30 days before</option><option>60 days before</option><option>90 days before</option></select></div>
+            <div class="form-group"><label>Upload Contract PDF</label><div class="file-upload-area"><i class="fas fa-cloud-upload-alt"></i><span>Drag & drop or <strong>browse</strong> to upload</span><span class="file-hint">PDF, DOC up to 10MB</span></div></div>
+            <div class="form-group"><label>Notes</label><textarea rows="2" placeholder="Key terms, negotiation notes..."></textarea></div>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-contract')">Cancel</button><button class="btn btn-primary" onclick="closeModal('modal-add-contract');showToast('success','Contract added! AI will analyze terms and flag renewal opportunities.')"><i class="fas fa-plus"></i> Add Contract</button></div>
+    </div>
+</div>
+
+<!-- Create Policy Modal -->
+<div class="modal-overlay" id="modal-create-policy" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog">
+        <div class="modal-header"><h2><i class="fas fa-gavel" style="color:var(--primary)"></i> Create Policy</h2><button class="close-btn" onclick="closeModal('modal-create-policy')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div class="form-group"><label>Policy Name</label><input type="text" placeholder="e.g., No unapproved AI tools"></div>
+            <div class="form-group"><label>Description</label><textarea rows="3" placeholder="Describe what this policy enforces..."></textarea></div>
+            <div class="form-row">
+                <div class="form-group"><label>Category</label><select><option value="">Select category...</option><option>Security</option><option>Financial</option><option>Compliance</option><option>Usage</option><option>Data Privacy</option></select></div>
+                <div class="form-group"><label>Enforcement Level</label><select><option>Block (Hard Enforce)</option><option>Warn (Soft Enforce)</option><option>Audit Only</option></select></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Applies To</label><select multiple><option>All Departments</option><option>Engineering</option><option>Product</option><option>Marketing</option><option>Sales</option><option>HR</option><option>Finance</option></select></div>
+                <div class="form-group"><label>Status</label><select><option>Active</option><option>Draft</option><option>Paused</option></select></div>
+            </div>
+            <div class="form-group">
+                <label>Conditions</label>
+                <div class="policy-condition"><span class="condition-label">IF</span><select><option>New SaaS app detected</option><option>Spend exceeds threshold</option><option>Compliance cert missing</option><option>User count exceeds limit</option></select></div>
+                <div class="policy-condition"><span class="condition-label">THEN</span><select><option>Block access</option><option>Notify admin</option><option>Require approval</option><option>Auto-quarantine</option></select></div>
+            </div>
+            <div class="form-group"><label>Notification</label><div class="checkbox-row"><label><input type="checkbox" checked> Email admin on violation</label><label><input type="checkbox" checked> Post to Slack #compliance</label><label><input type="checkbox"> Create Jira ticket</label></div></div>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-create-policy')">Cancel</button><button class="btn btn-primary" onclick="closeModal('modal-create-policy');showToast('success','Policy created and now active! SaaSIQ will monitor for violations.')"><i class="fas fa-plus"></i> Create Policy</button></div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
 
 <script src="app.js"></script>
 </body>
