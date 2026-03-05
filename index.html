@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaSIQ — UI/UX Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Floating Page Navigator -->
+<div class="page-navigator" id="pageNav">
+    <button class="nav-toggle" onclick="document.getElementById('pageNav').classList.toggle('expanded')">
+        <i class="fas fa-compass"></i>
+    </button>
+    <div class="nav-panel">
+        <div class="nav-panel-header">Navigate Screens</div>
+        <a onclick="showPage('page-landing')" class="nav-panel-link"><i class="fas fa-home"></i> Landing Page</a>
+        <a onclick="showPage('page-login')" class="nav-panel-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a onclick="showPage('page-signup')" class="nav-panel-link"><i class="fas fa-user-plus"></i> Signup</a>
+        <a onclick="showPage('page-onboarding')" class="nav-panel-link"><i class="fas fa-rocket"></i> Onboarding</a>
+        <a onclick="showPage('page-dashboard')" class="nav-panel-link highlight"><i class="fas fa-th-large"></i> Dashboard (Sidebar)</a>
+        <a onclick="showPage('page-demo')" class="nav-panel-link"><i class="fas fa-play-circle"></i> Watch Demo</a>
+    </div>
+</div>
+
+<!-- ==================== LANDING PAGE ==================== -->
+<div id="page-landing" class="page active">
+    <nav class="landing-nav">
+        <div class="landing-nav-inner">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="scrollToSection('features')">Features</a>
+                <a href="#" onclick="scrollToSection('pricing')">Pricing</a>
+                <a href="#" onclick="scrollToSection('enterprise')">Enterprise</a>
+                <a href="#" onclick="showPage('page-login')">Login</a>
+                <button class="btn btn-primary" onclick="showPage('page-signup')">Start Free Trial</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">🚀 Trusted by 500+ companies worldwide</div>
+        <h1>Stop Wasting <span class="gradient-text">30% of Your SaaS Budget</span></h1>
+        <p class="hero-sub">AI-powered SaaS spend intelligence. Discover shadow IT, optimize licenses, enforce compliance — all from one platform.</p>
+        <div class="hero-cta">
+            <button class="btn btn-primary btn-lg" onclick="showPage('page-signup')">
+                <i class="fas fa-rocket"></i> Start Free 14-Day Trial
+            </button>
+            <button class="btn btn-outline btn-lg" onclick="showPage('page-demo')">
+                <i class="fas fa-play-circle"></i> Watch Demo
+            </button>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-num">$2.4M</span>
+                <span class="hero-stat-label">Avg. savings per customer/year</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-num">12 min</span>
+                <span class="hero-stat-label">Setup time</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-num">400+</span>
+                <span class="hero-stat-label">SaaS integrations</span>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="mock-dashboard-preview">
+                <div class="mock-topbar">
+                    <div class="mock-dots"><span></span><span></span><span></span></div>
+                    <div class="mock-url">app.saasiq.io/dashboard</div>
+                </div>
+                <div class="mock-body">
+                    <div class="mock-sidebar-mini">
+                        <div class="mock-nav-item active"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
+                    </div>
+                    <div class="mock-content">
+                        <div class="mock-cards">
+                            <div class="mock-card-mini purple">
+                                <span>$847K</span>
+                                <small>Total Spend</small>
+                            </div>
+                            <div class="mock-card-mini green">
+                                <span>$234K</span>
+                                <small>Savings Found</small>
+                            </div>
+                            <div class="mock-card-mini orange">
+                                <span>47</span>
+                                <small>Shadow Apps</small>
+                            </div>
+                            <div class="mock-card-mini red">
+                                <span>12</span>
+                                <small>Renewals Soon</small>
+                            </div>
+                        </div>
+                        <div class="mock-chart-area">
+                            <div class="mock-chart">
+                                <div class="chart-bar" style="height: 40%"></div>
+                                <div class="chart-bar" style="height: 65%"></div>
+                                <div class="chart-bar" style="height: 55%"></div>
+                                <div class="chart-bar" style="height: 80%"></div>
+                                <div class="chart-bar" style="height: 45%"></div>
+                                <div class="chart-bar" style="height: 70%"></div>
+                                <div class="chart-bar" style="height: 90%"></div>
+                                <div class="chart-bar" style="height: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trusted-by">
+        <p>Trusted by engineering teams at</p>
+        <div class="trust-logos">
+            <span>TCS</span><span>Infosys</span><span>Wipro</span><span>Razorpay</span><span>Freshworks</span><span>Zoho</span><span>Swiggy</span><span>PhonePe</span>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="section-header">
+            <span class="section-badge">Features</span>
+            <h2>Everything You Need to <span class="gradient-text">Control SaaS Chaos</span></h2>
+            <p>From discovery to optimization — powered by AI at every step.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon purple"><i class="fas fa-search"></i></div>
+                <h3>Shadow IT Discovery</h3>
+                <p>Auto-detect every SaaS tool your employees use. SSO, email receipts, browser extension — nothing hides.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon green"><i class="fas fa-chart-line"></i></div>
+                <h3>Spend Intelligence</h3>
+                <p>AI analyzes spend patterns, detects anomalies, predicts costs, and finds savings you didn't know existed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon blue"><i class="fas fa-users-cog"></i></div>
+                <h3>License Optimization</h3>
+                <p>Track real usage per license. Auto-identify unused seats, recommend right-sizing, save 30-40%.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon orange"><i class="fas fa-shield-alt"></i></div>
+                <h3>Compliance & Risk</h3>
+                <p>Auto risk-score every vendor. GDPR, DPDP, SOC2, ISO27001 compliance at a glance. Audit-ready reports.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon red"><i class="fas fa-file-contract"></i></div>
+                <h3>Contract Intelligence</h3>
+                <p>NLP-powered contract analysis. Never miss a renewal. Get AI-driven negotiation benchmarks.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon teal"><i class="fas fa-robot"></i></div>
+                <h3>AI Copilot</h3>
+                <p>"How much do we spend on project tools?" — Ask in plain English. Get instant answers with data.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section">
+        <div class="section-header">
+            <span class="section-badge">Pricing</span>
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Start free. Scale as you grow.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <div class="price">$3<span>/employee/mo</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Up to 100 employees</li>
+                    <li><i class="fas fa-check"></i> SaaS Discovery</li>
+                    <li><i class="fas fa-check"></i> Basic Spend Analytics</li>
+                    <li><i class="fas fa-check"></i> Email Alerts</li>
+                    <li><i class="fas fa-check"></i> 5 Integrations</li>
+                </ul>
+                <button class="btn btn-outline">Start Free Trial</button>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
+                <h3>Business</h3>
+                <div class="price">$7<span>/employee/mo</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Up to 1000 employees</li>
+                    <li><i class="fas fa-check"></i> Everything in Starter</li>
+                    <li><i class="fas fa-check"></i> AI Spend Intelligence</li>
+                    <li><i class="fas fa-check"></i> License Optimization</li>
+                    <li><i class="fas fa-check"></i> Compliance Scoring</li>
+                    <li><i class="fas fa-check"></i> Contract Management</li>
+                    <li><i class="fas fa-check"></i> Slack/Teams Integration</li>
+                </ul>
+                <button class="btn btn-primary">Start Free Trial</button>
+            </div>
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="price">Custom</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Unlimited employees</li>
+                    <li><i class="fas fa-check"></i> Everything in Business</li>
+                    <li><i class="fas fa-check"></i> AI Copilot</li>
+                    <li><i class="fas fa-check"></i> Custom Integrations</li>
+                    <li><i class="fas fa-check"></i> Dedicated Support</li>
+                    <li><i class="fas fa-check"></i> On-prem / Private Cloud</li>
+                    <li><i class="fas fa-check"></i> SLA Guarantee</li>
+                </ul>
+                <button class="btn btn-outline">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="landing-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                    <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
+                </div>
+                <p>AI-powered SaaS spend intelligence for modern enterprises.</p>
+            </div>
+            <div class="footer-links">
+                <div><h4>Product</h4><a href="#">Features</a><a href="#">Pricing</a><a href="#">Integrations</a><a href="#">API</a></div>
+                <div><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Contact</a></div>
+                <div><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">GDPR</a><a href="#">DPDP</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 SaaSIQ. All rights reserved.</div>
+    </footer>
+</div>
+
+<!-- ==================== LOGIN PAGE ==================== -->
+<div id="page-login" class="page">
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-branding">
+                <div class="logo" onclick="showPage('page-landing')">
+                    <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                    <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
+                </div>
+                <h2>Welcome back</h2>
+                <p>Control your SaaS spend. Eliminate waste. Stay compliant.</p>
+                <div class="auth-testimonial">
+                    <p>"SaaSIQ saved us $340K in the first quarter. We found 23 shadow apps we didn't even know existed."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">RK</div>
+                        <div>
+                            <strong>Rajesh Kumar</strong>
+                            <span>CTO, Razorpay</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="auth-right">
+            <div class="auth-form-container">
+                <h2>Sign in to your account</h2>
+                <p>Don't have an account? <a href="#" onclick="showPage('page-signup')">Start free trial</a></p>
+                
+                <div class="social-auth">
+                    <button class="btn-social"><i class="fab fa-google"></i> Google</button>
+                    <button class="btn-social"><i class="fab fa-microsoft"></i> Microsoft</button>
+                </div>
+                <div class="divider"><span>or continue with email</span></div>
+                
+                <form class="auth-form" onsubmit="event.preventDefault(); showPage('page-dashboard')">
+                    <div class="form-group">
+                        <label>Work Email</label>
+                        <input type="email" placeholder="you@company.com" value="admin@techcorp.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" value="password123">
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SIGNUP PAGE ==================== -->
+<div id="page-signup" class="page">
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-branding">
+                <div class="logo" onclick="showPage('page-landing')">
+                    <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                    <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
+                </div>
+                <h2>Start saving in minutes</h2>
+                <p>No credit card required. 14-day free trial.</p>
+                <div class="signup-benefits">
+                    <div class="benefit"><i class="fas fa-check-circle"></i> Discover all SaaS tools in 12 minutes</div>
+                    <div class="benefit"><i class="fas fa-check-circle"></i> Find savings within first hour</div>
+                    <div class="benefit"><i class="fas fa-check-circle"></i> No IT team changes required</div>
+                    <div class="benefit"><i class="fas fa-check-circle"></i> SOC2 Type II certified</div>
+                </div>
+            </div>
+        </div>
+        <div class="auth-right">
+            <div class="auth-form-container">
+                <h2>Create your account</h2>
+                <p>Already have an account? <a href="#" onclick="showPage('page-login')">Sign in</a></p>
+                
+                <div class="social-auth">
+                    <button class="btn-social"><i class="fab fa-google"></i> Sign up with Google</button>
+                    <button class="btn-social"><i class="fab fa-microsoft"></i> Sign up with Microsoft</button>
+                </div>
+                <div class="divider"><span>or continue with email</span></div>
+                
+                <form class="auth-form" onsubmit="event.preventDefault(); showPage('page-onboarding')">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Rahul">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Sharma">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Work Email</label>
+                        <input type="email" placeholder="you@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" placeholder="TechCorp India">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Size</label>
+                        <select>
+                            <option>Select company size</option>
+                            <option>1–50 employees</option>
+                            <option>51–200 employees</option>
+                            <option>201–1000 employees</option>
+                            <option>1001–5000 employees</option>
+                            <option>5000+ employees</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Min 8 characters">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-rocket"></i> Create Account
+                    </button>
+                    <p class="terms-text">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== ONBOARDING PAGE ==================== -->
+<div id="page-onboarding" class="page">
+    <div class="onboarding-container">
+        <div class="onboarding-header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
+            </div>
+            <div class="onboarding-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <span>Connect SSO</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <span>Integrations</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <span>Team Invite</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <span>Preferences</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Connect SSO -->
+        <div class="onboarding-step active" id="onboard-step-1">
+            <div class="step-content">
+                <h2>Connect Your Identity Provider</h2>
+                <p>This lets us discover all SaaS applications your team uses. We only read app names and user emails — never passwords.</p>
+                
+                <div class="integration-grid">
+                    <div class="integration-card selected">
+                        <div class="integration-icon"><i class="fab fa-google" style="color: #4285F4"></i></div>
+                        <h4>Google Workspace</h4>
+                        <p>Discover apps via Google SSO</p>
+                        <span class="integration-status connected"><i class="fas fa-check-circle"></i> Connected</span>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fab fa-microsoft" style="color: #00A4EF"></i></div>
+                        <h4>Azure AD / Entra</h4>
+                        <p>Microsoft SSO discovery</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fas fa-key" style="color: #00297A"></i></div>
+                        <h4>Okta</h4>
+                        <p>Okta SSO integration</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fas fa-shield-alt" style="color: #EB5424"></i></div>
+                        <h4>Auth0</h4>
+                        <p>Auth0 tenant discovery</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="showPage('page-dashboard')">Skip for now</button>
+                    <button class="btn btn-primary" onclick="nextOnboardStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Integrations -->
+        <div class="onboarding-step" id="onboard-step-2">
+            <div class="step-content">
+                <h2>Connect Additional Data Sources</h2>
+                <p>More connections = better discovery. Connect your finance and communication tools.</p>
+                
+                <div class="integration-grid">
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fab fa-slack" style="color: #4A154B"></i></div>
+                        <h4>Slack</h4>
+                        <p>Detect app bot installations</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                    <div class="integration-card selected">
+                        <div class="integration-icon"><i class="fab fa-stripe" style="color: #635BFF"></i></div>
+                        <h4>Stripe / Billing</h4>
+                        <p>Import SaaS transactions</p>
+                        <span class="integration-status connected"><i class="fas fa-check-circle"></i> Connected</span>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fas fa-file-invoice" style="color: #1A73E8"></i></div>
+                        <h4>QuickBooks / Zoho</h4>
+                        <p>Expense categorization</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fas fa-envelope" style="color: #EA4335"></i></div>
+                        <h4>Email (Gmail/Outlook)</h4>
+                        <p>Scan receipts & invoices</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fas fa-browser" style="color: #FF6D00"></i></div>
+                        <h4>Browser Extension</h4>
+                        <p>Real-time app detection</p>
+                        <button class="btn btn-sm btn-outline">Install</button>
+                    </div>
+                    <div class="integration-card">
+                        <div class="integration-icon"><i class="fab fa-aws" style="color: #FF9900"></i></div>
+                        <h4>AWS / GCP / Azure</h4>
+                        <p>Cloud spend tracking</p>
+                        <button class="btn btn-sm btn-outline">Connect</button>
+                    </div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="nextOnboardStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary" onclick="nextOnboardStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Team Invite -->
+        <div class="onboarding-step" id="onboard-step-3">
+            <div class="step-content">
+                <h2>Invite Your Team</h2>
+                <p>Add team members who should have access to SaaSIQ.</p>
+                
+                <div class="invite-section">
+                    <div class="invite-input-group">
+                        <input type="email" placeholder="colleague@company.com">
+                        <select>
+                            <option>Admin</option>
+                            <option>Finance Manager</option>
+                            <option>IT Manager</option>
+                            <option>Viewer</option>
+                        </select>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                    
+                    <div class="invited-list">
+                        <div class="invited-member">
+                            <div class="avatar">PK</div>
+                            <div class="member-info">
+                                <strong>Priya Kapoor</strong>
+                                <span>priya@techcorp.com</span>
+                            </div>
+                            <span class="role-badge">Finance Manager</span>
+                            <span class="invite-status"><i class="fas fa-paper-plane"></i> Invited</span>
+                        </div>
+                        <div class="invited-member">
+                            <div class="avatar">AM</div>
+                            <div class="member-info">
+                                <strong>Amit Mehta</strong>
+                                <span>amit@techcorp.com</span>
+                            </div>
+                            <span class="role-badge">IT Manager</span>
+                            <span class="invite-status"><i class="fas fa-paper-plane"></i> Invited</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="nextOnboardStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary" onclick="nextOnboardStep(4)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Preferences -->
+        <div class="onboarding-step" id="onboard-step-4">
+            <div class="step-content">
+                <h2>Set Your Preferences</h2>
+                <p>Help us personalize your experience.</p>
+                
+                <div class="preferences-form">
+                    <div class="form-group">
+                        <label>Primary Currency</label>
+                        <select>
+                            <option>INR (₹) — Indian Rupee</option>
+                            <option>USD ($) — US Dollar</option>
+                            <option>EUR (€) — Euro</option>
+                            <option>GBP (£) — British Pound</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fiscal Year Start</label>
+                        <select>
+                            <option>April (India Standard)</option>
+                            <option>January</option>
+                            <option>July</option>
+                            <option>October</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Alert Preferences</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" checked> Email digest (weekly)</label>
+                            <label class="checkbox-label"><input type="checkbox" checked> Renewal reminders (60 days)</label>
+                            <label class="checkbox-label"><input type="checkbox" checked> Shadow IT alerts (real-time)</label>
+                            <label class="checkbox-label"><input type="checkbox"> Slack notifications</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Compliance Frameworks</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" checked> DPDP Act 2023 (India)</label>
+                            <label class="checkbox-label"><input type="checkbox" checked> SOC 2 Type II</label>
+                            <label class="checkbox-label"><input type="checkbox"> GDPR</label>
+                            <label class="checkbox-label"><input type="checkbox"> ISO 27001</label>
+                            <label class="checkbox-label"><input type="checkbox"> HIPAA</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="nextOnboardStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary btn-lg" onclick="showPage('page-dashboard')">
+                        <i class="fas fa-rocket"></i> Launch Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MAIN APP SHELL ==================== -->
+<div id="page-dashboard" class="page">
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo" onclick="showPage('page-landing')">
+                    <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                    <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
+                </div>
+            </div>
+            <div class="sidebar-org">
+                <div class="org-selector">
+                    <div class="avatar-sm">TC</div>
+                    <div>
+                        <strong>TechCorp India</strong>
+                        <span>Business Plan</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-label">Overview</span>
+                    <a class="nav-item active" onclick="showDashSection('dashboard-home')">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-label">Intelligence</span>
+                    <a class="nav-item" onclick="showDashSection('discovery')">
+                        <i class="fas fa-search"></i> SaaS Discovery
+                        <span class="nav-badge red">47</span>
+                    </a>
+                    <a class="nav-item" onclick="showDashSection('spend')">
+                        <i class="fas fa-chart-line"></i> Spend Intelligence
+                    </a>
+                    <a class="nav-item" onclick="showDashSection('usage')">
+                        <i class="fas fa-users-cog"></i> Usage Analytics
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-label">Governance</span>
+                    <a class="nav-item" onclick="showDashSection('compliance')">
+                        <i class="fas fa-shield-alt"></i> Compliance & Risk
+                        <span class="nav-badge orange">5</span>
+                    </a>
+                    <a class="nav-item" onclick="showDashSection('contracts')">
+                        <i class="fas fa-file-contract"></i> Contracts
+                        <span class="nav-badge yellow">12</span>
+                    </a>
+                    <a class="nav-item" onclick="showDashSection('policies')">
+                        <i class="fas fa-gavel"></i> Policies
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-label">AI & Insights</span>
+                    <a class="nav-item" onclick="showDashSection('ai-insights')">
+                        <i class="fas fa-robot"></i> AI Insights
+                        <span class="nav-badge purple">8</span>
+                    </a>
+                    <a class="nav-item" onclick="showDashSection('ai-copilot')">
+                        <i class="fas fa-comments"></i> AI Copilot
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-label">System</span>
+                    <a class="nav-item" onclick="showDashSection('alerts')">
+                        <i class="fas fa-bell"></i> Alerts
+                        <span class="nav-badge red">3</span>
+                    </a>
+                    <a class="nav-item" onclick="showDashSection('settings')">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar-sm">RS</div>
+                    <div>
+                        <strong>Rahul Sharma</strong>
+                        <span>Admin</span>
+                    </div>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Sidebar Backdrop (mobile) -->
+        <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="btn-icon" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search apps, contracts, insights... (⌘K)">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="btn-icon"><i class="fas fa-question-circle"></i></button>
+                    <button class="btn-icon notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="avatar-sm topbar-avatar">RS</div>
+                </div>
+            </div>
+
+            <!-- ===== DASHBOARD HOME ===== -->
+            <div class="dash-section active" id="sec-dashboard-home">
+                <div class="page-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Overview of your SaaS landscape — Updated 2 minutes ago</p>
+                    </div>
+                    <div class="header-actions">
+                        <select class="period-select">
+                            <option>This Quarter (Jan-Mar 2026)</option>
+                            <option>Last Quarter</option>
+                            <option>This Year</option>
+                            <option>Last 12 Months</option>
+                        </select>
+                        <button class="btn btn-primary"><i class="fas fa-download"></i> Export</button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Total SaaS Spend</span>
+                            <div class="kpi-icon purple"><i class="fas fa-rupee-sign"></i></div>
+                        </div>
+                        <div class="kpi-value">₹7,04,32,000</div>
+                        <div class="kpi-change negative"><i class="fas fa-arrow-up"></i> 12.3% vs last quarter</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Savings Identified</span>
+                            <div class="kpi-icon green"><i class="fas fa-piggy-bank"></i></div>
+                        </div>
+                        <div class="kpi-value">₹1,94,50,000</div>
+                        <div class="kpi-change positive"><i class="fas fa-arrow-up"></i> 27.6% of total spend</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Total Applications</span>
+                            <div class="kpi-icon blue"><i class="fas fa-th-large"></i></div>
+                        </div>
+                        <div class="kpi-value">187</div>
+                        <div class="kpi-sub">47 Shadow IT <span class="tag red">Unmanaged</span></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">License Utilization</span>
+                            <div class="kpi-icon orange"><i class="fas fa-chart-pie"></i></div>
+                        </div>
+                        <div class="kpi-value">61%</div>
+                        <div class="kpi-change negative"><i class="fas fa-arrow-down"></i> 39% licenses wasted</div>
+                        <div class="mini-progress"><div class="mini-progress-bar" style="width: 61%"></div></div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="chart-row">
+                    <div class="chart-card wide">
+                        <div class="chart-header">
+                            <h3>Monthly SaaS Spend Trend</h3>
+                            <div class="chart-legend">
+                                <span class="legend-item"><span class="legend-dot purple"></span> Actual</span>
+                                <span class="legend-item"><span class="legend-dot light-purple"></span> AI Predicted</span>
+                                <span class="legend-item"><span class="legend-dot green"></span> Optimized</span>
+                            </div>
+                        </div>
+                        <div class="chart-body">
+                            <div class="trend-chart">
+                                <div class="y-axis">
+                                    <span>₹80L</span><span>₹60L</span><span>₹40L</span><span>₹20L</span><span>₹0</span>
+                                </div>
+                                <div class="chart-area">
+                                    <svg viewBox="0 0 600 200" class="line-chart-svg">
+                                        <!-- Grid -->
+                                        <line x1="0" y1="50" x2="600" y2="50" stroke="#f0f0f0"/>
+                                        <line x1="0" y1="100" x2="600" y2="100" stroke="#f0f0f0"/>
+                                        <line x1="0" y1="150" x2="600" y2="150" stroke="#f0f0f0"/>
+                                        <!-- Actual line -->
+                                        <polyline fill="none" stroke="#7C3AED" stroke-width="3" points="0,140 50,130 100,120 150,135 200,110 250,100 300,105 350,95 400,85 450,90 500,80 550,75"/>
+                                        <!-- AI Predicted -->
+                                        <polyline fill="none" stroke="#C4B5FD" stroke-width="2" stroke-dasharray="8,4" points="500,80 550,72 600,65"/>
+                                        <!-- Optimized -->
+                                        <polyline fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4" points="0,160 50,155 100,148 150,150 200,140 250,135 300,138 350,130 400,122 450,125 500,118 550,110"/>
+                                    </svg>
+                                    <div class="x-axis">
+                                        <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Spend by Category</h3>
+                        </div>
+                        <div class="chart-body">
+                            <div class="donut-chart">
+                                <svg viewBox="0 0 160 160" class="donut-svg">
+                                    <circle cx="80" cy="80" r="60" fill="none" stroke="#7C3AED" stroke-width="24" stroke-dasharray="94.2 282.6" stroke-dashoffset="0"/>
+                                    <circle cx="80" cy="80" r="60" fill="none" stroke="#3B82F6" stroke-width="24" stroke-dasharray="75.4 282.6" stroke-dashoffset="-94.2"/>
+                                    <circle cx="80" cy="80" r="60" fill="none" stroke="#10B981" stroke-width="24" stroke-dasharray="56.5 282.6" stroke-dashoffset="-169.6"/>
+                                    <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="24" stroke-dasharray="37.7 282.6" stroke-dashoffset="-226.1"/>
+                                    <circle cx="80" cy="80" r="60" fill="none" stroke="#EF4444" stroke-width="24" stroke-dasharray="18.8 282.6" stroke-dashoffset="-263.8"/>
+                                </svg>
+                                <div class="donut-center">
+                                    <strong>₹7.04Cr</strong>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                            <div class="donut-legend">
+                                <div class="legend-row"><span class="legend-dot purple"></span> DevOps & Engineering <strong>25%</strong></div>
+                                <div class="legend-row"><span class="legend-dot blue"></span> Collaboration <strong>20%</strong></div>
+                                <div class="legend-row"><span class="legend-dot green"></span> Sales & Marketing <strong>15%</strong></div>
+                                <div class="legend-row"><span class="legend-dot yellow"></span> Design & Product <strong>10%</strong></div>
+                                <div class="legend-row"><span class="legend-dot red"></span> Others <strong>30%</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Items -->
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-exclamation-triangle" style="color: #F59E0B"></i> Urgent Actions</h3>
+                            <a href="#" class="link">View All</a>
+                        </div>
+                        <div class="action-list">
+                            <div class="action-item critical">
+                                <div class="action-priority critical">CRITICAL</div>
+                                <div class="action-info">
+                                    <strong>Salesforce renewal in 7 days</strong>
+                                    <span>₹24L/year — 34% of licenses unused</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Review</button>
+                            </div>
+                            <div class="action-item high">
+                                <div class="action-priority high">HIGH</div>
+                                <div class="action-info">
+                                    <strong>23 new shadow apps found this week</strong>
+                                    <span>5 flagged as high-risk (no SOC2)</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Investigate</button>
+                            </div>
+                            <div class="action-item medium">
+                                <div class="action-priority medium">MEDIUM</div>
+                                <div class="action-info">
+                                    <strong>Duplicate tools: 3 project management apps</strong>
+                                    <span>Jira + Asana + Monday.com — consolidate to save ₹8.5L</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Optimize</button>
+                            </div>
+                            <div class="action-item low">
+                                <div class="action-priority low">INFO</div>
+                                <div class="action-info">
+                                    <strong>AI suggests downgrading Figma plan</strong>
+                                    <span>47 seats → 12 active users. Save ₹3.2L/year</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-clock" style="color: #3B82F6"></i> Upcoming Renewals</h3>
+                            <a href="#" class="link">View All</a>
+                        </div>
+                        <div class="renewal-list">
+                            <div class="renewal-item">
+                                <div class="app-icon sf">SF</div>
+                                <div class="renewal-info">
+                                    <strong>Salesforce Enterprise</strong>
+                                    <span>Renews Mar 12, 2026</span>
+                                </div>
+                                <div class="renewal-cost">₹24,00,000<small>/yr</small></div>
+                                <span class="days-badge urgent">7 days</span>
+                            </div>
+                            <div class="renewal-item">
+                                <div class="app-icon gh">GH</div>
+                                <div class="renewal-info">
+                                    <strong>GitHub Enterprise</strong>
+                                    <span>Renews Mar 28, 2026</span>
+                                </div>
+                                <div class="renewal-cost">₹18,50,000<small>/yr</small></div>
+                                <span class="days-badge warning">23 days</span>
+                            </div>
+                            <div class="renewal-item">
+                                <div class="app-icon sl">SL</div>
+                                <div class="renewal-info">
+                                    <strong>Slack Business+</strong>
+                                    <span>Renews Apr 15, 2026</span>
+                                </div>
+                                <div class="renewal-cost">₹12,00,000<small>/yr</small></div>
+                                <span class="days-badge normal">41 days</span>
+                            </div>
+                            <div class="renewal-item">
+                                <div class="app-icon jira">JR</div>
+                                <div class="renewal-info">
+                                    <strong>Jira Premium</strong>
+                                    <span>Renews May 01, 2026</span>
+                                </div>
+                                <div class="renewal-cost">₹8,40,000<small>/yr</small></div>
+                                <span class="days-badge normal">57 days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Apps Table -->
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Top Applications by Spend</h3>
+                        <div class="header-actions">
+                            <div class="filter-group">
+                                <button class="filter-btn active">All</button>
+                                <button class="filter-btn">Managed</button>
+                                <button class="filter-btn">Shadow IT</button>
+                            </div>
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-filter"></i> Fields</button>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Application</th>
+                                <th>Category</th>
+                                <th>Monthly Spend</th>
+                                <th>Licenses</th>
+                                <th>Utilization</th>
+                                <th>Risk Score</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon sf">SF</div> Salesforce</td>
+                                <td><span class="category-tag">CRM</span></td>
+                                <td class="spend-cell">₹2,00,000</td>
+                                <td>150 / 200</td>
+                                <td><div class="util-bar"><div class="util-fill medium" style="width:75%"></div></div> 75%</td>
+                                <td><span class="risk-badge low">Low</span></td>
+                                <td><span class="status-badge managed">Managed</span></td>
+                                <td><button class="btn-icon"><i class="fas fa-ellipsis-h"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon aws">AW</div> AWS</td>
+                                <td><span class="category-tag">Cloud</span></td>
+                                <td class="spend-cell">₹1,80,000</td>
+                                <td>—</td>
+                                <td><div class="util-bar"><div class="util-fill high" style="width:88%"></div></div> 88%</td>
+                                <td><span class="risk-badge low">Low</span></td>
+                                <td><span class="status-badge managed">Managed</span></td>
+                                <td><button class="btn-icon"><i class="fas fa-ellipsis-h"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon gh">GH</div> GitHub Enterprise</td>
+                                <td><span class="category-tag">DevOps</span></td>
+                                <td class="spend-cell">₹1,54,000</td>
+                                <td>340 / 500</td>
+                                <td><div class="util-bar"><div class="util-fill medium" style="width:68%"></div></div> 68%</td>
+                                <td><span class="risk-badge low">Low</span></td>
+                                <td><span class="status-badge managed">Managed</span></td>
+                                <td><button class="btn-icon"><i class="fas fa-ellipsis-h"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon fg">FG</div> Figma</td>
+                                <td><span class="category-tag">Design</span></td>
+                                <td class="spend-cell">₹85,000</td>
+                                <td>12 / 47</td>
+                                <td><div class="util-bar"><div class="util-fill low" style="width:26%"></div></div> 26%</td>
+                                <td><span class="risk-badge low">Low</span></td>
+                                <td><span class="status-badge managed">Managed</span></td>
+                                <td><button class="btn-icon"><i class="fas fa-ellipsis-h"></i></button></td>
+                            </tr>
+                            <tr class="shadow-row">
+                                <td class="app-cell"><div class="app-icon unknown">??</div> Loom <span class="shadow-tag"><i class="fas fa-ghost"></i> Shadow</span></td>
+                                <td><span class="category-tag">Video</span></td>
+                                <td class="spend-cell">₹42,000</td>
+                                <td>28 / ?</td>
+                                <td><div class="util-bar"><div class="util-fill unknown" style="width:100%"></div></div> N/A</td>
+                                <td><span class="risk-badge medium">Medium</span></td>
+                                <td><span class="status-badge shadow">Shadow IT</span></td>
+                                <td><button class="btn-icon"><i class="fas fa-ellipsis-h"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== SAAS DISCOVERY ===== -->
+            <div class="dash-section" id="sec-discovery">
+                <div class="page-header">
+                    <div>
+                        <h1>SaaS Discovery & Shadow IT</h1>
+                        <p>All discovered applications across your organization</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline"><i class="fas fa-sync"></i> Re-scan Now</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Application</button>
+                    </div>
+                </div>
+
+                <div class="discovery-stats">
+                    <div class="disc-stat">
+                        <div class="disc-stat-icon blue"><i class="fas fa-th-large"></i></div>
+                        <div><strong>187</strong><span>Total Apps</span></div>
+                    </div>
+                    <div class="disc-stat">
+                        <div class="disc-stat-icon green"><i class="fas fa-check-circle"></i></div>
+                        <div><strong>124</strong><span>Managed</span></div>
+                    </div>
+                    <div class="disc-stat">
+                        <div class="disc-stat-icon red"><i class="fas fa-ghost"></i></div>
+                        <div><strong>47</strong><span>Shadow IT</span></div>
+                    </div>
+                    <div class="disc-stat">
+                        <div class="disc-stat-icon yellow"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div><strong>16</strong><span>Under Review</span></div>
+                    </div>
+                    <div class="disc-stat">
+                        <div class="disc-stat-icon purple"><i class="fas fa-brain"></i></div>
+                        <div><strong>12</strong><span>New This Week</span></div>
+                    </div>
+                </div>
+
+                <div class="discovery-filters">
+                    <div class="search-filter">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search applications...">
+                    </div>
+                    <select><option>All Categories</option><option>DevOps</option><option>Collaboration</option><option>Design</option><option>Sales</option></select>
+                    <select><option>All Statuses</option><option>Managed</option><option>Shadow IT</option><option>Under Review</option></select>
+                    <select><option>All Risk Levels</option><option>High Risk</option><option>Medium Risk</option><option>Low Risk</option></select>
+                    <select><option>All Sources</option><option>SSO</option><option>Email</option><option>Browser</option><option>Manual</option></select>
+                </div>
+
+                <div class="discovery-grid">
+                    <div class="app-card managed">
+                        <div class="app-card-header">
+                            <div class="app-icon sl">SL</div>
+                            <div>
+                                <h4>Slack</h4>
+                                <span>Collaboration</span>
+                            </div>
+                            <span class="status-badge managed">Managed</span>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="app-metric"><span>Users</span><strong>412</strong></div>
+                            <div class="app-metric"><span>Monthly</span><strong>₹1,00,000</strong></div>
+                            <div class="app-metric"><span>Utilization</span><strong>89%</strong></div>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="risk-badge low">Low Risk</span>
+                            <span class="source-tag"><i class="fas fa-key"></i> SSO</span>
+                        </div>
+                    </div>
+                    <div class="app-card managed">
+                        <div class="app-card-header">
+                            <div class="app-icon jira">JR</div>
+                            <div>
+                                <h4>Jira</h4>
+                                <span>Project Management</span>
+                            </div>
+                            <span class="status-badge managed">Managed</span>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="app-metric"><span>Users</span><strong>280</strong></div>
+                            <div class="app-metric"><span>Monthly</span><strong>₹70,000</strong></div>
+                            <div class="app-metric"><span>Utilization</span><strong>72%</strong></div>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="risk-badge low">Low Risk</span>
+                            <span class="source-tag"><i class="fas fa-key"></i> SSO</span>
+                        </div>
+                    </div>
+                    <div class="app-card shadow">
+                        <div class="shadow-banner"><i class="fas fa-ghost"></i> Shadow IT Detected</div>
+                        <div class="app-card-header">
+                            <div class="app-icon unknown">NO</div>
+                            <div>
+                                <h4>Notion</h4>
+                                <span>Docs & Wiki</span>
+                            </div>
+                            <span class="status-badge shadow">Shadow</span>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="app-metric"><span>Users</span><strong>34</strong></div>
+                            <div class="app-metric"><span>Est. Cost</span><strong>₹28,000</strong></div>
+                            <div class="app-metric"><span>Utilization</span><strong>N/A</strong></div>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="risk-badge medium">Med Risk</span>
+                            <span class="source-tag"><i class="fas fa-envelope"></i> Email</span>
+                        </div>
+                        <div class="app-card-actions">
+                            <button class="btn btn-sm btn-primary">Approve</button>
+                            <button class="btn btn-sm btn-danger">Block</button>
+                        </div>
+                    </div>
+                    <div class="app-card shadow">
+                        <div class="shadow-banner"><i class="fas fa-ghost"></i> Shadow IT Detected</div>
+                        <div class="app-card-header">
+                            <div class="app-icon unknown">CH</div>
+                            <div>
+                                <h4>ChatGPT Plus</h4>
+                                <span>AI Assistant</span>
+                            </div>
+                            <span class="status-badge shadow">Shadow</span>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="app-metric"><span>Users</span><strong>56</strong></div>
+                            <div class="app-metric"><span>Est. Cost</span><strong>₹1,12,000</strong></div>
+                            <div class="app-metric"><span>Utilization</span><strong>N/A</strong></div>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="risk-badge high">High Risk</span>
+                            <span class="source-tag"><i class="fas fa-globe"></i> Browser</span>
+                        </div>
+                        <div class="app-card-actions">
+                            <button class="btn btn-sm btn-primary">Approve</button>
+                            <button class="btn btn-sm btn-danger">Block</button>
+                        </div>
+                    </div>
+                    <div class="app-card shadow">
+                        <div class="shadow-banner"><i class="fas fa-ghost"></i> Shadow IT Detected</div>
+                        <div class="app-card-header">
+                            <div class="app-icon unknown">CA</div>
+                            <div>
+                                <h4>Canva Pro</h4>
+                                <span>Design</span>
+                            </div>
+                            <span class="status-badge shadow">Shadow</span>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="app-metric"><span>Users</span><strong>18</strong></div>
+                            <div class="app-metric"><span>Est. Cost</span><strong>₹18,000</strong></div>
+                            <div class="app-metric"><span>Utilization</span><strong>N/A</strong></div>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="risk-badge medium">Med Risk</span>
+                            <span class="source-tag"><i class="fas fa-envelope"></i> Email</span>
+                        </div>
+                        <div class="app-card-actions">
+                            <button class="btn btn-sm btn-primary">Approve</button>
+                            <button class="btn btn-sm btn-danger">Block</button>
+                        </div>
+                    </div>
+                    <div class="app-card managed">
+                        <div class="app-card-header">
+                            <div class="app-icon gh">GH</div>
+                            <div>
+                                <h4>GitHub</h4>
+                                <span>DevOps</span>
+                            </div>
+                            <span class="status-badge managed">Managed</span>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="app-metric"><span>Users</span><strong>340</strong></div>
+                            <div class="app-metric"><span>Monthly</span><strong>₹1,54,000</strong></div>
+                            <div class="app-metric"><span>Utilization</span><strong>68%</strong></div>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="risk-badge low">Low Risk</span>
+                            <span class="source-tag"><i class="fas fa-key"></i> SSO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SPEND INTELLIGENCE ===== -->
+            <div class="dash-section" id="sec-spend">
+                <div class="page-header">
+                    <div>
+                        <h1>Spend Intelligence</h1>
+                        <p>AI-powered cost analysis and optimization recommendations</p>
+                    </div>
+                    <div class="header-actions">
+                        <select class="period-select">
+                            <option>FY 2025-26</option>
+                            <option>Last 12 Months</option>
+                            <option>This Quarter</option>
+                        </select>
+                        <button class="btn btn-primary"><i class="fas fa-download"></i> Export Report</button>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card highlight-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Annual SaaS Spend</span>
+                            <div class="kpi-icon purple"><i class="fas fa-rupee-sign"></i></div>
+                        </div>
+                        <div class="kpi-value">₹8.45 Cr</div>
+                        <div class="kpi-change negative"><i class="fas fa-arrow-up"></i> 18% YoY growth</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Cost per Employee</span>
+                            <div class="kpi-icon blue"><i class="fas fa-user"></i></div>
+                        </div>
+                        <div class="kpi-value">₹16,250/mo</div>
+                        <div class="kpi-sub">520 employees</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Wasted Spend</span>
+                            <div class="kpi-icon red"><i class="fas fa-trash-alt"></i></div>
+                        </div>
+                        <div class="kpi-value">₹2.85 Cr</div>
+                        <div class="kpi-change negative"><i class="fas fa-exclamation-triangle"></i> 33.7% of total</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">AI Savings Found</span>
+                            <div class="kpi-icon green"><i class="fas fa-brain"></i></div>
+                        </div>
+                        <div class="kpi-value">₹1.94 Cr</div>
+                        <div class="kpi-sub">42 optimization opportunities</div>
+                    </div>
+                </div>
+
+                <!-- Department Spend Breakdown -->
+                <div class="chart-row">
+                    <div class="chart-card wide">
+                        <div class="chart-header">
+                            <h3>Spend by Department</h3>
+                        </div>
+                        <div class="dept-breakdown">
+                            <div class="dept-row">
+                                <div class="dept-name"><i class="fas fa-code"></i> Engineering</div>
+                                <div class="dept-bar-container"><div class="dept-bar purple" style="width: 35%"></div></div>
+                                <div class="dept-amount">₹2.96 Cr (35%)</div>
+                            </div>
+                            <div class="dept-row">
+                                <div class="dept-name"><i class="fas fa-bullhorn"></i> Sales & Marketing</div>
+                                <div class="dept-bar-container"><div class="dept-bar blue" style="width: 25%"></div></div>
+                                <div class="dept-amount">₹2.11 Cr (25%)</div>
+                            </div>
+                            <div class="dept-row">
+                                <div class="dept-name"><i class="fas fa-headset"></i> Operations</div>
+                                <div class="dept-bar-container"><div class="dept-bar green" style="width: 18%"></div></div>
+                                <div class="dept-amount">₹1.52 Cr (18%)</div>
+                            </div>
+                            <div class="dept-row">
+                                <div class="dept-name"><i class="fas fa-palette"></i> Design & Product</div>
+                                <div class="dept-bar-container"><div class="dept-bar orange" style="width: 12%"></div></div>
+                                <div class="dept-amount">₹1.01 Cr (12%)</div>
+                            </div>
+                            <div class="dept-row">
+                                <div class="dept-name"><i class="fas fa-users"></i> HR & Admin</div>
+                                <div class="dept-bar-container"><div class="dept-bar red" style="width: 10%"></div></div>
+                                <div class="dept-amount">₹0.85 Cr (10%)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-brain" style="color: #7C3AED"></i> AI Anomaly Alerts</h3>
+                        </div>
+                        <div class="anomaly-list">
+                            <div class="anomaly-item">
+                                <div class="anomaly-icon spike"><i class="fas fa-arrow-up"></i></div>
+                                <div class="anomaly-info">
+                                    <strong>AWS Spend Spike: +47%</strong>
+                                    <span>Cost jumped from ₹1.8L to ₹2.65L this month. Possible unused resources.</span>
+                                </div>
+                            </div>
+                            <div class="anomaly-item">
+                                <div class="anomaly-icon duplicate"><i class="fas fa-clone"></i></div>
+                                <div class="anomaly-info">
+                                    <strong>Duplicate Tool Detected</strong>
+                                    <span>Jira + Asana + Monday.com used by Engineering. Consolidate to save ₹8.5L/yr.</span>
+                                </div>
+                            </div>
+                            <div class="anomaly-item">
+                                <div class="anomaly-icon waste"><i class="fas fa-recycle"></i></div>
+                                <div class="anomaly-info">
+                                    <strong>Zoom Enterprise Downgrade</strong>
+                                    <span>92% of meetings under 40 min. Free plan sufficient for most users. Save ₹4.2L/yr.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optimization Opportunities -->
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-lightbulb" style="color: #F59E0B"></i> Top Optimization Opportunities</h3>
+                        <span class="header-subtitle">AI-identified savings, ranked by impact</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Application</th>
+                                <th>Recommendation</th>
+                                <th>Current Cost</th>
+                                <th>Projected Cost</th>
+                                <th>Est. Savings</th>
+                                <th>Confidence</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon fg">FG</div> Figma</td>
+                                <td>Remove 35 unused licenses</td>
+                                <td>₹85,000/mo</td>
+                                <td>₹21,600/mo</td>
+                                <td class="savings-cell">₹7,60,800/yr</td>
+                                <td><span class="confidence high">96%</span></td>
+                                <td><button class="btn btn-sm btn-primary">Apply</button></td>
+                            </tr>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon sf">SF</div> Salesforce</td>
+                                <td>Negotiate renewal — 34% unused</td>
+                                <td>₹2,00,000/mo</td>
+                                <td>₹1,32,000/mo</td>
+                                <td class="savings-cell">₹8,16,000/yr</td>
+                                <td><span class="confidence high">92%</span></td>
+                                <td><button class="btn btn-sm btn-primary">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td class="app-cell"><div class="app-icon jira">JR</div> Jira + Asana + Monday</td>
+                                <td>Consolidate to Jira only</td>
+                                <td>₹1,42,000/mo</td>
+                                <td>₹70,000/mo</td>
+                                <td class="savings-cell">₹8,64,000/yr</td>
+                                <td><span class="confidence medium">78%</span></td>
+                                <td><button class="btn btn-sm btn-primary">Plan</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== USAGE ANALYTICS ===== -->
+            <div class="dash-section" id="sec-usage">
+                <div class="page-header">
+                    <div>
+                        <h1>Usage Analytics</h1>
+                        <p>License utilization tracking and optimization</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary"><i class="fas fa-download"></i> Usage Report</button>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Total Licenses</span>
+                            <div class="kpi-icon blue"><i class="fas fa-id-card"></i></div>
+                        </div>
+                        <div class="kpi-value">2,847</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Active Users</span>
+                            <div class="kpi-icon green"><i class="fas fa-user-check"></i></div>
+                        </div>
+                        <div class="kpi-value">1,734</div>
+                        <div class="kpi-change positive">61% utilization</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Inactive Licenses</span>
+                            <div class="kpi-icon red"><i class="fas fa-user-slash"></i></div>
+                        </div>
+                        <div class="kpi-value">1,113</div>
+                        <div class="kpi-change negative">₹47L/yr wasted</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Avg. Last Login</span>
+                            <div class="kpi-icon yellow"><i class="fas fa-clock"></i></div>
+                        </div>
+                        <div class="kpi-value">14 days</div>
+                    </div>
+                </div>
+
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>License Utilization by Application</h3>
+                    </div>
+                    <div class="usage-bars">
+                        <div class="usage-bar-row">
+                            <div class="usage-app"><div class="app-icon sl">SL</div> Slack</div>
+                            <div class="usage-bar-track">
+                                <div class="usage-bar-fill high" style="width: 89%">
+                                    <span>412 / 462 — 89%</span>
+                                </div>
+                            </div>
+                            <span class="usage-action">Optimal</span>
+                        </div>
+                        <div class="usage-bar-row">
+                            <div class="usage-app"><div class="app-icon aws">AW</div> AWS</div>
+                            <div class="usage-bar-track">
+                                <div class="usage-bar-fill high" style="width: 88%">
+                                    <span>88% utilized</span>
+                                </div>
+                            </div>
+                            <span class="usage-action">Optimal</span>
+                        </div>
+                        <div class="usage-bar-row">
+                            <div class="usage-app"><div class="app-icon sf">SF</div> Salesforce</div>
+                            <div class="usage-bar-track">
+                                <div class="usage-bar-fill medium" style="width: 66%">
+                                    <span>132 / 200 — 66%</span>
+                                </div>
+                            </div>
+                            <span class="usage-action warning">Downsize</span>
+                        </div>
+                        <div class="usage-bar-row">
+                            <div class="usage-app"><div class="app-icon gh">GH</div> GitHub</div>
+                            <div class="usage-bar-track">
+                                <div class="usage-bar-fill medium" style="width: 68%">
+                                    <span>340 / 500 — 68%</span>
+                                </div>
+                            </div>
+                            <span class="usage-action warning">Downsize</span>
+                        </div>
+                        <div class="usage-bar-row">
+                            <div class="usage-app"><div class="app-icon fg">FG</div> Figma</div>
+                            <div class="usage-bar-track">
+                                <div class="usage-bar-fill low" style="width: 26%">
+                                    <span>12 / 47 — 26%</span>
+                                </div>
+                            </div>
+                            <span class="usage-action danger">Critical</span>
+                        </div>
+                        <div class="usage-bar-row">
+                            <div class="usage-app"><div class="app-icon jira">ZM</div> Zoom</div>
+                            <div class="usage-bar-track">
+                                <div class="usage-bar-fill low" style="width: 31%">
+                                    <span>156 / 500 — 31%</span>
+                                </div>
+                            </div>
+                            <span class="usage-action danger">Critical</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== COMPLIANCE & RISK ===== -->
+            <div class="dash-section" id="sec-compliance">
+                <div class="page-header">
+                    <div>
+                        <h1>Compliance & Risk</h1>
+                        <p>Vendor risk assessment and compliance monitoring</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary"><i class="fas fa-file-pdf"></i> Audit Report</button>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Overall Risk Score</span>
+                            <div class="kpi-icon green"><i class="fas fa-shield-alt"></i></div>
+                        </div>
+                        <div class="kpi-value score-good">B+</div>
+                        <div class="kpi-sub">Good — 3 issues to resolve</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Compliant Apps</span>
+                            <div class="kpi-icon green"><i class="fas fa-check-circle"></i></div>
+                        </div>
+                        <div class="kpi-value">142 / 187</div>
+                        <div class="mini-progress"><div class="mini-progress-bar green" style="width: 76%"></div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">High Risk Apps</span>
+                            <div class="kpi-icon red"><i class="fas fa-exclamation-circle"></i></div>
+                        </div>
+                        <div class="kpi-value">5</div>
+                        <div class="kpi-change negative">Immediate action needed</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Data Residency Issues</span>
+                            <div class="kpi-icon orange"><i class="fas fa-globe-asia"></i></div>
+                        </div>
+                        <div class="kpi-value">8</div>
+                        <div class="kpi-sub">Data stored outside India</div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Compliance Framework Coverage</h3>
+                        </div>
+                        <div class="compliance-frameworks">
+                            <div class="framework-item">
+                                <div class="framework-header">
+                                    <strong>DPDP Act 2023</strong>
+                                    <span class="framework-score">78%</span>
+                                </div>
+                                <div class="framework-bar"><div class="framework-fill yellow" style="width: 78%"></div></div>
+                                <span class="framework-status">12 apps non-compliant</span>
+                            </div>
+                            <div class="framework-item">
+                                <div class="framework-header">
+                                    <strong>SOC 2 Type II</strong>
+                                    <span class="framework-score">85%</span>
+                                </div>
+                                <div class="framework-bar"><div class="framework-fill green" style="width: 85%"></div></div>
+                                <span class="framework-status">8 apps uncertified</span>
+                            </div>
+                            <div class="framework-item">
+                                <div class="framework-header">
+                                    <strong>ISO 27001</strong>
+                                    <span class="framework-score">72%</span>
+                                </div>
+                                <div class="framework-bar"><div class="framework-fill orange" style="width: 72%"></div></div>
+                                <span class="framework-status">18 apps uncertified</span>
+                            </div>
+                            <div class="framework-item">
+                                <div class="framework-header">
+                                    <strong>GDPR</strong>
+                                    <span class="framework-score">91%</span>
+                                </div>
+                                <div class="framework-bar"><div class="framework-fill green" style="width: 91%"></div></div>
+                                <span class="framework-status">4 apps non-compliant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-exclamation-triangle" style="color: #EF4444"></i> High Risk Applications</h3>
+                        </div>
+                        <div class="risk-app-list">
+                            <div class="risk-app-item">
+                                <div class="risk-score-badge critical">92</div>
+                                <div class="risk-app-info">
+                                    <strong>ChatGPT (Shadow)</strong>
+                                    <span>No SOC2 • Data sent to US • No DPA • 56 users</span>
+                                </div>
+                                <button class="btn btn-sm btn-danger">Block</button>
+                            </div>
+                            <div class="risk-app-item">
+                                <div class="risk-score-badge high">78</div>
+                                <div class="risk-app-info">
+                                    <strong>Loom (Shadow)</strong>
+                                    <span>No ISO 27001 • Video data unencrypted • 28 users</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Review</button>
+                            </div>
+                            <div class="risk-app-item">
+                                <div class="risk-score-badge high">74</div>
+                                <div class="risk-app-info">
+                                    <strong>Airtable (Shadow)</strong>
+                                    <span>Data residency: US only • No DPDP • 15 users</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== CONTRACTS ===== -->
+            <div class="dash-section" id="sec-contracts">
+                <div class="page-header">
+                    <div>
+                        <h1>Contract Management</h1>
+                        <p>Track renewals, pricing, and negotiation opportunities</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline"><i class="fas fa-upload"></i> Upload Contract</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Contract</button>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Active Contracts</span>
+                            <div class="kpi-icon blue"><i class="fas fa-file-contract"></i></div>
+                        </div>
+                        <div class="kpi-value">64</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Renewing in 30 Days</span>
+                            <div class="kpi-icon red"><i class="fas fa-calendar-exclamation"></i></div>
+                        </div>
+                        <div class="kpi-value">4</div>
+                        <div class="kpi-change negative">₹62L at risk</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Total Contract Value</span>
+                            <div class="kpi-icon purple"><i class="fas fa-rupee-sign"></i></div>
+                        </div>
+                        <div class="kpi-value">₹8.45 Cr</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">AI Negotiation Savings</span>
+                            <div class="kpi-icon green"><i class="fas fa-brain"></i></div>
+                        </div>
+                        <div class="kpi-value">₹1.2 Cr</div>
+                        <div class="kpi-sub">Potential, based on benchmarks</div>
+                    </div>
+                </div>
+
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Contract Timeline</h3>
+                    </div>
+                    <div class="contract-timeline">
+                        <div class="timeline-month">
+                            <h4>March 2026</h4>
+                            <div class="timeline-items">
+                                <div class="timeline-item urgent">
+                                    <div class="timeline-date">Mar 12</div>
+                                    <div class="timeline-details">
+                                        <strong>Salesforce Enterprise</strong>
+                                        <span>₹24L/yr • Auto-renew ON</span>
+                                        <div class="ai-tip"><i class="fas fa-brain"></i> AI: "Based on 34% unused licenses, negotiate down to ₹15.8L. Similar companies pay 18% less."</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary">Negotiate</button>
+                                </div>
+                                <div class="timeline-item warning">
+                                    <div class="timeline-date">Mar 28</div>
+                                    <div class="timeline-details">
+                                        <strong>GitHub Enterprise</strong>
+                                        <span>₹18.5L/yr • Auto-renew ON</span>
+                                        <div class="ai-tip"><i class="fas fa-brain"></i> AI: "160 unused seats. Reduce from 500 to 350. Save ₹5.5L/yr."</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline">Review</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-month">
+                            <h4>April 2026</h4>
+                            <div class="timeline-items">
+                                <div class="timeline-item normal">
+                                    <div class="timeline-date">Apr 15</div>
+                                    <div class="timeline-details">
+                                        <strong>Slack Business+</strong>
+                                        <span>₹12L/yr • Auto-renew ON</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline">Review</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== POLICIES ===== -->
+            <div class="dash-section" id="sec-policies">
+                <div class="page-header">
+                    <div>
+                        <h1>Policy Engine</h1>
+                        <p>Define and enforce SaaS governance policies across your organization</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Create Policy</button>
+                    </div>
+                </div>
+
+                <div class="policy-list">
+                    <div class="policy-card active-policy">
+                        <div class="policy-header">
+                            <div class="policy-status active"><i class="fas fa-check-circle"></i> Active</div>
+                            <h3>SOC2 Certification Required</h3>
+                        </div>
+                        <p>All new SaaS tools must have SOC2 Type II certification before approval.</p>
+                        <div class="policy-meta">
+                            <span><i class="fas fa-shield-alt"></i> Security</span>
+                            <span><i class="fas fa-exclamation-triangle"></i> 5 violations</span>
+                            <span><i class="fas fa-calendar"></i> Created Jan 15, 2026</span>
+                        </div>
+                    </div>
+                    <div class="policy-card active-policy">
+                        <div class="policy-header">
+                            <div class="policy-status active"><i class="fas fa-check-circle"></i> Active</div>
+                            <h3>Spend Approval Threshold</h3>
+                        </div>
+                        <p>Any SaaS purchase above ₹50,000/month requires CTO and CFO approval.</p>
+                        <div class="policy-meta">
+                            <span><i class="fas fa-rupee-sign"></i> Financial</span>
+                            <span><i class="fas fa-check"></i> 0 violations</span>
+                            <span><i class="fas fa-calendar"></i> Created Feb 01, 2026</span>
+                        </div>
+                    </div>
+                    <div class="policy-card active-policy">
+                        <div class="policy-header">
+                            <div class="policy-status active"><i class="fas fa-check-circle"></i> Active</div>
+                            <h3>Data Residency — India</h3>
+                        </div>
+                        <p>Apps handling PII must store data within India (DPDP Act compliance).</p>
+                        <div class="policy-meta">
+                            <span><i class="fas fa-globe-asia"></i> Compliance</span>
+                            <span><i class="fas fa-exclamation-triangle"></i> 8 violations</span>
+                            <span><i class="fas fa-calendar"></i> Created Dec 10, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== AI INSIGHTS ===== -->
+            <div class="dash-section" id="sec-ai-insights">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="fas fa-brain" style="color: #7C3AED"></i> AI Insights</h1>
+                        <p>Machine learning-powered recommendations and predictions</p>
+                    </div>
+                </div>
+
+                <div class="ai-insights-grid">
+                    <div class="ai-insight-card savings">
+                        <div class="insight-header">
+                            <span class="insight-type"><i class="fas fa-piggy-bank"></i> Cost Savings</span>
+                            <span class="insight-confidence">Confidence: 96%</span>
+                        </div>
+                        <h3>Remove 35 unused Figma licenses</h3>
+                        <p>Only 12 out of 47 Figma licenses were used in the last 60 days. Removing inactive seats saves ₹7.6L annually.</p>
+                        <div class="insight-impact">
+                            <div class="impact-metric"><span>Annual Savings</span><strong>₹7,60,800</strong></div>
+                            <div class="impact-metric"><span>Affected Users</span><strong>35</strong></div>
+                            <div class="impact-metric"><span>Risk Level</span><strong>Very Low</strong></div>
+                        </div>
+                        <div class="insight-actions">
+                            <button class="btn btn-primary">Apply Recommendation</button>
+                            <button class="btn btn-outline">Dismiss</button>
+                        </div>
+                    </div>
+                    <div class="ai-insight-card security">
+                        <div class="insight-header">
+                            <span class="insight-type"><i class="fas fa-shield-alt"></i> Security Alert</span>
+                            <span class="insight-confidence">Confidence: 94%</span>
+                        </div>
+                        <h3>Block unsanctioned AI tools</h3>
+                        <p>56 employees are using ChatGPT with company email. Sensitive code and data may be exposed. Recommend Enterprise plan or blocking.</p>
+                        <div class="insight-impact">
+                            <div class="impact-metric"><span>Risk Score</span><strong>92 / 100</strong></div>
+                            <div class="impact-metric"><span>Affected Users</span><strong>56</strong></div>
+                            <div class="impact-metric"><span>Data Types</span><strong>Code, Docs</strong></div>
+                        </div>
+                        <div class="insight-actions">
+                            <button class="btn btn-danger">Block Immediately</button>
+                            <button class="btn btn-primary">Upgrade to Enterprise</button>
+                        </div>
+                    </div>
+                    <div class="ai-insight-card prediction">
+                        <div class="insight-header">
+                            <span class="insight-type"><i class="fas fa-chart-line"></i> Prediction</span>
+                            <span class="insight-confidence">Confidence: 87%</span>
+                        </div>
+                        <h3>Q2 SaaS spend projected to increase 22%</h3>
+                        <p>Based on current growth trends, hiring plans, and seasonal patterns, your SaaS spend will reach ₹8.6L/month by June 2026.</p>
+                        <div class="insight-impact">
+                            <div class="impact-metric"><span>Current Monthly</span><strong>₹7.04L</strong></div>
+                            <div class="impact-metric"><span>Projected June</span><strong>₹8.59L</strong></div>
+                            <div class="impact-metric"><span>Increase</span><strong>+₹1.55L/mo</strong></div>
+                        </div>
+                        <div class="insight-actions">
+                            <button class="btn btn-primary">Set Budget Alert</button>
+                            <button class="btn btn-outline">View Details</button>
+                        </div>
+                    </div>
+                    <div class="ai-insight-card negotiation">
+                        <div class="insight-header">
+                            <span class="insight-type"><i class="fas fa-handshake"></i> Negotiation</span>
+                            <span class="insight-confidence">Confidence: 91%</span>
+                        </div>
+                        <h3>Salesforce renewal: negotiate 34% discount</h3>
+                        <p>Industry benchmarks show companies your size pay 18-25% less. Combined with 34% unused licenses, strong negotiation position.</p>
+                        <div class="insight-impact">
+                            <div class="impact-metric"><span>Current Price</span><strong>₹24L/yr</strong></div>
+                            <div class="impact-metric"><span>Target Price</span><strong>₹15.8L/yr</strong></div>
+                            <div class="impact-metric"><span>Benchmark</span><strong>₹16.2L avg</strong></div>
+                        </div>
+                        <div class="insight-actions">
+                            <button class="btn btn-primary">Generate Brief</button>
+                            <button class="btn btn-outline">View Benchmark</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== AI COPILOT ===== -->
+            <div class="dash-section" id="sec-ai-copilot">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="fas fa-comments" style="color: #7C3AED"></i> AI Copilot</h1>
+                        <p>Ask anything about your SaaS landscape in plain English</p>
+                    </div>
+                </div>
+
+                <div class="copilot-container">
+                    <div class="copilot-suggestions">
+                        <span class="suggestion-label">Try asking:</span>
+                        <button class="suggestion-chip">How much do we spend on project management tools?</button>
+                        <button class="suggestion-chip">Which apps have the lowest utilization?</button>
+                        <button class="suggestion-chip">Show me all renewals in the next 60 days</button>
+                        <button class="suggestion-chip">What are our biggest compliance risks?</button>
+                    </div>
+                    <div class="copilot-chat">
+                        <div class="chat-message user">
+                            <div class="avatar-sm">RS</div>
+                            <div class="message-content">
+                                <p>How much are we spending on project management tools and can we consolidate?</p>
+                            </div>
+                        </div>
+                        <div class="chat-message ai">
+                            <div class="avatar-sm ai-avatar"><i class="fas fa-robot"></i></div>
+                            <div class="message-content">
+                                <p>Great question! I found <strong>3 project management tools</strong> actively used across your org:</p>
+                                <div class="ai-data-card">
+                                    <table class="mini-table">
+                                        <tr><th>Tool</th><th>Users</th><th>Monthly Cost</th><th>Utilization</th></tr>
+                                        <tr><td>Jira Premium</td><td>280</td><td>₹70,000</td><td>72%</td></tr>
+                                        <tr><td>Asana Business</td><td>45</td><td>₹32,000</td><td>34%</td></tr>
+                                        <tr><td>Monday.com</td><td>28</td><td>₹40,000</td><td>22%</td></tr>
+                                        <tr><td><strong>Total</strong></td><td><strong>353</strong></td><td><strong>₹1,42,000</strong></td><td></td></tr>
+                                    </table>
+                                </div>
+                                <p>📊 <strong>Recommendation:</strong> Consolidate to Jira only. Most Asana and Monday.com users also have Jira accounts. Estimated saving: <strong>₹8,64,000/year</strong>.</p>
+                                <p>Would you like me to generate a migration plan?</p>
+                            </div>
+                        </div>
+                        <div class="chat-message user">
+                            <div class="avatar-sm">RS</div>
+                            <div class="message-content">
+                                <p>Yes, generate a migration plan</p>
+                            </div>
+                        </div>
+                        <div class="chat-message ai">
+                            <div class="avatar-sm ai-avatar"><i class="fas fa-robot"></i></div>
+                            <div class="message-content">
+                                <p>Here's your consolidation migration plan:</p>
+                                <div class="ai-data-card">
+                                    <h4>🗓️ 6-Week Migration Plan</h4>
+                                    <div class="migration-steps">
+                                        <div class="migration-step">
+                                            <strong>Week 1-2:</strong> Audit all active projects in Asana & Monday.com
+                                        </div>
+                                        <div class="migration-step">
+                                            <strong>Week 3:</strong> Set up equivalent Jira boards and workflows
+                                        </div>
+                                        <div class="migration-step">
+                                            <strong>Week 4:</strong> Migrate data and train affected teams
+                                        </div>
+                                        <div class="migration-step">
+                                            <strong>Week 5:</strong> Parallel run — both tools active
+                                        </div>
+                                        <div class="migration-step">
+                                            <strong>Week 6:</strong> Decommission Asana & Monday.com
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>I've drafted this as a policy action. <a href="#">Click here to send for approval →</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copilot-input">
+                        <input type="text" placeholder="Ask SaaSIQ AI anything about your SaaS landscape...">
+                        <button class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ALERTS ===== -->
+            <div class="dash-section" id="sec-alerts">
+                <div class="page-header">
+                    <div>
+                        <h1>Alerts & Notifications</h1>
+                        <p>Real-time alerts from across your SaaS landscape</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">Mark All Read</button>
+                        <button class="btn btn-primary"><i class="fas fa-cog"></i> Alert Settings</button>
+                    </div>
+                </div>
+
+                <div class="alerts-filter">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Critical <span class="count">2</span></button>
+                    <button class="filter-btn">Warning <span class="count">5</span></button>
+                    <button class="filter-btn">Info <span class="count">12</span></button>
+                </div>
+
+                <div class="alerts-list">
+                    <div class="alert-item critical unread">
+                        <div class="alert-severity critical"><i class="fas fa-exclamation-circle"></i></div>
+                        <div class="alert-content">
+                            <div class="alert-header">
+                                <strong>Salesforce renewal in 7 days — Auto-renew enabled</strong>
+                                <span class="alert-time">2 hours ago</span>
+                            </div>
+                            <p>Contract worth ₹24L/year auto-renews on Mar 12. 34% of licenses are unused. Review before renewal.</p>
+                            <div class="alert-actions-inline">
+                                <button class="btn btn-sm btn-primary">Review Contract</button>
+                                <button class="btn btn-sm btn-outline">Snooze</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-item critical unread">
+                        <div class="alert-severity critical"><i class="fas fa-ghost"></i></div>
+                        <div class="alert-content">
+                            <div class="alert-header">
+                                <strong>High-risk shadow app: ChatGPT detected on 56 accounts</strong>
+                                <span class="alert-time">5 hours ago</span>
+                            </div>
+                            <p>Employees using company emails on ChatGPT. Potential data leakage risk. No SOC2, no DPA in place.</p>
+                            <div class="alert-actions-inline">
+                                <button class="btn btn-sm btn-danger">Block App</button>
+                                <button class="btn btn-sm btn-primary">Investigate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-item warning">
+                        <div class="alert-severity warning"><i class="fas fa-chart-line"></i></div>
+                        <div class="alert-content">
+                            <div class="alert-header">
+                                <strong>AWS spend anomaly: +47% increase detected</strong>
+                                <span class="alert-time">1 day ago</span>
+                            </div>
+                            <p>Monthly AWS cost jumped from ₹1.8L to ₹2.65L. Could indicate unused resources or misconfiguration.</p>
+                        </div>
+                    </div>
+                    <div class="alert-item info">
+                        <div class="alert-severity info"><i class="fas fa-lightbulb"></i></div>
+                        <div class="alert-content">
+                            <div class="alert-header">
+                                <strong>AI Recommendation: Downgrade Figma plan</strong>
+                                <span class="alert-time">2 days ago</span>
+                            </div>
+                            <p>Only 12 of 47 Figma licenses active. Downgrading saves ₹7.6L/year.</p>
+                        </div>
+                    </div>
+                    <div class="alert-item info">
+                        <div class="alert-severity info"><i class="fas fa-sync"></i></div>
+                        <div class="alert-content">
+                            <div class="alert-header">
+                                <strong>Weekly scan complete: 3 new apps discovered</strong>
+                                <span class="alert-time">3 days ago</span>
+                            </div>
+                            <p>Discovered: Miro (12 users), Calendly (8 users), Grammarly (23 users). All classified as Shadow IT pending review.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SETTINGS ===== -->
+            <div class="dash-section" id="sec-settings">
+                <div class="page-header">
+                    <div>
+                        <h1>Settings</h1>
+                        <p>Manage your organization, integrations, and preferences</p>
+                    </div>
+                </div>
+
+                <div class="settings-layout">
+                    <div class="settings-sidebar">
+                        <a class="settings-nav-item active"><i class="fas fa-building"></i> Organization</a>
+                        <a class="settings-nav-item"><i class="fas fa-plug"></i> Integrations</a>
+                        <a class="settings-nav-item"><i class="fas fa-users"></i> Team Members</a>
+                        <a class="settings-nav-item"><i class="fas fa-bell"></i> Notifications</a>
+                        <a class="settings-nav-item"><i class="fas fa-lock"></i> Security</a>
+                        <a class="settings-nav-item"><i class="fas fa-palette"></i> Appearance</a>
+                        <a class="settings-nav-item"><i class="fas fa-code"></i> API & Webhooks</a>
+                        <a class="settings-nav-item"><i class="fas fa-receipt"></i> Billing</a>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-section">
+                            <h3>Organization Details</h3>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Organization Name</label>
+                                    <input type="text" value="TechCorp India Pvt. Ltd.">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Primary Domain</label>
+                                        <input type="text" value="techcorp.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Industry</label>
+                                        <select><option>Information Technology</option></select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Company Size</label>
+                                        <select><option>201-1000 employees</option></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Primary Currency</label>
+                                        <select><option>INR (₹)</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <h3>Connected Integrations</h3>
+                            <div class="integration-status-list">
+                                <div class="integration-status-item">
+                                    <div class="integration-icon"><i class="fab fa-google" style="color: #4285F4"></i></div>
+                                    <div class="integration-info">
+                                        <strong>Google Workspace</strong>
+                                        <span>Last synced: 2 hours ago</span>
+                                    </div>
+                                    <span class="status-dot green"></span>
+                                    <button class="btn btn-sm btn-outline">Configure</button>
+                                </div>
+                                <div class="integration-status-item">
+                                    <div class="integration-icon"><i class="fab fa-slack" style="color: #4A154B"></i></div>
+                                    <div class="integration-info">
+                                        <strong>Slack</strong>
+                                        <span>Last synced: 1 hour ago</span>
+                                    </div>
+                                    <span class="status-dot green"></span>
+                                    <button class="btn btn-sm btn-outline">Configure</button>
+                                </div>
+                                <div class="integration-status-item">
+                                    <div class="integration-icon"><i class="fab fa-microsoft" style="color: #00A4EF"></i></div>
+                                    <div class="integration-info">
+                                        <strong>Azure AD</strong>
+                                        <span>Not connected</span>
+                                    </div>
+                                    <span class="status-dot gray"></span>
+                                    <button class="btn btn-sm btn-primary">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn btn-primary">Save Changes</button>
+                            <button class="btn btn-outline">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<!-- ==================== DEMO MODAL ==================== -->
+<div id="page-demo" class="page">
+    <div class="demo-overlay" onclick="if(event.target===this)showPage('page-landing')">
+        <div class="demo-modal">
+            <button class="close-btn" onclick="showPage('page-landing')"><i class="fas fa-times"></i></button>
+            <h2>See SaaSIQ in Action</h2>
+            <p>Watch how companies save 30%+ on SaaS spend in under 12 minutes.</p>
+            <div class="demo-video-placeholder">
+                <button class="play-btn-large" onclick="alert('Video player would launch here in production')"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="demo-features">
+                <div class="demo-feature-item">
+                    <i class="fas fa-search"></i>
+                    <strong>Auto Discovery</strong>
+                    <span>Find every SaaS tool instantly</span>
+                </div>
+                <div class="demo-feature-item">
+                    <i class="fas fa-brain"></i>
+                    <strong>AI Intelligence</strong>
+                    <span>Smart savings recommendations</span>
+                </div>
+                <div class="demo-feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Risk & Compliance</strong>
+                    <span>Stay audit-ready always</span>
+                </div>
+            </div>
+            <div style="margin-top: 28px;">
+                <button class="btn btn-primary btn-lg" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> Start Free Trial Instead</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
