@@ -853,7 +853,44 @@ var _pendingAppearance = Object.assign({}, _appearance);
     applyThemeToDOM(_appearance.theme);
     applyAccentToDOM(_appearance.accent, _appearance.accentLight, _appearance.accentDark);
     applyDensityToDOM(_appearance.density);
+    // Sync landing theme toggle icon
+    var effective = _appearance.theme;
+    if (effective === 'system') {
+        effective = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    var landingIcon = document.getElementById('landing-theme-icon');
+    if (landingIcon) {
+        landingIcon.className = effective === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
 })();
+
+// ----- Landing Theme Toggle -----
+function toggleLandingTheme() {
+    var icon = document.getElementById('landing-theme-icon');
+    var currentTheme = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
+    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyThemeToDOM(newTheme);
+    // Update icon
+    if (icon) {
+        icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+    // Persist
+    localStorage.setItem('saasiq-theme', newTheme);
+    _appearance.theme = newTheme;
+    _pendingAppearance.theme = newTheme;
+    // Sync settings theme cards if visible
+    document.querySelectorAll('.theme-card').forEach(function(c) {
+        c.classList.remove('active');
+        var check = c.querySelector('.theme-check');
+        if (check) check.remove();
+        if (c.getAttribute('data-theme') === newTheme) {
+            c.classList.add('active');
+            var checkIcon = document.createElement('i');
+            checkIcon.className = 'fas fa-check-circle theme-check';
+            c.appendChild(checkIcon);
+        }
+    });
+}
 
 // ----- Theme -----
 function selectTheme(theme, el) {

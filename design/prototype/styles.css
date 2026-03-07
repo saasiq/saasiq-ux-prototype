@@ -148,6 +148,35 @@ button:focus-visible, .btn:focus-visible, .nav-item:focus-visible {
 .nav-links a { color: var(--gray-600); font-weight: 500; font-size: 15px; }
 .nav-links a:hover { color: var(--primary); text-decoration: none; }
 
+/* Landing Theme Toggle */
+.landing-theme-toggle {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1.5px solid var(--gray-200);
+    background: var(--gray-100);
+    color: var(--gray-600);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.landing-theme-toggle:hover {
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-color: var(--primary-light);
+    transform: rotate(20deg);
+}
+body.theme-dark .landing-theme-toggle {
+    background: #252A3A;
+    border-color: #374151;
+    color: #F59E0B;
+}
+body.theme-dark .landing-theme-toggle:hover {
+    background: #374151;
+    color: #FBBF24;
+    border-color: #F59E0B;
+}
+
 .hero {
     max-width: 1200px; margin: 0 auto; padding: 140px 24px 80px;
     text-align: center;
