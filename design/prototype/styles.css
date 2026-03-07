@@ -253,7 +253,7 @@ body.theme-dark .landing-theme-toggle:hover {
 }
 .section-header h2 { font-size: 40px; font-weight: 800; margin-bottom: 12px; }
 .section-header p { font-size: 18px; color: var(--gray-500); }
-.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .feature-card {
     background: #fff; padding: 32px; border-radius: var(--radius);
     border: 1px solid var(--gray-200); transition: all 0.3s;
@@ -1033,6 +1033,7 @@ body.theme-dark .landing-theme-toggle:hover {
     .chart-row { grid-template-columns: 1fr; }
     .discovery-grid { grid-template-columns: repeat(2, 1fr); }
     .ai-insights-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
     .hero h1 { font-size: 36px; }
