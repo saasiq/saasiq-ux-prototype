@@ -2645,87 +2645,110 @@
             <div class="dash-section" id="sec-offboarding">
                 <div class="page-header">
                     <div>
-                        <h1>Offboarding Console</h1>
+                        <h1><i class="fas fa-user-slash" style="color:var(--primary);margin-right:8px"></i>Offboarding Console</h1>
                         <p>Instantly revoke all SaaS access when employees leave — one click, total coverage</p>
                     </div>
                     <div class="header-actions">
-                        <button class="btn btn-outline" onclick="showToast('info','Syncing with HRMS...')"><i class="fas fa-sync"></i> Sync HR Data</button>
-                        <button class="btn btn-primary" onclick="showToast('success','Offboarding wizard opened')"><i class="fas fa-user-minus"></i> Offboard Employee</button>
+                        <button class="btn btn-outline ob-btn-sync" onclick="this.querySelector('i').classList.add('fa-spin');showToast('info','Syncing with HRMS…');setTimeout(()=>this.querySelector('i').classList.remove('fa-spin'),2000)"><i class="fas fa-sync-alt"></i> Sync HR Data</button>
+                        <button class="btn ob-btn-offboard" onclick="showToast('success','Offboarding wizard opened')"><i class="fas fa-user-minus"></i> Offboard Employee</button>
                     </div>
                 </div>
 
+                <!-- Stat Cards -->
                 <div class="offboard-stats">
-                    <div class="ob-stat-card">
-                        <div class="ob-stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-exclamation-triangle"></i></div>
-                        <div class="ob-stat-value">4</div>
-                        <div class="ob-stat-label">Pending Offboards</div>
-                        <div class="ob-stat-sub">Departed but still have access</div>
+                    <div class="ob-stat-card ob-accent-red">
+                        <div class="ob-stat-icon" style="background:rgba(239,68,68,0.10);color:#EF4444"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="ob-stat-body">
+                            <div class="ob-stat-value">4</div>
+                            <div class="ob-stat-label">Pending Offboards</div>
+                            <div class="ob-stat-sub">Departed but still have access</div>
+                        </div>
                     </div>
-                    <div class="ob-stat-card">
-                        <div class="ob-stat-icon" style="background:rgba(16,185,129,0.12);color:#10B981"><i class="fas fa-check-circle"></i></div>
-                        <div class="ob-stat-value">23</div>
-                        <div class="ob-stat-label">Completed This Quarter</div>
-                        <div class="ob-stat-sub">Avg 4.2 min per offboard</div>
+                    <div class="ob-stat-card ob-accent-green">
+                        <div class="ob-stat-icon" style="background:rgba(16,185,129,0.10);color:#10B981"><i class="fas fa-check-circle"></i></div>
+                        <div class="ob-stat-body">
+                            <div class="ob-stat-value">23</div>
+                            <div class="ob-stat-label">Completed This Quarter</div>
+                            <div class="ob-stat-sub">Avg 4.2 min per offboard</div>
+                        </div>
                     </div>
-                    <div class="ob-stat-card">
-                        <div class="ob-stat-icon" style="background:rgba(124,58,237,0.12);color:#7C3AED"><i class="fas fa-clock"></i></div>
-                        <div class="ob-stat-value">₹3.8L</div>
-                        <div class="ob-stat-label">Licenses Recovered</div>
-                        <div class="ob-stat-sub">From auto-offboarding this quarter</div>
+                    <div class="ob-stat-card ob-accent-purple">
+                        <div class="ob-stat-icon" style="background:rgba(124,58,237,0.10);color:#7C3AED"><i class="fas fa-coins"></i></div>
+                        <div class="ob-stat-body">
+                            <div class="ob-stat-value">₹3.8L</div>
+                            <div class="ob-stat-label">Licenses Recovered</div>
+                            <div class="ob-stat-sub">From auto-offboarding this quarter</div>
+                        </div>
                     </div>
-                    <div class="ob-stat-card">
-                        <div class="ob-stat-icon" style="background:rgba(59,130,246,0.12);color:#3B82F6"><i class="fas fa-shield-alt"></i></div>
-                        <div class="ob-stat-value">0</div>
-                        <div class="ob-stat-label">Security Incidents</div>
-                        <div class="ob-stat-sub">From offboarded employees</div>
+                    <div class="ob-stat-card ob-accent-blue">
+                        <div class="ob-stat-icon" style="background:rgba(59,130,246,0.10);color:#3B82F6"><i class="fas fa-shield-alt"></i></div>
+                        <div class="ob-stat-body">
+                            <div class="ob-stat-value">0</div>
+                            <div class="ob-stat-label">Security Incidents</div>
+                            <div class="ob-stat-sub">From offboarded employees</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card" style="margin-top:24px">
-                    <div class="card-header"><h3><i class="fas fa-exclamation-circle" style="color:#EF4444"></i> Pending Offboards — Immediate Action Required</h3></div>
+                <!-- Bulk Action Banner -->
+                <div class="ob-bulk-banner">
+                    <div class="ob-bulk-left">
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <strong>4 departed employees still have active SaaS access</strong>
+                            <span>50 apps · ₹4.2L/yr in recoverable licenses</span>
+                        </div>
+                    </div>
+                    <button class="btn ob-btn-revoke-all" onclick="showToast('success','✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.')"><i class="fas fa-ban"></i> Revoke All Pending</button>
+                </div>
+
+                <!-- Pending Offboards Table -->
+                <div class="card" style="margin-top:20px">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-circle" style="color:#EF4444"></i> Pending Offboards — Immediate Action Required</h3>
+                        <span class="ob-count-badge">4 employees</span>
+                    </div>
                     <table class="data-table">
                         <thead><tr><th>Employee</th><th>Left On</th><th>Days Since</th><th>Active Apps</th><th>Risk Level</th><th>Action</th></tr></thead>
                         <tbody>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#EF4444">VK</div><div><strong>Vikram Kumar</strong><div style="font-size:12px;color:var(--gray-500)">Sr. Engineer · Engineering</div></div></div></td>
                                 <td>Jun 15, 2025</td>
-                                <td><span style="color:#EF4444;font-weight:700">265 days</span></td>
-                                <td><span class="nav-badge red" style="font-size:13px">23 apps</span></td>
-                                <td><span class="status-badge shadow" style="background:rgba(239,68,68,0.12);color:#EF4444">Critical</span></td>
-                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 23 apps revoked for Vikram Kumar. Licenses recovered: 23')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span class="ob-days critical">265 days</span></td>
+                                <td><span class="ob-app-badge red">23 apps</span></td>
+                                <td><span class="ob-risk-badge critical">Critical</span></td>
+                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 23 apps revoked for Vikram Kumar. Licenses recovered: 23')"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#F59E0B">PS</div><div><strong>Priya Singh</strong><div style="font-size:12px;color:var(--gray-500)">Product Manager · Product</div></div></div></td>
                                 <td>Dec 22, 2025</td>
-                                <td><span style="color:#F59E0B;font-weight:700">75 days</span></td>
-                                <td><span class="nav-badge orange" style="font-size:13px">14 apps</span></td>
-                                <td><span class="status-badge pending">High</span></td>
-                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 14 apps revoked for Priya Singh. Licenses recovered: 14')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span class="ob-days high">75 days</span></td>
+                                <td><span class="ob-app-badge orange">14 apps</span></td>
+                                <td><span class="ob-risk-badge high">High</span></td>
+                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 14 apps revoked for Priya Singh. Licenses recovered: 14')"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#3B82F6">AJ</div><div><strong>Amit Joshi</strong><div style="font-size:12px;color:var(--gray-500)">Designer · Design</div></div></div></td>
                                 <td>Feb 1, 2026</td>
-                                <td><span style="color:#F59E0B;font-weight:700">34 days</span></td>
-                                <td><span class="nav-badge yellow" style="font-size:13px">8 apps</span></td>
-                                <td><span class="status-badge pending">Medium</span></td>
-                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 8 apps revoked for Amit Joshi. Licenses recovered: 8')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span class="ob-days medium">34 days</span></td>
+                                <td><span class="ob-app-badge yellow">8 apps</span></td>
+                                <td><span class="ob-risk-badge medium">Medium</span></td>
+                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 8 apps revoked for Amit Joshi. Licenses recovered: 8')"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#10B981">NR</div><div><strong>Neha Raghavan</strong><div style="font-size:12px;color:var(--gray-500)">Intern · Engineering</div></div></div></td>
                                 <td>Feb 28, 2026</td>
-                                <td><span style="color:#3B82F6;font-weight:700">7 days</span></td>
-                                <td><span class="nav-badge blue" style="font-size:13px">5 apps</span></td>
-                                <td><span class="status-badge active">Low</span></td>
-                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 5 apps revoked for Neha Raghavan. Licenses recovered: 5')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span class="ob-days low">7 days</span></td>
+                                <td><span class="ob-app-badge blue">5 apps</span></td>
+                                <td><span class="ob-risk-badge low">Low</span></td>
+                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 5 apps revoked for Neha Raghavan. Licenses recovered: 5')"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                         </tbody>
                     </table>
-                    <div style="padding:16px;text-align:center;border-top:1px solid var(--gray-800)">
-                        <button class="btn btn-danger" onclick="showToast('success','✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.')"><i class="fas fa-ban"></i> Revoke ALL Pending — One Click</button>
-                    </div>
                 </div>
 
-                <div class="card" style="margin-top:24px">
+                <!-- Recent Offboards -->
+                <div class="card" style="margin-top:20px">
                     <div class="card-header"><h3><i class="fas fa-history" style="color:#10B981"></i> Recent Offboards</h3></div>
                     <table class="data-table">
                         <thead><tr><th>Employee</th><th>Offboarded On</th><th>Apps Revoked</th><th>Licenses Saved</th><th>Status</th></tr></thead>
