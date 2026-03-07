@@ -2589,8 +2589,8 @@
                             </div>
                             <p>Contract worth ₹24L/yr auto-renews on Mar 12. 34% of licenses are unused. Review before renewal.</p>
                             <div class="alert-actions-inline">
-                                <button class="btn btn-sm btn-primary">Review Contract</button>
-                                <button class="btn btn-sm btn-outline">Snooze</button>
+                                <button class="btn btn-sm btn-primary" onclick="showDashSectionDirect('renewals');showToast('info','Opening Salesforce renewal details…')">Review Contract</button>
+                                <button class="btn btn-sm btn-outline" onclick="snoozeAlert(this)">Snooze</button>
                             </div>
                         </div>
                     </div>

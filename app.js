@@ -248,6 +248,64 @@ function showDashSectionDirect(sectionId) {
     });
 }
 
+/**
+ * Snooze an alert — fades it out with a "snoozed" state
+ */
+function snoozeAlert(btn) {
+    var alertItem = btn.closest('.alert-item');
+    if (!alertItem) return;
+
+    // Show snooze duration picker
+    var existing = document.getElementById('snooze-picker');
+    if (existing) existing.remove();
+
+    var picker = document.createElement('div');
+    picker.id = 'snooze-picker';
+    picker.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+    picker.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;padding:28px;width:90%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.2)">'
+        + '  <h3 style="font-size:18px;font-weight:700;color:#111827;margin:0 0 6px"><i class="fas fa-clock" style="color:#7C3AED;margin-right:8px"></i>Snooze Alert</h3>'
+        + '  <p style="font-size:13px;color:#6B7280;margin:0 0 20px">Choose how long to snooze this notification:</p>'
+        + '  <div style="display:flex;flex-direction:column;gap:8px">'
+        + '    <button class="snooze-opt" onclick="executeSnooze(this,\'1 hour\')" style="padding:12px 16px;border-radius:10px;border:1.5px solid #E5E7EB;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#374151;text-align:left;transition:all 0.15s" onmouseover="this.style.borderColor=\'#7C3AED\';this.style.background=\'#F5F3FF\'" onmouseout="this.style.borderColor=\'#E5E7EB\';this.style.background=\'#fff\'"><i class="fas fa-clock" style="color:#7C3AED;margin-right:10px;width:16px"></i>1 hour</button>'
+        + '    <button class="snooze-opt" onclick="executeSnooze(this,\'4 hours\')" style="padding:12px 16px;border-radius:10px;border:1.5px solid #E5E7EB;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#374151;text-align:left;transition:all 0.15s" onmouseover="this.style.borderColor=\'#7C3AED\';this.style.background=\'#F5F3FF\'" onmouseout="this.style.borderColor=\'#E5E7EB\';this.style.background=\'#fff\'"><i class="fas fa-clock" style="color:#7C3AED;margin-right:10px;width:16px"></i>4 hours</button>'
+        + '    <button class="snooze-opt" onclick="executeSnooze(this,\'1 day\')" style="padding:12px 16px;border-radius:10px;border:1.5px solid #E5E7EB;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#374151;text-align:left;transition:all 0.15s" onmouseover="this.style.borderColor=\'#7C3AED\';this.style.background=\'#F5F3FF\'" onmouseout="this.style.borderColor=\'#E5E7EB\';this.style.background=\'#fff\'"><i class="fas fa-calendar-day" style="color:#7C3AED;margin-right:10px;width:16px"></i>1 day</button>'
+        + '    <button class="snooze-opt" onclick="executeSnooze(this,\'1 week\')" style="padding:12px 16px;border-radius:10px;border:1.5px solid #E5E7EB;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#374151;text-align:left;transition:all 0.15s" onmouseover="this.style.borderColor=\'#7C3AED\';this.style.background=\'#F5F3FF\'" onmouseout="this.style.borderColor=\'#E5E7EB\';this.style.background=\'#fff\'"><i class="fas fa-calendar-week" style="color:#7C3AED;margin-right:10px;width:16px"></i>1 week</button>'
+        + '  </div>'
+        + '  <button onclick="document.getElementById(\'snooze-picker\').remove()" style="margin-top:16px;width:100%;padding:10px;border-radius:10px;border:none;background:#F3F4F6;color:#6B7280;font-size:13px;font-weight:600;cursor:pointer">Cancel</button>'
+        + '</div>';
+
+    // Store reference to the alert item
+    picker.dataset.alertIndex = Array.from(document.querySelectorAll('.alert-item')).indexOf(alertItem);
+    document.body.appendChild(picker);
+    picker.addEventListener('click', function(e) { if (e.target === picker) picker.remove(); });
+}
+
+function executeSnooze(optBtn, duration) {
+    var picker = document.getElementById('snooze-picker');
+    var alertIdx = picker ? parseInt(picker.dataset.alertIndex) : -1;
+    if (picker) picker.remove();
+
+    var alertItems = document.querySelectorAll('.alert-item');
+    var alertItem = alertIdx >= 0 ? alertItems[alertIdx] : null;
+
+    if (alertItem) {
+        alertItem.style.transition = 'all 0.4s ease';
+        alertItem.style.opacity = '0.4';
+        alertItem.classList.remove('unread');
+        // Replace the actions with a snoozed badge
+        var actions = alertItem.querySelector('.alert-actions-inline');
+        if (actions) {
+            actions.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;background:#F3F4F6;color:#6B7280"><i class="fas fa-clock"></i> Snoozed for ' + duration + '</span>';
+        }
+        // Update the time label
+        var timeEl = alertItem.querySelector('.alert-time');
+        if (timeEl) timeEl.textContent = 'Snoozed';
+    }
+
+    showToast('info', 'Alert snoozed for ' + duration);
+}
+
 // Add hover tooltips to app icons
 document.addEventListener('mouseover', function(e) {
     if (e.target.classList.contains('app-icon')) {
