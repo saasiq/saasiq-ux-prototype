@@ -30,10 +30,10 @@ window.addEventListener('hashchange', handleHash);
 document.addEventListener('DOMContentLoaded', handleHash);
 
 // Dashboard Section Navigation
-function showDashSection(sectionId) {
+function showDashSection(sectionId, event) {
     // Update sidebar active state
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    if (event && event.currentTarget) event.currentTarget.classList.add('active');
 
     // Show the section
     document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
@@ -82,6 +82,35 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// Keyboard shortcuts for navigation (G+D, G+S, G+C) and actions (Cmd+N, Cmd+E, Cmd+B)
+(function() {
+    var _gPressed = false, _gTimer = null;
+    document.addEventListener('keydown', function(e) {
+        if (e.target.matches('input, textarea, select')) return;
+        // G+key combos
+        if (e.key === 'g' || e.key === 'G') {
+            if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+                _gPressed = true;
+                clearTimeout(_gTimer);
+                _gTimer = setTimeout(function() { _gPressed = false; }, 800);
+                return;
+            }
+        }
+        if (_gPressed) {
+            _gPressed = false;
+            clearTimeout(_gTimer);
+            if (e.key === 'd' || e.key === 'D') { e.preventDefault(); showPage('page-dashboard'); showDashSectionDirect('dashboard-home'); }
+            if (e.key === 's' || e.key === 'S') { e.preventDefault(); showPage('page-dashboard'); showDashSectionDirect('settings'); }
+            if (e.key === 'c' || e.key === 'C') { e.preventDefault(); showPage('page-dashboard'); showDashSectionDirect('ai-copilot'); }
+            return;
+        }
+        // Cmd/Ctrl combos
+        if ((e.metaKey || e.ctrlKey) && e.key === 'n') { e.preventDefault(); openModal('modal-add-app'); }
+        if ((e.metaKey || e.ctrlKey) && e.key === 'e') { e.preventDefault(); showToast('info', 'Report export initiated. Check your downloads.'); }
+        if ((e.metaKey || e.ctrlKey) && e.key === 'b') { e.preventDefault(); toggleSidebar(); }
+    });
+})();
+
 // Filter button toggle (for Discovery and Alerts pages)
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('filter-btn')) {
@@ -94,7 +123,7 @@ document.addEventListener('click', function(e) {
 });
 
 // Settings tab navigation
-function showSettingsTab(tabId) {
+function showSettingsTab(tabId, event) {
     // Update sidebar active state
     document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
     if (event && event.currentTarget) event.currentTarget.classList.add('active');
@@ -438,13 +467,18 @@ document.addEventListener('click', function(e) {
         if (chevron) chevron.style.transform = '';
         showToast('success', 'Switched to ' + (nameEl ? nameEl.textContent : 'organization'));
     }
-    // Handle add-org items
-    const addItem = e.target.closest('.org-dropdown-item.add-org');
-    if (addItem) {
-        const text = addItem.querySelector('span');
-        showToast('info', text ? text.textContent : 'Organization action');
-        const dd = document.getElementById('org-dropdown');
-        if (dd) dd.classList.remove('open');
+});
+
+// Keyboard shortcut: ? to open shortcuts modal
+document.addEventListener('keydown', function(e) {
+    if (e.key === '?' && !e.target.matches('input, textarea, select')) {
+        e.preventDefault();
+        const modal = document.getElementById('modal-shortcuts');
+        if (modal && modal.classList.contains('open')) {
+            closeModal('modal-shortcuts');
+        } else {
+            openModal('modal-shortcuts');
+        }
     }
 });
 
@@ -512,4 +546,717 @@ function escapeHtml(text) {
     const d = document.createElement('div');
     d.textContent = text;
     return d.innerHTML;
+}
+
+// ========== MARK ALL ALERTS READ ==========
+function markAllAlertsRead() {
+    document.querySelectorAll('.alert-item.unread').forEach(item => {
+        item.classList.remove('unread');
+        item.style.transition = 'background 0.4s';
+    });
+    showToast('success', 'All alerts marked as read');
+}
+
+// ========== CONTRACT RENEWAL FILTER ==========
+function filterRenewals(days, btn) {
+    // Toggle active state
+    btn.closest('.filter-group').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Filter timeline items
+    const items = document.querySelectorAll('.timeline-item[data-renew-days]');
+    let visibleCount = 0;
+    items.forEach(item => {
+        const d = parseInt(item.getAttribute('data-renew-days'), 10);
+        item.style.display = d <= days ? '' : 'none';
+        if (d <= days) visibleCount++;
+    });
+    // Update KPI
+    const countEl = document.getElementById('renewal-count');
+    const labelEl = document.getElementById('renewal-period-label');
+    if (countEl) countEl.textContent = visibleCount;
+    if (labelEl) labelEl.textContent = 'In next ' + days + ' days';
+    // Show/hide month headers - hide if no visible items
+    document.querySelectorAll('.timeline-month').forEach(month => {
+        const visibles = month.querySelectorAll('.timeline-item[data-renew-days]');
+        const anyVisible = Array.from(visibles).some(i => i.style.display !== 'none');
+        month.style.display = anyVisible ? '' : 'none';
+    });
+    showToast('info', 'Showing renewals in next ' + days + ' days');
+}
+
+// ========== RE-SCAN NOW ==========
+function rescanNow(btn) {
+    openModal('modal-rescan');
+    const circle = document.getElementById('rescan-progress-circle');
+    const percent = document.getElementById('rescan-percent');
+    const status = document.getElementById('rescan-status');
+    const detail = document.getElementById('rescan-detail');
+    const icon = document.getElementById('rescan-icon');
+    let progress = 0;
+    const totalDash = 264;
+    const steps = [
+        { at: 10, status: 'Connecting to SSO providers...', detail: 'Google Workspace, Okta, Azure AD' },
+        { at: 25, status: 'Scanning email receipts...', detail: 'Checking Gmail & Outlook for SaaS invoices' },
+        { at: 40, status: 'Analyzing browser extension data...', detail: 'Detecting web-based applications' },
+        { at: 55, status: 'Querying financial integrations...', detail: 'Stripe, QuickBooks transaction scan' },
+        { at: 70, status: 'Running AI classification...', detail: 'Categorizing and risk-scoring discovered apps' },
+        { at: 85, status: 'Comparing with known inventory...', detail: 'Identifying new shadow IT applications' },
+        { at: 95, status: 'Finalizing results...', detail: 'Generating discovery report' }
+    ];
+    const interval = setInterval(() => {
+        progress += 1;
+        if (progress > 100) progress = 100;
+        const offset = totalDash - (totalDash * progress / 100);
+        if (circle) circle.setAttribute('stroke-dashoffset', offset);
+        if (percent) percent.textContent = progress + '%';
+        for (const step of steps) {
+            if (progress >= step.at && progress < step.at + 2) {
+                if (status) status.textContent = step.status;
+                if (detail) detail.textContent = step.detail;
+            }
+        }
+        if (progress >= 100) {
+            clearInterval(interval);
+            if (status) status.textContent = 'Scan complete!';
+            if (detail) detail.textContent = '3 new applications discovered, 2 shadow IT flagged';
+            if (icon) { icon.classList.remove('fa-spin'); }
+            setTimeout(() => {
+                closeModal('modal-rescan');
+                if (icon) icon.classList.add('fa-spin');
+                showToast('success', 'Re-scan complete! 3 new apps discovered, 2 flagged as shadow IT.');
+            }, 1500);
+        }
+    }, 50);
+}
+
+// ========== APPROVE APP ==========
+let _approveContext = {};
+function openApproveModal(btn, appName, category, users, cost) {
+    _approveContext = { btn, appName };
+    document.getElementById('approve-app-name').textContent = appName;
+    document.getElementById('approve-app-category').textContent = category;
+    document.getElementById('approve-app-users').textContent = users;
+    document.getElementById('approve-app-cost').textContent = cost;
+    document.getElementById('approve-app-icon').textContent = appName.substring(0, 2).toUpperCase();
+    openModal('modal-approve-app');
+}
+
+function confirmApproveApp() {
+    closeModal('modal-approve-app');
+    const card = _approveContext.btn ? _approveContext.btn.closest('.app-card') : null;
+    if (card) {
+        card.classList.remove('shadow');
+        card.classList.add('managed');
+        const banner = card.querySelector('.shadow-banner');
+        if (banner) banner.remove();
+        const statusBadge = card.querySelector('.status-badge');
+        if (statusBadge) { statusBadge.textContent = 'Managed'; statusBadge.className = 'status-badge managed'; }
+        const actions = card.querySelector('.app-card-actions');
+        if (actions) actions.innerHTML = '<span style="color:var(--green);font-size:12px;font-weight:600"><i class="fas fa-check-circle"></i> Approved</span>';
+    }
+    showToast('success', _approveContext.appName + ' has been approved and added to managed apps!');
+}
+
+// ========== BLOCK APP ==========
+let _blockContext = {};
+function openBlockModal(btn, appName, users) {
+    _blockContext = { btn, appName };
+    document.getElementById('block-app-name').textContent = appName;
+    document.getElementById('block-app-users').textContent = users;
+    openModal('modal-block-app');
+}
+
+function confirmBlockApp() {
+    closeModal('modal-block-app');
+    const card = _blockContext.btn ? _blockContext.btn.closest('.app-card, .risk-app-item, .alert-item') : null;
+    if (card) {
+        card.style.transition = 'opacity 0.5s, transform 0.5s';
+        card.style.opacity = '0.3';
+        const actions = card.querySelector('.app-card-actions, .alert-actions-inline');
+        if (actions) actions.innerHTML = '<span style="color:var(--red);font-size:12px;font-weight:600"><i class="fas fa-ban"></i> Blocked</span>';
+    }
+    showToast('danger', _blockContext.appName + ' has been blocked! ' + document.getElementById('block-app-users').textContent + ' users will be notified.');
+}
+
+// ========== APPLY OPTIMIZATION ==========
+function openApplyOptimizationModal(appName, recommendation, currentCost, projectedCost, savings, confidence) {
+    document.getElementById('opt-app-name').textContent = appName;
+    document.getElementById('opt-recommendation').textContent = recommendation;
+    document.getElementById('opt-current-cost').textContent = currentCost;
+    document.getElementById('opt-projected-cost').textContent = projectedCost;
+    document.getElementById('opt-savings').textContent = savings;
+    document.getElementById('opt-confidence').textContent = 'AI Confidence: ' + confidence;
+    openModal('modal-apply-optimization');
+}
+
+// ========== REVIEW OPTIMIZATION ==========
+function openReviewOptimizationModal(appName, details, currentCost, projectedCost, savings) {
+    document.getElementById('review-app-name').textContent = appName;
+    document.getElementById('review-details').textContent = details;
+    document.getElementById('review-current-cost').textContent = currentCost;
+    document.getElementById('review-projected-cost').textContent = projectedCost;
+    document.getElementById('review-savings').textContent = savings;
+    openModal('modal-review-optimization');
+}
+
+// ========== CONSOLIDATION PLAN ==========
+function openPlanModal(appName, recommendation, currentCost, projectedCost, savings) {
+    document.getElementById('plan-app-name').textContent = appName;
+    document.getElementById('plan-recommendation').textContent = recommendation;
+    document.getElementById('plan-current-cost').textContent = currentCost;
+    document.getElementById('plan-projected-cost').textContent = projectedCost;
+    document.getElementById('plan-savings').textContent = savings;
+    openModal('modal-plan');
+}
+
+// ========== NEGOTIATE ==========
+function openNegotiateModal(appName, currentPrice, targetPrice, discount) {
+    document.getElementById('negotiate-app-name').textContent = appName;
+    document.getElementById('negotiate-current').textContent = currentPrice;
+    document.getElementById('negotiate-target').textContent = targetPrice;
+    document.getElementById('negotiate-discount').textContent = discount;
+    openModal('modal-negotiate');
+}
+
+// ========== INVITE MEMBER ==========
+function confirmInviteMember() {
+    const email = document.getElementById('invite-email').value.trim();
+    if (!email) {
+        showToast('warning', 'Please enter an email address.');
+        return;
+    }
+    closeModal('modal-invite-member');
+    showToast('success', 'Invitation sent to ' + email + '!');
+    document.getElementById('invite-email').value = '';
+}
+
+// ========== GENERATE API KEY ==========
+function confirmGenerateKey() {
+    const name = document.getElementById('api-key-name').value.trim();
+    if (!name) {
+        showToast('warning', 'Please enter a key name.');
+        return;
+    }
+    closeModal('modal-generate-key');
+    const env = document.getElementById('api-key-env').value;
+    const prefix = env === 'production' ? 'sk_live_' : 'sk_test_';
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let key = prefix;
+    for (let i = 0; i < 32; i++) key += chars.charAt(Math.floor(Math.random() * chars.length));
+    document.getElementById('new-api-key-value').textContent = key;
+    openModal('modal-key-display');
+    document.getElementById('api-key-name').value = '';
+}
+
+function copyApiKey() {
+    const key = document.getElementById('new-api-key-value').textContent;
+    navigator.clipboard.writeText(key).then(() => {
+        showToast('success', 'API key copied to clipboard!');
+    }).catch(() => {
+        // Fallback
+        const range = document.createRange();
+        range.selectNode(document.getElementById('new-api-key-value'));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        showToast('success', 'API key copied to clipboard!');
+    });
+}
+
+// ========== ADD WEBHOOK ==========
+function confirmAddWebhook() {
+    const name = document.getElementById('webhook-name').value.trim();
+    const url = document.getElementById('webhook-url').value.trim();
+    if (!name || !url) {
+        showToast('warning', 'Please enter webhook name and URL.');
+        return;
+    }
+    closeModal('modal-add-webhook');
+    showToast('success', 'Webhook "' + name + '" created successfully!');
+    document.getElementById('webhook-name').value = '';
+    document.getElementById('webhook-url').value = '';
+}
+
+// ========================================================
+//  APPEARANCE ENGINE — Theme, Accent Color, Density
+// ========================================================
+
+var _appearance = {
+    theme: localStorage.getItem('saasiq-theme') || 'light',
+    accent: localStorage.getItem('saasiq-accent') || '#7C3AED',
+    accentLight: localStorage.getItem('saasiq-accent-light') || '#F5F3FF',
+    accentDark: localStorage.getItem('saasiq-accent-dark') || '#5B21B6',
+    density: localStorage.getItem('saasiq-density') || 'default'
+};
+var _pendingAppearance = Object.assign({}, _appearance);
+
+// Apply saved appearance on page load
+(function initAppearance() {
+    applyThemeToDOM(_appearance.theme);
+    applyAccentToDOM(_appearance.accent, _appearance.accentLight, _appearance.accentDark);
+    applyDensityToDOM(_appearance.density);
+})();
+
+// ----- Theme -----
+function selectTheme(theme, el) {
+    _pendingAppearance.theme = theme;
+    // Toggle active class on cards
+    document.querySelectorAll('.theme-card').forEach(function(c) {
+        c.classList.remove('active');
+        var check = c.querySelector('.theme-check');
+        if (check) check.remove();
+    });
+    el.classList.add('active');
+    var icon = document.createElement('i');
+    icon.className = 'fas fa-check-circle theme-check';
+    el.appendChild(icon);
+    // Live preview
+    applyThemeToDOM(theme);
+    showPreviewBar();
+}
+
+function applyThemeToDOM(theme) {
+    var root = document.documentElement;
+    // Determine effective theme
+    var effective = theme;
+    if (theme === 'system') {
+        effective = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    root.setAttribute('data-theme', effective);
+    // Also toggle class for easy CSS targeting
+    document.body.classList.remove('theme-light', 'theme-dark');
+    document.body.classList.add('theme-' + effective);
+}
+
+// ----- Accent Color -----
+function selectAccent(el) {
+    _pendingAppearance.accent = el.getAttribute('data-color');
+    _pendingAppearance.accentLight = el.getAttribute('data-light');
+    _pendingAppearance.accentDark = el.getAttribute('data-dark');
+    // Toggle active
+    document.querySelectorAll('.color-dot').forEach(function(d) { d.classList.remove('active'); });
+    el.classList.add('active');
+    // Live preview
+    applyAccentToDOM(_pendingAppearance.accent, _pendingAppearance.accentLight, _pendingAppearance.accentDark);
+    showPreviewBar();
+}
+
+function applyAccentToDOM(color, light, dark) {
+    var root = document.documentElement.style;
+    root.setProperty('--primary', color);
+    root.setProperty('--primary-light', light || color + '80');
+    root.setProperty('--primary-dark', dark || color);
+    root.setProperty('--primary-bg', light || '#F5F3FF');
+    // Update sidebar active items and other accent-colored elements
+    document.querySelectorAll('.sidebar-link.active, .settings-nav-item.active').forEach(function(el) {
+        el.style.color = color;
+    });
+}
+
+// ----- Density -----
+function selectDensity(density, el) {
+    _pendingAppearance.density = density;
+    // Toggle active
+    document.querySelectorAll('.density-options .radio-option').forEach(function(r) { r.classList.remove('active'); });
+    el.classList.add('active');
+    // Live preview
+    applyDensityToDOM(density);
+    showPreviewBar();
+}
+
+function applyDensityToDOM(density) {
+    var root = document.documentElement;
+    root.classList.remove('density-comfortable', 'density-default', 'density-compact');
+    root.classList.add('density-' + density);
+}
+
+// ----- Preview Bar -----
+function showPreviewBar() {
+    var bar = document.getElementById('appearance-preview');
+    if (bar) {
+        bar.style.display = 'block';
+        var desc = document.getElementById('preview-desc');
+        var changes = [];
+        if (_pendingAppearance.theme !== _appearance.theme) changes.push('Theme: ' + _pendingAppearance.theme);
+        if (_pendingAppearance.accent !== _appearance.accent) changes.push('Accent: ' + _pendingAppearance.accent);
+        if (_pendingAppearance.density !== _appearance.density) changes.push('Density: ' + _pendingAppearance.density);
+        if (desc) desc.textContent = changes.length ? 'Pending: ' + changes.join(' · ') : 'No unsaved changes';
+    }
+}
+
+// ----- Apply & Save -----
+function applyAppearance() {
+    _appearance = Object.assign({}, _pendingAppearance);
+    localStorage.setItem('saasiq-theme', _appearance.theme);
+    localStorage.setItem('saasiq-accent', _appearance.accent);
+    localStorage.setItem('saasiq-accent-light', _appearance.accentLight);
+    localStorage.setItem('saasiq-accent-dark', _appearance.accentDark);
+    localStorage.setItem('saasiq-density', _appearance.density);
+    var bar = document.getElementById('appearance-preview');
+    if (bar) bar.style.display = 'none';
+    showToast('success', 'Appearance settings saved! Theme: ' + _appearance.theme + ', Accent: ' + getAccentName(_appearance.accent) + ', Density: ' + _appearance.density);
+}
+
+function resetAppearance() {
+    // Reset to defaults
+    _pendingAppearance = { theme: 'light', accent: '#7C3AED', accentLight: '#F5F3FF', accentDark: '#5B21B6', density: 'default' };
+    _appearance = Object.assign({}, _pendingAppearance);
+    localStorage.removeItem('saasiq-theme');
+    localStorage.removeItem('saasiq-accent');
+    localStorage.removeItem('saasiq-accent-light');
+    localStorage.removeItem('saasiq-accent-dark');
+    localStorage.removeItem('saasiq-density');
+    // Apply to DOM
+    applyThemeToDOM('light');
+    applyAccentToDOM('#7C3AED', '#F5F3FF', '#5B21B6');
+    applyDensityToDOM('default');
+    // Reset UI selections
+    document.querySelectorAll('.theme-card').forEach(function(c) {
+        c.classList.remove('active');
+        var check = c.querySelector('.theme-check');
+        if (check) check.remove();
+    });
+    var lightCard = document.querySelector('.theme-card[data-theme="light"]');
+    if (lightCard) {
+        lightCard.classList.add('active');
+        var icon = document.createElement('i');
+        icon.className = 'fas fa-check-circle theme-check';
+        lightCard.appendChild(icon);
+    }
+    document.querySelectorAll('.color-dot').forEach(function(d) { d.classList.remove('active'); });
+    var purpleDot = document.querySelector('.color-dot[data-color="#7C3AED"]');
+    if (purpleDot) purpleDot.classList.add('active');
+    document.querySelectorAll('.density-options .radio-option').forEach(function(r) { r.classList.remove('active'); });
+    var defaultRadio = document.querySelector('input[name="density"][value="default"]');
+    if (defaultRadio) {
+        defaultRadio.checked = true;
+        defaultRadio.closest('.radio-option').classList.add('active');
+    }
+    var bar = document.getElementById('appearance-preview');
+    if (bar) bar.style.display = 'none';
+    showToast('info', 'Appearance reset to defaults.');
+}
+
+function getAccentName(hex) {
+    var map = { '#7C3AED': 'Purple', '#3B82F6': 'Blue', '#10B981': 'Green', '#F59E0B': 'Amber', '#EF4444': 'Red', '#EC4899': 'Pink' };
+    return map[hex] || hex;
+}
+
+// Listen for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    if (_appearance.theme === 'system') applyThemeToDOM('system');
+});
+
+// ========== OFFBOARDING CONSOLE — INTERACTIVE ACTIONS ==========
+
+/**
+ * Sync HR Data — simulates HRMS sync with progress
+ */
+function syncHRData(btn) {
+    if (btn.disabled) return;
+    var icon = btn.querySelector('i');
+    var origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+    icon.className = 'fas fa-sync-alt fa-spin';
+    btn.querySelector('span') ? btn.querySelector('span').textContent = ' Syncing…' : null;
+    // Replace text content
+    btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Syncing…';
+
+    showToast('info', 'Connecting to HRMS system…');
+
+    setTimeout(function() {
+        showToast('info', 'Fetching employee records — 248 found');
+    }, 1200);
+
+    setTimeout(function() {
+        showToast('info', 'Cross-referencing SaaS access logs…');
+    }, 2400);
+
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Synced ✓';
+        btn.style.opacity = '1';
+        btn.style.background = '#ECFDF5';
+        btn.style.color = '#059669';
+        btn.style.borderColor = '#059669';
+        showToast('success', 'HR Sync complete — 2 new departures detected, 1 updated');
+        // Revert after 3s
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.pointerEvents = '';
+            btn.style.opacity = '';
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+        }, 3000);
+    }, 3600);
+}
+
+/**
+ * Offboard Employee — opens a mock wizard modal
+ */
+function openOffboardWizard() {
+    // Check if modal already exists
+    var existing = document.getElementById('offboard-wizard-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'offboard-wizard-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden">'
+        + '  <div style="padding:24px 28px;border-bottom:1px solid #E5E7EB">'
+        + '    <div style="display:flex;justify-content:space-between;align-items:center">'
+        + '      <h2 style="font-size:20px;font-weight:800;color:#111827;display:flex;align-items:center;gap:10px;margin:0"><span style="display:inline-flex;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;align-items:center;justify-content:center;font-size:14px"><i class="fas fa-user-minus"></i></span> Offboard Employee</h2>'
+        + '      <button onclick="document.getElementById(\'offboard-wizard-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px">'
+        + '    <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Search Employee</label>'
+        + '    <input type="text" placeholder="Start typing name or email…" style="width:100%;padding:12px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box;transition:border 0.2s" onfocus="this.style.borderColor=\'#7C3AED\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Departure Date</label>'
+        + '      <input type="date" style="width:100%;padding:12px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box" value="2026-03-07">'
+        + '    </div>'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Revocation Scope</label>'
+        + '      <div style="display:flex;flex-direction:column;gap:10px">'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="all" checked style="accent-color:#7C3AED"> Revoke all SaaS access immediately</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="selective" style="accent-color:#7C3AED"> Selective — choose apps to revoke</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="scheduled" style="accent-color:#7C3AED"> Schedule revocation for departure date</label>'
+        + '      </div>'
+        + '    </div>'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151"><input type="checkbox" checked style="accent-color:#7C3AED"> Notify IT admin when complete</label>'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151;margin-top:8px"><input type="checkbox" checked style="accent-color:#7C3AED"> Transfer data to manager</label>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:10px;background:#F9FAFB">'
+        + '    <button onclick="document.getElementById(\'offboard-wizard-modal\').remove()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151">Cancel</button>'
+        + '    <button onclick="executeOffboard()" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;border:none;box-shadow:0 2px 10px rgba(124,58,237,0.3)"><i class="fas fa-user-minus"></i> Offboard Now</button>'
+        + '  </div>'
+        + '</div>';
+
+    document.body.appendChild(overlay);
+
+    // Close on background click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) overlay.remove();
+    });
+}
+
+function executeOffboard() {
+    var modal = document.getElementById('offboard-wizard-modal');
+    if (modal) modal.remove();
+    showToast('success', 'Offboarding initiated — all SaaS access will be revoked and data transferred.');
+}
+
+/**
+ * Revoke All Pending — bulk revoke with animated row removal
+ */
+function revokeAllPending(btn) {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    var origHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Revoking…';
+    btn.style.opacity = '0.8';
+
+    // Find the pending offboards table
+    var section = document.getElementById('sec-offboarding');
+    if (!section) return;
+    var rows = section.querySelectorAll('.data-table tbody tr');
+    var delay = 0;
+
+    rows.forEach(function(row) {
+        // Only animate rows in the first table (pending offboards)
+        var table = row.closest('.data-table');
+        var tableContainer = table ? table.closest('div[style*="margin-bottom"]') : null;
+        if (!tableContainer) return;
+        // Check if this is the pending table (has "Pending Offboards" header)
+        var header = tableContainer.querySelector('h3');
+        if (!header || header.textContent.indexOf('Pending') === -1) return;
+
+        delay += 400;
+        setTimeout(function() {
+            row.style.transition = 'all 0.4s ease';
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(40px)';
+            row.style.background = 'rgba(16,185,129,0.08)';
+
+            // Find the Revoke All button in this row and change it
+            var revokeBtn = row.querySelector('button');
+            if (revokeBtn) {
+                revokeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Revoked';
+                revokeBtn.style.background = '#059669';
+                revokeBtn.disabled = true;
+            }
+        }, delay);
+    });
+
+    // After all rows animated, update stats
+    setTimeout(function() {
+        // Update KPI card "Pending Offboards" from 4 to 0
+        var statCards = section.querySelectorAll('div[style*="border-left:4px"]');
+        if (statCards[0]) {
+            var valueEl = statCards[0].querySelector('div[style*="font-size:30px"]');
+            if (valueEl) {
+                valueEl.textContent = '0';
+                valueEl.style.color = '#10B981';
+            }
+        }
+        // Update "Completed This Quarter" from 23 to 27
+        if (statCards[1]) {
+            var valueEl2 = statCards[1].querySelector('div[style*="font-size:30px"]');
+            if (valueEl2) valueEl2.textContent = '27';
+        }
+        // Update "Licenses Recovered" from ₹3.8L to ₹8.0L
+        if (statCards[2]) {
+            var valueEl3 = statCards[2].querySelector('div[style*="font-size:30px"]');
+            if (valueEl3) valueEl3.textContent = '₹8.0L';
+        }
+
+        // Update the bulk banner
+        var bannerDiv = section.querySelector('div[style*="rgba(239,68,68,0.05)"]');
+        if (bannerDiv) {
+            bannerDiv.style.transition = 'all 0.4s ease';
+            bannerDiv.style.background = 'linear-gradient(135deg,rgba(16,185,129,0.05),rgba(16,185,129,0.02))';
+            bannerDiv.style.borderColor = 'rgba(16,185,129,0.2)';
+            var bannerIcon = bannerDiv.querySelector('div[style*="rgba(239,68,68,0.10)"]');
+            if (bannerIcon) {
+                bannerIcon.style.background = 'rgba(16,185,129,0.10)';
+                bannerIcon.style.color = '#10B981';
+                bannerIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+            }
+            var bannerInfo = bannerDiv.querySelector('div[style*="font-weight:700"]');
+            if (bannerInfo) {
+                bannerInfo.textContent = 'All employees offboarded successfully';
+                bannerInfo.style.color = '#059669';
+            }
+            var bannerSub = bannerDiv.querySelector('div[style*="color:var(--gray-500)"]');
+            if (bannerSub) {
+                bannerSub.textContent = '50 apps revoked · ₹4.2L/yr recovered';
+                bannerSub.style.color = '#059769';
+            }
+        }
+
+        // Update badge count
+        var badge = section.querySelector('span[style*="rgba(239,68,68,0.08)"]');
+        if (badge) {
+            badge.textContent = '0 employees';
+            badge.style.background = 'rgba(16,185,129,0.08)';
+            badge.style.color = '#10B981';
+        }
+
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> All Revoked ✓';
+        btn.style.background = '#059669';
+        btn.style.opacity = '1';
+        btn.style.boxShadow = '0 2px 10px rgba(5,150,105,0.25)';
+
+        showToast('success', '✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.');
+
+        // Revert after 5s
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.background = '';
+            btn.style.opacity = '';
+            btn.style.boxShadow = '';
+            // Restore rows
+            rows.forEach(function(row) {
+                row.style.opacity = '';
+                row.style.transform = '';
+                row.style.background = '';
+                var revokeBtn = row.querySelector('button');
+                if (revokeBtn) {
+                    revokeBtn.innerHTML = '<i class="fas fa-ban"></i> Revoke All';
+                    revokeBtn.style.background = '';
+                    revokeBtn.disabled = false;
+                }
+            });
+            // Restore stats
+            if (statCards[0]) {
+                var v = statCards[0].querySelector('div[style*="font-size:30px"]');
+                if (v) { v.textContent = '4'; v.style.color = ''; }
+            }
+            if (statCards[1]) {
+                var v2 = statCards[1].querySelector('div[style*="font-size:30px"]');
+                if (v2) v2.textContent = '23';
+            }
+            if (statCards[2]) {
+                var v3 = statCards[2].querySelector('div[style*="font-size:30px"]');
+                if (v3) v3.textContent = '₹3.8L';
+            }
+            // Restore banner
+            if (bannerDiv) {
+                bannerDiv.style.background = '';
+                bannerDiv.style.borderColor = '';
+                var bi = bannerDiv.querySelector('div[style*="rgba(16,185,129"]') || bannerDiv.querySelector('div[style*="background"]');
+                // Full page reload is simpler for full revert in a prototype
+            }
+            if (badge) {
+                badge.textContent = '4 employees';
+                badge.style.background = '';
+                badge.style.color = '';
+            }
+        }, 5000);
+    }, delay + 600);
+}
+
+/**
+ * Revoke single employee row — animates that row + updates count
+ */
+function revokeEmployee(btn, name, appCount) {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    var origHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.style.opacity = '0.7';
+
+    var row = btn.closest('tr');
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Revoked';
+        btn.style.background = '#059669';
+        btn.style.opacity = '1';
+        if (row) {
+            row.style.transition = 'opacity 0.3s ease';
+            row.style.opacity = '0.5';
+        }
+        showToast('success', '✓ All ' + appCount + ' apps revoked for ' + name);
+
+        // Update pending count
+        var section = document.getElementById('sec-offboarding');
+        if (section) {
+            var statCards = section.querySelectorAll('div[style*="border-left:4px"]');
+            if (statCards[0]) {
+                var valueEl = statCards[0].querySelector('div[style*="font-size:30px"]');
+                if (valueEl) {
+                    var current = parseInt(valueEl.textContent) || 0;
+                    if (current > 0) valueEl.textContent = (current - 1).toString();
+                    if (current - 1 === 0) valueEl.style.color = '#10B981';
+                }
+            }
+        }
+
+        // Revert after 4s
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.background = '';
+            btn.style.opacity = '';
+            if (row) {
+                row.style.opacity = '';
+            }
+            // Restore count
+            if (section) {
+                var sc = section.querySelectorAll('div[style*="border-left:4px"]');
+                if (sc[0]) {
+                    var v = sc[0].querySelector('div[style*="font-size:30px"]');
+                    if (v) { v.textContent = '4'; v.style.color = ''; }
+                }
+            }
+        }, 4000);
+    }, 800);
 }
