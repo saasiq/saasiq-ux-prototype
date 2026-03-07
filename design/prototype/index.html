@@ -2643,113 +2643,122 @@
 
             <!-- ===== OFFBOARDING CONSOLE ===== -->
             <div class="dash-section" id="sec-offboarding">
-                <div class="page-header">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:16px">
                     <div>
-                        <h1><i class="fas fa-user-slash" style="color:var(--primary);margin-right:8px"></i>Offboarding Console</h1>
-                        <p>Instantly revoke all SaaS access when employees leave — one click, total coverage</p>
+                        <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);display:flex;align-items:center;gap:10px;margin:0">
+                            <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;font-size:16px"><i class="fas fa-user-slash"></i></span>
+                            Offboarding Console
+                        </h1>
+                        <p style="color:var(--gray-500);font-size:14px;margin-top:6px">Instantly revoke all SaaS access when employees leave — one click, total coverage</p>
                     </div>
-                    <div class="header-actions">
-                        <button class="btn btn-outline ob-btn-sync" onclick="this.querySelector('i').classList.add('fa-spin');showToast('info','Syncing with HRMS…');setTimeout(()=>this.querySelector('i').classList.remove('fa-spin'),2000)"><i class="fas fa-sync-alt"></i> Sync HR Data</button>
-                        <button class="btn ob-btn-offboard" onclick="showToast('success','Offboarding wizard opened')"><i class="fas fa-user-minus"></i> Offboard Employee</button>
+                    <div style="display:flex;gap:10px;align-items:center">
+                        <button onclick="this.querySelector('i').classList.add('fa-spin');showToast('info','Syncing with HRMS…');setTimeout(()=>this.querySelector('i').classList.remove('fa-spin'),2000)" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300);transition:all 0.2s"><i class="fas fa-sync-alt"></i> Sync HR Data</button>
+                        <button onclick="showToast('success','Offboarding wizard opened')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;border:none;box-shadow:0 2px 12px rgba(124,58,237,0.3);transition:all 0.2s"><i class="fas fa-user-minus"></i> Offboard Employee</button>
                     </div>
                 </div>
 
-                <!-- Stat Cards -->
-                <div class="offboard-stats">
-                    <div class="ob-stat-card ob-accent-red">
-                        <div class="ob-stat-icon" style="background:rgba(239,68,68,0.10);color:#EF4444"><i class="fas fa-exclamation-triangle"></i></div>
-                        <div class="ob-stat-body">
-                            <div class="ob-stat-value">4</div>
-                            <div class="ob-stat-label">Pending Offboards</div>
-                            <div class="ob-stat-sub">Departed but still have access</div>
+                <!-- KPI Stat Cards — inline grid -->
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+                    <!-- Card 1: Pending -->
+                    <div style="display:flex;align-items:flex-start;gap:14px;padding:20px;background:#fff;border:1px solid var(--gray-200);border-radius:14px;border-left:4px solid #EF4444;transition:all 0.2s">
+                        <div style="width:46px;height:46px;min-width:46px;border-radius:12px;background:rgba(239,68,68,0.08);color:#EF4444;display:flex;align-items:center;justify-content:center;font-size:18px"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div style="flex:1;min-width:0">
+                            <div style="font-size:30px;font-weight:800;color:var(--gray-900);line-height:1">4</div>
+                            <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:4px">Pending Offboards</div>
+                            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">Departed but still have access</div>
                         </div>
                     </div>
-                    <div class="ob-stat-card ob-accent-green">
-                        <div class="ob-stat-icon" style="background:rgba(16,185,129,0.10);color:#10B981"><i class="fas fa-check-circle"></i></div>
-                        <div class="ob-stat-body">
-                            <div class="ob-stat-value">23</div>
-                            <div class="ob-stat-label">Completed This Quarter</div>
-                            <div class="ob-stat-sub">Avg 4.2 min per offboard</div>
+                    <!-- Card 2: Completed -->
+                    <div style="display:flex;align-items:flex-start;gap:14px;padding:20px;background:#fff;border:1px solid var(--gray-200);border-radius:14px;border-left:4px solid #10B981;transition:all 0.2s">
+                        <div style="width:46px;height:46px;min-width:46px;border-radius:12px;background:rgba(16,185,129,0.08);color:#10B981;display:flex;align-items:center;justify-content:center;font-size:18px"><i class="fas fa-check-circle"></i></div>
+                        <div style="flex:1;min-width:0">
+                            <div style="font-size:30px;font-weight:800;color:var(--gray-900);line-height:1">23</div>
+                            <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:4px">Completed This Quarter</div>
+                            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">Avg 4.2 min per offboard</div>
                         </div>
                     </div>
-                    <div class="ob-stat-card ob-accent-purple">
-                        <div class="ob-stat-icon" style="background:rgba(124,58,237,0.10);color:#7C3AED"><i class="fas fa-coins"></i></div>
-                        <div class="ob-stat-body">
-                            <div class="ob-stat-value">₹3.8L</div>
-                            <div class="ob-stat-label">Licenses Recovered</div>
-                            <div class="ob-stat-sub">From auto-offboarding this quarter</div>
+                    <!-- Card 3: ₹ Recovered -->
+                    <div style="display:flex;align-items:flex-start;gap:14px;padding:20px;background:#fff;border:1px solid var(--gray-200);border-radius:14px;border-left:4px solid #7C3AED;transition:all 0.2s">
+                        <div style="width:46px;height:46px;min-width:46px;border-radius:12px;background:rgba(124,58,237,0.08);color:#7C3AED;display:flex;align-items:center;justify-content:center;font-size:18px"><i class="fas fa-coins"></i></div>
+                        <div style="flex:1;min-width:0">
+                            <div style="font-size:30px;font-weight:800;color:var(--gray-900);line-height:1">₹3.8L</div>
+                            <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:4px">Licenses Recovered</div>
+                            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">From auto-offboarding this quarter</div>
                         </div>
                     </div>
-                    <div class="ob-stat-card ob-accent-blue">
-                        <div class="ob-stat-icon" style="background:rgba(59,130,246,0.10);color:#3B82F6"><i class="fas fa-shield-alt"></i></div>
-                        <div class="ob-stat-body">
-                            <div class="ob-stat-value">0</div>
-                            <div class="ob-stat-label">Security Incidents</div>
-                            <div class="ob-stat-sub">From offboarded employees</div>
+                    <!-- Card 4: Security -->
+                    <div style="display:flex;align-items:flex-start;gap:14px;padding:20px;background:#fff;border:1px solid var(--gray-200);border-radius:14px;border-left:4px solid #3B82F6;transition:all 0.2s">
+                        <div style="width:46px;height:46px;min-width:46px;border-radius:12px;background:rgba(59,130,246,0.08);color:#3B82F6;display:flex;align-items:center;justify-content:center;font-size:18px"><i class="fas fa-shield-alt"></i></div>
+                        <div style="flex:1;min-width:0">
+                            <div style="font-size:30px;font-weight:800;color:var(--gray-900);line-height:1">0</div>
+                            <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:4px">Security Incidents</div>
+                            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">From offboarded employees</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Bulk Action Banner -->
-                <div class="ob-bulk-banner">
-                    <div class="ob-bulk-left">
-                        <i class="fas fa-bolt"></i>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(135deg,rgba(239,68,68,0.05),rgba(239,68,68,0.02));border:1px solid rgba(239,68,68,0.15);border-radius:12px;margin-bottom:20px;gap:16px;flex-wrap:wrap">
+                    <div style="display:flex;align-items:center;gap:14px">
+                        <div style="width:42px;height:42px;min-width:42px;border-radius:10px;background:rgba(239,68,68,0.10);color:#EF4444;display:flex;align-items:center;justify-content:center;font-size:18px"><i class="fas fa-bolt"></i></div>
                         <div>
-                            <strong>4 departed employees still have active SaaS access</strong>
-                            <span>50 apps · ₹4.2L/yr in recoverable licenses</span>
+                            <div style="font-size:14px;font-weight:700;color:var(--gray-900)">4 departed employees still have active SaaS access</div>
+                            <div style="font-size:12px;color:var(--gray-500);margin-top:2px">50 apps · ₹4.2L/yr in recoverable licenses</div>
                         </div>
                     </div>
-                    <button class="btn ob-btn-revoke-all" onclick="showToast('success','✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.')"><i class="fas fa-ban"></i> Revoke All Pending</button>
+                    <button onclick="showToast('success','✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#EF4444;color:#fff;border:none;box-shadow:0 2px 10px rgba(239,68,68,0.25);white-space:nowrap;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All Pending</button>
                 </div>
 
                 <!-- Pending Offboards Table -->
-                <div class="card" style="margin-top:20px">
-                    <div class="card-header">
-                        <h3><i class="fas fa-exclamation-circle" style="color:#EF4444"></i> Pending Offboards — Immediate Action Required</h3>
-                        <span class="ob-count-badge">4 employees</span>
+                <div style="background:#fff;border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;margin-bottom:20px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--gray-100)">
+                        <h3 style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0"><i class="fas fa-exclamation-circle" style="color:#EF4444"></i> Pending Offboards — Immediate Action Required</h3>
+                        <span style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:rgba(239,68,68,0.08);color:#EF4444">4 employees</span>
                     </div>
                     <table class="data-table">
                         <thead><tr><th>Employee</th><th>Left On</th><th>Days Since</th><th>Active Apps</th><th>Risk Level</th><th>Action</th></tr></thead>
                         <tbody>
                             <tr>
-                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#EF4444">VK</div><div><strong>Vikram Kumar</strong><div style="font-size:12px;color:var(--gray-500)">Sr. Engineer · Engineering</div></div></div></td>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#EF4444">VK</div><div><strong>Vikram Kumar</strong><div style="font-size:12px;color:var(--gray-500)">Sr. Engineer · Engineering</div></div></div></td>
                                 <td>Jun 15, 2025</td>
-                                <td><span class="ob-days critical">265 days</span></td>
-                                <td><span class="ob-app-badge red">23 apps</span></td>
-                                <td><span class="ob-risk-badge critical">Critical</span></td>
-                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 23 apps revoked for Vikram Kumar. Licenses recovered: 23')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span style="color:#EF4444;font-weight:700;font-size:13px">265 days</span></td>
+                                <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(239,68,68,0.10);color:#EF4444">23 apps</span></td>
+                                <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(239,68,68,0.10);color:#EF4444">Critical</span></td>
+                                <td><button onclick="showToast('success','✓ All 23 apps revoked for Vikram Kumar')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
-                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#F59E0B">PS</div><div><strong>Priya Singh</strong><div style="font-size:12px;color:var(--gray-500)">Product Manager · Product</div></div></div></td>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#F59E0B">PS</div><div><strong>Priya Singh</strong><div style="font-size:12px;color:var(--gray-500)">Product Manager · Product</div></div></div></td>
                                 <td>Dec 22, 2025</td>
-                                <td><span class="ob-days high">75 days</span></td>
-                                <td><span class="ob-app-badge orange">14 apps</span></td>
-                                <td><span class="ob-risk-badge high">High</span></td>
-                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 14 apps revoked for Priya Singh. Licenses recovered: 14')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span style="color:#F59E0B;font-weight:700;font-size:13px">75 days</span></td>
+                                <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.10);color:#F59E0B">14 apps</span></td>
+                                <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.10);color:#F59E0B">High</span></td>
+                                <td><button onclick="showToast('success','✓ All 14 apps revoked for Priya Singh')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
-                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#3B82F6">AJ</div><div><strong>Amit Joshi</strong><div style="font-size:12px;color:var(--gray-500)">Designer · Design</div></div></div></td>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#3B82F6">AJ</div><div><strong>Amit Joshi</strong><div style="font-size:12px;color:var(--gray-500)">Designer · Design</div></div></div></td>
                                 <td>Feb 1, 2026</td>
-                                <td><span class="ob-days medium">34 days</span></td>
-                                <td><span class="ob-app-badge yellow">8 apps</span></td>
-                                <td><span class="ob-risk-badge medium">Medium</span></td>
-                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 8 apps revoked for Amit Joshi. Licenses recovered: 8')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span style="color:#F59E0B;font-weight:700;font-size:13px">34 days</span></td>
+                                <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.10);color:#D97706">8 apps</span></td>
+                                <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(59,130,246,0.10);color:#3B82F6">Medium</span></td>
+                                <td><button onclick="showToast('success','✓ All 8 apps revoked for Amit Joshi')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
-                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#10B981">NR</div><div><strong>Neha Raghavan</strong><div style="font-size:12px;color:var(--gray-500)">Intern · Engineering</div></div></div></td>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#10B981">NR</div><div><strong>Neha Raghavan</strong><div style="font-size:12px;color:var(--gray-500)">Intern · Engineering</div></div></div></td>
                                 <td>Feb 28, 2026</td>
-                                <td><span class="ob-days low">7 days</span></td>
-                                <td><span class="ob-app-badge blue">5 apps</span></td>
-                                <td><span class="ob-risk-badge low">Low</span></td>
-                                <td><button class="btn btn-sm ob-btn-revoke" onclick="showToast('success','✓ All 5 apps revoked for Neha Raghavan. Licenses recovered: 5')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><span style="color:#3B82F6;font-weight:700;font-size:13px">7 days</span></td>
+                                <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(59,130,246,0.10);color:#3B82F6">5 apps</span></td>
+                                <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(16,185,129,0.10);color:#10B981">Low</span></td>
+                                <td><button onclick="showToast('success','✓ All 5 apps revoked for Neha Raghavan')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Recent Offboards -->
-                <div class="card" style="margin-top:20px">
-                    <div class="card-header"><h3><i class="fas fa-history" style="color:#10B981"></i> Recent Offboards</h3></div>
+                <div style="background:#fff;border:1px solid var(--gray-200);border-radius:12px;overflow:hidden">
+                    <div style="padding:16px 24px;border-bottom:1px solid var(--gray-100)">
+                        <h3 style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0"><i class="fas fa-history" style="color:#10B981"></i> Recent Offboards</h3>
+                    </div>
                     <table class="data-table">
                         <thead><tr><th>Employee</th><th>Offboarded On</th><th>Apps Revoked</th><th>Licenses Saved</th><th>Status</th></tr></thead>
                         <tbody>
@@ -2763,42 +2772,47 @@
 
             <!-- ===== RENEWAL ENGINE ===== -->
             <div class="dash-section" id="sec-renewals">
-                <div class="page-header">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:16px">
                     <div>
-                        <h1>Smart Renewal Engine</h1>
-                        <p>Never miss a renewal. Get alerts 90/60/30 days before — with negotiation data.</p>
+                        <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);display:flex;align-items:center;gap:10px;margin:0">
+                            <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:16px"><i class="fas fa-redo-alt"></i></span>
+                            Smart Renewal Engine
+                        </h1>
+                        <p style="color:var(--gray-500);font-size:14px;margin-top:6px">Never miss a renewal. Get alerts 90/60/30 days before — with negotiation data.</p>
                     </div>
-                    <div class="header-actions">
-                        <button class="btn btn-outline" onclick="showToast('info','Scanning contracts for renewal dates...')"><i class="fas fa-search"></i> Scan Contracts</button>
-                        <button class="btn btn-primary" onclick="showToast('info','Exporting renewal calendar...')"><i class="fas fa-calendar-alt"></i> Export Calendar</button>
-                    </div>
-                </div>
-
-                <div class="renewal-summary">
-                    <div class="ren-stat-card urgent">
-                        <div class="ren-stat-num">2</div>
-                        <div class="ren-stat-label">Renewing in 30 Days</div>
-                        <div class="ren-stat-amount">₹36.4L total</div>
-                    </div>
-                    <div class="ren-stat-card warning">
-                        <div class="ren-stat-num">4</div>
-                        <div class="ren-stat-label">Renewing in 60 Days</div>
-                        <div class="ren-stat-amount">₹52.8L total</div>
-                    </div>
-                    <div class="ren-stat-card normal">
-                        <div class="ren-stat-num">6</div>
-                        <div class="ren-stat-label">Renewing in 90 Days</div>
-                        <div class="ren-stat-amount">₹41.2L total</div>
-                    </div>
-                    <div class="ren-stat-card savings">
-                        <div class="ren-stat-num">₹18.6L</div>
-                        <div class="ren-stat-label">Potential Savings</div>
-                        <div class="ren-stat-amount">If negotiated before renewal</div>
+                    <div style="display:flex;gap:10px;align-items:center">
+                        <button onclick="showToast('info','Scanning contracts for renewal dates...')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300);transition:all 0.2s"><i class="fas fa-search"></i> Scan Contracts</button>
+                        <button onclick="showToast('info','Exporting renewal calendar...')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;border:none;box-shadow:0 2px 12px rgba(124,58,237,0.3);transition:all 0.2s"><i class="fas fa-calendar-alt"></i> Export Calendar</button>
                     </div>
                 </div>
 
-                <div class="card" style="margin-top:24px">
-                    <div class="card-header"><h3><i class="fas fa-fire" style="color:#EF4444"></i> Upcoming Renewals — Action Required</h3></div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+                    <div style="padding:22px;border-radius:14px;text-align:center;border:1px solid var(--gray-200);background:#fff;border-left:4px solid #EF4444">
+                        <div style="font-size:36px;font-weight:800;color:var(--gray-900);line-height:1">2</div>
+                        <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:8px">Renewing in 30 Days</div>
+                        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">₹36.4L total</div>
+                    </div>
+                    <div style="padding:22px;border-radius:14px;text-align:center;border:1px solid var(--gray-200);background:#fff;border-left:4px solid #F59E0B">
+                        <div style="font-size:36px;font-weight:800;color:var(--gray-900);line-height:1">4</div>
+                        <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:8px">Renewing in 60 Days</div>
+                        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">₹52.8L total</div>
+                    </div>
+                    <div style="padding:22px;border-radius:14px;text-align:center;border:1px solid var(--gray-200);background:#fff;border-left:4px solid #3B82F6">
+                        <div style="font-size:36px;font-weight:800;color:var(--gray-900);line-height:1">6</div>
+                        <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:8px">Renewing in 90 Days</div>
+                        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">₹41.2L total</div>
+                    </div>
+                    <div style="padding:22px;border-radius:14px;text-align:center;border:1px solid var(--gray-200);background:#fff;border-left:4px solid #10B981">
+                        <div style="font-size:36px;font-weight:800;color:#10B981;line-height:1">₹18.6L</div>
+                        <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-top:8px">Potential Savings</div>
+                        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">If negotiated before renewal</div>
+                    </div>
+                </div>
+
+                <div style="background:#fff;border:1px solid var(--gray-200);border-radius:12px;overflow:hidden">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--gray-100)">
+                        <h3 style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0"><i class="fas fa-fire" style="color:#EF4444"></i> Upcoming Renewals — Action Required</h3>
+                    </div>
                     <table class="data-table">
                         <thead><tr><th>Vendor</th><th>Renewal Date</th><th>Days Left</th><th>Current Cost</th><th>Potential Savings</th><th>Auto-Renew</th><th>Action</th></tr></thead>
                         <tbody>
@@ -2863,13 +2877,16 @@
 
             <!-- ===== BENCHMARKS ===== -->
             <div class="dash-section" id="sec-benchmarks">
-                <div class="page-header">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:16px">
                     <div>
-                        <h1>Industry Benchmarks</h1>
-                        <p>Compare your SaaS spend against similar companies — know if you're overpaying</p>
+                        <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);display:flex;align-items:center;gap:10px;margin:0">
+                            <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff;font-size:16px"><i class="fas fa-chart-bar"></i></span>
+                            Industry Benchmarks
+                        </h1>
+                        <p style="color:var(--gray-500);font-size:14px;margin-top:6px">Compare your SaaS spend against similar companies — know if you're overpaying</p>
                     </div>
-                    <div class="header-actions">
-                        <select class="period-select">
+                    <div style="display:flex;gap:10px;align-items:center">
+                        <select style="padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;border:1.5px solid var(--gray-300);background:#fff;color:var(--gray-700);cursor:pointer">
                             <option>Tech Companies · 500-2000 employees</option>
                             <option>All Industries · 500-2000</option>
                             <option>Tech Companies · 2000-5000</option>
@@ -2877,31 +2894,33 @@
                     </div>
                 </div>
 
-                <div class="bench-overview">
-                    <div class="bench-overview-card">
-                        <div class="bench-ov-label">Your SaaS Spend / Employee</div>
-                        <div class="bench-ov-value">₹1,24,800<span>/yr</span></div>
-                        <div class="bench-ov-compare over"><i class="fas fa-arrow-up"></i> 18% above industry avg (₹1,05,700)</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+                    <div style="padding:22px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="font-size:12px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Your SaaS Spend / Employee</div>
+                        <div style="font-size:30px;font-weight:800;color:var(--gray-900);margin:8px 0 6px">₹1,24,800<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/yr</span></div>
+                        <div style="font-size:13px;font-weight:600;color:#EF4444"><i class="fas fa-arrow-up"></i> 18% above industry avg (₹1,05,700)</div>
                     </div>
-                    <div class="bench-overview-card">
-                        <div class="bench-ov-label">Apps per Employee</div>
-                        <div class="bench-ov-value">9.4</div>
-                        <div class="bench-ov-compare over"><i class="fas fa-arrow-up"></i> 22% above avg (7.7 apps)</div>
+                    <div style="padding:22px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="font-size:12px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Apps per Employee</div>
+                        <div style="font-size:30px;font-weight:800;color:var(--gray-900);margin:8px 0 6px">9.4</div>
+                        <div style="font-size:13px;font-weight:600;color:#EF4444"><i class="fas fa-arrow-up"></i> 22% above avg (7.7 apps)</div>
                     </div>
-                    <div class="bench-overview-card">
-                        <div class="bench-ov-label">License Utilization</div>
-                        <div class="bench-ov-value">64%</div>
-                        <div class="bench-ov-compare under"><i class="fas fa-arrow-down"></i> 14% below avg (78%)</div>
+                    <div style="padding:22px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="font-size:12px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">License Utilization</div>
+                        <div style="font-size:30px;font-weight:800;color:var(--gray-900);margin:8px 0 6px">64%</div>
+                        <div style="font-size:13px;font-weight:600;color:#F59E0B"><i class="fas fa-arrow-down"></i> 14% below avg (78%)</div>
                     </div>
-                    <div class="bench-overview-card">
-                        <div class="bench-ov-label">Potential Savings</div>
-                        <div class="bench-ov-value" style="color:#10B981">₹38.4L<span>/yr</span></div>
-                        <div class="bench-ov-compare" style="color:#10B981"><i class="fas fa-bullseye"></i> If you match industry avg</div>
+                    <div style="padding:22px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="font-size:12px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Potential Savings</div>
+                        <div style="font-size:30px;font-weight:800;color:#10B981;margin:8px 0 6px">₹38.4L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/yr</span></div>
+                        <div style="font-size:13px;font-weight:600;color:#10B981"><i class="fas fa-bullseye"></i> If you match industry avg</div>
                     </div>
                 </div>
 
-                <div class="card" style="margin-top:24px">
-                    <div class="card-header"><h3><i class="fas fa-chart-bar" style="color:var(--primary)"></i> Tool-by-Tool Benchmark</h3></div>
+                <div style="background:#fff;border:1px solid var(--gray-200);border-radius:12px;overflow:hidden">
+                    <div style="padding:16px 24px;border-bottom:1px solid var(--gray-100)">
+                        <h3 style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0"><i class="fas fa-chart-bar" style="color:var(--primary)"></i> Tool-by-Tool Benchmark</h3>
+                    </div>
                     <table class="data-table">
                         <thead><tr><th>Tool</th><th>Your Price/User</th><th>Industry Avg</th><th>Best Deal Seen</th><th>Status</th><th>Negotiation Tip</th></tr></thead>
                         <tbody>
@@ -2960,14 +2979,17 @@
 
             <!-- ===== DEPARTMENT COSTS ===== -->
             <div class="dash-section" id="sec-dept-costs">
-                <div class="page-header">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:16px">
                     <div>
-                        <h1>Department Cost Allocation</h1>
-                        <p>SaaS spend broken down by department — make teams accountable</p>
+                        <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);display:flex;align-items:center;gap:10px;margin:0">
+                            <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-size:16px"><i class="fas fa-building"></i></span>
+                            Department Cost Allocation
+                        </h1>
+                        <p style="color:var(--gray-500);font-size:14px;margin-top:6px">SaaS spend broken down by department — make teams accountable</p>
                     </div>
-                    <div class="header-actions">
-                        <button class="btn btn-outline" onclick="showToast('info','Generating CFO report...')"><i class="fas fa-file-pdf"></i> Export PDF</button>
-                        <select class="period-select">
+                    <div style="display:flex;gap:10px;align-items:center">
+                        <button onclick="showToast('info','Generating CFO report...')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300);transition:all 0.2s"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <select style="padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;border:1.5px solid var(--gray-300);background:#fff;color:var(--gray-700);cursor:pointer">
                             <option>This Quarter (Jan-Mar 2026)</option>
                             <option>Last Quarter</option>
                             <option>This Year</option>
@@ -2975,108 +2997,110 @@
                     </div>
                 </div>
 
-                <div class="dept-cost-overview">
-                    <div class="dept-total-card">
-                        <div class="dept-total-label">Total SaaS Spend This Quarter</div>
-                        <div class="dept-total-value">₹1.86Cr</div>
-                        <div class="dept-total-sub"><span style="color:#EF4444"><i class="fas fa-arrow-up"></i> +12%</span> vs last quarter (₹1.66Cr)</div>
+                <div style="margin-bottom:20px">
+                    <div style="padding:32px;border-radius:14px;text-align:center;background:linear-gradient(135deg,rgba(124,58,237,0.06),rgba(59,130,246,0.06));border:1px solid rgba(124,58,237,0.12)">
+                        <div style="font-size:13px;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Total SaaS Spend This Quarter</div>
+                        <div style="font-size:48px;font-weight:800;color:var(--gray-900);margin:8px 0">₹1.86Cr</div>
+                        <div style="font-size:14px;color:var(--gray-500)"><span style="color:#EF4444"><i class="fas fa-arrow-up"></i> +12%</span> vs last quarter (₹1.66Cr)</div>
                     </div>
                 </div>
 
                 <div class="dept-grid">
-                    <div class="dept-card">
-                        <div class="dept-card-header">
-                            <div class="dept-icon" style="background:rgba(59,130,246,0.12);color:#3B82F6"><i class="fas fa-code"></i></div>
-                            <div><strong>Engineering</strong><div class="dept-card-sub">142 employees · 68 apps</div></div>
+                    <div style="padding:24px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                            <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(59,130,246,0.12);color:#3B82F6"><i class="fas fa-code"></i></div>
+                            <div><strong style="color:var(--gray-900)">Engineering</strong><div style="font-size:12px;color:var(--gray-500)">142 employees · 68 apps</div></div>
                         </div>
-                        <div class="dept-card-amount">₹82.4L<span>/quarter</span></div>
-                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:82%;background:#3B82F6"></div></div>
-                        <div class="dept-card-details">
-                            <div class="dept-detail-row"><span>Top: AWS</span><span>₹30L</span></div>
-                            <div class="dept-detail-row"><span>GitHub</span><span>₹12.6L</span></div>
-                            <div class="dept-detail-row"><span>Datadog</span><span>₹8.4L</span></div>
-                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹11.2L</span></div>
-                        </div>
-                    </div>
-
-                    <div class="dept-card">
-                        <div class="dept-card-header">
-                            <div class="dept-icon" style="background:rgba(168,85,247,0.12);color:#A855F7"><i class="fas fa-palette"></i></div>
-                            <div><strong>Design</strong><div class="dept-card-sub">28 employees · 22 apps</div></div>
-                        </div>
-                        <div class="dept-card-amount">₹18.6L<span>/quarter</span></div>
-                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:38%;background:#A855F7"></div></div>
-                        <div class="dept-card-details">
-                            <div class="dept-detail-row"><span>Top: Figma</span><span>₹9.6L</span></div>
-                            <div class="dept-detail-row"><span>Adobe CC</span><span>₹4.2L</span></div>
-                            <div class="dept-detail-row"><span>Miro</span><span>₹1.8L</span></div>
-                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹3.2L</span></div>
+                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:12px">₹82.4L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/quarter</span></div>
+                        <div style="height:6px;border-radius:3px;background:var(--gray-200);margin-bottom:16px;overflow:hidden"><div style="width:82%;height:100%;border-radius:3px;background:#3B82F6"></div></div>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Top: AWS</span><span>₹30L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>GitHub</span><span>₹12.6L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Datadog</span><span>₹8.4L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:#EF4444;font-weight:600;padding-top:8px;border-top:1px solid var(--gray-200)"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹11.2L</span></div>
                         </div>
                     </div>
 
-                    <div class="dept-card">
-                        <div class="dept-card-header">
-                            <div class="dept-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B"><i class="fas fa-bullhorn"></i></div>
-                            <div><strong>Marketing</strong><div class="dept-card-sub">35 employees · 31 apps</div></div>
+                    <div style="padding:24px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                            <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(168,85,247,0.12);color:#A855F7"><i class="fas fa-palette"></i></div>
+                            <div><strong style="color:var(--gray-900)">Design</strong><div style="font-size:12px;color:var(--gray-500)">28 employees · 22 apps</div></div>
                         </div>
-                        <div class="dept-card-amount">₹24.8L<span>/quarter</span></div>
-                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:48%;background:#F59E0B"></div></div>
-                        <div class="dept-card-details">
-                            <div class="dept-detail-row"><span>Top: HubSpot</span><span>₹8.4L</span></div>
-                            <div class="dept-detail-row"><span>Google Ads</span><span>₹5.6L</span></div>
-                            <div class="dept-detail-row"><span>Semrush</span><span>₹3.2L</span></div>
-                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹4.8L</span></div>
-                        </div>
-                    </div>
-
-                    <div class="dept-card">
-                        <div class="dept-card-header">
-                            <div class="dept-icon" style="background:rgba(16,185,129,0.12);color:#10B981"><i class="fas fa-phone-alt"></i></div>
-                            <div><strong>Sales</strong><div class="dept-card-sub">56 employees · 18 apps</div></div>
-                        </div>
-                        <div class="dept-card-amount">₹32.6L<span>/quarter</span></div>
-                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:56%;background:#10B981"></div></div>
-                        <div class="dept-card-details">
-                            <div class="dept-detail-row"><span>Top: Salesforce</span><span>₹18.4L</span></div>
-                            <div class="dept-detail-row"><span>Freshdesk</span><span>₹6.2L</span></div>
-                            <div class="dept-detail-row"><span>Gong</span><span>₹4.8L</span></div>
-                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹6.4L</span></div>
+                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:12px">₹18.6L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/quarter</span></div>
+                        <div style="height:6px;border-radius:3px;background:var(--gray-200);margin-bottom:16px;overflow:hidden"><div style="width:38%;height:100%;border-radius:3px;background:#A855F7"></div></div>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Top: Figma</span><span>₹9.6L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Adobe CC</span><span>₹4.2L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Miro</span><span>₹1.8L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:#EF4444;font-weight:600;padding-top:8px;border-top:1px solid var(--gray-200)"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹3.2L</span></div>
                         </div>
                     </div>
 
-                    <div class="dept-card">
-                        <div class="dept-card-header">
-                            <div class="dept-icon" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-users"></i></div>
-                            <div><strong>HR & Admin</strong><div class="dept-card-sub">18 employees · 14 apps</div></div>
+                    <div style="padding:24px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                            <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(245,158,11,0.12);color:#F59E0B"><i class="fas fa-bullhorn"></i></div>
+                            <div><strong style="color:var(--gray-900)">Marketing</strong><div style="font-size:12px;color:var(--gray-500)">35 employees · 31 apps</div></div>
                         </div>
-                        <div class="dept-card-amount">₹12.4L<span>/quarter</span></div>
-                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:24%;background:#EF4444"></div></div>
-                        <div class="dept-card-details">
-                            <div class="dept-detail-row"><span>Top: Darwinbox</span><span>₹4.8L</span></div>
-                            <div class="dept-detail-row"><span>Zoho People</span><span>₹2.4L</span></div>
-                            <div class="dept-detail-row"><span>Keka</span><span>₹1.8L</span></div>
-                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹1.6L</span></div>
+                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:12px">₹24.8L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/quarter</span></div>
+                        <div style="height:6px;border-radius:3px;background:var(--gray-200);margin-bottom:16px;overflow:hidden"><div style="width:48%;height:100%;border-radius:3px;background:#F59E0B"></div></div>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Top: HubSpot</span><span>₹8.4L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Google Ads</span><span>₹5.6L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Semrush</span><span>₹3.2L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:#EF4444;font-weight:600;padding-top:8px;border-top:1px solid var(--gray-200)"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹4.8L</span></div>
                         </div>
                     </div>
 
-                    <div class="dept-card">
-                        <div class="dept-card-header">
-                            <div class="dept-icon" style="background:rgba(99,102,241,0.12);color:#6366F1"><i class="fas fa-calculator"></i></div>
-                            <div><strong>Finance</strong><div class="dept-card-sub">12 employees · 9 apps</div></div>
+                    <div style="padding:24px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                            <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(16,185,129,0.12);color:#10B981"><i class="fas fa-phone-alt"></i></div>
+                            <div><strong style="color:var(--gray-900)">Sales</strong><div style="font-size:12px;color:var(--gray-500)">56 employees · 18 apps</div></div>
                         </div>
-                        <div class="dept-card-amount">₹8.6L<span>/quarter</span></div>
-                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:17%;background:#6366F1"></div></div>
-                        <div class="dept-card-details">
-                            <div class="dept-detail-row"><span>Top: Zoho Books</span><span>₹3.2L</span></div>
-                            <div class="dept-detail-row"><span>Razorpay</span><span>₹2.8L</span></div>
-                            <div class="dept-detail-row"><span>QuickBooks</span><span>₹1.4L</span></div>
-                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹0.8L</span></div>
+                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:12px">₹32.6L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/quarter</span></div>
+                        <div style="height:6px;border-radius:3px;background:var(--gray-200);margin-bottom:16px;overflow:hidden"><div style="width:56%;height:100%;border-radius:3px;background:#10B981"></div></div>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Top: Salesforce</span><span>₹18.4L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Freshdesk</span><span>₹6.2L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Gong</span><span>₹4.8L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:#EF4444;font-weight:600;padding-top:8px;border-top:1px solid var(--gray-200)"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹6.4L</span></div>
+                        </div>
+                    </div>
+
+                    <div style="padding:24px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                            <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-users"></i></div>
+                            <div><strong style="color:var(--gray-900)">HR & Admin</strong><div style="font-size:12px;color:var(--gray-500)">18 employees · 14 apps</div></div>
+                        </div>
+                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:12px">₹12.4L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/quarter</span></div>
+                        <div style="height:6px;border-radius:3px;background:var(--gray-200);margin-bottom:16px;overflow:hidden"><div style="width:24%;height:100%;border-radius:3px;background:#EF4444"></div></div>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Top: Darwinbox</span><span>₹4.8L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Zoho People</span><span>₹2.4L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Keka</span><span>₹1.8L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:#EF4444;font-weight:600;padding-top:8px;border-top:1px solid var(--gray-200)"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹1.6L</span></div>
+                        </div>
+                    </div>
+
+                    <div style="padding:24px;border-radius:14px;border:1px solid var(--gray-200);background:#fff">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                            <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(99,102,241,0.12);color:#6366F1"><i class="fas fa-calculator"></i></div>
+                            <div><strong style="color:var(--gray-900)">Finance</strong><div style="font-size:12px;color:var(--gray-500)">12 employees · 9 apps</div></div>
+                        </div>
+                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:12px">₹8.6L<span style="font-size:14px;font-weight:400;color:var(--gray-500)">/quarter</span></div>
+                        <div style="height:6px;border-radius:3px;background:var(--gray-200);margin-bottom:16px;overflow:hidden"><div style="width:17%;height:100%;border-radius:3px;background:#6366F1"></div></div>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Top: Zoho Books</span><span>₹3.2L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>Razorpay</span><span>₹2.8L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--gray-500)"><span>QuickBooks</span><span>₹1.4L</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;color:#EF4444;font-weight:600;padding-top:8px;border-top:1px solid var(--gray-200)"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹0.8L</span></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card" style="margin-top:24px">
-                    <div class="card-header"><h3><i class="fas fa-chart-pie" style="color:var(--primary)"></i> Total Waste by Department</h3></div>
+                <div style="background:#fff;border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;margin-top:20px">
+                    <div style="padding:16px 24px;border-bottom:1px solid var(--gray-100)">
+                        <h3 style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin:0"><i class="fas fa-chart-pie" style="color:var(--primary)"></i> Total Waste by Department</h3>
+                    </div>
                     <div style="padding:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px">
                         <div class="waste-dept-item">
                             <div class="waste-dept-bar" style="height:82px;background:linear-gradient(180deg,#3B82F6,#1D4ED8)"></div>
@@ -3109,8 +3133,8 @@
                             <div class="waste-dept-name">Finance</div>
                         </div>
                     </div>
-                    <div style="padding:16px 20px;border-top:1px solid var(--gray-800);display:flex;justify-content:space-between;align-items:center">
-                        <span style="color:var(--gray-400)">Total recoverable waste across all departments</span>
+                    <div style="padding:16px 20px;border-top:1px solid var(--gray-200);display:flex;justify-content:space-between;align-items:center">
+                        <span style="color:var(--gray-500)">Total recoverable waste across all departments</span>
                         <span style="font-size:24px;font-weight:800;color:#EF4444">₹28L/quarter</span>
                     </div>
                 </div>
