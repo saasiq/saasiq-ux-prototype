@@ -946,3 +946,317 @@ function getAccentName(hex) {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
     if (_appearance.theme === 'system') applyThemeToDOM('system');
 });
+
+// ========== OFFBOARDING CONSOLE — INTERACTIVE ACTIONS ==========
+
+/**
+ * Sync HR Data — simulates HRMS sync with progress
+ */
+function syncHRData(btn) {
+    if (btn.disabled) return;
+    var icon = btn.querySelector('i');
+    var origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+    icon.className = 'fas fa-sync-alt fa-spin';
+    btn.querySelector('span') ? btn.querySelector('span').textContent = ' Syncing…' : null;
+    // Replace text content
+    btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Syncing…';
+
+    showToast('info', 'Connecting to HRMS system…');
+
+    setTimeout(function() {
+        showToast('info', 'Fetching employee records — 248 found');
+    }, 1200);
+
+    setTimeout(function() {
+        showToast('info', 'Cross-referencing SaaS access logs…');
+    }, 2400);
+
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Synced ✓';
+        btn.style.opacity = '1';
+        btn.style.background = '#ECFDF5';
+        btn.style.color = '#059669';
+        btn.style.borderColor = '#059669';
+        showToast('success', 'HR Sync complete — 2 new departures detected, 1 updated');
+        // Revert after 3s
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.pointerEvents = '';
+            btn.style.opacity = '';
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+        }, 3000);
+    }, 3600);
+}
+
+/**
+ * Offboard Employee — opens a mock wizard modal
+ */
+function openOffboardWizard() {
+    // Check if modal already exists
+    var existing = document.getElementById('offboard-wizard-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'offboard-wizard-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden">'
+        + '  <div style="padding:24px 28px;border-bottom:1px solid #E5E7EB">'
+        + '    <div style="display:flex;justify-content:space-between;align-items:center">'
+        + '      <h2 style="font-size:20px;font-weight:800;color:#111827;display:flex;align-items:center;gap:10px;margin:0"><span style="display:inline-flex;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;align-items:center;justify-content:center;font-size:14px"><i class="fas fa-user-minus"></i></span> Offboard Employee</h2>'
+        + '      <button onclick="document.getElementById(\'offboard-wizard-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px">'
+        + '    <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Search Employee</label>'
+        + '    <input type="text" placeholder="Start typing name or email…" style="width:100%;padding:12px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box;transition:border 0.2s" onfocus="this.style.borderColor=\'#7C3AED\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Departure Date</label>'
+        + '      <input type="date" style="width:100%;padding:12px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box" value="2026-03-07">'
+        + '    </div>'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Revocation Scope</label>'
+        + '      <div style="display:flex;flex-direction:column;gap:10px">'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="all" checked style="accent-color:#7C3AED"> Revoke all SaaS access immediately</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="selective" style="accent-color:#7C3AED"> Selective — choose apps to revoke</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="scheduled" style="accent-color:#7C3AED"> Schedule revocation for departure date</label>'
+        + '      </div>'
+        + '    </div>'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151"><input type="checkbox" checked style="accent-color:#7C3AED"> Notify IT admin when complete</label>'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151;margin-top:8px"><input type="checkbox" checked style="accent-color:#7C3AED"> Transfer data to manager</label>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:10px;background:#F9FAFB">'
+        + '    <button onclick="document.getElementById(\'offboard-wizard-modal\').remove()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151">Cancel</button>'
+        + '    <button onclick="executeOffboard()" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;border:none;box-shadow:0 2px 10px rgba(124,58,237,0.3)"><i class="fas fa-user-minus"></i> Offboard Now</button>'
+        + '  </div>'
+        + '</div>';
+
+    document.body.appendChild(overlay);
+
+    // Close on background click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) overlay.remove();
+    });
+}
+
+function executeOffboard() {
+    var modal = document.getElementById('offboard-wizard-modal');
+    if (modal) modal.remove();
+    showToast('success', 'Offboarding initiated — all SaaS access will be revoked and data transferred.');
+}
+
+/**
+ * Revoke All Pending — bulk revoke with animated row removal
+ */
+function revokeAllPending(btn) {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    var origHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Revoking…';
+    btn.style.opacity = '0.8';
+
+    // Find the pending offboards table
+    var section = document.getElementById('sec-offboarding');
+    if (!section) return;
+    var rows = section.querySelectorAll('.data-table tbody tr');
+    var delay = 0;
+
+    rows.forEach(function(row) {
+        // Only animate rows in the first table (pending offboards)
+        var table = row.closest('.data-table');
+        var tableContainer = table ? table.closest('div[style*="margin-bottom"]') : null;
+        if (!tableContainer) return;
+        // Check if this is the pending table (has "Pending Offboards" header)
+        var header = tableContainer.querySelector('h3');
+        if (!header || header.textContent.indexOf('Pending') === -1) return;
+
+        delay += 400;
+        setTimeout(function() {
+            row.style.transition = 'all 0.4s ease';
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(40px)';
+            row.style.background = 'rgba(16,185,129,0.08)';
+
+            // Find the Revoke All button in this row and change it
+            var revokeBtn = row.querySelector('button');
+            if (revokeBtn) {
+                revokeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Revoked';
+                revokeBtn.style.background = '#059669';
+                revokeBtn.disabled = true;
+            }
+        }, delay);
+    });
+
+    // After all rows animated, update stats
+    setTimeout(function() {
+        // Update KPI card "Pending Offboards" from 4 to 0
+        var statCards = section.querySelectorAll('div[style*="border-left:4px"]');
+        if (statCards[0]) {
+            var valueEl = statCards[0].querySelector('div[style*="font-size:30px"]');
+            if (valueEl) {
+                valueEl.textContent = '0';
+                valueEl.style.color = '#10B981';
+            }
+        }
+        // Update "Completed This Quarter" from 23 to 27
+        if (statCards[1]) {
+            var valueEl2 = statCards[1].querySelector('div[style*="font-size:30px"]');
+            if (valueEl2) valueEl2.textContent = '27';
+        }
+        // Update "Licenses Recovered" from ₹3.8L to ₹8.0L
+        if (statCards[2]) {
+            var valueEl3 = statCards[2].querySelector('div[style*="font-size:30px"]');
+            if (valueEl3) valueEl3.textContent = '₹8.0L';
+        }
+
+        // Update the bulk banner
+        var bannerDiv = section.querySelector('div[style*="rgba(239,68,68,0.05)"]');
+        if (bannerDiv) {
+            bannerDiv.style.transition = 'all 0.4s ease';
+            bannerDiv.style.background = 'linear-gradient(135deg,rgba(16,185,129,0.05),rgba(16,185,129,0.02))';
+            bannerDiv.style.borderColor = 'rgba(16,185,129,0.2)';
+            var bannerIcon = bannerDiv.querySelector('div[style*="rgba(239,68,68,0.10)"]');
+            if (bannerIcon) {
+                bannerIcon.style.background = 'rgba(16,185,129,0.10)';
+                bannerIcon.style.color = '#10B981';
+                bannerIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+            }
+            var bannerInfo = bannerDiv.querySelector('div[style*="font-weight:700"]');
+            if (bannerInfo) {
+                bannerInfo.textContent = 'All employees offboarded successfully';
+                bannerInfo.style.color = '#059669';
+            }
+            var bannerSub = bannerDiv.querySelector('div[style*="color:var(--gray-500)"]');
+            if (bannerSub) {
+                bannerSub.textContent = '50 apps revoked · ₹4.2L/yr recovered';
+                bannerSub.style.color = '#059769';
+            }
+        }
+
+        // Update badge count
+        var badge = section.querySelector('span[style*="rgba(239,68,68,0.08)"]');
+        if (badge) {
+            badge.textContent = '0 employees';
+            badge.style.background = 'rgba(16,185,129,0.08)';
+            badge.style.color = '#10B981';
+        }
+
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> All Revoked ✓';
+        btn.style.background = '#059669';
+        btn.style.opacity = '1';
+        btn.style.boxShadow = '0 2px 10px rgba(5,150,105,0.25)';
+
+        showToast('success', '✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.');
+
+        // Revert after 5s
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.background = '';
+            btn.style.opacity = '';
+            btn.style.boxShadow = '';
+            // Restore rows
+            rows.forEach(function(row) {
+                row.style.opacity = '';
+                row.style.transform = '';
+                row.style.background = '';
+                var revokeBtn = row.querySelector('button');
+                if (revokeBtn) {
+                    revokeBtn.innerHTML = '<i class="fas fa-ban"></i> Revoke All';
+                    revokeBtn.style.background = '';
+                    revokeBtn.disabled = false;
+                }
+            });
+            // Restore stats
+            if (statCards[0]) {
+                var v = statCards[0].querySelector('div[style*="font-size:30px"]');
+                if (v) { v.textContent = '4'; v.style.color = ''; }
+            }
+            if (statCards[1]) {
+                var v2 = statCards[1].querySelector('div[style*="font-size:30px"]');
+                if (v2) v2.textContent = '23';
+            }
+            if (statCards[2]) {
+                var v3 = statCards[2].querySelector('div[style*="font-size:30px"]');
+                if (v3) v3.textContent = '₹3.8L';
+            }
+            // Restore banner
+            if (bannerDiv) {
+                bannerDiv.style.background = '';
+                bannerDiv.style.borderColor = '';
+                var bi = bannerDiv.querySelector('div[style*="rgba(16,185,129"]') || bannerDiv.querySelector('div[style*="background"]');
+                // Full page reload is simpler for full revert in a prototype
+            }
+            if (badge) {
+                badge.textContent = '4 employees';
+                badge.style.background = '';
+                badge.style.color = '';
+            }
+        }, 5000);
+    }, delay + 600);
+}
+
+/**
+ * Revoke single employee row — animates that row + updates count
+ */
+function revokeEmployee(btn, name, appCount) {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    var origHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.style.opacity = '0.7';
+
+    var row = btn.closest('tr');
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Revoked';
+        btn.style.background = '#059669';
+        btn.style.opacity = '1';
+        if (row) {
+            row.style.transition = 'opacity 0.3s ease';
+            row.style.opacity = '0.5';
+        }
+        showToast('success', '✓ All ' + appCount + ' apps revoked for ' + name);
+
+        // Update pending count
+        var section = document.getElementById('sec-offboarding');
+        if (section) {
+            var statCards = section.querySelectorAll('div[style*="border-left:4px"]');
+            if (statCards[0]) {
+                var valueEl = statCards[0].querySelector('div[style*="font-size:30px"]');
+                if (valueEl) {
+                    var current = parseInt(valueEl.textContent) || 0;
+                    if (current > 0) valueEl.textContent = (current - 1).toString();
+                    if (current - 1 === 0) valueEl.style.color = '#10B981';
+                }
+            }
+        }
+
+        // Revert after 4s
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.background = '';
+            btn.style.opacity = '';
+            if (row) {
+                row.style.opacity = '';
+            }
+            // Restore count
+            if (section) {
+                var sc = section.querySelectorAll('div[style*="border-left:4px"]');
+                if (sc[0]) {
+                    var v = sc[0].querySelector('div[style*="font-size:30px"]');
+                    if (v) { v.textContent = '4'; v.style.color = ''; }
+                }
+            }
+        }, 4000);
+    }, 800);
+}

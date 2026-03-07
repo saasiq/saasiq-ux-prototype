@@ -2652,8 +2652,8 @@
                         <p style="color:var(--gray-500);font-size:14px;margin-top:6px">Instantly revoke all SaaS access when employees leave — one click, total coverage</p>
                     </div>
                     <div style="display:flex;gap:10px;align-items:center">
-                        <button onclick="this.querySelector('i').classList.add('fa-spin');showToast('info','Syncing with HRMS…');setTimeout(()=>this.querySelector('i').classList.remove('fa-spin'),2000)" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300);transition:all 0.2s"><i class="fas fa-sync-alt"></i> Sync HR Data</button>
-                        <button onclick="showToast('success','Offboarding wizard opened')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;border:none;box-shadow:0 2px 12px rgba(124,58,237,0.3);transition:all 0.2s"><i class="fas fa-user-minus"></i> Offboard Employee</button>
+                        <button onclick="syncHRData(this)" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300);transition:all 0.2s"><i class="fas fa-sync-alt"></i> Sync HR Data</button>
+                        <button onclick="openOffboardWizard()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;border:none;box-shadow:0 2px 12px rgba(124,58,237,0.3);transition:all 0.2s"><i class="fas fa-user-minus"></i> Offboard Employee</button>
                     </div>
                 </div>
 
@@ -2706,7 +2706,7 @@
                             <div style="font-size:12px;color:var(--gray-500);margin-top:2px">50 apps · ₹4.2L/yr in recoverable licenses</div>
                         </div>
                     </div>
-                    <button onclick="showToast('success','✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#EF4444;color:#fff;border:none;box-shadow:0 2px 10px rgba(239,68,68,0.25);white-space:nowrap;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All Pending</button>
+                    <button onclick="revokeAllPending(this)" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#EF4444;color:#fff;border:none;box-shadow:0 2px 10px rgba(239,68,68,0.25);white-space:nowrap;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All Pending</button>
                 </div>
 
                 <!-- Pending Offboards Table -->
@@ -2724,7 +2724,7 @@
                                 <td><span style="color:#EF4444;font-weight:700;font-size:13px">265 days</span></td>
                                 <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(239,68,68,0.10);color:#EF4444">23 apps</span></td>
                                 <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(239,68,68,0.10);color:#EF4444">Critical</span></td>
-                                <td><button onclick="showToast('success','✓ All 23 apps revoked for Vikram Kumar')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><button onclick="revokeEmployee(this,'Vikram Kumar',23)" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#F59E0B">PS</div><div><strong>Priya Singh</strong><div style="font-size:12px;color:var(--gray-500)">Product Manager · Product</div></div></div></td>
@@ -2732,7 +2732,7 @@
                                 <td><span style="color:#F59E0B;font-weight:700;font-size:13px">75 days</span></td>
                                 <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.10);color:#F59E0B">14 apps</span></td>
                                 <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.10);color:#F59E0B">High</span></td>
-                                <td><button onclick="showToast('success','✓ All 14 apps revoked for Priya Singh')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><button onclick="revokeEmployee(this,'Priya Singh',14)" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#3B82F6">AJ</div><div><strong>Amit Joshi</strong><div style="font-size:12px;color:var(--gray-500)">Designer · Design</div></div></div></td>
@@ -2740,7 +2740,7 @@
                                 <td><span style="color:#F59E0B;font-weight:700;font-size:13px">34 days</span></td>
                                 <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(245,158,11,0.10);color:#D97706">8 apps</span></td>
                                 <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(59,130,246,0.10);color:#3B82F6">Medium</span></td>
-                                <td><button onclick="showToast('success','✓ All 8 apps revoked for Amit Joshi')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><button onclick="revokeEmployee(this,'Amit Joshi',8)" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;background:#10B981">NR</div><div><strong>Neha Raghavan</strong><div style="font-size:12px;color:var(--gray-500)">Intern · Engineering</div></div></div></td>
@@ -2748,7 +2748,7 @@
                                 <td><span style="color:#3B82F6;font-weight:700;font-size:13px">7 days</span></td>
                                 <td><span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(59,130,246,0.10);color:#3B82F6">5 apps</span></td>
                                 <td><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(16,185,129,0.10);color:#10B981">Low</span></td>
-                                <td><button onclick="showToast('success','✓ All 5 apps revoked for Neha Raghavan')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
+                                <td><button onclick="revokeEmployee(this,'Neha Raghavan',5)" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:#EF4444;color:#fff;border:none;transition:all 0.2s"><i class="fas fa-ban"></i> Revoke All</button></td>
                             </tr>
                         </tbody>
                     </table>
