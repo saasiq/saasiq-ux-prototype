@@ -415,3 +415,38 @@ Every organisation has different preferences, roles, integrations, and governanc
 15. **Settings** configures the entire system to your org's needs
 
 > Together, these 15 dashboards cover the complete SaaS lifecycle: **Discover → Measure → Govern → Optimise → Secure → Report**
+
+---
+
+## What Customers Actually Want — Design Principles
+
+Before building any of the above, these are the non-negotiable UX principles derived from real customer conversations:
+
+- Setup must take **< 30 minutes** (not days)
+- The dashboard must show **what to do**, not just data
+- Actions must be **one-click** (not navigate to vendor → find user → remove)
+- Alerts must come to **Slack** (where they already are), not just the dashboard
+- Reports must be **auto-generated and emailed**, not manually created
+
+---
+
+## The Real Feature Priority Based on What Customers Actually Want
+
+| Priority | Feature | Why Customers Want It | Will They Pay For It? |
+|----------|---------|----------------------|----------------------|
+| **#1** | Complete app inventory (99% discovery) | "I need to see EVERYTHING" | **Table stakes** — they won't buy without it |
+| **#2** | Waste/savings identification with proof | "Show me where I'm losing money" | **Core value** — this is why they pay |
+| **#3** | Renewal alerts + negotiation data | "Stop me from auto-renewing blind" | **High** — saves ₹10-50L per renewal |
+| **#4** | Automated offboarding | "Kill access when someone leaves" | **High** — security & compliance must-have |
+| **#5** | License reclamation (auto) | "Don't just show waste, fix it" | **High** — this is the ROI proof |
+| **#6** | Department cost allocation | "Who's spending what?" | **Medium-High** — CFOs love this |
+| **#7** | App ownership tracking | "Who owns this tool?" | **Medium** — governance need |
+| **#8** | Request/approval workflow | "Control who buys what" | **Medium** — prevents future waste |
+| **#9** | Benchmarking vs peers | "Am I overpaying?" | **High** — negotiation power |
+| **#10** | Compliance dashboard | "Prove it to the auditor" | **Medium-High** — growing with DPDP Act |
+| **#11** | Integrations (Okta/GWS/Slack) | "Works with what I already have" | **Dealbreaker** — no integration = no sale |
+| **#12** | Simplicity (< 30 min setup) | "I don't have time for complex tools" | **Dealbreaker** — complexity = churn |
+
+### MVP Build Order
+
+> **Build #1, #2, #3, #4, #5, #11, #12 first.** That's your MVP that customers will pay for. The rest comes in the next 6 months.
