@@ -121,9 +121,10 @@
                 <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
             </div>
             <div class="nav-links">
+                <a href="#" onclick="scrollToSection('problems')">Problems</a>
                 <a href="#" onclick="scrollToSection('features')">Features</a>
+                <a href="#" onclick="scrollToSection('customer-needs')">What You Need</a>
                 <a href="#" onclick="scrollToSection('pricing')">Pricing</a>
-                <a href="#" onclick="scrollToSection('pricing')">Enterprise</a>
                 <a href="#" onclick="showPage('page-login')">Login</a>
                 <button class="btn btn-primary" onclick="showPage('page-signup')">Start Free Trial</button>
             </div>
@@ -211,6 +212,288 @@
         <p>Trusted by engineering teams at</p>
         <div class="trust-logos">
             <span>TCS</span><span>Infosys</span><span>Wipro</span><span>Razorpay</span><span>Freshworks</span><span>Zoho</span><span>Swiggy</span><span>PhonePe</span>
+        </div>
+    </section>
+
+    <!-- ==================== REAL PROBLEMS SECTION ==================== -->
+    <section id="problems" class="problems-section">
+        <div class="section-header">
+            <span class="section-badge" style="background:rgba(239,68,68,0.1);color:#EF4444">Real Problems</span>
+            <h2>The <span class="gradient-text">Ugly Truth</span> Nobody Talks About</h2>
+            <p>These aren't hypothetical scenarios. This is happening inside your company RIGHT NOW.</p>
+        </div>
+
+        <div class="problems-timeline">
+            <!-- Problem 1 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#EF4444,#DC2626)">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Finance Nightmare</div>
+                    <h3>The ₹18 Lakh Invoice Nobody Can Explain</h3>
+                    <p>Your CFO sees a ₹18.3L Salesforce charge. IT spends <strong>3 days</strong> manually cross-referencing admin consoles with HR lists. Discovers 22 ghost licenses (people who left), 18 users who never log in, 11 who changed roles. <strong>₹7.6L/year wasted on ONE tool.</strong></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">₹7.6L</span><span>wasted per year</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">3 days</span><span>to manually audit</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">1 of 120+</span><span>tools to check</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ shows this in 10 seconds.</strong> Auto-reclamation already recovered 30 licenses before the bill came.</div>
+                </div>
+            </div>
+
+            <!-- Problem 2 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#DC2626,#991B1B)">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Security Breach</div>
+                    <h3>Hacked Because of a Tool We Didn't Know Existed</h3>
+                    <p>A developer pastes <strong>production API responses with customer PII</strong> into a free JSON tool. No SOC2, no encryption, servers in unknown country. 6 months later — customer data found on the dark web. The CTO's reaction: <em>"What the hell is JSONCrack? We never approved this."</em></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">₹25L+</span><span>legal fees</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">3 clients</span><span>lost</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">6 months</span><span>reputation damage</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ detects unapproved tools within 24 hours.</strong> Flags Shadow IT, checks compliance, alerts IT admin immediately.</div>
+                </div>
+            </div>
+
+            <!-- Problem 3 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706)">
+                    <i class="fas fa-user-slash"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Security Risk</div>
+                    <h3>Employee Left 8 Months Ago — Still Has Full Access</h3>
+                    <p>Vikram left in June. HR deactivated his email. IT collected his laptop. But <strong>nobody checked</strong>: his GitHub (push access to production), AWS (admin access), Figma, Notion, 12 other tools he signed up for directly. <strong>8 months later, his accounts are still active.</strong></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">23 tools</span><span>still accessible</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">8 months</span><span>undetected</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">120+</span><span>tools to check manually</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ shows ALL access in one screen.</strong> One click to revoke everything. Automated offboarding in 5 minutes, not 5 days.</div>
+                </div>
+            </div>
+
+            <!-- Problem 4 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Missed Renewal</div>
+                    <h3>The ₹1.2 Crore Contract That Nobody Negotiated</h3>
+                    <p>AWS contract auto-renewed at the same rate. But AWS usage dropped 20%, cheaper instances launched 6 months ago, and competitors got 25-35% discounts. <strong>Nobody noticed the renewal window</strong> because the person who signed it left, and the contract PDF is buried in someone's Google Drive.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">₹24-36L</span><span>savings lost</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">1 year</span><span>locked in again</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">0 people</span><span>tracking renewals</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ extracts renewal dates from contracts.</strong> Sends 90/60/30-day alerts with negotiation data and benchmark pricing.</div>
+                </div>
+            </div>
+
+            <!-- Problem 5 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">
+                    <i class="fas fa-clone"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Duplicate Waste</div>
+                    <h3>Paying for 4 Video Calling Tools — Using 1</h3>
+                    <p>Audit reveals: Zoom (₹45K/mo), Google Meet (free, bundled), Teams (free, bundled), Webex (₹18K/mo, 6 users), Loom (₹12K/mo, 4 users), Around (₹8K/mo, 8 users). <strong>6 video tools. Could use 1.</strong> Same pattern across project management, design, notes, and communication — 4-5 tools per category.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">₹4.56L/yr</span><span>video tools alone</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">₹20-40L/yr</span><span>all duplicate categories</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">5+ categories</span><span>with duplicates</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ auto-categorizes every tool.</strong> Shows overlap report, recommends consolidation, calculates exact savings.</div>
+                </div>
+            </div>
+
+            <!-- Problem 6 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Shadow AI Crisis</div>
+                    <h3>₹34 Lakh Spent on AI Tools Nobody Approved</h3>
+                    <p>28 engineers on ChatGPT Plus. 18 on GitHub Copilot. 6 on Claude Pro. 4 on Cursor. 3 on v0. 2 on Midjourney. 1 intern on Jasper AI. <strong>CTO thinks they only use Copilot.</strong> Real danger: engineers pasting production code into ChatGPT, legal team uploading confidential contracts to Claude.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">₹34.2L/yr</span><span>untracked AI spend</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">62 users</span><span>using AI without approval</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">DPDP violation</span><span>if customer data leaks</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ's Shadow AI Console</strong> detects every AI tool within 48 hours. Shows users, risk level, data exposure, and recommends Enterprise alternatives with DLP controls.</div>
+                </div>
+            </div>
+
+            <!-- Problem 7 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#10B981,#059669)">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Finance Pain</div>
+                    <h3>5-8 Days Every Quarter Just to Reconcile SaaS Bills</h3>
+                    <p>AWS in USD on Visa. Salesforce PDF in someone's email. Google on a different card. 12 tools show as "STRIPE*" on statements. 8 tools expensed through Zoho Expense. GitHub on the CTO's personal card. <strong>Nobody knows what the company pays for software.</strong></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">5-8 days</span><span>per quarter wasted</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">50+ sources</span><span>to cross-reference</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">20-30 days/yr</span><span>on reconciliation</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ auto-reconciles everything.</strong> One dashboard, all charges, all vendors, all departments, GST-ready. Finance closes books in 2 hours, not 5 days.</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:48px">
+            <p style="color:var(--gray-500);font-size:16px;margin-bottom:20px">Does any of this sound familiar? You're not alone.</p>
+            <button class="btn btn-primary btn-lg" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> Fix It Now — Start Free Trial</button>
+        </div>
+    </section>
+
+    <!-- ==================== WHAT CUSTOMERS REALLY WANT ==================== -->
+    <section id="customer-needs" class="customer-needs-section">
+        <div class="section-header">
+            <span class="section-badge" style="background:rgba(16,185,129,0.1);color:#10B981">What You Actually Need</span>
+            <h2>12 Features <span class="gradient-text">Every IT Admin Asks For</span></h2>
+            <p>We talked to 200+ IT admins, CIOs, and CFOs. These are their exact words.</p>
+        </div>
+
+        <div class="needs-grid">
+            <!-- Need 1 -->
+            <div class="need-card need-priority-1">
+                <div class="need-rank">#1</div>
+                <div class="need-icon"><i class="fas fa-binoculars"></i></div>
+                <h3>"Show Me Everything We Use — In One Place"</h3>
+                <p>4 different partial lists, zero single source of truth. The IT admin needs ONE screen showing all 187 apps — who uses it, cost, owner, status.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> I have Google admin, Okta, credit card statements, and expense reports. None of them match.</div>
+                <div class="need-tag">Table Stakes — won't buy without it</div>
+            </div>
+
+            <!-- Need 2 -->
+            <div class="need-card need-priority-1">
+                <div class="need-rank">#2</div>
+                <div class="need-icon"><i class="fas fa-rupee-sign"></i></div>
+                <h3>"Show Me Where I'm Wasting — With Proof For My CFO"</h3>
+                <p>The IT admin KNOWS there's waste. Can't prove it. Needs a PDF with specific names, numbers, and proof he can forward to the CFO in 5 minutes.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> My CFO said "prove it." I couldn't. It would've taken 3 weeks to manually audit 120 tools.</div>
+                <div class="need-tag">Core value — this is why they pay</div>
+            </div>
+
+            <!-- Need 3 -->
+            <div class="need-card need-priority-1">
+                <div class="need-rank">#3</div>
+                <div class="need-icon"><i class="fas fa-calendar-check"></i></div>
+                <h3>"Alert Me BEFORE a Renewal — Not After"</h3>
+                <p>Auto-renewal clauses buried in page 14 of contracts. The person who signed it left. Finance sees the charge and assumes it's correct.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> We auto-renewed Salesforce at full price. 30 days earlier, we could've saved ₹42L.</div>
+                <div class="need-tag">High impact — saves ₹10-50L per renewal</div>
+            </div>
+
+            <!-- Need 4 -->
+            <div class="need-card need-priority-1">
+                <div class="need-rank">#4</div>
+                <div class="need-icon"><i class="fas fa-user-times"></i></div>
+                <h3>"When Someone Leaves, Kill ALL Their Access"</h3>
+                <p>HR disables email. IT collects laptop. But 15+ direct signups, OAuth tokens, and cloud access remain active for months.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> An ex-employee still had AWS admin access 6 months after leaving. I found out by accident.</div>
+                <div class="need-tag">Security must-have — prevents breaches</div>
+            </div>
+
+            <!-- Need 5 -->
+            <div class="need-card need-priority-1">
+                <div class="need-rank">#5</div>
+                <div class="need-icon"><i class="fas fa-robot"></i></div>
+                <h3>"Don't Just Show Problems — FIX Them Automatically"</h3>
+                <p>Every customer has tried a tool that "showed pretty dashboards" but they still had to manually remove users from 120 admin consoles. They stopped using it.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> The last tool created MORE work. I need it to reclaim licenses without me lifting a finger.</div>
+                <div class="need-tag">Differentiator — action beats reporting</div>
+            </div>
+
+            <!-- Need 6 -->
+            <div class="need-card need-priority-2">
+                <div class="need-rank">#6</div>
+                <div class="need-icon"><i class="fas fa-building"></i></div>
+                <h3>"Show Spend By Department — Make Teams Accountable"</h3>
+                <p>SaaS budget is one giant P&L number. Nobody knows Engineering spends ₹8.2L/mo while Marketing spends ₹3.5L. Without breakdown, nobody feels responsible.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> The moment I showed the VP of Eng his team wastes ₹1.1L/mo, he cared for the first time.</div>
+                <div class="need-tag">CFOs love this</div>
+            </div>
+
+            <!-- Need 7 -->
+            <div class="need-card need-priority-2">
+                <div class="need-rank">#7</div>
+                <div class="need-icon"><i class="fas fa-user-tag"></i></div>
+                <h3>"Who Owns This Tool? Who Approved It?"</h3>
+                <p>CFO asks "Who bought Notion?" — nobody knows. The person who bought it left 8 months ago. Subscription still running. No owner.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> We found 6 tools where the buyer had left the company. ₹8.4L/yr in orphaned subscriptions.</div>
+                <div class="need-tag">Governance need</div>
+            </div>
+
+            <!-- Need 8 -->
+            <div class="need-card need-priority-2">
+                <div class="need-rank">#8</div>
+                <div class="need-icon"><i class="fas fa-tasks"></i></div>
+                <h3>"Control Who Can Buy Software"</h3>
+                <p>Anyone with a company card can buy any tool. No approval. Three teams bought 3 different survey tools last quarter — ₹8L/yr for what 1 tool does.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> If they'd asked IT first, we'd have said 'we already have Typeform.' Nobody asked.</div>
+                <div class="need-tag">Prevents future waste</div>
+            </div>
+
+            <!-- Need 9 -->
+            <div class="need-card need-priority-2">
+                <div class="need-rank">#9</div>
+                <div class="need-icon"><i class="fas fa-balance-scale"></i></div>
+                <h3>"Am I Overpaying Compared to Similar Companies?"</h3>
+                <p>No reference point. Is ₹18,000/user/yr for Salesforce a good deal or a ripoff? They don't know — and vendors exploit this.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> I showed my Salesforce AE that peers pay ₹14,200. Got a 20% discount in one email.</div>
+                <div class="need-tag">Negotiation power</div>
+            </div>
+
+            <!-- Need 10 -->
+            <div class="need-card need-priority-2">
+                <div class="need-rank">#10</div>
+                <div class="need-icon"><i class="fas fa-clipboard-check"></i></div>
+                <h3>"Prove Compliance — Fast — When The Auditor Walks In"</h3>
+                <p>Auditor: "Show me SOC2 certs for all vendors." IT admin: "Uh... I have some... somewhere..." Needs one screen showing every vendor's compliance status.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> Our SOC2 audit took 3 weeks to prep. With SaaSIQ, it would take 30 minutes.</div>
+                <div class="need-tag">Growing with DPDP Act</div>
+            </div>
+
+            <!-- Need 11 -->
+            <div class="need-card need-priority-critical">
+                <div class="need-rank"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="need-icon"><i class="fas fa-plug"></i></div>
+                <h3>"Does It Work With Okta / Google / Slack?"</h3>
+                <p>If the answer is "no" to even ONE of their core tools, the deal is dead. Must integrate Day 1 with Google Workspace, Okta, Azure AD, Slack, Zoho Books.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> We use Okta + Darwinbox + Zoho Books. If it doesn't connect to all three, it's useless.</div>
+                <div class="need-tag critical-tag">DEALBREAKER — no integration = no sale</div>
+            </div>
+
+            <!-- Need 12 -->
+            <div class="need-card need-priority-critical">
+                <div class="need-rank"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="need-icon"><i class="fas fa-clock"></i></div>
+                <h3>"Setup in 30 Minutes — My IT Team is 2 People"</h3>
+                <p>Indian mid-market "IT team" is often 1-2 people. They don't have time for complex tools. Connect Google Workspace → see results → click to fix. Done. 15 min/week max.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> I'm the IT admin AND the office manager. If it takes more than 30 minutes to set up, I won't use it.</div>
+                <div class="need-tag critical-tag">DEALBREAKER — complexity = churn</div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:48px">
+            <div style="display:inline-flex;align-items:center;gap:12px;padding:16px 32px;background:rgba(124,58,237,0.06);border-radius:12px;border:1px solid rgba(124,58,237,0.15);margin-bottom:24px">
+                <i class="fas fa-check-circle" style="color:var(--primary);font-size:24px"></i>
+                <span style="color:var(--gray-700);font-size:16px"><strong>SaaSIQ delivers all 12.</strong> Not someday — on Day 1.</span>
+            </div>
+            <br>
+            <button class="btn btn-primary btn-lg" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> See It In Action — Start Free Trial</button>
         </div>
     </section>
 
@@ -745,6 +1028,23 @@
                     </a>
                     <a class="nav-item" href="#" role="button" onclick="showDashSection('ai-copilot', event); return false;">
                         <i class="fas fa-comments" aria-hidden="true"></i> AI Copilot
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-label">Operations</span>
+                    <a class="nav-item" href="#" role="button" onclick="showDashSection('offboarding', event); return false;">
+                        <i class="fas fa-user-slash" aria-hidden="true"></i> Offboarding
+                        <span class="nav-badge orange">4</span>
+                    </a>
+                    <a class="nav-item" href="#" role="button" onclick="showDashSection('renewals', event); return false;">
+                        <i class="fas fa-calendar-check" aria-hidden="true"></i> Renewals
+                        <span class="nav-badge yellow">6</span>
+                    </a>
+                    <a class="nav-item" href="#" role="button" onclick="showDashSection('benchmarks', event); return false;">
+                        <i class="fas fa-balance-scale" aria-hidden="true"></i> Benchmarks
+                    </a>
+                    <a class="nav-item" href="#" role="button" onclick="showDashSection('dept-costs', event); return false;">
+                        <i class="fas fa-building" aria-hidden="true"></i> Dept Costs
                     </a>
                 </div>
                 <div class="nav-section">
@@ -2337,6 +2637,458 @@
                             </div>
                             <p>Discovered: Miro (12 users), Calendly (8 users), Grammarly (23 users). All classified as Shadow IT pending review.</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== OFFBOARDING CONSOLE ===== -->
+            <div class="dash-section" id="sec-offboarding">
+                <div class="page-header">
+                    <div>
+                        <h1>Offboarding Console</h1>
+                        <p>Instantly revoke all SaaS access when employees leave — one click, total coverage</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="showToast('info','Syncing with HRMS...')"><i class="fas fa-sync"></i> Sync HR Data</button>
+                        <button class="btn btn-primary" onclick="showToast('success','Offboarding wizard opened')"><i class="fas fa-user-minus"></i> Offboard Employee</button>
+                    </div>
+                </div>
+
+                <div class="offboard-stats">
+                    <div class="ob-stat-card">
+                        <div class="ob-stat-icon" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="ob-stat-value">4</div>
+                        <div class="ob-stat-label">Pending Offboards</div>
+                        <div class="ob-stat-sub">Departed but still have access</div>
+                    </div>
+                    <div class="ob-stat-card">
+                        <div class="ob-stat-icon" style="background:rgba(16,185,129,0.12);color:#10B981"><i class="fas fa-check-circle"></i></div>
+                        <div class="ob-stat-value">23</div>
+                        <div class="ob-stat-label">Completed This Quarter</div>
+                        <div class="ob-stat-sub">Avg 4.2 min per offboard</div>
+                    </div>
+                    <div class="ob-stat-card">
+                        <div class="ob-stat-icon" style="background:rgba(124,58,237,0.12);color:#7C3AED"><i class="fas fa-clock"></i></div>
+                        <div class="ob-stat-value">₹3.8L</div>
+                        <div class="ob-stat-label">Licenses Recovered</div>
+                        <div class="ob-stat-sub">From auto-offboarding this quarter</div>
+                    </div>
+                    <div class="ob-stat-card">
+                        <div class="ob-stat-icon" style="background:rgba(59,130,246,0.12);color:#3B82F6"><i class="fas fa-shield-alt"></i></div>
+                        <div class="ob-stat-value">0</div>
+                        <div class="ob-stat-label">Security Incidents</div>
+                        <div class="ob-stat-sub">From offboarded employees</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:24px">
+                    <div class="card-header"><h3><i class="fas fa-exclamation-circle" style="color:#EF4444"></i> Pending Offboards — Immediate Action Required</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th>Employee</th><th>Left On</th><th>Days Since</th><th>Active Apps</th><th>Risk Level</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#EF4444">VK</div><div><strong>Vikram Kumar</strong><div style="font-size:12px;color:var(--gray-500)">Sr. Engineer · Engineering</div></div></div></td>
+                                <td>Jun 15, 2025</td>
+                                <td><span style="color:#EF4444;font-weight:700">265 days</span></td>
+                                <td><span class="nav-badge red" style="font-size:13px">23 apps</span></td>
+                                <td><span class="status-badge shadow" style="background:rgba(239,68,68,0.12);color:#EF4444">Critical</span></td>
+                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 23 apps revoked for Vikram Kumar. Licenses recovered: 23')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#F59E0B">PS</div><div><strong>Priya Singh</strong><div style="font-size:12px;color:var(--gray-500)">Product Manager · Product</div></div></div></td>
+                                <td>Dec 22, 2025</td>
+                                <td><span style="color:#F59E0B;font-weight:700">75 days</span></td>
+                                <td><span class="nav-badge orange" style="font-size:13px">14 apps</span></td>
+                                <td><span class="status-badge pending">High</span></td>
+                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 14 apps revoked for Priya Singh. Licenses recovered: 14')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#3B82F6">AJ</div><div><strong>Amit Joshi</strong><div style="font-size:12px;color:var(--gray-500)">Designer · Design</div></div></div></td>
+                                <td>Feb 1, 2026</td>
+                                <td><span style="color:#F59E0B;font-weight:700">34 days</span></td>
+                                <td><span class="nav-badge yellow" style="font-size:13px">8 apps</span></td>
+                                <td><span class="status-badge pending">Medium</span></td>
+                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 8 apps revoked for Amit Joshi. Licenses recovered: 8')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#10B981">NR</div><div><strong>Neha Raghavan</strong><div style="font-size:12px;color:var(--gray-500)">Intern · Engineering</div></div></div></td>
+                                <td>Feb 28, 2026</td>
+                                <td><span style="color:#3B82F6;font-weight:700">7 days</span></td>
+                                <td><span class="nav-badge blue" style="font-size:13px">5 apps</span></td>
+                                <td><span class="status-badge active">Low</span></td>
+                                <td><button class="btn btn-sm btn-danger" onclick="showToast('success','✓ All 5 apps revoked for Neha Raghavan. Licenses recovered: 5')"><i class="fas fa-ban"></i> Revoke All</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="padding:16px;text-align:center;border-top:1px solid var(--gray-800)">
+                        <button class="btn btn-danger" onclick="showToast('success','✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.')"><i class="fas fa-ban"></i> Revoke ALL Pending — One Click</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:24px">
+                    <div class="card-header"><h3><i class="fas fa-history" style="color:#10B981"></i> Recent Offboards</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th>Employee</th><th>Offboarded On</th><th>Apps Revoked</th><th>Licenses Saved</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Karan Mehta</strong></td><td>Feb 20, 2026</td><td>18</td><td>₹1.4L/yr</td><td><span class="status-badge active">Complete</span></td></tr>
+                            <tr><td><strong>Deepika Nair</strong></td><td>Feb 12, 2026</td><td>11</td><td>₹0.9L/yr</td><td><span class="status-badge active">Complete</span></td></tr>
+                            <tr><td><strong>Rohit Agarwal</strong></td><td>Jan 30, 2026</td><td>22</td><td>₹1.5L/yr</td><td><span class="status-badge active">Complete</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== RENEWAL ENGINE ===== -->
+            <div class="dash-section" id="sec-renewals">
+                <div class="page-header">
+                    <div>
+                        <h1>Smart Renewal Engine</h1>
+                        <p>Never miss a renewal. Get alerts 90/60/30 days before — with negotiation data.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="showToast('info','Scanning contracts for renewal dates...')"><i class="fas fa-search"></i> Scan Contracts</button>
+                        <button class="btn btn-primary" onclick="showToast('info','Exporting renewal calendar...')"><i class="fas fa-calendar-alt"></i> Export Calendar</button>
+                    </div>
+                </div>
+
+                <div class="renewal-summary">
+                    <div class="ren-stat-card urgent">
+                        <div class="ren-stat-num">2</div>
+                        <div class="ren-stat-label">Renewing in 30 Days</div>
+                        <div class="ren-stat-amount">₹36.4L total</div>
+                    </div>
+                    <div class="ren-stat-card warning">
+                        <div class="ren-stat-num">4</div>
+                        <div class="ren-stat-label">Renewing in 60 Days</div>
+                        <div class="ren-stat-amount">₹52.8L total</div>
+                    </div>
+                    <div class="ren-stat-card normal">
+                        <div class="ren-stat-num">6</div>
+                        <div class="ren-stat-label">Renewing in 90 Days</div>
+                        <div class="ren-stat-amount">₹41.2L total</div>
+                    </div>
+                    <div class="ren-stat-card savings">
+                        <div class="ren-stat-num">₹18.6L</div>
+                        <div class="ren-stat-label">Potential Savings</div>
+                        <div class="ren-stat-amount">If negotiated before renewal</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:24px">
+                    <div class="card-header"><h3><i class="fas fa-fire" style="color:#EF4444"></i> Upcoming Renewals — Action Required</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th>Vendor</th><th>Renewal Date</th><th>Days Left</th><th>Current Cost</th><th>Potential Savings</th><th>Auto-Renew</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#0176D3;color:#fff;font-size:11px">SF</div><strong>Salesforce</strong></div></td>
+                                <td>Mar 12, 2026</td>
+                                <td><span class="renewal-countdown urgent">5 days</span></td>
+                                <td>₹24.5L/yr</td>
+                                <td><span style="color:#10B981;font-weight:700">₹8.6L (35%)</span></td>
+                                <td><span class="status-badge shadow" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-exclamation-triangle"></i> ON</span></td>
+                                <td><button class="btn btn-sm btn-primary" onclick="showToast('info','Opening negotiation playbook for Salesforce...')"><i class="fas fa-handshake"></i> Negotiate</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#FF9900;color:#000;font-size:11px">AWS</div><strong>AWS</strong></div></td>
+                                <td>Apr 1, 2026</td>
+                                <td><span class="renewal-countdown warning">25 days</span></td>
+                                <td>₹1.2Cr/yr</td>
+                                <td><span style="color:#10B981;font-weight:700">₹24-36L (20-30%)</span></td>
+                                <td><span class="status-badge pending"><i class="fas fa-exclamation-triangle"></i> ON</span></td>
+                                <td><button class="btn btn-sm btn-primary" onclick="showToast('info','Opening negotiation playbook for AWS...')"><i class="fas fa-handshake"></i> Negotiate</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#7B68EE;color:#fff;font-size:11px">SL</div><strong>Slack</strong></div></td>
+                                <td>Apr 15, 2026</td>
+                                <td><span class="renewal-countdown warning">39 days</span></td>
+                                <td>₹8.4L/yr</td>
+                                <td><span style="color:#10B981;font-weight:700">₹2.1L (25%)</span></td>
+                                <td><span class="status-badge active">OFF</span></td>
+                                <td><button class="btn btn-sm btn-outline" onclick="showToast('info','Opening renewal details for Slack...')"><i class="fas fa-eye"></i> Review</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#F24E1E;color:#fff;font-size:11px">FG</div><strong>Figma</strong></div></td>
+                                <td>May 1, 2026</td>
+                                <td><span class="renewal-countdown normal">55 days</span></td>
+                                <td>₹12.8L/yr</td>
+                                <td><span style="color:#10B981;font-weight:700">₹7.6L (59%)</span></td>
+                                <td><span class="status-badge active">OFF</span></td>
+                                <td><button class="btn btn-sm btn-outline" onclick="showToast('info','Opening renewal details for Figma...')"><i class="fas fa-eye"></i> Review</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#000;color:#fff;font-size:11px">NT</div><strong>Notion</strong></div></td>
+                                <td>May 20, 2026</td>
+                                <td><span class="renewal-countdown normal">74 days</span></td>
+                                <td>₹4.2L/yr</td>
+                                <td><span style="color:#10B981;font-weight:700">₹0.8L (19%)</span></td>
+                                <td><span class="status-badge active">OFF</span></td>
+                                <td><button class="btn btn-sm btn-outline" onclick="showToast('info','Opening renewal details for Notion...')"><i class="fas fa-eye"></i> Review</button></td>
+                            </tr>
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-sm" style="background:#625DF5;color:#fff;font-size:11px">WX</div><strong>Webex</strong></div></td>
+                                <td>Jun 10, 2026</td>
+                                <td><span class="renewal-countdown normal">95 days</span></td>
+                                <td>₹2.16L/yr</td>
+                                <td><span style="color:#F59E0B;font-weight:700">Cancel — only 6 users</span></td>
+                                <td><span class="status-badge active">OFF</span></td>
+                                <td><button class="btn btn-sm btn-outline btn-danger-outline" onclick="showToast('warning','Cancellation request initiated for Webex')"><i class="fas fa-times-circle"></i> Cancel</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== BENCHMARKS ===== -->
+            <div class="dash-section" id="sec-benchmarks">
+                <div class="page-header">
+                    <div>
+                        <h1>Industry Benchmarks</h1>
+                        <p>Compare your SaaS spend against similar companies — know if you're overpaying</p>
+                    </div>
+                    <div class="header-actions">
+                        <select class="period-select">
+                            <option>Tech Companies · 500-2000 employees</option>
+                            <option>All Industries · 500-2000</option>
+                            <option>Tech Companies · 2000-5000</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bench-overview">
+                    <div class="bench-overview-card">
+                        <div class="bench-ov-label">Your SaaS Spend / Employee</div>
+                        <div class="bench-ov-value">₹1,24,800<span>/yr</span></div>
+                        <div class="bench-ov-compare over"><i class="fas fa-arrow-up"></i> 18% above industry avg (₹1,05,700)</div>
+                    </div>
+                    <div class="bench-overview-card">
+                        <div class="bench-ov-label">Apps per Employee</div>
+                        <div class="bench-ov-value">9.4</div>
+                        <div class="bench-ov-compare over"><i class="fas fa-arrow-up"></i> 22% above avg (7.7 apps)</div>
+                    </div>
+                    <div class="bench-overview-card">
+                        <div class="bench-ov-label">License Utilization</div>
+                        <div class="bench-ov-value">64%</div>
+                        <div class="bench-ov-compare under"><i class="fas fa-arrow-down"></i> 14% below avg (78%)</div>
+                    </div>
+                    <div class="bench-overview-card">
+                        <div class="bench-ov-label">Potential Savings</div>
+                        <div class="bench-ov-value" style="color:#10B981">₹38.4L<span>/yr</span></div>
+                        <div class="bench-ov-compare" style="color:#10B981"><i class="fas fa-bullseye"></i> If you match industry avg</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:24px">
+                    <div class="card-header"><h3><i class="fas fa-chart-bar" style="color:var(--primary)"></i> Tool-by-Tool Benchmark</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th>Tool</th><th>Your Price/User</th><th>Industry Avg</th><th>Best Deal Seen</th><th>Status</th><th>Negotiation Tip</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Salesforce</strong></td>
+                                <td>₹18,000/yr</td>
+                                <td>₹14,200/yr</td>
+                                <td>₹11,800/yr</td>
+                                <td><span class="status-badge shadow" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-arrow-up"></i> Overpaying 27%</span></td>
+                                <td style="font-size:13px;color:var(--gray-500)">Show ₹14.2K benchmark to AE. Ask for multi-year discount.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Slack</strong></td>
+                                <td>₹720/mo</td>
+                                <td>₹680/mo</td>
+                                <td>₹550/mo</td>
+                                <td><span class="status-badge pending"><i class="fas fa-arrow-up"></i> Slightly over 6%</span></td>
+                                <td style="font-size:13px;color:var(--gray-500)">Within range. Negotiate at renewal for 10% off.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AWS</strong></td>
+                                <td>₹10L/mo</td>
+                                <td>₹8.2L/mo</td>
+                                <td>₹6.5L/mo</td>
+                                <td><span class="status-badge shadow" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-arrow-up"></i> Overpaying 22%</span></td>
+                                <td style="font-size:13px;color:var(--gray-500)">Reserved instances + Savings Plans. Request EDP.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Figma</strong></td>
+                                <td>₹1,100/mo</td>
+                                <td>₹1,050/mo</td>
+                                <td>₹900/mo</td>
+                                <td><span class="status-badge active"><i class="fas fa-check"></i> Fair price</span></td>
+                                <td style="font-size:13px;color:var(--gray-500)">Price is fair. Focus on reducing unused seats (35 unused).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GitHub</strong></td>
+                                <td>$21/user/mo</td>
+                                <td>$19/user/mo</td>
+                                <td>$16/user/mo</td>
+                                <td><span class="status-badge pending"><i class="fas fa-arrow-up"></i> Slightly over 10%</span></td>
+                                <td style="font-size:13px;color:var(--gray-500)">Annual commitment gets ~15% off. Contact GitHub sales.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Notion</strong></td>
+                                <td>$10/user/mo</td>
+                                <td>$10/user/mo</td>
+                                <td>$8/user/mo</td>
+                                <td><span class="status-badge active"><i class="fas fa-check"></i> At average</span></td>
+                                <td style="font-size:13px;color:var(--gray-500)">Standard pricing. Negotiate volume discount for 50+ seats.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== DEPARTMENT COSTS ===== -->
+            <div class="dash-section" id="sec-dept-costs">
+                <div class="page-header">
+                    <div>
+                        <h1>Department Cost Allocation</h1>
+                        <p>SaaS spend broken down by department — make teams accountable</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="showToast('info','Generating CFO report...')"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <select class="period-select">
+                            <option>This Quarter (Jan-Mar 2026)</option>
+                            <option>Last Quarter</option>
+                            <option>This Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="dept-cost-overview">
+                    <div class="dept-total-card">
+                        <div class="dept-total-label">Total SaaS Spend This Quarter</div>
+                        <div class="dept-total-value">₹1.86Cr</div>
+                        <div class="dept-total-sub"><span style="color:#EF4444"><i class="fas fa-arrow-up"></i> +12%</span> vs last quarter (₹1.66Cr)</div>
+                    </div>
+                </div>
+
+                <div class="dept-grid">
+                    <div class="dept-card">
+                        <div class="dept-card-header">
+                            <div class="dept-icon" style="background:rgba(59,130,246,0.12);color:#3B82F6"><i class="fas fa-code"></i></div>
+                            <div><strong>Engineering</strong><div class="dept-card-sub">142 employees · 68 apps</div></div>
+                        </div>
+                        <div class="dept-card-amount">₹82.4L<span>/quarter</span></div>
+                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:82%;background:#3B82F6"></div></div>
+                        <div class="dept-card-details">
+                            <div class="dept-detail-row"><span>Top: AWS</span><span>₹30L</span></div>
+                            <div class="dept-detail-row"><span>GitHub</span><span>₹12.6L</span></div>
+                            <div class="dept-detail-row"><span>Datadog</span><span>₹8.4L</span></div>
+                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹11.2L</span></div>
+                        </div>
+                    </div>
+
+                    <div class="dept-card">
+                        <div class="dept-card-header">
+                            <div class="dept-icon" style="background:rgba(168,85,247,0.12);color:#A855F7"><i class="fas fa-palette"></i></div>
+                            <div><strong>Design</strong><div class="dept-card-sub">28 employees · 22 apps</div></div>
+                        </div>
+                        <div class="dept-card-amount">₹18.6L<span>/quarter</span></div>
+                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:38%;background:#A855F7"></div></div>
+                        <div class="dept-card-details">
+                            <div class="dept-detail-row"><span>Top: Figma</span><span>₹9.6L</span></div>
+                            <div class="dept-detail-row"><span>Adobe CC</span><span>₹4.2L</span></div>
+                            <div class="dept-detail-row"><span>Miro</span><span>₹1.8L</span></div>
+                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹3.2L</span></div>
+                        </div>
+                    </div>
+
+                    <div class="dept-card">
+                        <div class="dept-card-header">
+                            <div class="dept-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B"><i class="fas fa-bullhorn"></i></div>
+                            <div><strong>Marketing</strong><div class="dept-card-sub">35 employees · 31 apps</div></div>
+                        </div>
+                        <div class="dept-card-amount">₹24.8L<span>/quarter</span></div>
+                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:48%;background:#F59E0B"></div></div>
+                        <div class="dept-card-details">
+                            <div class="dept-detail-row"><span>Top: HubSpot</span><span>₹8.4L</span></div>
+                            <div class="dept-detail-row"><span>Google Ads</span><span>₹5.6L</span></div>
+                            <div class="dept-detail-row"><span>Semrush</span><span>₹3.2L</span></div>
+                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹4.8L</span></div>
+                        </div>
+                    </div>
+
+                    <div class="dept-card">
+                        <div class="dept-card-header">
+                            <div class="dept-icon" style="background:rgba(16,185,129,0.12);color:#10B981"><i class="fas fa-phone-alt"></i></div>
+                            <div><strong>Sales</strong><div class="dept-card-sub">56 employees · 18 apps</div></div>
+                        </div>
+                        <div class="dept-card-amount">₹32.6L<span>/quarter</span></div>
+                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:56%;background:#10B981"></div></div>
+                        <div class="dept-card-details">
+                            <div class="dept-detail-row"><span>Top: Salesforce</span><span>₹18.4L</span></div>
+                            <div class="dept-detail-row"><span>Freshdesk</span><span>₹6.2L</span></div>
+                            <div class="dept-detail-row"><span>Gong</span><span>₹4.8L</span></div>
+                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹6.4L</span></div>
+                        </div>
+                    </div>
+
+                    <div class="dept-card">
+                        <div class="dept-card-header">
+                            <div class="dept-icon" style="background:rgba(239,68,68,0.12);color:#EF4444"><i class="fas fa-users"></i></div>
+                            <div><strong>HR & Admin</strong><div class="dept-card-sub">18 employees · 14 apps</div></div>
+                        </div>
+                        <div class="dept-card-amount">₹12.4L<span>/quarter</span></div>
+                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:24%;background:#EF4444"></div></div>
+                        <div class="dept-card-details">
+                            <div class="dept-detail-row"><span>Top: Darwinbox</span><span>₹4.8L</span></div>
+                            <div class="dept-detail-row"><span>Zoho People</span><span>₹2.4L</span></div>
+                            <div class="dept-detail-row"><span>Keka</span><span>₹1.8L</span></div>
+                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹1.6L</span></div>
+                        </div>
+                    </div>
+
+                    <div class="dept-card">
+                        <div class="dept-card-header">
+                            <div class="dept-icon" style="background:rgba(99,102,241,0.12);color:#6366F1"><i class="fas fa-calculator"></i></div>
+                            <div><strong>Finance</strong><div class="dept-card-sub">12 employees · 9 apps</div></div>
+                        </div>
+                        <div class="dept-card-amount">₹8.6L<span>/quarter</span></div>
+                        <div class="dept-card-bar"><div class="dept-bar-fill" style="width:17%;background:#6366F1"></div></div>
+                        <div class="dept-card-details">
+                            <div class="dept-detail-row"><span>Top: Zoho Books</span><span>₹3.2L</span></div>
+                            <div class="dept-detail-row"><span>Razorpay</span><span>₹2.8L</span></div>
+                            <div class="dept-detail-row"><span>QuickBooks</span><span>₹1.4L</span></div>
+                            <div class="dept-detail-row waste"><span><i class="fas fa-exclamation-triangle"></i> Waste detected</span><span>₹0.8L</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:24px">
+                    <div class="card-header"><h3><i class="fas fa-chart-pie" style="color:var(--primary)"></i> Total Waste by Department</h3></div>
+                    <div style="padding:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px">
+                        <div class="waste-dept-item">
+                            <div class="waste-dept-bar" style="height:82px;background:linear-gradient(180deg,#3B82F6,#1D4ED8)"></div>
+                            <div class="waste-dept-val">₹11.2L</div>
+                            <div class="waste-dept-name">Engineering</div>
+                        </div>
+                        <div class="waste-dept-item">
+                            <div class="waste-dept-bar" style="height:64px;background:linear-gradient(180deg,#10B981,#059669)"></div>
+                            <div class="waste-dept-val">₹6.4L</div>
+                            <div class="waste-dept-name">Sales</div>
+                        </div>
+                        <div class="waste-dept-item">
+                            <div class="waste-dept-bar" style="height:48px;background:linear-gradient(180deg,#F59E0B,#D97706)"></div>
+                            <div class="waste-dept-val">₹4.8L</div>
+                            <div class="waste-dept-name">Marketing</div>
+                        </div>
+                        <div class="waste-dept-item">
+                            <div class="waste-dept-bar" style="height:32px;background:linear-gradient(180deg,#A855F7,#7C3AED)"></div>
+                            <div class="waste-dept-val">₹3.2L</div>
+                            <div class="waste-dept-name">Design</div>
+                        </div>
+                        <div class="waste-dept-item">
+                            <div class="waste-dept-bar" style="height:20px;background:linear-gradient(180deg,#EF4444,#DC2626)"></div>
+                            <div class="waste-dept-val">₹1.6L</div>
+                            <div class="waste-dept-name">HR</div>
+                        </div>
+                        <div class="waste-dept-item">
+                            <div class="waste-dept-bar" style="height:12px;background:linear-gradient(180deg,#6366F1,#4F46E5)"></div>
+                            <div class="waste-dept-val">₹0.8L</div>
+                            <div class="waste-dept-name">Finance</div>
+                        </div>
+                    </div>
+                    <div style="padding:16px 20px;border-top:1px solid var(--gray-800);display:flex;justify-content:space-between;align-items:center">
+                        <span style="color:var(--gray-400)">Total recoverable waste across all departments</span>
+                        <span style="font-size:24px;font-weight:800;color:#EF4444">₹28L/quarter</span>
                     </div>
                 </div>
             </div>
