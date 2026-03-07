@@ -543,14 +543,27 @@ document.addEventListener('keydown', function(e) {
 // ======= User Profile Dropdown =======
 function toggleUserDropdown() {
     const dd = document.getElementById('user-dropdown');
-    if (dd) dd.classList.toggle('open');
+    if (!dd) return;
+    const isOpen = dd.classList.toggle('open');
+    const btn = document.getElementById('user-menu-btn');
+    if (btn) btn.setAttribute('aria-expanded', isOpen);
 }
-// Close user dropdown on outside click
+
+// Clicking the profile area (not the 3-dot btn) also opens dropdown
 document.addEventListener('click', function(e) {
     const dd = document.getElementById('user-dropdown');
     const profile = e.target.closest('.user-profile');
+    const btn = e.target.closest('.user-menu-btn');
+    // If clicked inside profile but NOT on the 3-dot button, toggle dropdown
+    if (profile && !btn) {
+        toggleUserDropdown();
+        return;
+    }
+    // Close dropdown on outside click
     if (dd && dd.classList.contains('open') && !profile) {
         dd.classList.remove('open');
+        const menuBtn = document.getElementById('user-menu-btn');
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', false);
     }
 });
 

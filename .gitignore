@@ -1,2 +1,12 @@
+# Already pushed to saasiq-architecture repo
+ANGULAR_FRONTEND_DESIGB.md
+FRONTEND_SYSTEM_DESIGN_E2E_USED.md
+
+# Prototype sub-repo (pushed to saasiq-ux-prototype)
+design/prototype/.git/
+design/prototype/.gitignore
+design/prototype/.nojekyll
+design/prototype/design/
+design/prototype/README_local.md
 *.md
 README_local.md
