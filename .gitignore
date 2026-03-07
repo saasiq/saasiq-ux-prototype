@@ -8,3 +8,5 @@ design/prototype/.gitignore
 design/prototype/.nojekyll
 design/prototype/design/
 design/prototype/README_local.md
+*.md
+README_local.md
