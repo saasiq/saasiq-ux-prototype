@@ -3278,19 +3278,19 @@
                                         <div class="intg-header"><div class="intg-icon" style="background:#4285F4"><i class="fab fa-google"></i></div><div><strong>Google Workspace</strong><span class="intg-status connected"><i class="fas fa-check-circle"></i> Connected</span></div></div>
                                         <p>SSO, email scanning, Drive file discovery</p>
                                         <div class="intg-meta"><span>342 users synced</span><span>Last sync: 2h ago</span></div>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-outline">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline">Disconnect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="openIntegrationConfigure(this)">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline" onclick="openIntegrationDisconnect(this)">Disconnect</button></div>
                                     </div>
                                     <div class="integration-card-full connected">
                                         <div class="intg-header"><div class="intg-icon" style="background:#611F69"><i class="fab fa-slack"></i></div><div><strong>Slack</strong><span class="intg-status connected"><i class="fas fa-check-circle"></i> Connected</span></div></div>
                                         <p>Channel monitoring, bot integration, app discovery</p>
                                         <div class="intg-meta"><span>289 users synced</span><span>Last sync: 1h ago</span></div>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-outline">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline">Disconnect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="openIntegrationConfigure(this)">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline" onclick="openIntegrationDisconnect(this)">Disconnect</button></div>
                                     </div>
                                     <div class="integration-card-full connected">
                                         <div class="intg-header"><div class="intg-icon" style="background:#FF9900"><i class="fab fa-aws"></i></div><div><strong>AWS</strong><span class="intg-status connected"><i class="fas fa-check-circle"></i> Connected</span></div></div>
                                         <p>Cloud spend tracking, resource monitoring</p>
                                         <div class="intg-meta"><span>28 services tracked</span><span>Last sync: 30m ago</span></div>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-outline">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline">Disconnect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="openIntegrationConfigure(this)">Configure</button><button class="btn btn-sm btn-outline btn-danger-outline" onclick="openIntegrationDisconnect(this)">Disconnect</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -3300,27 +3300,27 @@
                                     <div class="integration-card-full">
                                         <div class="intg-header"><div class="intg-icon" style="background:#00A4EF"><i class="fab fa-microsoft"></i></div><div><strong>Azure AD</strong><span class="intg-status">Not connected</span></div></div>
                                         <p>SSO, directory sync, conditional access</p>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary" onclick="openIntegrationConnect(this)">Connect</button></div>
                                     </div>
                                     <div class="integration-card-full">
                                         <div class="intg-header"><div class="intg-icon" style="background:#0052CC"><i class="fab fa-jira"></i></div><div><strong>Jira</strong><span class="intg-status">Not connected</span></div></div>
                                         <p>Project tool usage tracking</p>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary" onclick="openIntegrationConnect(this)">Connect</button></div>
                                     </div>
                                     <div class="integration-card-full">
                                         <div class="intg-header"><div class="intg-icon" style="background:#F24E1E"><i class="fab fa-figma"></i></div><div><strong>Figma</strong><span class="intg-status">Not connected</span></div></div>
                                         <p>Design tool license tracking</p>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary" onclick="openIntegrationConnect(this)">Connect</button></div>
                                     </div>
                                     <div class="integration-card-full">
                                         <div class="intg-header"><div class="intg-icon" style="background:#333"><i class="fab fa-github"></i></div><div><strong>GitHub</strong><span class="intg-status">Not connected</span></div></div>
                                         <p>Developer tool spend & seat tracking</p>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary" onclick="openIntegrationConnect(this)">Connect</button></div>
                                     </div>
                                     <div class="integration-card-full">
                                         <div class="intg-header"><div class="intg-icon" style="background:#635BFF"><i class="fab fa-stripe-s"></i></div><div><strong>Stripe</strong><span class="intg-status">Not connected</span></div></div>
                                         <p>Payment & subscription data sync</p>
-                                        <div class="intg-actions"><button class="btn btn-sm btn-primary">Connect</button></div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-primary" onclick="openIntegrationConnect(this)">Connect</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -4467,6 +4467,123 @@
             </div>
             <div id="rescan-status" style="font-size:14px;color:var(--gray-400);margin-bottom:8px">Connecting to SSO providers...</div>
             <div id="rescan-detail" style="font-size:12px;color:var(--gray-500)">Checking Google Workspace, Okta, Azure AD</div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== INTEGRATION: CONNECT MODAL ==================== -->
+<div class="modal-overlay" id="modal-integration-connect" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog" style="max-width:480px">
+        <div class="modal-header"><h2><i class="fas fa-plug" style="color:var(--primary)"></i> Connect <span id="connect-intg-name">Integration</span></h2><button class="close-btn" onclick="closeModal('modal-integration-connect')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div id="connect-step-auth" style="text-align:center;padding:10px 0">
+                <div id="connect-intg-icon-wrap" style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:#fff;background:var(--primary)"><i class="fas fa-plug"></i></div>
+                <p style="color:var(--gray-400);font-size:14px;margin-bottom:20px" id="connect-intg-desc">Authorize SaaSIQ to access this integration.</p>
+                <div class="form-group" style="text-align:left"><label>API Key / OAuth Token</label><input type="text" placeholder="Paste your API key or token" id="connect-api-key"></div>
+                <div class="form-group" style="text-align:left"><label>Workspace / Tenant ID <span style="color:var(--gray-500);font-size:12px">(optional)</span></label><input type="text" placeholder="e.g., your-workspace.atlassian.net" id="connect-workspace-id"></div>
+                <div class="form-group" style="text-align:left">
+                    <label>Sync Options</label>
+                    <div class="checkbox-group" style="margin-top:6px">
+                        <label class="checkbox-label"><input type="checkbox" checked> Sync user accounts</label>
+                        <label class="checkbox-label"><input type="checkbox" checked> Sync usage data</label>
+                        <label class="checkbox-label"><input type="checkbox"> Enable real-time webhooks</label>
+                    </div>
+                </div>
+            </div>
+            <div id="connect-step-progress" style="display:none;text-align:center;padding:30px 0">
+                <div style="position:relative;width:80px;height:80px;margin:0 auto 20px">
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="#2D2D44" stroke-width="6"/>
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="var(--primary)" stroke-width="6" stroke-dasharray="214" stroke-dashoffset="214" id="connect-progress-circle" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                    </svg>
+                    <div id="connect-percent" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:700;color:var(--primary)">0%</div>
+                </div>
+                <div id="connect-status-text" style="font-size:14px;color:var(--gray-400)">Authenticating...</div>
+            </div>
+            <div id="connect-step-success" style="display:none;text-align:center;padding:20px 0">
+                <div style="width:64px;height:64px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><i class="fas fa-check" style="font-size:28px;color:#fff"></i></div>
+                <h3 style="color:var(--text-primary);margin-bottom:6px"><span id="connect-success-name">Integration</span> Connected!</h3>
+                <p style="color:var(--gray-400);font-size:13px">Initial sync started. Data will appear in your dashboard within minutes.</p>
+            </div>
+        </div>
+        <div class="modal-footer" id="connect-footer-auth">
+            <button class="btn btn-outline" onclick="closeModal('modal-integration-connect')">Cancel</button>
+            <button class="btn btn-primary" onclick="executeIntegrationConnect()"><i class="fas fa-link"></i> Authorize & Connect</button>
+        </div>
+        <div class="modal-footer" id="connect-footer-done" style="display:none">
+            <button class="btn btn-primary" onclick="closeModal('modal-integration-connect')"><i class="fas fa-check"></i> Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== INTEGRATION: CONFIGURE MODAL ==================== -->
+<div class="modal-overlay" id="modal-integration-configure" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog" style="max-width:520px">
+        <div class="modal-header"><h2><i class="fas fa-cog" style="color:var(--primary)"></i> Configure <span id="config-intg-name">Integration</span></h2><button class="close-btn" onclick="closeModal('modal-integration-configure')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;margin-bottom:20px">
+                <div id="config-intg-icon-wrap" style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;background:var(--primary)"><i class="fas fa-plug"></i></div>
+                <div><strong id="config-intg-title" style="color:var(--text-primary)">Integration</strong><br><span class="intg-status connected" style="font-size:12px"><i class="fas fa-check-circle"></i> Connected</span></div>
+                <div style="margin-left:auto;font-size:12px;color:var(--gray-500)" id="config-last-sync">Last sync: —</div>
+            </div>
+            <div class="form-group"><label>Sync Frequency</label>
+                <select id="config-sync-freq"><option value="15">Every 15 minutes</option><option value="30">Every 30 minutes</option><option value="60" selected>Every hour</option><option value="360">Every 6 hours</option><option value="1440">Daily</option></select>
+            </div>
+            <div class="form-group"><label>Data Scopes</label>
+                <div class="checkbox-group" style="margin-top:6px">
+                    <label class="checkbox-label"><input type="checkbox" checked> User accounts & access</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Usage & activity data</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Billing & spend info</label>
+                    <label class="checkbox-label"><input type="checkbox"> File & document scanning</label>
+                    <label class="checkbox-label"><input type="checkbox"> Real-time webhook events</label>
+                </div>
+            </div>
+            <div class="form-group"><label>Notification Preferences</label>
+                <div class="checkbox-group" style="margin-top:6px">
+                    <label class="checkbox-label"><input type="checkbox" checked> Alert on sync failures</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Alert on new users discovered</label>
+                    <label class="checkbox-label"><input type="checkbox"> Alert on every sync completion</label>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+                <button class="btn btn-outline btn-sm" onclick="triggerManualSync()" style="flex:1"><i class="fas fa-sync"></i> Sync Now</button>
+                <button class="btn btn-outline btn-sm" onclick="showToast('info','Connection test passed ✓')" style="flex:1"><i class="fas fa-stethoscope"></i> Test Connection</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('modal-integration-configure')">Cancel</button>
+            <button class="btn btn-primary" onclick="saveIntegrationConfig()"><i class="fas fa-save"></i> Save Configuration</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== INTEGRATION: DISCONNECT CONFIRMATION MODAL ==================== -->
+<div class="modal-overlay" id="modal-integration-disconnect" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog" style="max-width:440px">
+        <div class="modal-header"><h2><i class="fas fa-unlink" style="color:var(--red)"></i> Disconnect <span id="disconnect-intg-name">Integration</span></h2><button class="close-btn" onclick="closeModal('modal-integration-disconnect')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:16px;margin-bottom:16px">
+                <div style="display:flex;align-items:flex-start;gap:12px">
+                    <i class="fas fa-exclamation-triangle" style="color:var(--red);font-size:20px;margin-top:2px"></i>
+                    <div>
+                        <strong style="color:var(--red)">This action will:</strong>
+                        <ul style="color:var(--gray-400);font-size:13px;margin:8px 0 0;padding-left:18px;line-height:1.8">
+                            <li>Stop all data syncing from <span id="disconnect-warn-name">this integration</span></li>
+                            <li>Remove <span id="disconnect-user-count">0</span> synced user records</li>
+                            <li>Disable real-time monitoring and alerts</li>
+                            <li>Historical data will be retained for 30 days</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Type "<strong style="color:var(--red)">DISCONNECT</strong>" to confirm</label>
+                <input type="text" id="disconnect-confirm-input" placeholder="Type DISCONNECT" oninput="checkDisconnectConfirm()">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('modal-integration-disconnect')">Cancel</button>
+            <button class="btn btn-danger" id="disconnect-confirm-btn" disabled onclick="executeIntegrationDisconnect()"><i class="fas fa-unlink"></i> Disconnect</button>
         </div>
     </div>
 </div>
