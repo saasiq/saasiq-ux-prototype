@@ -1368,3 +1368,270 @@ function revokeEmployee(btn, name, appCount) {
         }, 4000);
     }, 800);
 }
+
+
+// ========================================================================
+//  INTEGRATION MANAGEMENT — Connect / Configure / Disconnect
+// ========================================================================
+
+var _intgContext = { card: null, name: '', icon: '', iconBg: '', users: '', lastSync: '' };
+
+/**
+ * Gather metadata from the clicked integration card
+ */
+function _readCardMeta(card) {
+    var nameEl = card.querySelector('strong');
+    var iconEl = card.querySelector('.intg-icon i');
+    var iconWrap = card.querySelector('.intg-icon');
+    var metaSpans = card.querySelectorAll('.intg-meta span');
+    var descEl = card.querySelector('p');
+    _intgContext.card = card;
+    _intgContext.name = nameEl ? nameEl.textContent.trim() : 'Integration';
+    _intgContext.icon = iconEl ? iconEl.className : 'fas fa-plug';
+    _intgContext.iconBg = iconWrap ? iconWrap.style.background : 'var(--primary)';
+    _intgContext.users = metaSpans[0] ? metaSpans[0].textContent.trim() : '';
+    _intgContext.lastSync = metaSpans[1] ? metaSpans[1].textContent.trim() : '';
+    _intgContext.desc = descEl ? descEl.textContent.trim() : '';
+}
+
+// ---------- CONNECT ----------
+function openIntegrationConnect(btn) {
+    var card = btn.closest('.integration-card-full');
+    if (!card) return;
+    _readCardMeta(card);
+
+    // Reset modal to auth step
+    document.getElementById('connect-step-auth').style.display = '';
+    document.getElementById('connect-step-progress').style.display = 'none';
+    document.getElementById('connect-step-success').style.display = 'none';
+    document.getElementById('connect-footer-auth').style.display = '';
+    document.getElementById('connect-footer-done').style.display = 'none';
+    document.getElementById('connect-api-key').value = '';
+    document.getElementById('connect-workspace-id').value = '';
+
+    // Populate
+    document.getElementById('connect-intg-name').textContent = _intgContext.name;
+    document.getElementById('connect-intg-desc').textContent = 'Authorize SaaSIQ to sync data from ' + _intgContext.name + '.';
+    var iconWrap = document.getElementById('connect-intg-icon-wrap');
+    iconWrap.innerHTML = '<i class="' + _intgContext.icon + '"></i>';
+    iconWrap.style.background = _intgContext.iconBg;
+
+    openModal('modal-integration-connect');
+}
+
+function executeIntegrationConnect() {
+    // Switch to progress view
+    document.getElementById('connect-step-auth').style.display = 'none';
+    document.getElementById('connect-step-progress').style.display = '';
+    document.getElementById('connect-footer-auth').style.display = 'none';
+
+    var circle = document.getElementById('connect-progress-circle');
+    var percentEl = document.getElementById('connect-percent');
+    var statusEl = document.getElementById('connect-status-text');
+    var totalLen = 214;
+    var progress = 0;
+
+    var steps = [
+        { at: 10, text: 'Authenticating credentials...' },
+        { at: 30, text: 'Verifying API permissions...' },
+        { at: 55, text: 'Establishing secure connection...' },
+        { at: 75, text: 'Starting initial data sync...' },
+        { at: 90, text: 'Finalizing setup...' },
+        { at: 100, text: 'Complete!' }
+    ];
+
+    var intv = setInterval(function() {
+        progress += 2;
+        if (progress > 100) progress = 100;
+        var offset = totalLen - (totalLen * progress / 100);
+        circle.style.strokeDashoffset = offset;
+        percentEl.textContent = progress + '%';
+
+        for (var i = steps.length - 1; i >= 0; i--) {
+            if (progress >= steps[i].at) { statusEl.textContent = steps[i].text; break; }
+        }
+
+        if (progress >= 100) {
+            clearInterval(intv);
+            setTimeout(function() {
+                // Show success
+                document.getElementById('connect-step-progress').style.display = 'none';
+                document.getElementById('connect-step-success').style.display = '';
+                document.getElementById('connect-footer-done').style.display = '';
+                document.getElementById('connect-success-name').textContent = _intgContext.name;
+
+                // Promote card from "Available" to "Connected"
+                _promoteCardToConnected(_intgContext.card);
+                showToast('success', _intgContext.name + ' connected successfully!');
+            }, 400);
+        }
+    }, 40);
+}
+
+/**
+ * Move an "Available" card to the "Connected" section in the UI
+ */
+function _promoteCardToConnected(card) {
+    if (!card) return;
+    var intgSection = card.closest('#stab-integrations');
+    if (!intgSection) return;
+
+    // Build user count
+    var userCount = Math.floor(Math.random() * 200 + 50);
+
+    // Add connected class and meta info
+    card.classList.add('connected');
+    var statusEl = card.querySelector('.intg-status');
+    if (statusEl) {
+        statusEl.className = 'intg-status connected';
+        statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Connected';
+    }
+
+    // Add meta row
+    var existingMeta = card.querySelector('.intg-meta');
+    if (!existingMeta) {
+        var actionsDiv = card.querySelector('.intg-actions');
+        var metaDiv = document.createElement('div');
+        metaDiv.className = 'intg-meta';
+        metaDiv.innerHTML = '<span>' + userCount + ' users synced</span><span>Last sync: Just now</span>';
+        card.insertBefore(metaDiv, actionsDiv);
+    }
+
+    // Replace Connect button with Configure + Disconnect
+    var actionsDiv = card.querySelector('.intg-actions');
+    if (actionsDiv) {
+        actionsDiv.innerHTML = '<button class="btn btn-sm btn-outline" onclick="openIntegrationConfigure(this)">Configure</button>'
+            + '<button class="btn btn-sm btn-outline btn-danger-outline" onclick="openIntegrationDisconnect(this)">Disconnect</button>';
+    }
+
+    // Move card to connected grid
+    var sections = intgSection.querySelectorAll('.settings-section');
+    var connectedGrid = sections[1] ? sections[1].querySelector('.integration-grid') : null;
+    if (connectedGrid && card.parentNode !== connectedGrid) {
+        card.parentNode.removeChild(card);
+        connectedGrid.appendChild(card);
+    }
+
+    // Update badge counts
+    _updateIntegrationCounts(intgSection);
+}
+
+/**
+ * Move a card from "Connected" back to "Available"
+ */
+function _demoteCardToAvailable(card) {
+    if (!card) return;
+    var intgSection = card.closest('#stab-integrations');
+    if (!intgSection) return;
+
+    // Remove connected class
+    card.classList.remove('connected');
+    var statusEl = card.querySelector('.intg-status');
+    if (statusEl) {
+        statusEl.className = 'intg-status';
+        statusEl.textContent = 'Not connected';
+    }
+
+    // Remove meta row
+    var meta = card.querySelector('.intg-meta');
+    if (meta) meta.remove();
+
+    // Replace buttons with Connect
+    var actionsDiv = card.querySelector('.intg-actions');
+    if (actionsDiv) {
+        actionsDiv.innerHTML = '<button class="btn btn-sm btn-primary" onclick="openIntegrationConnect(this)">Connect</button>';
+    }
+
+    // Move card to available grid
+    var sections = intgSection.querySelectorAll('.settings-section');
+    var availableGrid = sections[2] ? sections[2].querySelector('.integration-grid') : null;
+    if (availableGrid && card.parentNode !== availableGrid) {
+        card.parentNode.removeChild(card);
+        availableGrid.appendChild(card);
+    }
+
+    _updateIntegrationCounts(intgSection);
+}
+
+function _updateIntegrationCounts(intgSection) {
+    var sections = intgSection.querySelectorAll('.settings-section');
+    if (sections[1]) {
+        var connCount = sections[1].querySelectorAll('.integration-card-full').length;
+        var badge = sections[1].querySelector('.badge-count');
+        if (badge) badge.textContent = connCount;
+    }
+    if (sections[2]) {
+        var availCount = sections[2].querySelectorAll('.integration-card-full').length;
+        var badge = sections[2].querySelector('.badge-count');
+        if (badge) badge.textContent = availCount;
+    }
+}
+
+// ---------- CONFIGURE ----------
+function openIntegrationConfigure(btn) {
+    var card = btn.closest('.integration-card-full');
+    if (!card) return;
+    _readCardMeta(card);
+
+    document.getElementById('config-intg-name').textContent = _intgContext.name;
+    document.getElementById('config-intg-title').textContent = _intgContext.name;
+    document.getElementById('config-last-sync').textContent = _intgContext.lastSync || 'Last sync: —';
+
+    var iconWrap = document.getElementById('config-intg-icon-wrap');
+    iconWrap.innerHTML = '<i class="' + _intgContext.icon + '"></i>';
+    iconWrap.style.background = _intgContext.iconBg;
+
+    openModal('modal-integration-configure');
+}
+
+function saveIntegrationConfig() {
+    var freq = document.getElementById('config-sync-freq');
+    var freqText = freq.options[freq.selectedIndex].text;
+    closeModal('modal-integration-configure');
+    showToast('success', _intgContext.name + ' configuration saved. Sync frequency: ' + freqText);
+}
+
+function triggerManualSync() {
+    showToast('info', 'Syncing ' + _intgContext.name + '...');
+    var syncEl = document.getElementById('config-last-sync');
+    if (syncEl) syncEl.textContent = 'Syncing...';
+    setTimeout(function() {
+        if (syncEl) syncEl.textContent = 'Last sync: Just now';
+        showToast('success', _intgContext.name + ' sync complete — all data up to date.');
+        // Also update the card in the main grid
+        if (_intgContext.card) {
+            var metaSpans = _intgContext.card.querySelectorAll('.intg-meta span');
+            if (metaSpans[1]) metaSpans[1].textContent = 'Last sync: Just now';
+        }
+    }, 2000);
+}
+
+// ---------- DISCONNECT ----------
+function openIntegrationDisconnect(btn) {
+    var card = btn.closest('.integration-card-full');
+    if (!card) return;
+    _readCardMeta(card);
+
+    document.getElementById('disconnect-intg-name').textContent = _intgContext.name;
+    document.getElementById('disconnect-warn-name').textContent = _intgContext.name;
+    document.getElementById('disconnect-confirm-input').value = '';
+    document.getElementById('disconnect-confirm-btn').disabled = true;
+
+    // Parse user count from meta
+    var userText = _intgContext.users || '0 users';
+    document.getElementById('disconnect-user-count').textContent = userText.replace(' synced', '').replace(' tracked', '');
+
+    openModal('modal-integration-disconnect');
+}
+
+function checkDisconnectConfirm() {
+    var input = document.getElementById('disconnect-confirm-input');
+    var btn = document.getElementById('disconnect-confirm-btn');
+    btn.disabled = input.value.trim().toUpperCase() !== 'DISCONNECT';
+}
+
+function executeIntegrationDisconnect() {
+    closeModal('modal-integration-disconnect');
+    showToast('danger', _intgContext.name + ' has been disconnected.');
+    _demoteCardToAvailable(_intgContext.card);
+}
