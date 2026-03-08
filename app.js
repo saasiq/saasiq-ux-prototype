@@ -1635,3 +1635,134 @@ function executeIntegrationDisconnect() {
     showToast('danger', _intgContext.name + ' has been disconnected.');
     _demoteCardToAvailable(_intgContext.card);
 }
+
+
+// ========================================================================
+//  DISCOVERED APPS — Mark Managed / Flag Shadow IT / Filter
+// ========================================================================
+
+function markAsManaged(btn) {
+    var card = btn.closest('.integration-card-full');
+    if (!card) return;
+    var nameEl = card.querySelector('strong');
+    var appName = nameEl ? nameEl.textContent.trim() : 'App';
+
+    // Toggle state
+    if (card.classList.contains('managed')) {
+        card.classList.remove('managed');
+        // Restore original buttons
+        var actionsDiv = card.querySelector('.intg-actions');
+        if (actionsDiv) {
+            actionsDiv.innerHTML = '<button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button>'
+                + '<button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button>';
+        }
+        // Remove managed badge
+        var badge = card.querySelector('.discovered-managed-badge');
+        if (badge) badge.remove();
+        showToast('info', appName + ' removed from managed apps.');
+        return;
+    }
+
+    // Remove flagged if present
+    card.classList.remove('flagged');
+    var flagBadge = card.querySelector('.discovered-flagged-badge');
+    if (flagBadge) flagBadge.remove();
+
+    card.classList.add('managed');
+
+    // Add managed badge
+    var sourceBadge = card.querySelector('.discovered-source-badge');
+    var existingBadge = card.querySelector('.discovered-managed-badge');
+    if (!existingBadge && sourceBadge) {
+        var mgBadge = document.createElement('span');
+        mgBadge.className = 'discovered-managed-badge';
+        mgBadge.innerHTML = '<i class="fas fa-check-circle"></i> Managed';
+        sourceBadge.parentNode.insertBefore(mgBadge, sourceBadge.nextSibling);
+    }
+
+    // Update buttons
+    var actionsDiv = card.querySelector('.intg-actions');
+    if (actionsDiv) {
+        actionsDiv.innerHTML = '<button class="btn btn-sm btn-outline" style="color:#10B981;border-color:#10B981" onclick="markAsManaged(this)"><i class="fas fa-check-circle"></i> Managed</button>'
+            + '<button class="btn btn-sm btn-outline" onclick="openDiscoveredDetails(this)"><i class="fas fa-external-link-alt"></i> View Details</button>';
+    }
+
+    showToast('success', appName + ' marked as managed. It will appear in your SaaS inventory.');
+}
+
+function flagAsShadowIT(btn) {
+    var card = btn.closest('.integration-card-full');
+    if (!card) return;
+    var nameEl = card.querySelector('strong');
+    var appName = nameEl ? nameEl.textContent.trim() : 'App';
+
+    // Toggle state
+    if (card.classList.contains('flagged')) {
+        card.classList.remove('flagged');
+        var actionsDiv = card.querySelector('.intg-actions');
+        if (actionsDiv) {
+            actionsDiv.innerHTML = '<button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button>'
+                + '<button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button>';
+        }
+        var badge = card.querySelector('.discovered-flagged-badge');
+        if (badge) badge.remove();
+        showToast('info', appName + ' unflagged.');
+        return;
+    }
+
+    // Remove managed if present
+    card.classList.remove('managed');
+    var mgBadge = card.querySelector('.discovered-managed-badge');
+    if (mgBadge) mgBadge.remove();
+
+    card.classList.add('flagged');
+
+    // Add flagged badge
+    var sourceBadge = card.querySelector('.discovered-source-badge');
+    var existingBadge = card.querySelector('.discovered-flagged-badge');
+    if (!existingBadge && sourceBadge) {
+        var flBadge = document.createElement('span');
+        flBadge.className = 'discovered-flagged-badge';
+        flBadge.innerHTML = '<i class="fas fa-exclamation-circle"></i> Shadow IT';
+        sourceBadge.parentNode.insertBefore(flBadge, sourceBadge.nextSibling);
+    }
+
+    // Update buttons
+    var actionsDiv = card.querySelector('.intg-actions');
+    if (actionsDiv) {
+        actionsDiv.innerHTML = '<button class="btn btn-sm btn-outline btn-danger-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flagged as Shadow IT</button>'
+            + '<button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed Instead</button>';
+    }
+
+    showToast('warning', appName + ' flagged as Shadow IT. IT admin will be notified.');
+}
+
+function filterDiscoveredApps(source) {
+    var grid = document.getElementById('discovered-apps-grid');
+    if (!grid) return;
+    var cards = grid.querySelectorAll('.integration-card-full');
+    var visibleCount = 0;
+
+    cards.forEach(function(card) {
+        if (source === 'all' || card.dataset.source === source) {
+            card.style.display = '';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Update count badge
+    var countBadge = document.querySelector('.discovered-count');
+    if (countBadge) countBadge.textContent = visibleCount;
+}
+
+function openDiscoveredDetails(btn) {
+    var card = btn.closest('.integration-card-full');
+    if (!card) return;
+    var nameEl = card.querySelector('strong');
+    var appName = nameEl ? nameEl.textContent.trim() : 'App';
+    showToast('info', 'Opening detailed view for ' + appName + '…');
+    // Navigate to app detail in the main Apps dashboard
+    showDashSectionDirect('apps');
+}

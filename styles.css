@@ -1287,6 +1287,44 @@ body.theme-dark .landing-theme-toggle:hover {
 .btn-danger-outline { color: #EF4444 !important; border-color: #EF4444 !important; }
 .btn-danger-outline:hover { background: rgba(239,68,68,0.08) !important; }
 
+/* Discovered Integration Cards */
+.integration-card-full.discovered {
+    border-color: #818CF8;
+    border-style: dashed;
+    background: rgba(129,140,248,0.03);
+    position: relative;
+}
+.integration-card-full.discovered:hover { border-style: solid; background: rgba(129,140,248,0.06); }
+.intg-status.discovered { color: #818CF8; font-size: 11px; }
+.intg-status.discovered i { margin-right: 4px; }
+.discovered-source-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--gray-500);
+    background: var(--gray-100); border-radius: 6px;
+    padding: 4px 10px; margin-bottom: 10px;
+}
+.discovered-source-badge i { font-size: 12px; color: var(--gray-400); }
+.integration-card-full.discovered.managed {
+    border-color: #10B981; border-style: solid;
+    background: rgba(16,185,129,0.04);
+}
+.integration-card-full.discovered.flagged {
+    border-color: #EF4444; border-style: solid;
+    background: rgba(239,68,68,0.04);
+}
+.discovered-managed-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: #10B981;
+    background: rgba(16,185,129,0.1); border-radius: 6px;
+    padding: 3px 8px;
+}
+.discovered-flagged-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: #EF4444;
+    background: rgba(239,68,68,0.1); border-radius: 6px;
+    padding: 3px 8px;
+}
+
 /* Team Table */
 .team-table { display: flex; flex-direction: column; gap: 2px; }
 .team-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; align-items: center; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
@@ -2320,6 +2358,11 @@ body.theme-dark .integration-card-full {
     color: #D1D5DB;
 }
 body.theme-dark .integration-card-full.connected { background: rgba(16,185,129,0.06); }
+body.theme-dark .integration-card-full.discovered { background: rgba(129,140,248,0.06); border-color: #6366F1; }
+body.theme-dark .integration-card-full.discovered:hover { background: rgba(129,140,248,0.1); }
+body.theme-dark .integration-card-full.discovered.managed { background: rgba(16,185,129,0.06); border-color: #10B981; }
+body.theme-dark .integration-card-full.discovered.flagged { background: rgba(239,68,68,0.06); border-color: #EF4444; }
+body.theme-dark .discovered-source-badge { background: #2D3148; color: #9CA3AF; }
 body.theme-dark .integration-card-full p { color: #9CA3AF; }
 body.theme-dark .intg-header strong { color: #F3F4F6; }
 body.theme-dark .integration-status-item {

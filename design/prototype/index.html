@@ -3324,6 +3324,109 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Discovered via Scanning -->
+                            <div class="settings-section">
+                                <div class="section-header-row">
+                                    <h4>Discovered via Scanning <span class="badge-count discovered-count">12</span></h4>
+                                    <div style="display:flex;gap:8px;align-items:center">
+                                        <select id="discovered-source-filter" onchange="filterDiscoveredApps(this.value)" style="font-size:12px;padding:5px 10px;border-radius:8px;border:1px solid var(--gray-200);background:var(--gray-50);color:var(--gray-700)">
+                                            <option value="all">All Sources</option>
+                                            <option value="sso">Via SSO</option>
+                                            <option value="email">Via Email</option>
+                                            <option value="financial">Via Financial</option>
+                                            <option value="network">Via Network</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="settings-desc">These apps were automatically discovered by scanning your connected integrations. Limited data available — connect their APIs for full visibility.</p>
+                                <div class="integration-grid" id="discovered-apps-grid">
+                                    <div class="integration-card-full discovered" data-source="sso">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#00C4CC"><i class="fas fa-paint-brush"></i></div><div><strong>Canva</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via SSO</span></div></div>
+                                        <p>Design tool — 23 users authorized via Google OAuth</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>23 users</span><span><i class="fas fa-wifi" style="margin-right:4px"></i>Active last 7 days</span></div>
+                                        <div class="discovered-source-badge"><i class="fab fa-google"></i> Found via Google Workspace scan</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="email">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#2684FF"><i class="fab fa-dropbox"></i></div><div><strong>Dropbox</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Email</span></div></div>
+                                        <p>Cloud storage — welcome email + subscription receipt found</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>8 users</span><span><i class="fas fa-dollar-sign" style="margin-right:4px"></i>~$960/yr estimated</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-envelope"></i> Found via email scanning</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="network">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#10A37F"><i class="fas fa-robot"></i></div><div><strong>ChatGPT</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Network</span></div></div>
+                                        <p>AI assistant — high network traffic detected to api.openai.com</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>47 users</span><span><i class="fas fa-exclamation-triangle" style="margin-right:4px;color:#F59E0B"></i>Shadow AI risk</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-network-wired"></i> Found via network traffic</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline btn-danger-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="sso">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#0079BF"><i class="fab fa-trello"></i></div><div><strong>Trello</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via SSO</span></div></div>
+                                        <p>Project boards — 15 users authorized via Google OAuth</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>15 users</span><span><i class="fas fa-wifi" style="margin-right:4px"></i>Active last 30 days</span></div>
+                                        <div class="discovered-source-badge"><i class="fab fa-google"></i> Found via Google Workspace scan</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="financial">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#FF4F00"><i class="fas fa-headset"></i></div><div><strong>Intercom</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Financial</span></div></div>
+                                        <p>Customer support tool — recurring charge found on corporate card</p>
+                                        <div class="intg-meta"><span><i class="fas fa-dollar-sign" style="margin-right:4px"></i>$2,400/yr</span><span><i class="fas fa-credit-card" style="margin-right:4px"></i>Card ending •••4821</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-credit-card"></i> Found via financial scan</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="sso">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#FF6C37"><i class="fas fa-paper-plane"></i></div><div><strong>Postman</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via SSO</span></div></div>
+                                        <p>API testing tool — 12 developers authorized via Google OAuth</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>12 users</span><span><i class="fas fa-wifi" style="margin-right:4px"></i>Active last 14 days</span></div>
+                                        <div class="discovered-source-badge"><i class="fab fa-google"></i> Found via Google Workspace scan</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="email">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#6001D2"><i class="fas fa-video"></i></div><div><strong>Loom</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Email</span></div></div>
+                                        <p>Video messaging — welcome emails found for multiple users</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>19 users</span><span><i class="fas fa-wifi" style="margin-right:4px"></i>Active last 7 days</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-envelope"></i> Found via email scanning</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="network">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#1DB954"><i class="fas fa-music"></i></div><div><strong>Spotify</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Network</span></div></div>
+                                        <p>Music streaming — personal use during work hours detected</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>34 users</span><span><i class="fas fa-exclamation-triangle" style="margin-right:4px;color:#F59E0B"></i>Non-business app</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-network-wired"></i> Found via network traffic</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="financial">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#E01E5A"><i class="fas fa-envelope-open-text"></i></div><div><strong>Mailchimp</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Financial</span></div></div>
+                                        <p>Email marketing — monthly charge detected on corporate card</p>
+                                        <div class="intg-meta"><span><i class="fas fa-dollar-sign" style="margin-right:4px"></i>$1,200/yr</span><span><i class="fas fa-credit-card" style="margin-right:4px"></i>Card ending •••4821</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-credit-card"></i> Found via financial scan</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="sso">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#4A154B"><i class="fas fa-calendar"></i></div><div><strong>Calendly</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via SSO</span></div></div>
+                                        <p>Scheduling tool — 9 users authorized via Google OAuth</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>9 users</span><span><i class="fas fa-wifi" style="margin-right:4px"></i>Active last 7 days</span></div>
+                                        <div class="discovered-source-badge"><i class="fab fa-google"></i> Found via Google Workspace scan</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="email">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#7B68EE"><i class="fas fa-tasks"></i></div><div><strong>Monday.com</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Email</span></div></div>
+                                        <p>Work management — invitation emails found for team members</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>6 users</span><span><i class="fas fa-dollar-sign" style="margin-right:4px"></i>~$720/yr estimated</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-envelope"></i> Found via email scanning</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                    <div class="integration-card-full discovered" data-source="network">
+                                        <div class="intg-header"><div class="intg-icon" style="background:#FF0000"><i class="fab fa-youtube"></i></div><div><strong>YouTube Premium</strong><span class="intg-status discovered"><i class="fas fa-radar"></i> Discovered via Network</span></div></div>
+                                        <p>Video streaming — high bandwidth usage during work hours</p>
+                                        <div class="intg-meta"><span><i class="fas fa-users" style="margin-right:4px"></i>28 users</span><span><i class="fas fa-exclamation-triangle" style="margin-right:4px;color:#F59E0B"></i>Non-business app</span></div>
+                                        <div class="discovered-source-badge"><i class="fas fa-network-wired"></i> Found via network traffic</div>
+                                        <div class="intg-actions"><button class="btn btn-sm btn-outline" onclick="markAsManaged(this)"><i class="fas fa-check"></i> Mark Managed</button><button class="btn btn-sm btn-outline btn-danger-outline" onclick="flagAsShadowIT(this)"><i class="fas fa-flag"></i> Flag Shadow IT</button></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- TAB 3: Team Members -->
