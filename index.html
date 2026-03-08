@@ -1433,9 +1433,44 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            <!-- ===== SAAS DISCOVERY ===== -->
+                <!-- Discovered Apps Summary -->
+                <div class="chart-card" style="margin-top:20px">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-radar" style="color:#818CF8;margin-right:8px"></i>Recently Discovered Apps <span class="badge-count" style="background:#818CF8">12</span></h3>
+                        <button class="btn btn-sm btn-outline" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)">View All in Integrations <i class="fas fa-arrow-right" style="margin-left:4px"></i></button>
+                    </div>
+                    <div style="padding:0 24px 20px">
+                        <p style="font-size:13px;color:var(--gray-500);margin:0 0 16px">Auto-discovered by scanning your connected integrations. These apps are not yet managed.</p>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+                            <div class="discovered-mini-card" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)" style="border:1px dashed #818CF8;border-radius:10px;padding:12px;background:rgba(129,140,248,0.03);cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(129,140,248,0.08)'" onmouseout="this.style.background='rgba(129,140,248,0.03)'">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="width:32px;height:32px;border-radius:8px;background:#10A37F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px"><i class="fas fa-robot"></i></div><strong style="font-size:13px">ChatGPT</strong></div>
+                                <div style="font-size:11px;color:var(--gray-500)">47 users • <span style="color:#F59E0B"><i class="fas fa-exclamation-triangle"></i> Shadow AI</span></div>
+                            </div>
+                            <div class="discovered-mini-card" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)" style="border:1px dashed #818CF8;border-radius:10px;padding:12px;background:rgba(129,140,248,0.03);cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(129,140,248,0.08)'" onmouseout="this.style.background='rgba(129,140,248,0.03)'">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="width:32px;height:32px;border-radius:8px;background:#00C4CC;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px"><i class="fas fa-paint-brush"></i></div><strong style="font-size:13px">Canva</strong></div>
+                                <div style="font-size:11px;color:var(--gray-500)">23 users • Via SSO</div>
+                            </div>
+                            <div class="discovered-mini-card" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)" style="border:1px dashed #818CF8;border-radius:10px;padding:12px;background:rgba(129,140,248,0.03);cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(129,140,248,0.08)'" onmouseout="this.style.background='rgba(129,140,248,0.03)'">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="width:32px;height:32px;border-radius:8px;background:#2684FF;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px"><i class="fab fa-dropbox"></i></div><strong style="font-size:13px">Dropbox</strong></div>
+                                <div style="font-size:11px;color:var(--gray-500)">8 users • ~$960/yr via Email</div>
+                            </div>
+                            <div class="discovered-mini-card" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)" style="border:1px dashed #818CF8;border-radius:10px;padding:12px;background:rgba(129,140,248,0.03);cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(129,140,248,0.08)'" onmouseout="this.style.background='rgba(129,140,248,0.03)'">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="width:32px;height:32px;border-radius:8px;background:#FF4F00;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px"><i class="fas fa-headset"></i></div><strong style="font-size:13px">Intercom</strong></div>
+                                <div style="font-size:11px;color:var(--gray-500)">$2,400/yr • Via Financial</div>
+                            </div>
+                            <div class="discovered-mini-card" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)" style="border:1px dashed #818CF8;border-radius:10px;padding:12px;background:rgba(129,140,248,0.03);cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(129,140,248,0.08)'" onmouseout="this.style.background='rgba(129,140,248,0.03)'">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="width:32px;height:32px;border-radius:8px;background:#6001D2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px"><i class="fas fa-video"></i></div><strong style="font-size:13px">Loom</strong></div>
+                                <div style="font-size:11px;color:var(--gray-500)">19 users • Via Email</div>
+                            </div>
+                            <div style="border:1px dashed var(--gray-300);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-400);font-size:13px;font-weight:600;transition:all 0.2s" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)" onmouseover="this.style.borderColor='#818CF8';this.style.color='#818CF8'" onmouseout="this.style.borderColor='';this.style.color=''">
+                                +7 more apps <i class="fas fa-arrow-right" style="margin-left:6px"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div class="dash-section" id="sec-discovery">
                 <div class="page-header">
                     <div>
@@ -1613,6 +1648,138 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Discovered via Scanning -->
+                <div style="margin-top:24px">
+                    <div class="section-header-row" style="margin-bottom:16px">
+                        <h2 style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px"><i class="fas fa-radar" style="color:#818CF8"></i>Discovered via Scanning <span class="badge-count" style="background:#818CF8">12</span></h2>
+                        <button class="btn btn-sm btn-outline" onclick="showDashSectionDirect('settings');setTimeout(function(){showSettingsTab('integrations')},100)">Manage All <i class="fas fa-arrow-right" style="margin-left:4px"></i></button>
+                    </div>
+                    <p style="font-size:13px;color:var(--gray-500);margin:0 0 16px">Apps auto-discovered by scanning connected integrations. Not yet under direct API management — limited data available.</p>
+                    <div class="app-card-grid">
+                        <div class="app-card shadow">
+                            <div class="app-card-header">
+                                <div class="app-icon" style="background:#10A37F;color:#fff"><i class="fas fa-robot"></i></div>
+                                <div><h4>ChatGPT</h4><span>AI Tool</span></div>
+                                <span class="status-badge shadow">Shadow AI</span>
+                            </div>
+                            <div class="app-card-body">
+                                <div class="app-metric"><span>Users</span><strong>47</strong></div>
+                                <div class="app-metric"><span>Source</span><strong>Network</strong></div>
+                                <div class="app-metric"><span>Risk</span><strong style="color:#EF4444">High</strong></div>
+                            </div>
+                            <div class="app-card-footer">
+                                <span class="risk-badge high">Shadow AI Risk</span>
+                                <span class="source-tag"><i class="fas fa-network-wired"></i> Network</span>
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn btn-sm btn-primary" onclick="showToast('success','ChatGPT marked as managed')">Mark Managed</button>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','ChatGPT flagged as Shadow IT')">Flag Shadow IT</button>
+                            </div>
+                        </div>
+                        <div class="app-card shadow">
+                            <div class="app-card-header">
+                                <div class="app-icon" style="background:#00C4CC;color:#fff"><i class="fas fa-paint-brush"></i></div>
+                                <div><h4>Canva</h4><span>Design</span></div>
+                                <span class="status-badge shadow">Unmanaged</span>
+                            </div>
+                            <div class="app-card-body">
+                                <div class="app-metric"><span>Users</span><strong>23</strong></div>
+                                <div class="app-metric"><span>Source</span><strong>SSO</strong></div>
+                                <div class="app-metric"><span>Risk</span><strong style="color:#F59E0B">Medium</strong></div>
+                            </div>
+                            <div class="app-card-footer">
+                                <span class="risk-badge medium">Medium Risk</span>
+                                <span class="source-tag"><i class="fab fa-google"></i> Google SSO</span>
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn btn-sm btn-primary" onclick="showToast('success','Canva marked as managed')">Mark Managed</button>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','Canva flagged as Shadow IT')">Flag Shadow IT</button>
+                            </div>
+                        </div>
+                        <div class="app-card shadow">
+                            <div class="app-card-header">
+                                <div class="app-icon" style="background:#2684FF;color:#fff"><i class="fab fa-dropbox"></i></div>
+                                <div><h4>Dropbox</h4><span>Storage</span></div>
+                                <span class="status-badge shadow">Unmanaged</span>
+                            </div>
+                            <div class="app-card-body">
+                                <div class="app-metric"><span>Users</span><strong>8</strong></div>
+                                <div class="app-metric"><span>Spend</span><strong>~$960/yr</strong></div>
+                                <div class="app-metric"><span>Source</span><strong>Email</strong></div>
+                            </div>
+                            <div class="app-card-footer">
+                                <span class="risk-badge medium">Medium Risk</span>
+                                <span class="source-tag"><i class="fas fa-envelope"></i> Email</span>
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn btn-sm btn-primary" onclick="showToast('success','Dropbox marked as managed')">Mark Managed</button>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','Dropbox flagged as Shadow IT')">Flag Shadow IT</button>
+                            </div>
+                        </div>
+                        <div class="app-card shadow">
+                            <div class="app-card-header">
+                                <div class="app-icon" style="background:#0079BF;color:#fff"><i class="fab fa-trello"></i></div>
+                                <div><h4>Trello</h4><span>Project Mgmt</span></div>
+                                <span class="status-badge shadow">Unmanaged</span>
+                            </div>
+                            <div class="app-card-body">
+                                <div class="app-metric"><span>Users</span><strong>15</strong></div>
+                                <div class="app-metric"><span>Source</span><strong>SSO</strong></div>
+                                <div class="app-metric"><span>Risk</span><strong style="color:#F59E0B">Medium</strong></div>
+                            </div>
+                            <div class="app-card-footer">
+                                <span class="risk-badge low">Low Risk</span>
+                                <span class="source-tag"><i class="fab fa-google"></i> Google SSO</span>
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn btn-sm btn-primary" onclick="showToast('success','Trello marked as managed')">Mark Managed</button>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','Trello flagged as Shadow IT')">Flag Shadow IT</button>
+                            </div>
+                        </div>
+                        <div class="app-card shadow">
+                            <div class="app-card-header">
+                                <div class="app-icon" style="background:#FF4F00;color:#fff"><i class="fas fa-headset"></i></div>
+                                <div><h4>Intercom</h4><span>Support</span></div>
+                                <span class="status-badge shadow">Unmanaged</span>
+                            </div>
+                            <div class="app-card-body">
+                                <div class="app-metric"><span>Spend</span><strong>$2,400/yr</strong></div>
+                                <div class="app-metric"><span>Source</span><strong>Financial</strong></div>
+                                <div class="app-metric"><span>Risk</span><strong style="color:#F59E0B">Medium</strong></div>
+                            </div>
+                            <div class="app-card-footer">
+                                <span class="risk-badge medium">Medium Risk</span>
+                                <span class="source-tag"><i class="fas fa-credit-card"></i> Financial</span>
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn btn-sm btn-primary" onclick="showToast('success','Intercom marked as managed')">Mark Managed</button>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','Intercom flagged as Shadow IT')">Flag Shadow IT</button>
+                            </div>
+                        </div>
+                        <div class="app-card shadow">
+                            <div class="app-card-header">
+                                <div class="app-icon" style="background:#6001D2;color:#fff"><i class="fas fa-video"></i></div>
+                                <div><h4>Loom</h4><span>Video</span></div>
+                                <span class="status-badge shadow">Unmanaged</span>
+                            </div>
+                            <div class="app-card-body">
+                                <div class="app-metric"><span>Users</span><strong>19</strong></div>
+                                <div class="app-metric"><span>Source</span><strong>Email</strong></div>
+                                <div class="app-metric"><span>Risk</span><strong style="color:#F59E0B">Medium</strong></div>
+                            </div>
+                            <div class="app-card-footer">
+                                <span class="risk-badge medium">Medium Risk</span>
+                                <span class="source-tag"><i class="fas fa-envelope"></i> Email</span>
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn btn-sm btn-primary" onclick="showToast('success','Loom marked as managed')">Mark Managed</button>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','Loom flagged as Shadow IT')">Flag Shadow IT</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- ===== SPEND INTELLIGENCE ===== -->
@@ -1780,6 +1947,60 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Discovered: Untracked Spend -->
+                <div class="chart-card" style="margin-top:20px">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-radar" style="color:#818CF8;margin-right:8px"></i>Discovered Spend (Untracked) <span class="badge-count" style="background:#F59E0B">4</span></h3>
+                    </div>
+                    <div style="padding:0 24px 20px">
+                        <p style="font-size:13px;color:var(--gray-500);margin:0 0 14px">Spend detected from auto-discovered apps. These are not under contract management — no negotiation leverage yet.</p>
+                        <div style="overflow-x:auto">
+                            <table class="data-table" style="font-size:13px">
+                                <thead><tr><th>App</th><th>Discovery Source</th><th>Estimated Spend</th><th>Users</th><th>Status</th><th>Action</th></tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="app-cell"><div class="app-icon" style="background:#FF4F00;color:#fff;width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:8px"><i class="fas fa-headset"></i></div> Intercom</td>
+                                        <td><span class="source-tag"><i class="fas fa-credit-card"></i> Financial scan</span></td>
+                                        <td class="spend-cell">$2,400/yr</td>
+                                        <td>Unknown</td>
+                                        <td><span class="status-badge shadow">Unmanaged</span></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="showToast('success','Intercom added to spend tracking')">Track Spend</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="app-cell"><div class="app-icon" style="background:#E01E5A;color:#fff;width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:8px"><i class="fas fa-envelope-open-text"></i></div> Mailchimp</td>
+                                        <td><span class="source-tag"><i class="fas fa-credit-card"></i> Financial scan</span></td>
+                                        <td class="spend-cell">$1,200/yr</td>
+                                        <td>Unknown</td>
+                                        <td><span class="status-badge shadow">Unmanaged</span></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="showToast('success','Mailchimp added to spend tracking')">Track Spend</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="app-cell"><div class="app-icon" style="background:#2684FF;color:#fff;width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:8px"><i class="fab fa-dropbox"></i></div> Dropbox</td>
+                                        <td><span class="source-tag"><i class="fas fa-envelope"></i> Email receipt</span></td>
+                                        <td class="spend-cell">~$960/yr</td>
+                                        <td>8</td>
+                                        <td><span class="status-badge shadow">Unmanaged</span></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="showToast('success','Dropbox added to spend tracking')">Track Spend</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="app-cell"><div class="app-icon" style="background:#7B68EE;color:#fff;width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:8px"><i class="fas fa-tasks"></i></div> Monday.com</td>
+                                        <td><span class="source-tag"><i class="fas fa-envelope"></i> Email receipt</span></td>
+                                        <td class="spend-cell">~$720/yr</td>
+                                        <td>6</td>
+                                        <td><span class="status-badge shadow">Unmanaged</span></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="showToast('success','Monday.com added to spend tracking')">Track Spend</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="padding:12px;margin-top:12px;background:rgba(129,140,248,0.06);border:1px dashed #818CF8;border-radius:8px;display:flex;align-items:center;gap:10px">
+                            <i class="fas fa-lightbulb" style="color:#818CF8"></i>
+                            <span style="font-size:12px;color:var(--gray-500)"><strong>AI Insight:</strong> You have ~$5,280/yr in untracked SaaS spend from discovered apps. Adding these to contract management could unlock negotiation savings of 15–30%.</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- ===== USAGE ANALYTICS ===== -->
@@ -2066,6 +2287,95 @@
                             </div>
                         </div>
                     </div>
+
+                <!-- Discovered: Unmonitored Usage -->
+                <div class="chart-card" style="margin-top:20px">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-radar" style="color:#818CF8;margin-right:8px"></i>Discovered Apps — Unmonitored Usage <span class="badge-count" style="background:#818CF8">6</span></h3>
+                    </div>
+                    <div style="padding:0 24px 20px">
+                        <p style="font-size:13px;color:var(--gray-500);margin:0 0 14px">Usage estimates from auto-discovered apps. Connect their APIs for accurate per-user usage data.</p>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+                            <div style="border:1px dashed #818CF8;border-radius:10px;padding:16px;background:rgba(129,140,248,0.03)">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                                    <div style="width:36px;height:36px;border-radius:8px;background:#10A37F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px"><i class="fas fa-robot"></i></div>
+                                    <div><strong style="font-size:14px">ChatGPT</strong><br><span style="font-size:11px;color:var(--gray-500)">47 users detected via network</span></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-bottom:10px">
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Est. Sessions/Day</div><strong style="font-size:16px;color:var(--red)">~340</strong></div>
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Data Depth</div><strong style="font-size:12px;color:#F59E0B">Limited</strong></div>
+                                </div>
+                                <div style="height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:85%;height:100%;background:linear-gradient(90deg,#818CF8,#EF4444);border-radius:3px"></div></div>
+                                <div style="font-size:10px;color:var(--gray-500);margin-top:4px">85% estimated activity • <span style="color:#EF4444">High usage, no governance</span></div>
+                            </div>
+                            <div style="border:1px dashed #818CF8;border-radius:10px;padding:16px;background:rgba(129,140,248,0.03)">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                                    <div style="width:36px;height:36px;border-radius:8px;background:#00C4CC;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px"><i class="fas fa-paint-brush"></i></div>
+                                    <div><strong style="font-size:14px">Canva</strong><br><span style="font-size:11px;color:var(--gray-500)">23 users via SSO</span></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-bottom:10px">
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Est. Sessions/Day</div><strong style="font-size:16px;color:var(--primary)">~45</strong></div>
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Data Depth</div><strong style="font-size:12px;color:#F59E0B">Limited</strong></div>
+                                </div>
+                                <div style="height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:52%;height:100%;background:#818CF8;border-radius:3px"></div></div>
+                                <div style="font-size:10px;color:var(--gray-500);margin-top:4px">52% estimated activity • Moderate usage</div>
+                            </div>
+                            <div style="border:1px dashed #818CF8;border-radius:10px;padding:16px;background:rgba(129,140,248,0.03)">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                                    <div style="width:36px;height:36px;border-radius:8px;background:#6001D2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px"><i class="fas fa-video"></i></div>
+                                    <div><strong style="font-size:14px">Loom</strong><br><span style="font-size:11px;color:var(--gray-500)">19 users via email</span></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-bottom:10px">
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Est. Sessions/Day</div><strong style="font-size:16px;color:var(--primary)">~28</strong></div>
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Data Depth</div><strong style="font-size:12px;color:#F59E0B">Limited</strong></div>
+                                </div>
+                                <div style="height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:38%;height:100%;background:#818CF8;border-radius:3px"></div></div>
+                                <div style="font-size:10px;color:var(--gray-500);margin-top:4px">38% estimated activity • Moderate usage</div>
+                            </div>
+                            <div style="border:1px dashed #818CF8;border-radius:10px;padding:16px;background:rgba(129,140,248,0.03)">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                                    <div style="width:36px;height:36px;border-radius:8px;background:#0079BF;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px"><i class="fab fa-trello"></i></div>
+                                    <div><strong style="font-size:14px">Trello</strong><br><span style="font-size:11px;color:var(--gray-500)">15 users via SSO</span></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-bottom:10px">
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Est. Sessions/Day</div><strong style="font-size:16px;color:var(--primary)">~20</strong></div>
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Data Depth</div><strong style="font-size:12px;color:#F59E0B">Limited</strong></div>
+                                </div>
+                                <div style="height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:35%;height:100%;background:#818CF8;border-radius:3px"></div></div>
+                                <div style="font-size:10px;color:var(--gray-500);margin-top:4px">35% estimated activity • Low-moderate usage</div>
+                            </div>
+                            <div style="border:1px dashed #818CF8;border-radius:10px;padding:16px;background:rgba(129,140,248,0.03)">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                                    <div style="width:36px;height:36px;border-radius:8px;background:#1DB954;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px"><i class="fas fa-music"></i></div>
+                                    <div><strong style="font-size:14px">Spotify</strong><br><span style="font-size:11px;color:var(--gray-500)">34 users via network</span></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-bottom:10px">
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Est. Sessions/Day</div><strong style="font-size:16px;color:var(--orange)">~120</strong></div>
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Category</div><strong style="font-size:12px;color:#F59E0B">Non-business</strong></div>
+                                </div>
+                                <div style="height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:70%;height:100%;background:linear-gradient(90deg,#818CF8,#F59E0B);border-radius:3px"></div></div>
+                                <div style="font-size:10px;color:var(--gray-500);margin-top:4px">70% bandwidth • <span style="color:#F59E0B">Non-business, high usage</span></div>
+                            </div>
+                            <div style="border:1px dashed #818CF8;border-radius:10px;padding:16px;background:rgba(129,140,248,0.03)">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                                    <div style="width:36px;height:36px;border-radius:8px;background:#FF0000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px"><i class="fab fa-youtube"></i></div>
+                                    <div><strong style="font-size:14px">YouTube Premium</strong><br><span style="font-size:11px;color:var(--gray-500)">28 users via network</span></div>
+                                </div>
+                                <div style="display:flex;gap:8px;margin-bottom:10px">
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Est. Sessions/Day</div><strong style="font-size:16px;color:var(--orange)">~95</strong></div>
+                                    <div style="flex:1;background:var(--gray-100);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--gray-500)">Category</div><strong style="font-size:12px;color:#F59E0B">Non-business</strong></div>
+                                </div>
+                                <div style="height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:65%;height:100%;background:linear-gradient(90deg,#818CF8,#F59E0B);border-radius:3px"></div></div>
+                                <div style="font-size:10px;color:var(--gray-500);margin-top:4px">65% bandwidth • <span style="color:#F59E0B">Non-business, high usage</span></div>
+                            </div>
+                        </div>
+                        <div style="padding:12px;margin-top:12px;background:rgba(129,140,248,0.06);border:1px dashed #818CF8;border-radius:8px;display:flex;align-items:center;gap:10px">
+                            <i class="fas fa-lightbulb" style="color:#818CF8"></i>
+                            <span style="font-size:12px;color:var(--gray-500)"><strong>AI Insight:</strong> 6 discovered apps have unmonitored usage. ChatGPT (47 users, ~340 sessions/day) is your highest-risk unmonitored tool. Connect their APIs or flag as Shadow IT for governance.</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- ===== COMPLIANCE & RISK ===== -->
@@ -2187,6 +2497,63 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Discovered: Compliance Risks -->
+                <div class="chart-card" style="margin-top:20px">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-radar" style="color:#818CF8;margin-right:8px"></i>Discovered Apps — Compliance Blind Spots <span class="badge-count" style="background:#EF4444">5</span></h3>
+                    </div>
+                    <div style="padding:0 24px 20px">
+                        <p style="font-size:13px;color:var(--gray-500);margin:0 0 14px">Auto-discovered apps with unknown compliance status. No vendor risk assessment available until formally onboarded.</p>
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div class="risk-app-item" style="border-left:3px solid #EF4444">
+                                <div class="risk-score-badge high">?</div>
+                                <div class="risk-app-info">
+                                    <strong>ChatGPT <span style="font-size:11px;color:#818CF8;font-weight:400">• Discovered via Network</span></strong>
+                                    <span>47 users • No DPA • No SOC 2 • Data sent to external AI • Shadow AI risk</span>
+                                </div>
+                                <button class="btn btn-sm btn-danger" onclick="showToast('warning','ChatGPT flagged for compliance review')">Flag for Review</button>
+                            </div>
+                            <div class="risk-app-item" style="border-left:3px solid #F59E0B">
+                                <div class="risk-score-badge medium">?</div>
+                                <div class="risk-app-info">
+                                    <strong>Dropbox <span style="font-size:11px;color:#818CF8;font-weight:400">• Discovered via Email</span></strong>
+                                    <span>8 users • File sharing • Data residency unknown • No SSO enforcement</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline" onclick="showToast('info','Dropbox added to compliance review queue')">Review</button>
+                            </div>
+                            <div class="risk-app-item" style="border-left:3px solid #F59E0B">
+                                <div class="risk-score-badge medium">?</div>
+                                <div class="risk-app-info">
+                                    <strong>Canva <span style="font-size:11px;color:#818CF8;font-weight:400">• Discovered via SSO</span></strong>
+                                    <span>23 users • Design files may contain IP • Sharing controls unknown</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline" onclick="showToast('info','Canva added to compliance review queue')">Review</button>
+                            </div>
+                            <div class="risk-app-item" style="border-left:3px solid #F59E0B">
+                                <div class="risk-score-badge medium">?</div>
+                                <div class="risk-app-info">
+                                    <strong>Loom <span style="font-size:11px;color:#818CF8;font-weight:400">• Discovered via Email</span></strong>
+                                    <span>19 users • Video recordings may contain sensitive data • No encryption verification</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline" onclick="showToast('info','Loom added to compliance review queue')">Review</button>
+                            </div>
+                            <div class="risk-app-item" style="border-left:3px solid #F59E0B">
+                                <div class="risk-score-badge medium">?</div>
+                                <div class="risk-app-info">
+                                    <strong>Postman <span style="font-size:11px;color:#818CF8;font-weight:400">• Discovered via SSO</span></strong>
+                                    <span>12 users • API keys/secrets may be stored in shared collections • Export controls unknown</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline" onclick="showToast('info','Postman added to compliance review queue')">Review</button>
+                            </div>
+                        </div>
+                        <div style="padding:12px;margin-top:14px;background:rgba(239,68,68,0.06);border:1px dashed #EF4444;border-radius:8px;display:flex;align-items:center;gap:10px">
+                            <i class="fas fa-shield-alt" style="color:#EF4444"></i>
+                            <span style="font-size:12px;color:var(--gray-500)"><strong>Compliance Alert:</strong> 5 discovered apps have unknown compliance posture. ChatGPT is highest risk — 47 users sending company data to external AI with no DPA. Recommend immediate review and policy creation.</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- ===== CONTRACTS ===== -->
