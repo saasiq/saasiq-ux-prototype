@@ -2,6 +2,53 @@
    SaaSIQ — Interactive Prototype JS
    ======================================== */
 
+/* ========= FEATURE FLAGS ========= */
+const SaaSIQFlags = {
+    _flags: {
+        partnerships: { enabled: false, label: 'Partnership & Barter Intelligence', description: 'Track service-exchange deals, barter ROI, and non-monetary SaaS procurement' },
+    },
+    init() {
+        const saved = localStorage.getItem('saasiq_feature_flags');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                Object.keys(parsed).forEach(k => { if (this._flags[k]) this._flags[k].enabled = parsed[k]; });
+            } catch(e) {}
+        }
+        this.applyAll();
+    },
+    isEnabled(flag) { return this._flags[flag]?.enabled || false; },
+    toggle(flag) {
+        if (!this._flags[flag]) return;
+        this._flags[flag].enabled = !this._flags[flag].enabled;
+        this._save();
+        this.applyAll();
+    },
+    setEnabled(flag, val) {
+        if (!this._flags[flag]) return;
+        this._flags[flag].enabled = !!val;
+        this._save();
+        this.applyAll();
+    },
+    _save() {
+        const data = {};
+        Object.keys(this._flags).forEach(k => { data[k] = this._flags[k].enabled; });
+        localStorage.setItem('saasiq_feature_flags', JSON.stringify(data));
+    },
+    applyAll() {
+        Object.keys(this._flags).forEach(flag => {
+            const els = document.querySelectorAll(`[data-feature-flag="${flag}"]`);
+            els.forEach(el => {
+                el.style.display = this._flags[flag].enabled ? '' : 'none';
+            });
+            // Update toggle switches in settings
+            const toggle = document.getElementById(`flag-toggle-${flag}`);
+            if (toggle) toggle.checked = this._flags[flag].enabled;
+        });
+    },
+    getAll() { return this._flags; }
+};
+
 // Page Navigation
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -35,13 +82,14 @@ function showDashSection(sectionId, event) {
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     if (event && event.currentTarget) event.currentTarget.classList.add('active');
 
-    // Show the section
+    // Hide all sections, then show target
     document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('sec-' + sectionId);
     if (target) {
         target.classList.add('active');
         // Scroll main content to top
-        document.querySelector('.main-content').scrollTo(0, 0);
+        var mainContent = document.querySelector('.main-content');
+        if (mainContent) mainContent.scrollTo(0, 0);
     }
 }
 
@@ -237,7 +285,9 @@ document.addEventListener('click', function(e) {
 function showDashSectionDirect(sectionId) {
     document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('sec-' + sectionId);
-    if (target) target.classList.add('active');
+    if (target) {
+        target.classList.add('active');
+    }
 
     // Update sidebar
     document.querySelectorAll('.nav-item').forEach(item => {
@@ -1766,3 +1816,226 @@ function openDiscoveredDetails(btn) {
     // Navigate to app detail in the main Apps dashboard
     showDashSectionDirect('apps');
 }
+
+/* ========= FEATURE FLAG TOGGLE HANDLER ========= */
+function toggleFeatureFlag(flag) {
+    SaaSIQFlags.toggle(flag);
+    const enabled = SaaSIQFlags.isEnabled(flag);
+    showToast(enabled ? 'success' : 'info', `${SaaSIQFlags.getAll()[flag]?.label || flag} ${enabled ? 'enabled' : 'disabled'}`);
+}
+
+/* ========= PARTNERSHIP DATA & HANDLERS ========= */
+const partnerData = {
+    slacktech: {
+        name: 'SlackTech Solutions',
+        icon: '<i class="fab fa-slack"></i>',
+        iconBg: 'linear-gradient(135deg,#4A154B,#611f69)',
+        subtitle: 'Slack Enterprise · Barter: Design Services',
+        status: 'Active',
+        statusClass: 'active',
+        seats: 50, used: 38, utilization: 76,
+        serviceType: 'UI/UX Design', serviceHours: 120, serviceValue: '₹12L',
+        waste: '12 seats · ₹2.88L', wasteSeats: '12 seats', wasteValue: '₹2.88L',
+        received: 'Slack Enterprise Grid', receivedDetail: '50 seats · ₹15L/yr market value',
+        given: 'UI/UX Design Services', givenDetail: '120 hrs · ₹12L value',
+        start: 'Jan 15, 2026', end: 'Jan 14, 2027', remaining: '310 days',
+        ledger: [
+            { date: 'Mar 5, 2026', service: 'UI/UX Design Sprint', hours: '40 hrs', value: '₹4L', status: 'Delivered' },
+            { date: 'Feb 1, 2026', service: 'Dashboard Redesign', hours: '32 hrs', value: '₹3.2L', status: 'Delivered' },
+            { date: 'Jan 20, 2026', service: 'Mobile App Wireframes', hours: '24 hrs', value: '₹2.4L', status: 'Delivered' }
+        ],
+        ai: {
+            headline: 'Downsize to 40 seats — save ₹2.4L/year',
+            confidence: 'Confidence: 92% · Based on 55 days of usage data',
+            currentSeats: '50 seats', currentHours: '120 design hrs',
+            recSeats: '40 seats', recHours: '96 design hrs',
+            savings: '₹2.4L/yr',
+            insights: [
+                { icon: 'fa-chart-line', color: 'var(--blue)', text: '12 seats have had zero logins in 45+ days — consistent non-usage pattern' },
+                { icon: 'fa-users', color: 'var(--orange)', text: '76% utilization is below the 85% efficiency threshold for barter deals' },
+                { icon: 'fa-clock', color: 'var(--primary)', text: 'Renewal in 310 days — renegotiate early for 10% better terms' },
+                { icon: 'fa-rupee-sign', color: 'var(--green)', text: 'Downsizing saves 24 design hours (₹2.4L) with zero productivity impact' }
+            ],
+            actions: [
+                { num: 1, text: 'Reduce license count from 50 → 40 seats (remove inactive users)' },
+                { num: 2, text: 'Renegotiate service commitment from 120 → 96 hours proportionally' },
+                { num: 3, text: 'Set up quarterly utilization review checkpoints' }
+            ]
+        }
+    },
+    atlassian: {
+        name: 'Atlassian Corp',
+        icon: '<i class="fab fa-atlassian"></i>',
+        iconBg: 'linear-gradient(135deg,#0052CC,#2684FF)',
+        subtitle: 'Jira + Confluence · Barter: DevOps Consulting',
+        status: 'Active',
+        statusClass: 'active',
+        seats: 75, used: 42, utilization: 56,
+        serviceType: 'DevOps Consulting', serviceHours: 200, serviceValue: '₹18L',
+        waste: '33 seats · ₹7.92L', wasteSeats: '33 seats', wasteValue: '₹7.92L',
+        received: 'Jira + Confluence Premium', receivedDetail: '75 seats · ₹22L/yr market value',
+        given: 'DevOps Consulting Services', givenDetail: '200 hrs · ₹18L value',
+        start: 'Dec 1, 2025', end: 'Nov 30, 2026', remaining: '265 days',
+        ledger: [
+            { date: 'Feb 20, 2026', service: 'CI/CD Pipeline Setup', hours: '60 hrs', value: '₹5.4L', status: 'Delivered' },
+            { date: 'Jan 15, 2026', service: 'Kubernetes Migration', hours: '80 hrs', value: '₹7.2L', status: 'In Progress' },
+            { date: 'Dec 10, 2025', service: 'Infrastructure Audit', hours: '20 hrs', value: '₹1.8L', status: 'Delivered' }
+        ],
+        ai: {
+            headline: 'Renegotiate to 50 seats — save ₹9L/year',
+            confidence: 'Confidence: 96% · Based on 100 days of usage data',
+            currentSeats: '75 seats', currentHours: '200 consulting hrs',
+            recSeats: '50 seats', recHours: '134 consulting hrs',
+            savings: '₹9L/yr',
+            insights: [
+                { icon: 'fa-exclamation-circle', color: 'var(--red)', text: '33 of 75 seats (44%) have zero logins in 60 days — critical waste' },
+                { icon: 'fa-rupee-sign', color: 'var(--red)', text: 'You\'re committing ₹18L in consulting for licenses worth ₹22L — tight margin' },
+                { icon: 'fa-building', color: 'var(--blue)', text: 'Industry benchmark: similar companies use 55-65 seats for this team size' },
+                { icon: 'fa-lightbulb', color: 'var(--green)', text: 'Downsizing saves 66 consulting hours (₹9L) — reinvest in high-impact projects' }
+            ],
+            actions: [
+                { num: 1, text: 'Audit 33 inactive users — remove or reassign licenses immediately' },
+                { num: 2, text: 'Renegotiate deal from 75 → 50 seats with Atlassian' },
+                { num: 3, text: 'Reduce service commitment proportionally from 200 → 134 hours' },
+                { num: 4, text: 'Implement monthly seat utilization monitoring to prevent future waste' }
+            ]
+        }
+    },
+    hubspot: {
+        name: 'HubSpot Partners',
+        icon: '<i class="fab fa-hubspot"></i>',
+        iconBg: 'linear-gradient(135deg,#FF6D00,#FF9100)',
+        subtitle: 'HubSpot CRM Pro · Barter: Content Marketing',
+        status: 'Under Review',
+        statusClass: 'warning',
+        seats: 20, used: 18, utilization: 90,
+        serviceType: 'Content Marketing', serviceHours: 160, serviceValue: '₹6L',
+        waste: '2 seats · ₹0.6L', wasteSeats: '2 seats', wasteValue: '₹0.6L',
+        received: 'HubSpot CRM Pro', receivedDetail: '20 seats · ₹8L/yr market value',
+        given: 'Content Marketing Services', givenDetail: '160 hrs · ₹6L value',
+        start: 'Feb 1, 2026', end: 'Jan 31, 2027', remaining: '327 days',
+        ledger: [
+            { date: 'Feb 10, 2026', service: 'Blog Content (10 articles)', hours: '80 hrs', value: '₹3L', status: 'Delivered' },
+            { date: 'Feb 25, 2026', service: 'Social Media Campaign', hours: '40 hrs', value: '₹1.5L', status: 'Delivered' },
+            { date: 'Mar 3, 2026', service: 'SEO Optimization Sprint', hours: '24 hrs', value: '₹0.9L', status: 'In Progress' }
+        ],
+        ai: {
+            headline: 'Healthy deal — recommend renewing at current terms',
+            confidence: 'Confidence: 98% · Based on 38 days of usage data',
+            currentSeats: '20 seats', currentHours: '160 content hrs',
+            recSeats: '20 seats', recHours: '160 content hrs',
+            savings: '₹0 (already optimized)',
+            insights: [
+                { icon: 'fa-check-circle', color: 'var(--green)', text: '90% utilization — well above the 85% efficiency threshold' },
+                { icon: 'fa-thumbs-up', color: 'var(--green)', text: 'Positive ROI: ₹8L software value received for ₹6L in services' },
+                { icon: 'fa-chart-line', color: 'var(--blue)', text: 'Usage trending upward — 2 remaining seats likely to be filled within 60 days' },
+                { icon: 'fa-star', color: 'var(--orange)', text: 'This is your most cost-effective partnership — model for future deals' }
+            ],
+            actions: [
+                { num: 1, text: 'Renew at current terms when deal comes up for review' },
+                { num: 2, text: 'Consider expanding to 25 seats if marketing team grows' },
+                { num: 3, text: 'Use this deal structure as a template for future barter partnerships' }
+            ]
+        }
+    }
+};
+
+function openPartnerDetails(partnerId) {
+    const d = partnerData[partnerId];
+    if (!d) return;
+    document.getElementById('partner-detail-name').textContent = d.name;
+    document.getElementById('partner-detail-title').textContent = d.name;
+    document.getElementById('partner-detail-subtitle').textContent = d.subtitle;
+    const iconEl = document.getElementById('partner-detail-icon');
+    iconEl.innerHTML = d.icon;
+    iconEl.style.background = d.iconBg;
+    const statusEl = document.getElementById('partner-detail-status');
+    statusEl.textContent = d.status;
+    statusEl.className = 'status-badge ' + d.statusClass;
+
+    document.getElementById('partner-detail-licenses').textContent = d.used + ' / ' + d.seats;
+    document.getElementById('partner-detail-utilization').textContent = d.utilization + '%';
+    document.getElementById('partner-detail-utilization').style.color = d.utilization >= 80 ? 'var(--green)' : d.utilization >= 60 ? 'var(--orange)' : 'var(--red)';
+    document.getElementById('partner-detail-value').textContent = d.serviceValue;
+
+    document.getElementById('partner-detail-received').textContent = d.received;
+    document.getElementById('partner-detail-received-detail').textContent = d.receivedDetail;
+    document.getElementById('partner-detail-given').textContent = d.given;
+    document.getElementById('partner-detail-given-detail').textContent = d.givenDetail;
+
+    document.getElementById('partner-detail-start').textContent = d.start;
+    document.getElementById('partner-detail-end').textContent = d.end;
+    document.getElementById('partner-detail-remaining').textContent = d.remaining;
+
+    document.getElementById('partner-detail-waste-seats').textContent = d.wasteSeats;
+    document.getElementById('partner-detail-waste-value').textContent = d.wasteValue;
+    document.getElementById('partner-detail-util-bar').style.width = d.utilization + '%';
+    document.getElementById('partner-detail-util-bar').style.background = d.utilization >= 80
+        ? 'linear-gradient(90deg,var(--green),#34D399)'
+        : d.utilization >= 60 ? 'linear-gradient(90deg,var(--orange),#FBBF24)' : 'linear-gradient(90deg,var(--red),#F87171)';
+
+    // Service ledger entries
+    const ledgerEl = document.getElementById('partner-detail-ledger');
+    ledgerEl.innerHTML = d.ledger.map(function(e) {
+        var statusColor = e.status === 'Delivered' ? 'var(--green)' : 'var(--orange)';
+        return '<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#F9FAFB;border-radius:8px">' +
+            '<div style="width:36px;height:36px;border-radius:8px;background:rgba(124,58,237,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-file-invoice" style="color:var(--primary);font-size:14px"></i></div>' +
+            '<div style="flex:1"><strong style="font-size:13px;display:block;color:var(--gray-800)">' + e.service + '</strong><span style="font-size:11px;color:var(--gray-600)">' + e.date + ' · ' + e.hours + ' · ' + e.value + '</span></div>' +
+            '<span style="font-size:11px;font-weight:600;color:' + statusColor + '">' + e.status + '</span></div>';
+    }).join('');
+
+    openModal('modal-partner-details');
+}
+
+function openPartnerAI(partnerId) {
+    const d = partnerData[partnerId];
+    if (!d || !d.ai) return;
+    const ai = d.ai;
+
+    document.getElementById('partner-ai-name').textContent = d.name;
+    document.getElementById('partner-ai-headline').textContent = ai.headline;
+    document.getElementById('partner-ai-confidence').textContent = ai.confidence;
+    document.getElementById('partner-ai-current-seats').textContent = ai.currentSeats;
+    document.getElementById('partner-ai-current-hours').textContent = ai.currentHours;
+    document.getElementById('partner-ai-rec-seats').textContent = ai.recSeats;
+    document.getElementById('partner-ai-rec-hours').textContent = ai.recHours;
+    document.getElementById('partner-ai-savings').textContent = ai.savings;
+
+    // Insights
+    document.getElementById('partner-ai-insights').innerHTML = ai.insights.map(function(ins) {
+        return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:#F9FAFB;border-radius:8px">' +
+            '<i class="fas ' + ins.icon + '" style="color:' + ins.color + ';margin-top:2px;width:16px;text-align:center;flex-shrink:0"></i>' +
+            '<span style="font-size:13px;color:var(--gray-700)">' + ins.text + '</span></div>';
+    }).join('');
+
+    // Actions
+    document.getElementById('partner-ai-actions').innerHTML = ai.actions.map(function(act) {
+        return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:rgba(16,185,129,0.06);border-left:3px solid var(--green);border-radius:0 8px 8px 0">' +
+            '<div style="width:22px;height:22px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;color:#fff">' + act.num + '</div>' +
+            '<span style="font-size:13px;color:var(--gray-700)">' + act.text + '</span></div>';
+    }).join('');
+
+    openModal('modal-partner-ai');
+}
+
+/* ========= INIT FEATURE FLAGS ON LOAD ========= */
+document.addEventListener('DOMContentLoaded', function() {
+    SaaSIQFlags.init();
+    
+    // Ensure dashboard-home section is visible on initial load
+    var activeSections = document.querySelectorAll('.dash-section.active');
+    if (activeSections.length === 0) {
+        var homeSection = document.getElementById('sec-dashboard-home');
+        if (homeSection) homeSection.classList.add('active');
+    }
+    
+    // Ensure page-dashboard is visible if hash is #dashboard
+    var hash = window.location.hash.replace('#', '');
+    if (hash === 'dashboard' || hash === '') {
+        var pageDash = document.getElementById('page-dashboard');
+        if (pageDash && !pageDash.classList.contains('active')) {
+            document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+            pageDash.classList.add('active');
+        }
+    }
+});
