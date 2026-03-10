@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaSIQ — UI/UX Prototype</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -1086,6 +1086,10 @@
                     </a>
                     <a class="nav-item" href="#" role="button" onclick="showDashSection('dept-costs', event); return false;">
                         <i class="fas fa-building" aria-hidden="true"></i> Dept Costs
+                    </a>
+                    <a class="nav-item" href="#" role="button" data-feature-flag="partnerships" style="display:none" onclick="showDashSection('partnerships', event); return false;">
+                        <i class="fas fa-handshake" aria-hidden="true"></i> Partnerships
+                        <span class="nav-badge purple">3</span>
                     </a>
                 </div>
                 <div class="nav-section">
@@ -3569,6 +3573,7 @@
                         <a class="settings-nav-item" href="#" role="button" onclick="showSettingsTab('appearance', event); return false;"><i class="fas fa-palette" aria-hidden="true"></i> Appearance</a>
                         <a class="settings-nav-item" href="#" role="button" onclick="showSettingsTab('api', event); return false;"><i class="fas fa-code" aria-hidden="true"></i> API & Webhooks</a>
                         <a class="settings-nav-item" href="#" role="button" onclick="showSettingsTab('billing', event); return false;"><i class="fas fa-receipt" aria-hidden="true"></i> Billing</a>
+                        <a class="settings-nav-item" href="#" role="button" onclick="showSettingsTab('feature-flags', event); return false;"><i class="fas fa-flag" aria-hidden="true"></i> Feature Flags</a>
                     </div>
                     <div class="settings-content">
 
@@ -4120,6 +4125,313 @@
                             </div>
                         </div>
 
+                        <!-- TAB 9: Feature Flags -->
+                        <div class="settings-tab" id="stab-feature-flags">
+                            <div class="settings-section">
+                                <h3><i class="fas fa-flag" style="color:var(--primary);margin-right:8px"></i>Feature Flags</h3>
+                                <p class="settings-desc">Enable or disable experimental features. These features are in beta and may change.</p>
+                            </div>
+                            <div class="settings-section">
+                                <div class="feature-flag-list">
+                                    <div class="feature-flag-item">
+                                        <div class="feature-flag-info">
+                                            <div class="feature-flag-header">
+                                                <span class="feature-flag-badge">Beta</span>
+                                                <strong>Partnership & Barter Intelligence</strong>
+                                            </div>
+                                            <p>Track service-exchange deals, barter ROI, and non-monetary SaaS procurement. Adds a "Partnerships" section to the sidebar with deal overview, service ledger, and renegotiation signals.</p>
+                                        </div>
+                                        <label class="toggle">
+                                            <input type="checkbox" id="flag-toggle-partnerships" onchange="toggleFeatureFlag('partnerships')">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PARTNERSHIPS (Feature-Flagged) ===== -->
+            <div class="dash-section" id="sec-partnerships" data-feature-flag="partnerships" style="display:none">
+                <div class="page-header">
+                    <div>
+                        <h1 style="display:flex;align-items:center;gap:12px">
+                            <span style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#3B82F6);color:#fff;font-size:18px"><i class="fas fa-handshake"></i></span>
+                            Partnership & Barter Intelligence
+                        </h1>
+                        <p>Track service-exchange deals, barter ROI, and non-monetary SaaS procurement</p>
+                    </div>
+                    <div style="display:flex;gap:10px">
+                        <button class="btn btn-outline" onclick="showToast('info','Generating partnership report...')"><i class="fas fa-file-export"></i> Export Report</button>
+                        <button class="btn btn-primary" onclick="openModal('modal-add-partnership')"><i class="fas fa-plus"></i> Add Partnership</button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid" style="margin-bottom:20px">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Active Barter Deals</span>
+                            <div class="kpi-icon purple"><i class="fas fa-handshake"></i></div>
+                        </div>
+                        <div class="kpi-value">3</div>
+                        <div class="kpi-sub">Across 3 partners</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Service Hours Committed</span>
+                            <div class="kpi-icon blue"><i class="fas fa-clock"></i></div>
+                        </div>
+                        <div class="kpi-value">480 hrs</div>
+                        <div class="kpi-change negative"><i class="fas fa-arrow-up"></i> 312 hrs consumed (65%)</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Equivalent ₹ Value</span>
+                            <div class="kpi-icon green"><i class="fas fa-rupee-sign"></i></div>
+                        </div>
+                        <div class="kpi-value">₹36L</div>
+                        <div class="kpi-sub">Market rate of services exchanged</div>
+                    </div>
+                    <div class="kpi-card highlight-card">
+                        <div class="kpi-header">
+                            <span class="kpi-label">Estimated Waste</span>
+                            <div class="kpi-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                        </div>
+                        <div class="kpi-value" style="color:var(--red)">₹8.4L</div>
+                        <div class="kpi-change negative"><i class="fas fa-arrow-down"></i> 23% of deal value unused</div>
+                    </div>
+                </div>
+
+                <!-- Deal Cards -->
+                <div class="card" style="margin-bottom:20px">
+                    <div class="card-header"><h3>Active Partnership Deals</h3></div>
+                    <div style="padding:20px;display:flex;flex-direction:column;gap:16px">
+
+                        <!-- Deal 1 -->
+                        <div class="partner-deal-card">
+                            <div class="partner-deal-header">
+                                <div class="partner-logo" style="background:linear-gradient(135deg,#4A154B,#611f69)"><i class="fab fa-slack"></i></div>
+                                <div class="partner-deal-info">
+                                    <strong>SlackTech Solutions</strong>
+                                    <span>Slack Enterprise · Barter: Design Services</span>
+                                </div>
+                                <span class="status-badge active">Active</span>
+                            </div>
+                            <div class="partner-deal-metrics">
+                                <div class="partner-metric">
+                                    <span>Licenses Received</span>
+                                    <strong>50 seats</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Licenses Used</span>
+                                    <strong style="color:var(--green)">38 seats (76%)</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Service Given</span>
+                                    <strong>120 hrs design</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Service Value</span>
+                                    <strong>₹12L</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Waste</span>
+                                    <strong style="color:var(--red)">12 seats · ₹2.88L</strong>
+                                </div>
+                            </div>
+                            <div class="partner-deal-bar">
+                                <div class="partner-utilization-track">
+                                    <div class="partner-utilization-fill" style="width:76%;background:linear-gradient(90deg,var(--green),#34D399)"></div>
+                                </div>
+                                <span class="partner-util-label">76% utilization</span>
+                            </div>
+                            <div class="partner-deal-actions">
+                                <button class="btn btn-sm btn-outline" onclick="openPartnerDetails('slacktech')"><i class="fas fa-eye"></i> View Details</button>
+                                <button class="btn btn-sm btn-primary" onclick="openPartnerAI('slacktech')"><i class="fas fa-robot"></i> AI Recommendation</button>
+                            </div>
+                        </div>
+
+                        <!-- Deal 2 -->
+                        <div class="partner-deal-card">
+                            <div class="partner-deal-header">
+                                <div class="partner-logo" style="background:linear-gradient(135deg,#0052CC,#2684FF)"><i class="fab fa-atlassian"></i></div>
+                                <div class="partner-deal-info">
+                                    <strong>Atlassian Corp</strong>
+                                    <span>Jira + Confluence · Barter: DevOps Consulting</span>
+                                </div>
+                                <span class="status-badge active">Active</span>
+                            </div>
+                            <div class="partner-deal-metrics">
+                                <div class="partner-metric">
+                                    <span>Licenses Received</span>
+                                    <strong>75 seats</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Licenses Used</span>
+                                    <strong style="color:var(--orange)">42 seats (56%)</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Service Given</span>
+                                    <strong>200 hrs consulting</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Service Value</span>
+                                    <strong>₹18L</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Waste</span>
+                                    <strong style="color:var(--red)">33 seats · ₹7.92L</strong>
+                                </div>
+                            </div>
+                            <div class="partner-deal-bar">
+                                <div class="partner-utilization-track">
+                                    <div class="partner-utilization-fill" style="width:56%;background:linear-gradient(90deg,var(--orange),#FBBF24)"></div>
+                                </div>
+                                <span class="partner-util-label">56% utilization</span>
+                            </div>
+                            <div class="partner-deal-actions">
+                                <button class="btn btn-sm btn-outline" onclick="openPartnerDetails('atlassian')"><i class="fas fa-eye"></i> View Details</button>
+                                <button class="btn btn-sm btn-primary" onclick="openPartnerAI('atlassian')"><i class="fas fa-robot"></i> AI Recommendation</button>
+                            </div>
+                        </div>
+
+                        <!-- Deal 3 -->
+                        <div class="partner-deal-card">
+                            <div class="partner-deal-header">
+                                <div class="partner-logo" style="background:linear-gradient(135deg,#FF6D00,#FF9100)"><i class="fab fa-hubspot"></i></div>
+                                <div class="partner-deal-info">
+                                    <strong>HubSpot Partners</strong>
+                                    <span>HubSpot CRM Pro · Barter: Content Marketing</span>
+                                </div>
+                                <span class="status-badge warning">Under Review</span>
+                            </div>
+                            <div class="partner-deal-metrics">
+                                <div class="partner-metric">
+                                    <span>Licenses Received</span>
+                                    <strong>20 seats</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Licenses Used</span>
+                                    <strong style="color:var(--green)">18 seats (90%)</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Service Given</span>
+                                    <strong>160 hrs content</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Service Value</span>
+                                    <strong>₹6L</strong>
+                                </div>
+                                <div class="partner-metric">
+                                    <span>Waste</span>
+                                    <strong style="color:var(--green)">2 seats · ₹0.6L</strong>
+                                </div>
+                            </div>
+                            <div class="partner-deal-bar">
+                                <div class="partner-utilization-track">
+                                    <div class="partner-utilization-fill" style="width:90%;background:linear-gradient(90deg,var(--green),#34D399)"></div>
+                                </div>
+                                <span class="partner-util-label">90% utilization</span>
+                            </div>
+                            <div class="partner-deal-actions">
+                                <button class="btn btn-sm btn-outline" onclick="openPartnerDetails('hubspot')"><i class="fas fa-eye"></i> View Details</button>
+                                <button class="btn btn-sm btn-primary" onclick="openPartnerAI('hubspot')"><i class="fas fa-robot"></i> AI Recommendation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Ledger -->
+                <div class="card" style="margin-bottom:20px">
+                    <div class="card-header"><h3>Service Ledger</h3></div>
+                    <div style="padding:0">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Partner</th>
+                                    <th>Service Type</th>
+                                    <th>Hours</th>
+                                    <th>Value</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mar 5, 2026</td>
+                                    <td class="app-cell"><div class="app-icon" style="background:#4A154B"><i class="fab fa-slack"></i></div> SlackTech Solutions</td>
+                                    <td>UI/UX Design Sprint</td>
+                                    <td><strong>40 hrs</strong></td>
+                                    <td>₹4L</td>
+                                    <td><span class="status-pill active">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Feb 20, 2026</td>
+                                    <td class="app-cell"><div class="app-icon" style="background:#0052CC"><i class="fab fa-atlassian"></i></div> Atlassian Corp</td>
+                                    <td>CI/CD Pipeline Setup</td>
+                                    <td><strong>60 hrs</strong></td>
+                                    <td>₹5.4L</td>
+                                    <td><span class="status-pill active">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Feb 10, 2026</td>
+                                    <td class="app-cell"><div class="app-icon" style="background:#FF6D00"><i class="fab fa-hubspot"></i></div> HubSpot Partners</td>
+                                    <td>Blog Content (10 articles)</td>
+                                    <td><strong>80 hrs</strong></td>
+                                    <td>₹3L</td>
+                                    <td><span class="status-pill active">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jan 15, 2026</td>
+                                    <td class="app-cell"><div class="app-icon" style="background:#0052CC"><i class="fab fa-atlassian"></i></div> Atlassian Corp</td>
+                                    <td>Kubernetes Migration</td>
+                                    <td><strong>80 hrs</strong></td>
+                                    <td>₹7.2L</td>
+                                    <td><span class="status-pill pending">In Progress</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Renegotiation Signals -->
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-robot" style="color:var(--primary);margin-right:8px"></i>AI Renegotiation Signals</h3></div>
+                    <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
+                        <div class="ai-insight-card" style="border-left:4px solid var(--red)">
+                            <div style="display:flex;align-items:flex-start;gap:14px">
+                                <div class="kpi-icon red"><i class="fas fa-exclamation-circle"></i></div>
+                                <div>
+                                    <strong>Atlassian — 44% seats unused</strong>
+                                    <p style="color:var(--gray-500);margin:4px 0">33 of 75 Jira+Confluence seats have zero logins in 60 days. You've committed 200 consulting hours (₹18L) for these licenses.</p>
+                                    <p style="font-weight:600;color:var(--primary)"><i class="fas fa-lightbulb"></i> Renegotiate to 50 seats → save 100 consulting hours (₹9L/yr)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ai-insight-card" style="border-left:4px solid var(--orange)">
+                            <div style="display:flex;align-items:flex-start;gap:14px">
+                                <div class="kpi-icon orange"><i class="fas fa-sync-alt"></i></div>
+                                <div>
+                                    <strong>SlackTech — Renewal in 45 days</strong>
+                                    <p style="color:var(--gray-500);margin:4px 0">Current deal: 50 seats for 120 design hours. Usage at 76% — consider downsizing to 40 seats before renewal.</p>
+                                    <p style="font-weight:600;color:var(--primary)"><i class="fas fa-lightbulb"></i> Optimize to 40 seats → save 24 design hours (₹2.4L/yr)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ai-insight-card" style="border-left:4px solid var(--green)">
+                            <div style="display:flex;align-items:flex-start;gap:14px">
+                                <div class="kpi-icon green"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <strong>HubSpot — Healthy deal</strong>
+                                    <p style="color:var(--gray-500);margin:4px 0">90% utilization with 20 CRM seats for 160 content hours. Cost-effective partnership delivering strong ROI.</p>
+                                    <p style="font-weight:600;color:var(--green)"><i class="fas fa-thumbs-up"></i> Recommend renewing at current terms</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4330,6 +4642,176 @@
 </div>
 
 <!-- ==================== GLOBAL MODALS ==================== -->
+
+<!-- ==================== ADD PARTNERSHIP MODAL ==================== -->
+<div class="modal-overlay" id="modal-add-partnership" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog" style="max-width:600px">
+        <div class="modal-header"><h2><i class="fas fa-handshake" style="color:var(--primary)"></i> Add Partnership</h2><button class="close-btn" onclick="closeModal('modal-add-partnership')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <div style="padding:14px 16px;background:rgba(124,58,237,0.06);border-radius:10px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px">
+                <i class="fas fa-info-circle" style="color:var(--primary);margin-top:2px"></i>
+                <span style="color:var(--gray-600);font-size:13px;line-height:1.5">Create a new barter/partnership deal. SaaSIQ will automatically track license utilization, service hours, and AI-optimized renegotiation signals.</span>
+            </div>
+            <div class="form-group"><label>Partner Name</label><input type="text" placeholder="e.g., SlackTech Solutions, Atlassian Corp"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Software Received</label><input type="text" placeholder="e.g., Slack Enterprise, Jira Premium"></div>
+                <div class="form-group"><label>License Seats</label><input type="number" placeholder="e.g., 50"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Service Type Given</label><select><option value="">Select service type...</option><option>UI/UX Design</option><option>DevOps Consulting</option><option>Content Marketing</option><option>Engineering Development</option><option>Data Analytics</option><option>QA & Testing</option><option>Cloud Architecture</option><option>Custom</option></select></div>
+                <div class="form-group"><label>Service Hours Committed</label><input type="number" placeholder="e.g., 120"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Hourly Rate (₹)</label><input type="text" placeholder="e.g., 10,000"></div>
+                <div class="form-group"><label>Total Deal Value (₹)</label><input type="text" placeholder="Auto-calculated" readonly style="background:rgba(255,255,255,0.02)"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Start Date</label><input type="date" value="2026-03-10"></div>
+                <div class="form-group"><label>End Date</label><input type="date" value="2027-03-09"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Deal Status</label><select><option selected>Active</option><option>Under Review</option><option>Draft</option><option>Paused</option></select></div>
+                <div class="form-group"><label>Auto-Renew</label><select><option>Yes</option><option selected>No</option></select></div>
+            </div>
+            <div class="form-group"><label>Partner Contact Email</label><input type="email" placeholder="contact@partner.com"></div>
+            <div class="form-group"><label>Notes</label><textarea rows="2" placeholder="Key terms, negotiation context, special conditions..."></textarea></div>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-partnership')">Cancel</button><button class="btn btn-primary" onclick="closeModal('modal-add-partnership');showToast('success','Partnership added! AI will begin tracking utilization and barter ROI.')"><i class="fas fa-plus"></i> Add Partnership</button></div>
+    </div>
+</div>
+
+<!-- ==================== PARTNERSHIP VIEW DETAILS MODAL ==================== -->
+<div class="modal-overlay" id="modal-partner-details" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog" style="max-width:640px">
+        <div class="modal-header"><h2><i class="fas fa-eye" style="color:var(--primary)"></i> Deal Details — <span id="partner-detail-name">Partner</span></h2><button class="close-btn" onclick="closeModal('modal-partner-details')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <!-- Partner banner -->
+            <div style="display:flex;align-items:center;gap:14px;padding:16px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:12px;margin-bottom:20px">
+                <div id="partner-detail-icon" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;background:var(--primary)"><i class="fas fa-handshake"></i></div>
+                <div style="flex:1">
+                    <strong style="font-size:15px;display:block" id="partner-detail-title">Partner Name</strong>
+                    <span style="color:var(--gray-600);font-size:13px" id="partner-detail-subtitle">Software · Barter type</span>
+                </div>
+                <span class="status-badge active" id="partner-detail-status">Active</span>
+            </div>
+
+            <!-- Key metrics grid -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+                <div style="padding:14px;background:var(--gray-50,#F9FAFB);border-radius:8px;text-align:center"><span style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;font-weight:600;letter-spacing:0.5px">Licenses</span><strong id="partner-detail-licenses" style="color:var(--gray-800)">0 / 0</strong></div>
+                <div style="padding:14px;background:var(--gray-50,#F9FAFB);border-radius:8px;text-align:center"><span style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;font-weight:600;letter-spacing:0.5px">Utilization</span><strong id="partner-detail-utilization" style="color:var(--green)">0%</strong></div>
+                <div style="padding:14px;background:var(--gray-50,#F9FAFB);border-radius:8px;text-align:center"><span style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;font-weight:600;letter-spacing:0.5px">Deal Value</span><strong id="partner-detail-value" style="color:var(--gray-800)">₹0</strong></div>
+            </div>
+
+            <!-- Service exchange breakdown -->
+            <h4 style="margin-bottom:12px"><i class="fas fa-exchange-alt" style="color:var(--primary);margin-right:6px"></i>Service Exchange Breakdown</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+                <div style="padding:14px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:10px">
+                    <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;font-weight:600;letter-spacing:0.5px"><i class="fas fa-arrow-down" style="color:var(--green);margin-right:4px"></i>RECEIVED</div>
+                    <strong style="display:block;font-size:14px;color:var(--gray-800)" id="partner-detail-received">Software licenses</strong>
+                    <span style="color:var(--gray-600);font-size:12px" id="partner-detail-received-detail">0 seats · ₹0/yr market value</span>
+                </div>
+                <div style="padding:14px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.15);border-radius:10px">
+                    <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;font-weight:600;letter-spacing:0.5px"><i class="fas fa-arrow-up" style="color:var(--primary);margin-right:4px"></i>GIVEN</div>
+                    <strong style="display:block;font-size:14px;color:var(--gray-800)" id="partner-detail-given">Service hours</strong>
+                    <span style="color:var(--gray-600);font-size:12px" id="partner-detail-given-detail">0 hrs · ₹0 value</span>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <h4 style="margin-bottom:12px"><i class="fas fa-calendar-alt" style="color:var(--primary);margin-right:6px"></i>Deal Timeline</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+                <div style="padding:12px;background:var(--gray-50,#F9FAFB);border-radius:8px;text-align:center"><span style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;font-weight:600;letter-spacing:0.5px">Start Date</span><strong id="partner-detail-start" style="font-size:13px;color:var(--gray-800)">—</strong></div>
+                <div style="padding:12px;background:var(--gray-50,#F9FAFB);border-radius:8px;text-align:center"><span style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;font-weight:600;letter-spacing:0.5px">End Date</span><strong id="partner-detail-end" style="font-size:13px;color:var(--gray-800)">—</strong></div>
+                <div style="padding:12px;background:var(--gray-50,#F9FAFB);border-radius:8px;text-align:center"><span style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;font-weight:600;letter-spacing:0.5px">Days Remaining</span><strong id="partner-detail-remaining" style="font-size:13px;color:var(--orange)">—</strong></div>
+            </div>
+
+            <!-- Waste analysis -->
+            <h4 style="margin-bottom:12px"><i class="fas fa-chart-bar" style="color:var(--primary);margin-right:6px"></i>Waste Analysis</h4>
+            <div style="padding:14px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:10px;margin-bottom:16px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:13px;color:var(--gray-600)">Unused licenses</span>
+                    <strong id="partner-detail-waste-seats" style="color:var(--red)">0 seats</strong>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                    <span style="font-size:13px;color:var(--gray-600)">Wasted value</span>
+                    <strong id="partner-detail-waste-value" style="color:var(--red)">₹0</strong>
+                </div>
+                <div class="partner-utilization-track" style="height:8px">
+                    <div class="partner-utilization-fill" id="partner-detail-util-bar" style="width:0%;background:linear-gradient(90deg,var(--green),#34D399)"></div>
+                </div>
+            </div>
+
+            <!-- Recent service deliveries -->
+            <h4 style="margin-bottom:12px"><i class="fas fa-list-check" style="color:var(--primary);margin-right:6px"></i>Recent Service Deliveries</h4>
+            <div id="partner-detail-ledger" style="display:flex;flex-direction:column;gap:8px">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('modal-partner-details')">Close</button>
+            <button class="btn btn-outline" onclick="closeModal('modal-partner-details');showToast('info','Exporting deal report as PDF...')"><i class="fas fa-download"></i> Export</button>
+            <button class="btn btn-primary" onclick="closeModal('modal-partner-details');showToast('info','Opening renegotiation workflow...')"><i class="fas fa-handshake"></i> Renegotiate</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== PARTNERSHIP AI RECOMMENDATION MODAL ==================== -->
+<div class="modal-overlay" id="modal-partner-ai" onclick="if(event.target===this)closeModal(this.id)">
+    <div class="modal-dialog" style="max-width:580px">
+        <div class="modal-header"><h2><i class="fas fa-robot" style="color:var(--primary)"></i> AI Recommendation — <span id="partner-ai-name">Partner</span></h2><button class="close-btn" onclick="closeModal('modal-partner-ai')"><i class="fas fa-times"></i></button></div>
+        <div class="modal-body">
+            <!-- AI confidence banner -->
+            <div style="padding:16px;background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(59,130,246,0.1));border:1px solid rgba(124,58,237,0.2);border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+                <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#3B82F6);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-brain" style="color:#fff;font-size:20px"></i></div>
+                <div>
+                    <strong style="font-size:14px;display:block" id="partner-ai-headline">AI Analysis Complete</strong>
+                    <span style="color:var(--gray-600);font-size:12px" id="partner-ai-confidence">Confidence: 94% · Based on 90 days of usage data</span>
+                </div>
+            </div>
+
+            <!-- Current vs Recommended -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+                <div style="padding:14px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:10px;text-align:center">
+                    <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;font-weight:600;letter-spacing:0.5px">CURRENT DEAL</div>
+                    <strong id="partner-ai-current-seats" style="font-size:20px;display:block;color:var(--gray-800)">0 seats</strong>
+                    <span style="color:var(--gray-600);font-size:12px" id="partner-ai-current-hours">0 service hrs</span>
+                </div>
+                <div style="padding:14px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:10px;text-align:center">
+                    <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;font-weight:600;letter-spacing:0.5px">AI RECOMMENDED</div>
+                    <strong id="partner-ai-rec-seats" style="font-size:20px;display:block;color:var(--green)">0 seats</strong>
+                    <span style="color:var(--gray-600);font-size:12px" id="partner-ai-rec-hours">0 service hrs</span>
+                </div>
+            </div>
+
+            <!-- Savings -->
+            <div style="padding:16px;background:rgba(16,185,129,0.08);border-radius:10px;text-align:center;margin-bottom:20px">
+                <span style="font-size:12px;color:var(--gray-500);display:block;margin-bottom:4px;font-weight:600;letter-spacing:0.5px">PROJECTED ANNUAL SAVINGS</span>
+                <strong id="partner-ai-savings" style="font-size:28px;color:var(--green)">₹0</strong>
+            </div>
+
+            <!-- AI talking points -->
+            <h4 style="margin-bottom:12px"><i class="fas fa-lightbulb" style="color:var(--primary);margin-right:6px"></i>Key Insights</h4>
+            <div id="partner-ai-insights" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Action plan -->
+            <h4 style="margin-bottom:12px"><i class="fas fa-tasks" style="color:var(--primary);margin-right:6px"></i>Recommended Actions</h4>
+            <div id="partner-ai-actions" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Implementation -->
+            <div class="form-group"><label>Implementation Timeline</label><select><option>Apply at next renewal</option><option selected>Schedule within 30 days</option><option>Apply immediately</option></select></div>
+            <div class="form-group"><label>Notify Partner Contact</label><select><option selected>Yes — send proposal email</option><option>No — internal review only</option></select></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('modal-partner-ai')">Dismiss</button>
+            <button class="btn btn-outline" onclick="closeModal('modal-partner-ai');showToast('info','AI report saved to deal history.')"><i class="fas fa-bookmark"></i> Save Report</button>
+            <button class="btn btn-primary" onclick="closeModal('modal-partner-ai');showToast('success','Renegotiation initiated! Partner will be notified with the AI-optimized proposal.')"><i class="fas fa-paper-plane"></i> Start Renegotiation</button>
+        </div>
+    </div>
+</div>
 
 <!-- Add Application Modal -->
 <div class="modal-overlay" id="modal-add-app" onclick="if(event.target===this)closeModal(this.id)">
@@ -5061,6 +5543,6 @@
 <!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
 
-<script src="app.js"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
