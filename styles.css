@@ -3288,3 +3288,455 @@ body.theme-dark .feature-flag-info p { color: #9CA3AF; }
 @media (max-width: 768px) {
     .partner-deal-metrics { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* ============================================
+   HELP & SUPPORT WIDGET
+   ============================================ */
+
+/* Floating Trigger Button */
+.help-widget { position: fixed; bottom: 24px; right: 24px; z-index: 10000; }
+
+.help-widget-trigger {
+    width: 68px; height: 68px; border-radius: 50%; border: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; font-size: 26px; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(124,58,237,0.45), 0 0 0 4px rgba(124,58,237,0.12);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    position: relative; z-index: 2;
+    animation: helpBtnEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+}
+@keyframes helpBtnEntrance {
+    from { opacity: 0; transform: scale(0) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.help-widget-trigger:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 32px rgba(124,58,237,0.55), 0 0 0 6px rgba(124,58,237,0.15);
+}
+
+/* Radar ping rings */
+.help-ping-ring {
+    position: absolute; bottom: 0; right: 0;
+    width: 68px; height: 68px; border-radius: 50%;
+    border: 2px solid var(--primary);
+    animation: helpPingRing 2.5s cubic-bezier(0,0,0.2,1) infinite 1.2s;
+    pointer-events: none; z-index: 1;
+}
+.help-ping-ring-2 { animation-delay: 2s; }
+@keyframes helpPingRing {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Floating tooltip label */
+.help-trigger-label {
+    position: absolute; bottom: 14px; right: 82px;
+    background: linear-gradient(135deg, var(--primary), #6D28D9);
+    color: #fff;
+    padding: 12px 14px 12px 16px; border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(124,58,237,0.35);
+    font-size: 14px; font-weight: 600; white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+    animation: helpLabelSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 1s both;
+    z-index: 3;
+}
+.help-trigger-label::after {
+    content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+    width: 12px; height: 12px;
+    background: linear-gradient(135deg, #6D28D9, #6D28D9);
+    border-radius: 2px; rotate: 45deg;
+}
+.help-label-wave {
+    font-size: 18px;
+    animation: helpWaveHand 1s ease-in-out 1.8s 3;
+    transform-origin: 70% 70%;
+    display: inline-block;
+}
+@keyframes helpWaveHand {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: rotate(14deg); }
+    30% { transform: rotate(-8deg); }
+    45% { transform: rotate(14deg); }
+    60% { transform: rotate(-4deg); }
+    75% { transform: rotate(10deg); }
+}
+.help-label-close {
+    width: 22px; height: 22px; border-radius: 50%; border: none;
+    background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; transition: all 0.2s; flex-shrink: 0;
+}
+.help-label-close:hover { background: rgba(255,255,255,0.35); color: #fff; }
+@keyframes helpLabelSlideIn {
+    from { opacity: 0; transform: translateX(16px) scale(0.9); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+}
+.help-trigger-icon, .help-trigger-close {
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s, opacity 0.3s;
+}
+.help-trigger-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--red); color: #fff; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #fff;
+    animation: helpBadgePulse 2s infinite;
+}
+@keyframes helpBadgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Widget Panel */
+.help-widget-panel {
+    position: absolute; bottom: 84px; right: 0;
+    width: 400px; max-height: 580px;
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transform: scale(0.9) translateY(16px); opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    transform-origin: bottom right;
+}
+.help-widget-panel.open {
+    transform: scale(1) translateY(0); opacity: 1;
+    pointer-events: auto;
+}
+
+/* Views */
+.help-view { display: none; flex-direction: column; height: 100%; }
+.help-view.active { display: flex; }
+
+/* Home View Header */
+.help-panel-header {
+    background: linear-gradient(135deg, var(--primary), #6D28D9);
+    color: #fff; padding: 24px 20px 20px;
+}
+.help-header-avatars {
+    display: flex; gap: 0; margin-bottom: 12px;
+}
+.help-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    border: 2.5px solid rgba(255,255,255,0.9);
+    margin-right: -8px;
+}
+.help-panel-header h3 {
+    font-size: 18px; font-weight: 700; margin: 0 0 4px; color: #fff;
+}
+.help-panel-header p {
+    font-size: 13px; margin: 0; opacity: 0.9; color: rgba(255,255,255,0.9);
+}
+.help-availability {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 12px; font-size: 12px; opacity: 0.85;
+    background: rgba(255,255,255,0.15); border-radius: 20px;
+    padding: 5px 12px; width: fit-content;
+}
+.help-online-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #34D399; display: inline-block;
+    box-shadow: 0 0 6px rgba(52,211,153,0.6);
+    animation: helpOnlinePulse 2s infinite;
+}
+@keyframes helpOnlinePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Home View Body */
+.help-panel-body {
+    flex: 1; overflow-y: auto; padding: 16px;
+    max-height: 360px;
+}
+
+/* Quick Action Cards */
+.help-quick-actions { display: flex; flex-direction: column; gap: 8px; }
+.help-action-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--gray-200);
+    transition: all 0.2s;
+}
+.help-action-card:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-bg);
+    transform: translateX(2px);
+}
+.help-action-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+}
+.help-action-text { flex: 1; min-width: 0; }
+.help-action-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--gray-800); }
+.help-action-text span { font-size: 11.5px; color: var(--gray-500); line-height: 1.3; }
+.help-action-arrow { color: var(--gray-400); font-size: 12px; flex-shrink: 0; }
+
+/* Team Section */
+.help-team-section { margin-top: 20px; }
+.help-section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.6px; color: var(--gray-400); margin-bottom: 10px;
+}
+.help-team-list { display: flex; flex-direction: column; gap: 8px; }
+.help-team-member {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px; border-radius: 10px;
+}
+.help-member-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #fff;
+    position: relative; flex-shrink: 0;
+}
+.help-member-avatar::after {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid #fff;
+}
+.help-member-avatar.online::after { background: #34D399; }
+.help-member-avatar.away::after { background: var(--orange); }
+.help-member-avatar.offline::after { background: var(--gray-400); }
+.help-member-info { flex: 1; min-width: 0; }
+.help-member-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--gray-800); }
+.help-member-info span { font-size: 11.5px; color: var(--gray-500); }
+.help-member-status {
+    font-size: 11px; font-weight: 500; flex-shrink: 0; padding: 3px 8px;
+    border-radius: 10px;
+}
+.help-member-status.online { color: var(--green); background: var(--green-light); }
+.help-member-status.away { color: var(--orange); background: var(--orange-light); }
+
+/* Schedule Section */
+.help-schedule-section { margin-top: 20px; }
+.help-schedule-card {
+    background: var(--gray-50); border-radius: 10px; padding: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+}
+.help-schedule-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12.5px; color: var(--gray-600);
+}
+.help-schedule-row i { color: var(--primary); font-size: 13px; width: 16px; text-align: center; }
+.help-schedule-row strong { color: var(--green); font-weight: 600; }
+
+/* Footer */
+.help-panel-footer {
+    padding: 10px 16px; border-top: 1px solid var(--gray-100);
+    text-align: center;
+}
+.help-footer-powered {
+    font-size: 11px; color: var(--gray-400);
+}
+.help-footer-powered strong { color: var(--primary); font-weight: 600; }
+
+/* ===== Chat View ===== */
+.help-chat-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px; border-bottom: 1px solid var(--gray-100);
+    background: #fff;
+}
+.help-chat-back {
+    width: 32px; height: 32px; border-radius: 8px; border: none;
+    background: var(--gray-100); color: var(--gray-600);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; transition: all 0.2s;
+}
+.help-chat-back:hover { background: var(--gray-200); }
+.help-chat-header-info { display: flex; align-items: center; gap: 10px; flex: 1; }
+.help-chat-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.help-chat-header-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--gray-800); }
+.help-chat-header-info span { font-size: 11px; color: var(--gray-500); }
+.help-chat-status {
+    font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 4px;
+    flex-shrink: 0;
+}
+
+/* Messages */
+.help-chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    max-height: 340px; min-height: 200px;
+}
+.help-msg {
+    max-width: 82%; padding: 10px 14px;
+    border-radius: 16px; font-size: 13px; line-height: 1.5;
+    animation: helpMsgIn 0.3s ease-out;
+}
+@keyframes helpMsgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.help-msg.agent {
+    background: var(--gray-100); color: var(--gray-800);
+    border-bottom-left-radius: 4px; align-self: flex-start;
+}
+.help-msg.user {
+    background: var(--primary); color: #fff;
+    border-bottom-right-radius: 4px; align-self: flex-end;
+}
+.help-msg-time {
+    font-size: 10px; color: var(--gray-400); margin-top: 2px;
+}
+.help-msg.user .help-msg-time { color: rgba(255,255,255,0.6); text-align: right; }
+
+/* Typing Indicator */
+.help-chat-typing {
+    padding: 8px 16px; font-size: 12px; color: var(--gray-500);
+    display: flex; align-items: center; gap: 8px;
+}
+.help-typing-dots { display: flex; gap: 3px; }
+.help-typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gray-400);
+    animation: helpTypingDot 1.4s infinite;
+}
+.help-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.help-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes helpTypingDot {
+    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* Chat Input */
+.help-chat-input-area {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px; border-top: 1px solid var(--gray-100);
+    background: #fff;
+}
+.help-chat-input {
+    flex: 1; border: 1px solid var(--gray-200); border-radius: 24px;
+    padding: 9px 16px; font-size: 13px; outline: none;
+    transition: border 0.2s;
+}
+.help-chat-input:focus { border-color: var(--primary-light); }
+.help-chat-send {
+    width: 36px; height: 36px; border-radius: 50%; border: none;
+    background: var(--primary); color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; transition: all 0.2s; flex-shrink: 0;
+}
+.help-chat-send:hover { background: var(--primary-dark); transform: scale(1.05); }
+
+/* ===== Schedule / Book View ===== */
+.help-schedule-body {
+    flex: 1; overflow-y: auto; padding: 16px; max-height: 440px;
+}
+.help-schedule-intro p {
+    font-size: 13px; color: var(--gray-600); margin: 0 0 16px; line-height: 1.5;
+}
+.help-slot-day { margin-bottom: 16px; }
+.help-slot-date { margin-bottom: 8px; }
+.help-slot-date strong { font-size: 13px; color: var(--gray-800); }
+.help-slot-date span { font-size: 12px; color: var(--gray-500); margin-left: 6px; }
+.help-slot-times { display: flex; flex-wrap: wrap; gap: 6px; }
+.help-time-btn {
+    padding: 6px 14px; border: 1px solid var(--gray-200);
+    border-radius: 8px; background: #fff; font-size: 12.5px;
+    color: var(--gray-700); cursor: pointer; transition: all 0.2s;
+    font-weight: 500;
+}
+.help-time-btn:hover {
+    border-color: var(--primary); color: var(--primary); background: var(--primary-bg);
+}
+.help-time-btn.selected {
+    border-color: var(--primary); background: var(--primary);
+    color: #fff;
+}
+.help-time-btn.unavailable {
+    opacity: 0.4; cursor: not-allowed; text-decoration: line-through;
+}
+
+/* Schedule Form */
+.help-schedule-form { margin-top: 16px; }
+.help-schedule-confirm-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; background: var(--green-light);
+    border-radius: 10px; margin-bottom: 14px;
+}
+.help-schedule-confirm-header strong { display: block; font-size: 13px; color: var(--gray-800); }
+.help-schedule-confirm-header span { font-size: 12px; color: var(--gray-500); }
+.help-form-input {
+    width: 100%; padding: 10px 14px; border: 1px solid var(--gray-200);
+    border-radius: 10px; font-size: 13px; margin-bottom: 10px;
+    outline: none; transition: border 0.2s; box-sizing: border-box;
+}
+.help-form-input:focus { border-color: var(--primary-light); }
+.help-schedule-btn { width: 100%; justify-content: center; }
+
+/* Schedule Success */
+.help-schedule-success {
+    text-align: center; padding: 24px 16px;
+}
+.help-success-icon { font-size: 48px; color: var(--green); margin-bottom: 12px; }
+.help-schedule-success h4 { font-size: 16px; color: var(--gray-800); margin: 0 0 8px; }
+.help-schedule-success p { font-size: 13px; color: var(--gray-500); margin: 0 0 4px; line-height: 1.5; }
+.help-success-detail { font-size: 12px; color: var(--primary); font-weight: 500; margin-top: 8px; }
+
+/* ===== DARK THEME ===== */
+body.theme-dark .help-widget-trigger { box-shadow: 0 4px 20px rgba(124,58,237,0.3); }
+body.theme-dark .help-widget-panel {
+    background: #1A1D2E;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
+}
+body.theme-dark .help-action-card { border-color: #2D3148; }
+body.theme-dark .help-action-card:hover { background: rgba(124,58,237,0.1); border-color: var(--primary); }
+body.theme-dark .help-action-text strong { color: #F3F4F6; }
+body.theme-dark .help-action-text span { color: #9CA3AF; }
+body.theme-dark .help-action-arrow { color: #6B7280; }
+body.theme-dark .help-section-label { color: #6B7280; }
+body.theme-dark .help-member-info strong { color: #F3F4F6; }
+body.theme-dark .help-member-info span { color: #9CA3AF; }
+body.theme-dark .help-member-avatar::after { border-color: #1A1D2E; }
+body.theme-dark .help-schedule-card { background: #252A3A; }
+body.theme-dark .help-schedule-row { color: #D1D5DB; }
+body.theme-dark .help-panel-footer { border-top-color: #2D3148; }
+body.theme-dark .help-footer-powered { color: #6B7280; }
+body.theme-dark .help-chat-header { background: #1A1D2E; border-bottom-color: #2D3148; }
+body.theme-dark .help-chat-back { background: #252A3A; color: #D1D5DB; }
+body.theme-dark .help-chat-back:hover { background: #374151; }
+body.theme-dark .help-chat-header-info strong { color: #F3F4F6; }
+body.theme-dark .help-chat-header-info span { color: #9CA3AF; }
+body.theme-dark .help-chat-messages { background: #0F1119; }
+body.theme-dark .help-msg.agent { background: #252A3A; color: #E5E7EB; }
+body.theme-dark .help-chat-typing { color: #9CA3AF; }
+body.theme-dark .help-typing-dots span { background: #6B7280; }
+body.theme-dark .help-chat-input-area { background: #1A1D2E; border-top-color: #2D3148; }
+body.theme-dark .help-chat-input { background: #252A3A; border-color: #374151; color: #F3F4F6; }
+body.theme-dark .help-chat-input:focus { border-color: var(--primary); }
+body.theme-dark .help-schedule-body { background: #1A1D2E; }
+body.theme-dark .help-schedule-intro p { color: #D1D5DB; }
+body.theme-dark .help-slot-date strong { color: #F3F4F6; }
+body.theme-dark .help-slot-date span { color: #9CA3AF; }
+body.theme-dark .help-time-btn { background: #252A3A; border-color: #374151; color: #D1D5DB; }
+body.theme-dark .help-time-btn:hover { background: rgba(124,58,237,0.15); border-color: var(--primary); color: var(--primary-light); }
+body.theme-dark .help-time-btn.selected { background: var(--primary); border-color: var(--primary); color: #fff; }
+body.theme-dark .help-schedule-confirm-header { background: rgba(16,185,129,0.15); }
+body.theme-dark .help-schedule-confirm-header strong { color: #F3F4F6; }
+body.theme-dark .help-form-input { background: #252A3A; border-color: #374151; color: #F3F4F6; }
+body.theme-dark .help-form-input:focus { border-color: var(--primary); }
+body.theme-dark .help-trigger-badge { border-color: #1A1D2E; }
+body.theme-dark .help-ping-ring { border-color: var(--primary-light); }
+
+/* ===== HELP WIDGET MOBILE ===== */
+@media (max-width: 480px) {
+    .help-widget { bottom: 16px; right: 16px; }
+    .help-trigger-label { right: 70px; font-size: 13px; padding: 10px 12px 10px 14px; }
+    .help-widget-trigger { width: 58px; height: 58px; font-size: 22px; }
+    .help-ping-ring { width: 58px; height: 58px; }
+    .help-widget-panel {
+        width: calc(100vw - 32px); right: 0;
+        max-height: 75vh; bottom: 68px;
+    }
+    .help-widget-trigger { width: 50px; height: 50px; font-size: 20px; }
+}

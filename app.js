@@ -3649,3 +3649,294 @@ function refreshOrgTree() {
         renderOrgTree();
     }
 }
+
+
+/* ============================================
+   HELP & SUPPORT WIDGET
+   ============================================ */
+
+var _helpWidgetOpen = false;
+var _helpChatType = '';
+var _helpSelectedSlot = null;
+
+// Agent personas for different chat types
+var _helpAgents = {
+    support: { name: 'Priya Sharma', role: 'Customer Success Lead', initial: 'P', gradient: 'linear-gradient(135deg, #7C3AED, #A78BFA)' },
+    demo:    { name: 'Rahul Mehta',  role: 'Solutions Engineer',    initial: 'R', gradient: 'linear-gradient(135deg, #3B82F6, #60A5FA)' },
+    sales:   { name: 'Aisha Khan',   role: 'Sales Director',        initial: 'A', gradient: 'linear-gradient(135deg, #10B981, #34D399)' },
+    issue:   { name: 'Priya Sharma', role: 'Customer Success Lead', initial: 'P', gradient: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }
+};
+
+// Chat auto-responses per type
+var _helpAutoResponses = {
+    support: [
+        "Thanks for reaching out! I'm here to help. Could you describe the issue you're facing?",
+        "I understand. Let me look into that for you right away.",
+        "I've checked our system — here's what I found. Would you like me to walk you through the fix?",
+        "Great! Is there anything else I can help you with today?"
+    ],
+    demo: [
+        "Hi! I'd love to show you what SaaSIQ can do. Would you prefer a live walkthrough or should I schedule a dedicated session?",
+        "Perfect! Our demos typically run 20-30 minutes. I'll cover spend analytics, org management, and our AI-powered insights.",
+        "Let me set that up for you. You'll receive a calendar invite with a Zoom link shortly.",
+        "Looking forward to showing you around! Feel free to ask any questions in the meantime."
+    ],
+    sales: [
+        "Hello! Thanks for your interest in SaaSIQ. I'd be happy to discuss how we can help your organization.",
+        "We offer flexible plans starting from $499/mo. What's the size of your SaaS portfolio?",
+        "Based on what you've shared, our Business plan at $1,999/mo would be ideal. It includes unlimited orgs and priority support.",
+        "I can set up a custom proposal for you. Would you like me to send it to your email?"
+    ],
+    issue: [
+        "Sorry to hear you're experiencing an issue! Please describe what happened and I'll escalate this immediately.",
+        "Thank you for the details. I've logged this as a priority ticket — our engineering team will investigate.",
+        "Your ticket ID is #SIQ-" + (Math.floor(Math.random() * 9000) + 1000) + ". You'll receive updates via email.",
+        "Is there anything else I can help with while our team works on the fix?"
+    ]
+};
+
+function toggleHelpWidget() {
+    _helpWidgetOpen = !_helpWidgetOpen;
+    var panel = document.getElementById('help-widget-panel');
+    var iconEl = document.getElementById('help-trigger-icon');
+    var closeEl = document.getElementById('help-trigger-close');
+    var badge = document.getElementById('help-trigger-badge');
+
+    if (_helpWidgetOpen) {
+        panel.classList.add('open');
+        iconEl.style.display = 'none';
+        closeEl.style.display = 'flex';
+        badge.style.display = 'none';
+        var label = document.getElementById('help-trigger-label');
+        if (label) label.style.display = 'none';
+        // Hide ping rings
+        document.querySelectorAll('.help-ping-ring').forEach(function(r) { r.style.display = 'none'; });
+    } else {
+        panel.classList.remove('open');
+        iconEl.style.display = 'flex';
+        closeEl.style.display = 'none';
+    }
+}
+
+function showHelpHome() {
+    document.querySelectorAll('.help-view').forEach(function(v) { v.classList.remove('active'); });
+    document.getElementById('help-view-home').classList.add('active');
+    _helpChatType = '';
+    _helpSelectedSlot = null;
+}
+
+function openHelpChat(type) {
+    _helpChatType = type;
+    var agent = _helpAgents[type];
+
+    if (type === 'demo') {
+        // Show schedule/booking view
+        document.querySelectorAll('.help-view').forEach(function(v) { v.classList.remove('active'); });
+        document.getElementById('help-view-schedule').classList.add('active');
+        initHelpTimeSlots();
+        return;
+    }
+
+    // Show chat view
+    document.querySelectorAll('.help-view').forEach(function(v) { v.classList.remove('active'); });
+    document.getElementById('help-view-chat').classList.add('active');
+
+    // Set agent info
+    var avatar = document.getElementById('help-chat-avatar');
+    avatar.style.background = agent.gradient;
+    avatar.textContent = agent.initial;
+    document.getElementById('help-chat-name').textContent = agent.name;
+    document.getElementById('help-chat-role').textContent = agent.role;
+    document.getElementById('help-typing-name').textContent = agent.name.split(' ')[0];
+
+    // Clear and start conversation
+    var msgs = document.getElementById('help-chat-messages');
+    msgs.innerHTML = '';
+    document.getElementById('help-chat-input').value = '';
+
+    // Send initial greeting after short delay
+    setTimeout(function() {
+        showHelpTyping();
+        setTimeout(function() {
+            hideHelpTyping();
+            addHelpMessage('agent', _helpAutoResponses[type][0]);
+        }, 1200);
+    }, 500);
+}
+
+var _helpResponseIndex = {};
+
+function addHelpMessage(sender, text) {
+    var msgs = document.getElementById('help-chat-messages');
+    var now = new Date();
+    var timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+    var div = document.createElement('div');
+    div.className = 'help-msg ' + sender;
+    div.innerHTML = text + '<div class="help-msg-time">' + timeStr + '</div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showHelpTyping() {
+    document.getElementById('help-chat-typing').style.display = 'flex';
+    var msgs = document.getElementById('help-chat-messages');
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideHelpTyping() {
+    document.getElementById('help-chat-typing').style.display = 'none';
+}
+
+function sendHelpMessage() {
+    var input = document.getElementById('help-chat-input');
+    var text = input.value.trim();
+    if (!text) return;
+
+    addHelpMessage('user', text);
+    input.value = '';
+
+    if (!_helpResponseIndex[_helpChatType]) _helpResponseIndex[_helpChatType] = 1;
+    var responses = _helpAutoResponses[_helpChatType];
+    var idx = _helpResponseIndex[_helpChatType];
+
+    if (idx < responses.length) {
+        setTimeout(function() {
+            showHelpTyping();
+            var delay = 1000 + Math.random() * 1500;
+            setTimeout(function() {
+                hideHelpTyping();
+                addHelpMessage('agent', responses[idx]);
+                _helpResponseIndex[_helpChatType] = idx + 1;
+            }, delay);
+        }, 400);
+    } else {
+        // Loop back with a generic friendly response
+        setTimeout(function() {
+            showHelpTyping();
+            setTimeout(function() {
+                hideHelpTyping();
+                var agent = _helpAgents[_helpChatType];
+                var generics = [
+                    "Of course! Let me help you with that.",
+                    "Great question — let me check on that for you.",
+                    "Sure thing! Give me just a moment.",
+                    "I appreciate you sharing that. Let me look into it.",
+                    "Absolutely, I'll have an update for you shortly."
+                ];
+                addHelpMessage('agent', generics[Math.floor(Math.random() * generics.length)]);
+            }, 1200);
+        }, 400);
+    }
+}
+
+// ===== Schedule / Book Demo Functions =====
+
+function initHelpTimeSlots() {
+    var today = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    document.getElementById('help-slot-today-date').textContent = months[today.getMonth()] + ' ' + today.getDate();
+    document.getElementById('help-slot-tomorrow-date').textContent = months[tomorrow.getMonth()] + ' ' + tomorrow.getDate();
+
+    // Generate time slots
+    var currentHour = today.getHours();
+    var todaySlots = generateTimeSlots(currentHour + 1);
+    var tomorrowSlots = generateTimeSlots(9);
+
+    renderTimeSlots('help-slot-times-today', todaySlots, months[today.getMonth()] + ' ' + today.getDate());
+    renderTimeSlots('help-slot-times-tomorrow', tomorrowSlots, months[tomorrow.getMonth()] + ' ' + tomorrow.getDate());
+
+    // Reset form
+    document.getElementById('help-schedule-form').style.display = 'none';
+    document.getElementById('help-schedule-success').style.display = 'none';
+    _helpSelectedSlot = null;
+}
+
+function generateTimeSlots(startHour) {
+    var slots = [];
+    for (var h = Math.max(startHour, 9); h <= 19; h++) {
+        if (slots.length >= 6) break;
+        var period = h >= 12 ? 'PM' : 'AM';
+        var displayHour = h > 12 ? h - 12 : h;
+        slots.push({ time: displayHour + ':00 ' + period, hour: h, available: Math.random() > 0.2 });
+        if (slots.length < 6 && h < 19) {
+            slots.push({ time: displayHour + ':30 ' + period, hour: h + 0.5, available: Math.random() > 0.3 });
+        }
+    }
+    return slots;
+}
+
+function renderTimeSlots(containerId, slots, dateLabel) {
+    var container = document.getElementById(containerId);
+    container.innerHTML = '';
+    if (slots.length === 0) {
+        container.innerHTML = '<span style="font-size:12px; color:var(--gray-400);">No slots available today</span>';
+        return;
+    }
+    slots.forEach(function(slot) {
+        var btn = document.createElement('button');
+        btn.className = 'help-time-btn' + (slot.available ? '' : ' unavailable');
+        btn.textContent = slot.time;
+        if (slot.available) {
+            btn.onclick = function() { selectHelpTimeSlot(btn, slot.time, dateLabel); };
+        }
+        container.appendChild(btn);
+    });
+}
+
+function selectHelpTimeSlot(btn, time, dateLabel) {
+    // Deselect previous
+    document.querySelectorAll('.help-time-btn.selected').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    _helpSelectedSlot = { time: time, date: dateLabel };
+
+    // Show form
+    document.getElementById('help-schedule-selected-time').textContent = time;
+    document.getElementById('help-schedule-selected-date').textContent = dateLabel;
+    document.getElementById('help-schedule-form').style.display = 'block';
+    document.getElementById('help-schedule-success').style.display = 'none';
+
+    // Scroll to form
+    var body = document.querySelector('.help-schedule-body');
+    setTimeout(function() { body.scrollTop = body.scrollHeight; }, 100);
+}
+
+function confirmDemoBooking() {
+    var name = document.getElementById('help-schedule-name').value.trim();
+    var email = document.getElementById('help-schedule-email').value.trim();
+
+    if (!name || !email) {
+        showToast('Please fill in your name and email', 'warning');
+        return;
+    }
+
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast('Please enter a valid email address', 'warning');
+        return;
+    }
+
+    // Show success
+    document.getElementById('help-schedule-form').style.display = 'none';
+    document.getElementById('help-schedule-success').style.display = 'block';
+    document.getElementById('help-success-detail').textContent =
+        _helpSelectedSlot.time + ' on ' + _helpSelectedSlot.date + ' · Calendar invite sent to ' + email;
+
+    // Clear form for next time
+    document.getElementById('help-schedule-name').value = '';
+    document.getElementById('help-schedule-email').value = '';
+    document.getElementById('help-schedule-company').value = '';
+
+    showToast('Demo booked successfully! 🎉', 'success');
+}
+
+// Auto-show hint after 1 second on landing page
+setTimeout(function() {
+    var trigger = document.getElementById('help-widget-trigger');
+    if (trigger && !_helpWidgetOpen) {
+        trigger.setAttribute('data-tooltip', 'Need help? We\'re online!');
+    }
+}, 2000);
