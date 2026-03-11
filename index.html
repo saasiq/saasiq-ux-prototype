@@ -6213,9 +6213,240 @@ Vikram Patel, Designer, $8,400/yr, 6, vikram@company.com, idle"></textarea>
     </div>
 </div>
 
+<!-- ===== HELP & SUPPORT WIDGET ===== -->
+<div class="help-widget" id="help-widget">
+    <!-- Floating Trigger Button -->
+    <!-- Floating Label -->
+    <div class="help-trigger-label" id="help-trigger-label">
+        <span class="help-label-wave">👋</span>
+        <span>Hey! Need any help?</span>
+        <button class="help-label-close" onclick="event.stopPropagation(); document.getElementById('help-trigger-label').style.display='none';"><i class="fas fa-times"></i></button>
+    </div>
+    <!-- Ping rings -->
+    <div class="help-ping-ring help-ping-ring-1"></div>
+    <div class="help-ping-ring help-ping-ring-2"></div>
+    <button class="help-widget-trigger" id="help-widget-trigger" onclick="toggleHelpWidget()" aria-label="Get Help">
+        <span class="help-trigger-icon" id="help-trigger-icon">
+            <i class="fas fa-headset"></i>
+        </span>
+        <span class="help-trigger-close" id="help-trigger-close" style="display:none;">
+            <i class="fas fa-times"></i>
+        </span>
+        <span class="help-trigger-badge" id="help-trigger-badge">1</span>
+    </button>
+
+    <!-- Widget Panel -->
+    <div class="help-widget-panel" id="help-widget-panel">
+        <!-- HOME VIEW -->
+        <div class="help-view active" id="help-view-home">
+            <div class="help-panel-header">
+                <div class="help-header-content">
+                    <div class="help-header-avatars">
+                        <div class="help-avatar" style="background: linear-gradient(135deg, #7C3AED, #A78BFA);">P</div>
+                        <div class="help-avatar" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);">R</div>
+                        <div class="help-avatar" style="background: linear-gradient(135deg, #10B981, #34D399);">A</div>
+                    </div>
+                    <h3>Hi there! 👋</h3>
+                    <p>We're the SaaSIQ team. How can we help you today?</p>
+                    <div class="help-availability">
+                        <span class="help-online-dot"></span>
+                        <span>We typically reply in under 5 minutes</span>
+                    </div>
+                </div>
+            </div>
+            <div class="help-panel-body">
+                <div class="help-quick-actions">
+                    <div class="help-action-card" onclick="openHelpChat('support')">
+                        <div class="help-action-icon" style="background: var(--primary-bg); color: var(--primary);">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="help-action-text">
+                            <strong>Chat with Support</strong>
+                            <span>Get help with any issue you're facing</span>
+                        </div>
+                        <i class="fas fa-chevron-right help-action-arrow"></i>
+                    </div>
+                    <div class="help-action-card" onclick="openHelpChat('demo')">
+                        <div class="help-action-icon" style="background: var(--blue-light); color: var(--blue);">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="help-action-text">
+                            <strong>Book a Demo</strong>
+                            <span>See SaaSIQ in action with a personal walkthrough</span>
+                        </div>
+                        <i class="fas fa-chevron-right help-action-arrow"></i>
+                    </div>
+                    <div class="help-action-card" onclick="openHelpChat('sales')">
+                        <div class="help-action-icon" style="background: var(--green-light); color: var(--green);">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="help-action-text">
+                            <strong>Talk to Sales</strong>
+                            <span>Discuss pricing, plans & custom requirements</span>
+                        </div>
+                        <i class="fas fa-chevron-right help-action-arrow"></i>
+                    </div>
+                    <div class="help-action-card" onclick="openHelpChat('issue')">
+                        <div class="help-action-icon" style="background: var(--orange-light); color: var(--orange);">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <div class="help-action-text">
+                            <strong>Report an Issue</strong>
+                            <span>Found a bug? Let us know and we'll fix it fast</span>
+                        </div>
+                        <i class="fas fa-chevron-right help-action-arrow"></i>
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div class="help-team-section">
+                    <div class="help-section-label">Our Team</div>
+                    <div class="help-team-list">
+                        <div class="help-team-member">
+                            <div class="help-member-avatar online" style="background: linear-gradient(135deg, #7C3AED, #A78BFA);">P</div>
+                            <div class="help-member-info">
+                                <strong>Priya Sharma</strong>
+                                <span>Customer Success Lead</span>
+                            </div>
+                            <span class="help-member-status online">Online</span>
+                        </div>
+                        <div class="help-team-member">
+                            <div class="help-member-avatar online" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);">R</div>
+                            <div class="help-member-info">
+                                <strong>Rahul Mehta</strong>
+                                <span>Solutions Engineer</span>
+                            </div>
+                            <span class="help-member-status online">Online</span>
+                        </div>
+                        <div class="help-team-member">
+                            <div class="help-member-avatar away" style="background: linear-gradient(135deg, #10B981, #34D399);">A</div>
+                            <div class="help-member-info">
+                                <strong>Aisha Khan</strong>
+                                <span>Sales Director</span>
+                            </div>
+                            <span class="help-member-status away">Away · back in 30m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Info -->
+                <div class="help-schedule-section">
+                    <div class="help-section-label">Availability</div>
+                    <div class="help-schedule-card">
+                        <div class="help-schedule-row">
+                            <i class="fas fa-clock"></i>
+                            <span>Mon – Fri: 9:00 AM – 8:00 PM IST</span>
+                        </div>
+                        <div class="help-schedule-row">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>US/UK hours: 6:00 AM – 6:00 PM ET</span>
+                        </div>
+                        <div class="help-schedule-row">
+                            <i class="fas fa-bolt"></i>
+                            <span>Avg. response: <strong>under 5 min</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="help-panel-footer">
+                <div class="help-footer-powered">Powered by <strong>SaaSIQ</strong></div>
+            </div>
+        </div>
+
+        <!-- CHAT VIEW -->
+        <div class="help-view" id="help-view-chat">
+            <div class="help-chat-header">
+                <button class="help-chat-back" onclick="showHelpHome()"><i class="fas fa-arrow-left"></i></button>
+                <div class="help-chat-header-info">
+                    <div class="help-chat-avatar" id="help-chat-avatar" style="background: linear-gradient(135deg, #7C3AED, #A78BFA);">P</div>
+                    <div>
+                        <strong id="help-chat-name">Priya Sharma</strong>
+                        <span id="help-chat-role">Customer Success Lead</span>
+                    </div>
+                </div>
+                <span class="help-chat-status"><span class="help-online-dot"></span> Online</span>
+            </div>
+            <div class="help-chat-messages" id="help-chat-messages">
+                <!-- Messages populated by JS -->
+            </div>
+            <div class="help-chat-typing" id="help-chat-typing" style="display:none;">
+                <div class="help-typing-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <span id="help-typing-name">Priya</span> is typing...
+            </div>
+            <div class="help-chat-input-area">
+                <input type="text" class="help-chat-input" id="help-chat-input" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendHelpMessage()">
+                <button class="help-chat-send" onclick="sendHelpMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- SCHEDULE / BOOK VIEW -->
+        <div class="help-view" id="help-view-schedule">
+            <div class="help-chat-header">
+                <button class="help-chat-back" onclick="showHelpHome()"><i class="fas fa-arrow-left"></i></button>
+                <div class="help-chat-header-info">
+                    <div class="help-chat-avatar" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);"><i class="fas fa-calendar-alt" style="font-size:14px;"></i></div>
+                    <div>
+                        <strong>Book a Demo</strong>
+                        <span>Pick a time that works for you</span>
+                    </div>
+                </div>
+            </div>
+            <div class="help-schedule-body">
+                <div class="help-schedule-intro">
+                    <p>Choose a convenient slot and one of our team members will personally walk you through SaaSIQ.</p>
+                </div>
+                <div class="help-time-slots">
+                    <div class="help-slot-day">
+                        <div class="help-slot-date">
+                            <strong id="help-slot-today">Today</strong>
+                            <span id="help-slot-today-date"></span>
+                        </div>
+                        <div class="help-slot-times" id="help-slot-times-today">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                    <div class="help-slot-day">
+                        <div class="help-slot-date">
+                            <strong>Tomorrow</strong>
+                            <span id="help-slot-tomorrow-date"></span>
+                        </div>
+                        <div class="help-slot-times" id="help-slot-times-tomorrow">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+                <div class="help-schedule-form" id="help-schedule-form" style="display:none;">
+                    <div class="help-schedule-confirm-header">
+                        <i class="fas fa-check-circle" style="color: var(--green); font-size: 20px;"></i>
+                        <div>
+                            <strong id="help-schedule-selected-time"></strong>
+                            <span id="help-schedule-selected-date"></span>
+                        </div>
+                    </div>
+                    <input type="text" class="help-form-input" id="help-schedule-name" placeholder="Your full name">
+                    <input type="email" class="help-form-input" id="help-schedule-email" placeholder="Work email address">
+                    <input type="text" class="help-form-input" id="help-schedule-company" placeholder="Company name (optional)">
+                    <button class="btn btn-primary help-schedule-btn" onclick="confirmDemoBooking()">
+                        <i class="fas fa-calendar-check"></i> Confirm Booking
+                    </button>
+                </div>
+                <div class="help-schedule-success" id="help-schedule-success" style="display:none;">
+                    <div class="help-success-icon"><i class="fas fa-check-circle"></i></div>
+                    <h4>You're all set! 🎉</h4>
+                    <p>We've booked your demo. You'll receive a calendar invite at your email shortly.</p>
+                    <p class="help-success-detail" id="help-success-detail"></p>
+                    <button class="btn btn-outline" onclick="showHelpHome()" style="margin-top: 12px;">Back to Help</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
