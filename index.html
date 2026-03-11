@@ -553,22 +553,6 @@
 </head>
 <body>
 
-<!-- Floating Page Navigator -->
-<div class="page-navigator" id="pageNav">
-    <button class="nav-toggle" onclick="document.getElementById('pageNav').classList.toggle('expanded')" aria-label="Open page navigator">
-        <i class="fas fa-compass" aria-hidden="true"></i>
-    </button>
-    <div class="nav-panel">
-        <div class="nav-panel-header">Navigate Screens</div>
-        <a href="#" onclick="showPage('page-landing'); return false;" class="nav-panel-link"><i class="fas fa-home" aria-hidden="true"></i> Landing Page</a>
-        <a href="#" onclick="showPage('page-login'); return false;" class="nav-panel-link"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Login</a>
-        <a href="#" onclick="showPage('page-signup'); return false;" class="nav-panel-link"><i class="fas fa-user-plus" aria-hidden="true"></i> Signup</a>
-        <a href="#" onclick="showPage('page-onboarding'); return false;" class="nav-panel-link"><i class="fas fa-rocket" aria-hidden="true"></i> Onboarding</a>
-        <a href="#" onclick="showPage('page-dashboard'); return false;" class="nav-panel-link highlight"><i class="fas fa-th-large" aria-hidden="true"></i> Dashboard (Sidebar)</a>
-        <a href="#" onclick="showPage('page-demo'); return false;" class="nav-panel-link"><i class="fas fa-play-circle" aria-hidden="true"></i> Watch Demo</a>
-    </div>
-</div>
-
 <!-- ==================== LANDING PAGE ==================== -->
 <div id="page-landing" class="page active">
     <nav class="landing-nav">
@@ -1039,33 +1023,35 @@
         <div class="section-header">
             <span class="section-badge">Pricing</span>
             <h2>Simple, Transparent Pricing</h2>
-            <p>Start free. Scale as you grow.</p>
+            <p>One platform fee. Unlimited users. No per-seat surprises.</p>
         </div>
         <div class="pricing-grid">
             <div class="pricing-card">
-                <h3>Starter</h3>
-                <div class="price">$149<span>/user/mo</span></div>
+                <h3>Growth</h3>
+                <div class="price">$499<span>/mo</span></div>
                 <ul>
                     <li><i class="fas fa-check"></i> Up to 100 employees</li>
-                    <li><i class="fas fa-check"></i> SaaS Discovery</li>
-                    <li><i class="fas fa-check"></i> Basic Spend Analytics</li>
-                    <li><i class="fas fa-check"></i> Email Alerts</li>
-                    <li><i class="fas fa-check"></i> 5 Integrations</li>
+                    <li><i class="fas fa-check"></i> Unlimited users</li>
+                    <li><i class="fas fa-check"></i> SaaS Discovery & Spend Analytics</li>
+                    <li><i class="fas fa-check"></i> Email & Slack Alerts</li>
+                    <li><i class="fas fa-check"></i> Up to 20 Integrations</li>
+                    <li><i class="fas fa-check"></i> 14-day free trial</li>
                 </ul>
                 <button class="btn btn-outline" onclick="showPage('page-signup')">Start Free Trial</button>
             </div>
             <div class="pricing-card featured">
                 <div class="pricing-badge">Most Popular</div>
                 <h3>Business</h3>
-                <div class="price">$249<span>/user/mo</span></div>
+                <div class="price">$1,999<span>/mo</span></div>
                 <ul>
-                    <li><i class="fas fa-check"></i> Up to 1000 employees</li>
-                    <li><i class="fas fa-check"></i> Everything in Starter</li>
-                    <li><i class="fas fa-check"></i> AI Spend Intelligence</li>
+                    <li><i class="fas fa-check"></i> Up to 1,000 employees</li>
+                    <li><i class="fas fa-check"></i> Unlimited users</li>
+                    <li><i class="fas fa-check"></i> Everything in Growth</li>
+                    <li><i class="fas fa-check"></i> AI Spend Intelligence & Copilot</li>
                     <li><i class="fas fa-check"></i> License Optimization</li>
                     <li><i class="fas fa-check"></i> Compliance Scoring</li>
                     <li><i class="fas fa-check"></i> Contract Management</li>
-                    <li><i class="fas fa-check"></i> Slack/Teams Integration</li>
+                    <li><i class="fas fa-check"></i> Unlimited Integrations</li>
                 </ul>
                 <button class="btn btn-primary" onclick="showPage('page-signup')">Start Free Trial</button>
             </div>
@@ -1075,11 +1061,11 @@
                 <ul>
                     <li><i class="fas fa-check"></i> Unlimited employees</li>
                     <li><i class="fas fa-check"></i> Everything in Business</li>
-                    <li><i class="fas fa-check"></i> AI Copilot</li>
-                    <li><i class="fas fa-check"></i> Custom Integrations</li>
-                    <li><i class="fas fa-check"></i> Dedicated Support</li>
+                    <li><i class="fas fa-check"></i> Negotiation AI & Savings Share</li>
+                    <li><i class="fas fa-check"></i> Custom Integrations & API</li>
+                    <li><i class="fas fa-check"></i> Dedicated CSM & Support</li>
                     <li><i class="fas fa-check"></i> On-prem / Private Cloud</li>
-                    <li><i class="fas fa-check"></i> SLA Guarantee</li>
+                    <li><i class="fas fa-check"></i> SLA & Uptime Guarantee</li>
                 </ul>
                 <button class="btn btn-outline" onclick="showToast('success','Our sales team will reach out within 24 hours!')">Contact Sales</button>
             </div>
@@ -1107,6 +1093,15 @@
 
 <!-- ==================== LOGIN PAGE ==================== -->
 <div id="page-login" class="page">
+    <div class="auth-topbar">
+        <div class="auth-topbar-left">
+            <button class="back-link" onclick="showPage('page-landing')"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        </div>
+        <div class="auth-topbar-right">
+            <button class="nav-pill nav-pill-ghost" onclick="showPage('page-demo')"><i class="fas fa-play-circle"></i> Watch Demo</button>
+            <button class="nav-pill nav-pill-primary" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> Start Free Trial</button>
+        </div>
+    </div>
     <div class="auth-container">
         <div class="auth-left">
             <div class="auth-branding">
@@ -1160,6 +1155,15 @@
 
 <!-- ==================== SIGNUP PAGE ==================== -->
 <div id="page-signup" class="page">
+    <div class="auth-topbar">
+        <div class="auth-topbar-left">
+            <button class="back-link" onclick="showPage('page-landing')"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        </div>
+        <div class="auth-topbar-right">
+            <button class="nav-pill nav-pill-ghost" onclick="showPage('page-demo')"><i class="fas fa-play-circle"></i> Watch Demo</button>
+            <button class="nav-pill nav-pill-outline" onclick="showPage('page-login')"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+        </div>
+    </div>
     <div class="auth-container">
         <div class="auth-left">
             <div class="auth-branding">
@@ -1235,8 +1239,12 @@
 <!-- ==================== ONBOARDING PAGE ==================== -->
 <div id="page-onboarding" class="page">
     <div class="onboarding-container">
+        <div class="onboard-topbar">
+            <button class="back-link" onclick="showPage('page-signup')"><i class="fas fa-arrow-left"></i> Back</button>
+            <button class="nav-pill nav-pill-ghost" onclick="showPage('page-landing')"><i class="fas fa-home"></i> Home</button>
+        </div>
         <div class="onboarding-header">
-            <div class="logo">
+            <div class="logo" onclick="showPage('page-landing')" style="cursor:pointer">
                 <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
                 <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
             </div>
@@ -1476,7 +1484,7 @@
                     <i class="fas fa-chevron-down org-chevron"></i>
                 </div>
                 <div class="org-dropdown" id="org-dropdown">
-                    <div class="org-dropdown-item active"><div class="avatar-xs">TC</div><div><strong>TechCorp India</strong><span>Business Plan · 25 users</span></div><i class="fas fa-check"></i></div>
+                    <div class="org-dropdown-item active"><div class="avatar-xs">TC</div><div><strong>TechCorp India</strong><span>Business Plan · Unlimited users</span></div><i class="fas fa-check"></i></div>
                     <div class="org-dropdown-item"><div class="avatar-xs" style="background:#3B82F6">TG</div><div><strong>TechCorp Global</strong><span>Enterprise · 120 users</span></div></div>
                     <div class="org-dropdown-item"><div class="avatar-xs" style="background:#10B981">TS</div><div><strong>TechCorp Sandbox</strong><span>Free Trial · 5 users</span></div></div>
                     <div class="org-dropdown-divider"></div>
@@ -4566,8 +4574,8 @@
                                 <div class="billing-plan-card">
                                     <div class="plan-info">
                                         <span class="plan-badge">Business Plan</span>
-                                        <div class="plan-price"><span class="plan-amount">$249</span><span class="plan-period">/user/month</span></div>
-                                        <span class="plan-detail">25 users · Billed annually · Renews Apr 1, 2026</span>
+                                        <div class="plan-price"><span class="plan-amount">$1,999</span><span class="plan-period">/month</span></div>
+                                        <span class="plan-detail">Unlimited users · Billed annually · Renews Apr 1, 2026</span>
                                     </div>
                                     <div class="plan-actions">
                                         <button class="btn btn-sm btn-primary">Upgrade Plan</button>
@@ -4587,22 +4595,22 @@
                                 <div class="invoice-list">
                                     <div class="invoice-row">
                                         <span class="invoice-date">Mar 1, 2026</span>
-                                        <span>Business Plan – 25 users</span>
-                                        <span class="invoice-amount">$62,250</span>
+                                        <span>Business Plan</span>
+                                        <span class="invoice-amount">$1,999</span>
                                         <span class="status-pill active">Paid</span>
                                         <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> PDF</button>
                                     </div>
                                     <div class="invoice-row">
                                         <span class="invoice-date">Feb 1, 2026</span>
-                                        <span>Business Plan – 25 users</span>
-                                        <span class="invoice-amount">$62,250</span>
+                                        <span>Business Plan</span>
+                                        <span class="invoice-amount">$1,999</span>
                                         <span class="status-pill active">Paid</span>
                                         <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> PDF</button>
                                     </div>
                                     <div class="invoice-row">
                                         <span class="invoice-date">Jan 1, 2026</span>
-                                        <span>Business Plan – 22 users</span>
-                                        <span class="invoice-amount">$54,780</span>
+                                        <span>Business Plan</span>
+                                        <span class="invoice-amount">$1,999</span>
                                         <span class="status-pill active">Paid</span>
                                         <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> PDF</button>
                                     </div>
@@ -4611,8 +4619,8 @@
                             <div class="settings-section">
                                 <h4>Usage This Month</h4>
                                 <div class="usage-bar-container">
-                                    <div class="usage-bar-labels"><span>21 of 25 seats used</span><span>84%</span></div>
-                                    <div class="usage-bar-track"><div class="usage-bar-fill" style="width:84%"></div></div>
+                                    <div class="usage-bar-labels"><span>47 of 50 apps tracked</span><span>94%</span></div>
+                                    <div class="usage-bar-track"><div class="usage-bar-fill" style="width:94%"></div></div>
                                 </div>
                             </div>
                         </div>
@@ -5129,6 +5137,14 @@
                 <div class="demo-dots" id="demo-dots"></div>
                 <button class="demo-ctrl-btn" id="demo-next" onclick="demoStep(1)">Next <i class="fas fa-chevron-right"></i></button>
             </div>
+
+
+            <!-- After demo: quick actions -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200)">
+                <span style="color:var(--gray-500);font-size:13px">Ready to start?</span>
+                <button class="btn btn-primary btn-sm" onclick="closeDemo(); showPage('page-signup')" style="font-size:13px"><i class="fas fa-rocket"></i> Free Trial</button>
+                <button class="btn btn-outline btn-sm" onclick="closeDemo(); showPage('page-login')" style="font-size:13px"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+            </div>
         </div>
     </div>
 </div>
@@ -5547,7 +5563,7 @@
             <div class="form-group"><label>Country / Region</label><select><option value="">Select region...</option><option selected>India</option><option>United States</option><option>United Kingdom</option><option>European Union</option><option>Southeast Asia</option><option>Middle East</option><option>Australia</option></select></div>
             <div class="form-group"><label>Billing Email</label><input type="email" placeholder="billing@company.com"></div>
             <div class="form-row">
-                <div class="form-group"><label>Plan</label><select><option>Free Trial (14 days)</option><option>Starter — $149/user/mo</option><option selected>Business — $249/user/mo</option><option>Enterprise — Custom</option></select></div>
+                <div class="form-group"><label>Plan</label><select><option>Free Trial (14 days)</option><option>Growth — $499/mo</option><option selected>Business — $1,999/mo</option><option>Enterprise — Custom</option></select></div>
                 <div class="form-group"><label>Currency</label><select><option selected>USD ($)</option><option>USD ($)</option><option>EUR (€)</option><option>GBP (£)</option></select></div>
             </div>
             <div class="form-group">
@@ -5733,7 +5749,7 @@ Vikram Patel, Designer, $8,400/yr, 6, vikram@company.com, idle"></textarea>
                     <div class="avatar-sm" style="flex-shrink:0">TC</div>
                     <div style="flex:1">
                         <div style="display:flex;align-items:center;gap:8px"><strong style="color:#E2E8F0;font-size:15px">TechCorp India</strong><span style="background:var(--primary);color:white;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600">CURRENT</span></div>
-                        <span style="color:#A0AEC0;font-size:12px">Business Plan · 25 users · 47 apps tracked</span>
+                        <span style="color:#A0AEC0;font-size:12px">Business Plan · Unlimited users · 47 apps tracked</span>
                     </div>
                     <button class="btn btn-outline" style="font-size:12px;padding:6px 12px" onclick="showDashSectionDirect('settings');closeModal('modal-manage-orgs')"><i class="fas fa-cog"></i></button>
                 </div>

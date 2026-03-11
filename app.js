@@ -56,7 +56,6 @@ function showPage(pageId) {
     if (target) {
         target.classList.add('active');
         window.scrollTo(0, 0);
-        // Update URL hash for direct navigation
         window.location.hash = pageId.replace('page-', '');
     }
 }
