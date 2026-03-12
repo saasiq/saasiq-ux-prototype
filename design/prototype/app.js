@@ -56,7 +56,6 @@ function showPage(pageId) {
     if (target) {
         target.classList.add('active');
         window.scrollTo(0, 0);
-        // Update URL hash for direct navigation
         window.location.hash = pageId.replace('page-', '');
     }
 }
@@ -619,11 +618,11 @@ document.addEventListener('click', function(e) {
 
 // ========== AI COPILOT INTERACTIVE INPUT ==========
 const copilotResponses = [
-    { q: /spend|cost|budget/i, a: 'Your total monthly SaaS spend is <strong>₹7.04L</strong> across 47 apps. The top 3 cost drivers are Google Workspace (₹1.82L), Microsoft 365 (₹62K), and Slack (₹46K). I see <strong>₹1.2L/month in potential savings</strong> from unused licenses.' },
-    { q: /shadow|unapproved|unsanctioned/i, a: 'I detected <strong>8 shadow IT applications</strong> being used without approval: CloudApp Pro, DataDog Lite, Notion, ChatGPT Plus, Grammarly, Canva Pro, Miro, and Loom. Total monthly cost: <strong>₹4,200</strong>. Shall I create a review policy?' },
-    { q: /renew|contract|expir/i, a: 'You have <strong>4 contracts renewing in the next 30 days</strong>:<br>• Salesforce Enterprise — Mar 12 (₹24L/yr, auto-renew ON)<br>• GitHub Enterprise — Mar 28 (₹18.5L/yr)<br>• Zoom Business — Apr 1 (₹3.2L/yr)<br>• Figma Org — Apr 15 (₹8.4L/yr)<br>AI recommends negotiating Salesforce down by 34%.' },
+    { q: /spend|cost|budget/i, a: 'Your total monthly SaaS spend is <strong>$704K</strong> across 47 apps. The top 3 cost drivers are Google Workspace ($36K), Microsoft 365 ($28.8K), and Slack ($18.5K). I see <strong>$120K/month in potential savings</strong> from unused licenses.' },
+    { q: /shadow|unapproved|unsanctioned/i, a: 'I detected <strong>8 shadow IT applications</strong> being used without approval: CloudApp Pro, DataDog Lite, Notion, ChatGPT Plus, Grammarly, Canva Pro, Miro, and Loom. Total monthly cost: <strong>$4,200</strong>. Shall I create a review policy?' },
+    { q: /renew|contract|expir/i, a: 'You have <strong>4 contracts renewing in the next 30 days</strong>:<br>• Salesforce Enterprise — Mar 12 ($420K/yr, auto-renew ON)<br>• GitHub Enterprise — Mar 28 ($185K/yr)<br>• Zoom Business — Apr 1 ($96K/yr)<br>• Figma Org — Apr 15 ($54K/yr)<br>AI recommends negotiating Salesforce down by 34%.' },
     { q: /compliance|risk|soc|gdpr/i, a: 'Compliance Score: <strong>A+ (87/100)</strong>. 42 of 47 apps are SOC2 certified. <strong>2 apps need HIPAA review</strong>, and <strong>3 apps are missing DPA agreements</strong>. Shall I generate a compliance action plan?' },
-    { q: /user|utilization|unused|license/i, a: 'License utilization across your stack is <strong>67%</strong>. Apps with lowest utilization:<br>• Monday.com: 22% (28 of 128 seats)<br>• Asana Business: 34% (45 of 132 seats)<br>• Figma: 26% (12 of 47 seats)<br>Consolidating could save <strong>₹12.8L/year</strong>.' },
+    { q: /user|utilization|unused|license/i, a: 'License utilization across your stack is <strong>67%</strong>. Apps with lowest utilization:<br>• Monday.com: 22% (28 of 128 seats)<br>• Asana Business: 34% (45 of 132 seats)<br>• Figma: 26% (12 of 47 seats)<br>Consolidating could save <strong>$384K/year</strong>.' },
 ];
 
 function sendCopilotMsg() {
@@ -1270,10 +1269,10 @@ function revokeAllPending(btn) {
             var valueEl2 = statCards[1].querySelector('div[style*="font-size:30px"]');
             if (valueEl2) valueEl2.textContent = '27';
         }
-        // Update "Licenses Recovered" from ₹3.8L to ₹8.0L
+        // Update "Licenses Recovered" from $11.4K to $24K
         if (statCards[2]) {
             var valueEl3 = statCards[2].querySelector('div[style*="font-size:30px"]');
-            if (valueEl3) valueEl3.textContent = '₹8.0L';
+            if (valueEl3) valueEl3.textContent = '$42K';
         }
 
         // Update the bulk banner
@@ -1295,7 +1294,7 @@ function revokeAllPending(btn) {
             }
             var bannerSub = bannerDiv.querySelector('div[style*="color:var(--gray-500)"]');
             if (bannerSub) {
-                bannerSub.textContent = '50 apps revoked · ₹4.2L/yr recovered';
+                bannerSub.textContent = '50 apps revoked · $42K/yr recovered';
                 bannerSub.style.color = '#059769';
             }
         }
@@ -1313,7 +1312,7 @@ function revokeAllPending(btn) {
         btn.style.opacity = '1';
         btn.style.boxShadow = '0 2px 10px rgba(5,150,105,0.25)';
 
-        showToast('success', '✓ All 4 employees offboarded. 50 apps revoked. ₹4.2L/yr in licenses recovered.');
+        showToast('success', '✓ All 4 employees offboarded. 50 apps revoked. $42K/yr in licenses recovered.');
 
         // Revert after 5s
         setTimeout(function() {
@@ -1345,7 +1344,7 @@ function revokeAllPending(btn) {
             }
             if (statCards[2]) {
                 var v3 = statCards[2].querySelector('div[style*="font-size:30px"]');
-                if (v3) v3.textContent = '₹3.8L';
+                if (v3) v3.textContent = '$11.4K';
             }
             // Restore banner
             if (bannerDiv) {
@@ -1834,27 +1833,27 @@ const partnerData = {
         status: 'Active',
         statusClass: 'active',
         seats: 50, used: 38, utilization: 76,
-        serviceType: 'UI/UX Design', serviceHours: 120, serviceValue: '₹12L',
-        waste: '12 seats · ₹2.88L', wasteSeats: '12 seats', wasteValue: '₹2.88L',
-        received: 'Slack Enterprise Grid', receivedDetail: '50 seats · ₹15L/yr market value',
-        given: 'UI/UX Design Services', givenDetail: '120 hrs · ₹12L value',
+        serviceType: 'UI/UX Design', serviceHours: 120, serviceValue: '$36K',
+        waste: '12 seats · $8.6K', wasteSeats: '12 seats', wasteValue: '$8.6K',
+        received: 'Slack Enterprise Grid', receivedDetail: '50 seats · $45K/yr market value',
+        given: 'UI/UX Design Services', givenDetail: '120 hrs · $36K value',
         start: 'Jan 15, 2026', end: 'Jan 14, 2027', remaining: '310 days',
         ledger: [
-            { date: 'Mar 5, 2026', service: 'UI/UX Design Sprint', hours: '40 hrs', value: '₹4L', status: 'Delivered' },
-            { date: 'Feb 1, 2026', service: 'Dashboard Redesign', hours: '32 hrs', value: '₹3.2L', status: 'Delivered' },
-            { date: 'Jan 20, 2026', service: 'Mobile App Wireframes', hours: '24 hrs', value: '₹2.4L', status: 'Delivered' }
+            { date: 'Mar 5, 2026', service: 'UI/UX Design Sprint', hours: '40 hrs', value: '$12K', status: 'Delivered' },
+            { date: 'Feb 1, 2026', service: 'Dashboard Redesign', hours: '32 hrs', value: '$9.6K', status: 'Delivered' },
+            { date: 'Jan 20, 2026', service: 'Mobile App Wireframes', hours: '24 hrs', value: '$7.2K', status: 'Delivered' }
         ],
         ai: {
-            headline: 'Downsize to 40 seats — save ₹2.4L/year',
+            headline: 'Downsize to 40 seats — save $7.2K/year',
             confidence: 'Confidence: 92% · Based on 55 days of usage data',
             currentSeats: '50 seats', currentHours: '120 design hrs',
             recSeats: '40 seats', recHours: '96 design hrs',
-            savings: '₹2.4L/yr',
+            savings: '$7.2K/yr',
             insights: [
                 { icon: 'fa-chart-line', color: 'var(--blue)', text: '12 seats have had zero logins in 45+ days — consistent non-usage pattern' },
                 { icon: 'fa-users', color: 'var(--orange)', text: '76% utilization is below the 85% efficiency threshold for barter deals' },
                 { icon: 'fa-clock', color: 'var(--primary)', text: 'Renewal in 310 days — renegotiate early for 10% better terms' },
-                { icon: 'fa-rupee-sign', color: 'var(--green)', text: 'Downsizing saves 24 design hours (₹2.4L) with zero productivity impact' }
+                { icon: 'fa-dollar-sign', color: 'var(--green)', text: 'Downsizing saves 24 design hours ($7.2K) with zero productivity impact' }
             ],
             actions: [
                 { num: 1, text: 'Reduce license count from 50 → 40 seats (remove inactive users)' },
@@ -1871,27 +1870,27 @@ const partnerData = {
         status: 'Active',
         statusClass: 'active',
         seats: 75, used: 42, utilization: 56,
-        serviceType: 'DevOps Consulting', serviceHours: 200, serviceValue: '₹18L',
-        waste: '33 seats · ₹7.92L', wasteSeats: '33 seats', wasteValue: '₹7.92L',
-        received: 'Jira + Confluence Premium', receivedDetail: '75 seats · ₹22L/yr market value',
-        given: 'DevOps Consulting Services', givenDetail: '200 hrs · ₹18L value',
+        serviceType: 'DevOps Consulting', serviceHours: 200, serviceValue: '$54K',
+        waste: '33 seats · $23.8K', wasteSeats: '33 seats', wasteValue: '$23.8K',
+        received: 'Jira + Confluence Premium', receivedDetail: '75 seats · $66K/yr market value',
+        given: 'DevOps Consulting Services', givenDetail: '200 hrs · $54K value',
         start: 'Dec 1, 2025', end: 'Nov 30, 2026', remaining: '265 days',
         ledger: [
-            { date: 'Feb 20, 2026', service: 'CI/CD Pipeline Setup', hours: '60 hrs', value: '₹5.4L', status: 'Delivered' },
-            { date: 'Jan 15, 2026', service: 'Kubernetes Migration', hours: '80 hrs', value: '₹7.2L', status: 'In Progress' },
-            { date: 'Dec 10, 2025', service: 'Infrastructure Audit', hours: '20 hrs', value: '₹1.8L', status: 'Delivered' }
+            { date: 'Feb 20, 2026', service: 'CI/CD Pipeline Setup', hours: '60 hrs', value: '$16.2K', status: 'Delivered' },
+            { date: 'Jan 15, 2026', service: 'Kubernetes Migration', hours: '80 hrs', value: '$21.6K', status: 'In Progress' },
+            { date: 'Dec 10, 2025', service: 'Infrastructure Audit', hours: '20 hrs', value: '$5.4K', status: 'Delivered' }
         ],
         ai: {
-            headline: 'Renegotiate to 50 seats — save ₹9L/year',
+            headline: 'Renegotiate to 50 seats — save $27K/year',
             confidence: 'Confidence: 96% · Based on 100 days of usage data',
             currentSeats: '75 seats', currentHours: '200 consulting hrs',
             recSeats: '50 seats', recHours: '134 consulting hrs',
-            savings: '₹9L/yr',
+            savings: '$27K/yr',
             insights: [
                 { icon: 'fa-exclamation-circle', color: 'var(--red)', text: '33 of 75 seats (44%) have zero logins in 60 days — critical waste' },
-                { icon: 'fa-rupee-sign', color: 'var(--red)', text: 'You\'re committing ₹18L in consulting for licenses worth ₹22L — tight margin' },
+                { icon: 'fa-dollar-sign', color: 'var(--red)', text: 'You\'re committing $54K in consulting for licenses worth $66K — tight margin' },
                 { icon: 'fa-building', color: 'var(--blue)', text: 'Industry benchmark: similar companies use 55-65 seats for this team size' },
-                { icon: 'fa-lightbulb', color: 'var(--green)', text: 'Downsizing saves 66 consulting hours (₹9L) — reinvest in high-impact projects' }
+                { icon: 'fa-lightbulb', color: 'var(--green)', text: 'Downsizing saves 66 consulting hours ($27K) — reinvest in high-impact projects' }
             ],
             actions: [
                 { num: 1, text: 'Audit 33 inactive users — remove or reassign licenses immediately' },
@@ -1909,25 +1908,25 @@ const partnerData = {
         status: 'Under Review',
         statusClass: 'warning',
         seats: 20, used: 18, utilization: 90,
-        serviceType: 'Content Marketing', serviceHours: 160, serviceValue: '₹6L',
-        waste: '2 seats · ₹0.6L', wasteSeats: '2 seats', wasteValue: '₹0.6L',
-        received: 'HubSpot CRM Pro', receivedDetail: '20 seats · ₹8L/yr market value',
-        given: 'Content Marketing Services', givenDetail: '160 hrs · ₹6L value',
+        serviceType: 'Content Marketing', serviceHours: 160, serviceValue: '$18K',
+        waste: '2 seats · $1.8K', wasteSeats: '2 seats', wasteValue: '$1.8K',
+        received: 'HubSpot CRM Pro', receivedDetail: '20 seats · $24K/yr market value',
+        given: 'Content Marketing Services', givenDetail: '160 hrs · $18K value',
         start: 'Feb 1, 2026', end: 'Jan 31, 2027', remaining: '327 days',
         ledger: [
-            { date: 'Feb 10, 2026', service: 'Blog Content (10 articles)', hours: '80 hrs', value: '₹3L', status: 'Delivered' },
-            { date: 'Feb 25, 2026', service: 'Social Media Campaign', hours: '40 hrs', value: '₹1.5L', status: 'Delivered' },
-            { date: 'Mar 3, 2026', service: 'SEO Optimization Sprint', hours: '24 hrs', value: '₹0.9L', status: 'In Progress' }
+            { date: 'Feb 10, 2026', service: 'Blog Content (10 articles)', hours: '80 hrs', value: '$9K', status: 'Delivered' },
+            { date: 'Feb 25, 2026', service: 'Social Media Campaign', hours: '40 hrs', value: '$4.5K', status: 'Delivered' },
+            { date: 'Mar 3, 2026', service: 'SEO Optimization Sprint', hours: '24 hrs', value: '$2.7K', status: 'In Progress' }
         ],
         ai: {
             headline: 'Healthy deal — recommend renewing at current terms',
             confidence: 'Confidence: 98% · Based on 38 days of usage data',
             currentSeats: '20 seats', currentHours: '160 content hrs',
             recSeats: '20 seats', recHours: '160 content hrs',
-            savings: '₹0 (already optimized)',
+            savings: '$0 (already optimized)',
             insights: [
                 { icon: 'fa-check-circle', color: 'var(--green)', text: '90% utilization — well above the 85% efficiency threshold' },
-                { icon: 'fa-thumbs-up', color: 'var(--green)', text: 'Positive ROI: ₹8L software value received for ₹6L in services' },
+                { icon: 'fa-thumbs-up', color: 'var(--green)', text: 'Positive ROI: $24K software value received for $18K in services' },
                 { icon: 'fa-chart-line', color: 'var(--blue)', text: 'Usage trending upward — 2 remaining seats likely to be filled within 60 days' },
                 { icon: 'fa-star', color: 'var(--orange)', text: 'This is your most cost-effective partnership — model for future deals' }
             ],
@@ -2039,3 +2038,1905 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+
+/* ==========================================================================
+   NESTED DRILL-DOWN ENGINE — Org → Department → Team → Members
+   ========================================================================== */
+
+var drillData = {
+    engineering: {
+        name: 'Engineering',
+        icon: 'fas fa-code',
+        iconBg: 'rgba(124,58,237,0.1)',
+        iconColor: 'var(--primary)',
+        users: 142, apps: 28, adoption: 84, activeUsers: 119, avgLogins: 24.6,
+        spend: '$247.2K', waste: '$33.6K',
+        teams: [
+            {
+                id: 'eng-backend', name: 'Backend Team', icon: 'fas fa-server',
+                iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
+                users: 38, apps: 14, adoption: 91, activeUsers: 35, avgLogins: 28.4,
+                spend: '$85.8K', waste: '$6.3K',
+                topApps: ['AWS', 'GitHub', 'Datadog'],
+                members: [
+                    { name: 'Arjun Mehta', role: 'Lead', apps: 12, logins: 32, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Priya Sharma', role: 'Sr. Engineer', apps: 10, logins: 28, status: 'active', avatar: '#8B5CF6' },
+                    { name: 'Rahul K.', role: 'Engineer', apps: 8, logins: 25, status: 'active', avatar: '#10B981' },
+                    { name: 'Sneha D.', role: 'Engineer', apps: 9, logins: 30, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Vikram P.', role: 'Jr. Engineer', apps: 5, logins: 12, status: 'idle', avatar: '#EF4444' },
+                    { name: 'Kiran R.', role: 'Intern', apps: 3, logins: 4, status: 'inactive', avatar: '#6366F1' }
+                ],
+                aiInsight: 'Backend team has 91% adoption — highest in Engineering. Vikram P. has used only 5 of 14 apps in 30 days. Consider reassigning 2 AWS seats from inactive interns.'
+            },
+            {
+                id: 'eng-frontend', name: 'Frontend Team', icon: 'fas fa-laptop-code',
+                iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
+                users: 32, apps: 11, adoption: 88, activeUsers: 28, avgLogins: 26.1,
+                spend: '$54.6K', waste: '$5.4K',
+                topApps: ['Figma', 'GitHub', 'Vercel'],
+                members: [
+                    { name: 'Amit Joshi', role: 'Lead', apps: 11, logins: 30, status: 'active', avatar: '#A855F7' },
+                    { name: 'Deepa M.', role: 'Sr. Engineer', apps: 9, logins: 27, status: 'active', avatar: '#EC4899' },
+                    { name: 'Rohan S.', role: 'Engineer', apps: 8, logins: 22, status: 'active', avatar: '#14B8A6' },
+                    { name: 'Neha K.', role: 'Engineer', apps: 7, logins: 18, status: 'idle', avatar: '#F59E0B' }
+                ],
+                aiInsight: 'Frontend team heavily uses Figma (100% adoption) but only 40% use Storybook. Consider consolidating or dropping Storybook license.'
+            },
+            {
+                id: 'eng-devops', name: 'DevOps & Infra', icon: 'fas fa-cloud',
+                iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                users: 18, apps: 16, adoption: 92, activeUsers: 17, avgLogins: 31.2,
+                spend: '$67.2K', waste: '$10.8K',
+                topApps: ['AWS', 'Terraform', 'PagerDuty'],
+                members: [
+                    { name: 'Suresh K.', role: 'Lead', apps: 16, logins: 35, status: 'active', avatar: '#10B981' },
+                    { name: 'Ananya R.', role: 'SRE', apps: 14, logins: 32, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Manoj V.', role: 'DevOps Eng.', apps: 12, logins: 28, status: 'active', avatar: '#F97316' }
+                ],
+                aiInsight: 'DevOps has the highest per-user spend ($3.7K/user). 3 monitoring tools overlap (Datadog + New Relic + PagerDuty) — consolidating saves $10.8K/yr.'
+            },
+            {
+                id: 'eng-data', name: 'Data Engineering', icon: 'fas fa-database',
+                iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                users: 22, apps: 10, adoption: 77, activeUsers: 17, avgLogins: 20.3,
+                spend: '$25.2K', waste: '$6.6K',
+                topApps: ['Snowflake', 'dbt', 'Airflow'],
+                members: [
+                    { name: 'Ravi T.', role: 'Lead', apps: 10, logins: 26, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Kavya M.', role: 'Data Eng.', apps: 8, logins: 22, status: 'active', avatar: '#EC4899' },
+                    { name: 'Harish B.', role: 'Data Eng.', apps: 6, logins: 14, status: 'idle', avatar: '#6366F1' },
+                    { name: 'Pooja N.', role: 'Analyst', apps: 4, logins: 8, status: 'inactive', avatar: '#EF4444' }
+                ],
+                aiInsight: 'Data team has 5 unused Snowflake compute credits. Pooja N. hasn\'t logged into any tool in 21 days — possible offboarding candidate.'
+            },
+            {
+                id: 'eng-qa', name: 'QA & Testing', icon: 'fas fa-vial',
+                iconBg: 'rgba(239,68,68,0.1)', iconColor: '#EF4444',
+                users: 16, apps: 8, adoption: 75, activeUsers: 12, avgLogins: 18.6,
+                spend: '$9.6K', waste: '$2.4K',
+                topApps: ['Jira', 'BrowserStack', 'Postman'],
+                members: [
+                    { name: 'Sanjay L.', role: 'QA Lead', apps: 8, logins: 24, status: 'active', avatar: '#EF4444' },
+                    { name: 'Meera G.', role: 'QA Eng.', apps: 6, logins: 20, status: 'active', avatar: '#8B5CF6' },
+                    { name: 'Anil D.', role: 'QA Eng.', apps: 5, logins: 10, status: 'idle', avatar: '#14B8A6' }
+                ],
+                aiInsight: 'QA has 4 unused BrowserStack licenses. Consider sharing BrowserStack seats with Frontend team on a floating license model.'
+            },
+            {
+                id: 'eng-mobile', name: 'Mobile Team', icon: 'fas fa-mobile-alt',
+                iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
+                users: 16, apps: 9, adoption: 81, activeUsers: 13, avgLogins: 22.8,
+                spend: '$13.8K', waste: '$2.1K',
+                topApps: ['Xcode Cloud', 'Firebase', 'Bitrise'],
+                members: [
+                    { name: 'Tarun S.', role: 'Lead', apps: 9, logins: 28, status: 'active', avatar: '#6366F1' },
+                    { name: 'Divya P.', role: 'iOS Dev', apps: 7, logins: 24, status: 'active', avatar: '#EC4899' },
+                    { name: 'Nikhil M.', role: 'Android Dev', apps: 7, logins: 20, status: 'active', avatar: '#10B981' }
+                ],
+                aiInsight: 'Mobile team is well-optimized. Firebase plan could downgrade from Blaze to Spark — saves $2.1K/yr based on actual usage.'
+            }
+        ]
+    },
+    sales: {
+        name: 'Sales & Marketing',
+        icon: 'fas fa-chart-bar',
+        iconBg: 'rgba(59,130,246,0.1)',
+        iconColor: 'var(--blue)',
+        users: 89, apps: 18, adoption: 71, activeUsers: 63, avgLogins: 18.3,
+        spend: '$172.2K', waste: '$33.6K',
+        teams: [
+            {
+                id: 'sales-enterprise', name: 'Enterprise Sales', icon: 'fas fa-handshake',
+                iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                users: 24, apps: 8, adoption: 83, activeUsers: 20, avgLogins: 22.4,
+                spend: '$55.8K', waste: '$7.2K',
+                topApps: ['Salesforce', 'Gong', 'LinkedIn Sales Nav'],
+                members: [
+                    { name: 'Rajesh V.', role: 'VP Sales', apps: 8, logins: 26, status: 'active', avatar: '#10B981' },
+                    { name: 'Anita S.', role: 'AE', apps: 7, logins: 24, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Mohit K.', role: 'AE', apps: 6, logins: 18, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Simran T.', role: 'SDR', apps: 4, logins: 12, status: 'idle', avatar: '#EF4444' }
+                ],
+                aiInsight: 'Enterprise Sales team has 3 unused Gong licenses. Simran hasn\'t used LinkedIn Sales Nav in 28 days.'
+            },
+            {
+                id: 'sales-smb', name: 'SMB Sales', icon: 'fas fa-store',
+                iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                users: 18, apps: 6, adoption: 72, activeUsers: 13, avgLogins: 16.8,
+                spend: '$24.6K', waste: '$5.4K',
+                topApps: ['Salesforce', 'Freshdesk', 'Calendly'],
+                members: [
+                    { name: 'Dinesh R.', role: 'Manager', apps: 6, logins: 22, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Lavanya K.', role: 'AE', apps: 5, logins: 18, status: 'active', avatar: '#A855F7' },
+                    { name: 'Arun M.', role: 'SDR', apps: 3, logins: 8, status: 'idle', avatar: '#EF4444' }
+                ],
+                aiInsight: 'SMB team uses only basic Salesforce features. Downgrading from Enterprise to Professional tier saves $5.4K/yr.'
+            },
+            {
+                id: 'sales-marketing', name: 'Digital Marketing', icon: 'fas fa-bullhorn',
+                iconBg: 'rgba(239,68,68,0.1)', iconColor: '#EF4444',
+                users: 28, apps: 12, adoption: 64, activeUsers: 18, avgLogins: 14.2,
+                spend: '$67.2K', waste: '$15.6K',
+                topApps: ['HubSpot', 'Google Ads', 'Semrush'],
+                members: [
+                    { name: 'Priyanka B.', role: 'Marketing Head', apps: 12, logins: 20, status: 'active', avatar: '#EF4444' },
+                    { name: 'Karthik N.', role: 'SEO Specialist', apps: 8, logins: 16, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Rekha S.', role: 'Content Writer', apps: 4, logins: 10, status: 'idle', avatar: '#10B981' }
+                ],
+                aiInsight: 'Marketing has 10 unused HubSpot seats and overlapping SEO tools (Semrush + Ahrefs + Moz). Consolidating saves $15.6K/yr.'
+            },
+            {
+                id: 'sales-ops', name: 'Sales Ops', icon: 'fas fa-cog',
+                iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
+                users: 19, apps: 7, adoption: 68, activeUsers: 13, avgLogins: 19.8,
+                spend: '$24.6K', waste: '$5.4K',
+                topApps: ['Salesforce', 'Clari', 'Tableau'],
+                members: [
+                    { name: 'Santosh J.', role: 'Ops Manager', apps: 7, logins: 24, status: 'active', avatar: '#6366F1' },
+                    { name: 'Bhagyashree P.', role: 'Analyst', apps: 5, logins: 16, status: 'active', avatar: '#EC4899' }
+                ],
+                aiInsight: 'Sales Ops has Clari + Tableau for forecasting. Consolidating to one tool saves $5.4K/yr.'
+            }
+        ]
+    },
+    design: {
+        name: 'Design & Product',
+        icon: 'fas fa-palette',
+        iconBg: 'rgba(245,158,11,0.1)',
+        iconColor: 'var(--orange)',
+        users: 34, apps: 12, adoption: 48, activeUsers: 16, avgLogins: 9.1,
+        spend: '$55.8K', waste: '$9.6K',
+        teams: [
+            {
+                id: 'design-ux', name: 'UX Research', icon: 'fas fa-search',
+                iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
+                users: 8, apps: 6, adoption: 50, activeUsers: 4, avgLogins: 8.2,
+                spend: '$11.4K', waste: '$3.6K',
+                topApps: ['Figma', 'Maze', 'UserTesting'],
+                members: [
+                    { name: 'Shruti V.', role: 'UX Lead', apps: 6, logins: 14, status: 'active', avatar: '#A855F7' },
+                    { name: 'Nitin P.', role: 'Researcher', apps: 3, logins: 6, status: 'idle', avatar: '#F97316' }
+                ],
+                aiInsight: 'UX Research has 4 inactive members across Maze and UserTesting. Consider shared team licenses instead of individual seats.'
+            },
+            {
+                id: 'design-ui', name: 'UI Design', icon: 'fas fa-pen-nib',
+                iconBg: 'rgba(236,72,153,0.1)', iconColor: '#EC4899',
+                users: 12, apps: 8, adoption: 58, activeUsers: 7, avgLogins: 10.4,
+                spend: '$28.8K', waste: '$3.6K',
+                topApps: ['Figma', 'Adobe CC', 'Miro'],
+                members: [
+                    { name: 'Ankita R.', role: 'Design Lead', apps: 8, logins: 16, status: 'active', avatar: '#EC4899' },
+                    { name: 'Varun D.', role: 'Designer', apps: 6, logins: 12, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Pallavi J.', role: 'Designer', apps: 4, logins: 6, status: 'idle', avatar: '#10B981' }
+                ],
+                aiInsight: 'UI team pays for Figma + Sketch + Adobe XD. 100% of actual work happens in Figma. Dropping Sketch and XD saves $3.6K/yr.'
+            },
+            {
+                id: 'design-product', name: 'Product Management', icon: 'fas fa-project-diagram',
+                iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
+                users: 14, apps: 7, adoption: 42, activeUsers: 6, avgLogins: 8.6,
+                spend: '$15.6K', waste: '$2.4K',
+                topApps: ['Notion', 'Jira', 'Productboard'],
+                members: [
+                    { name: 'Gaurav M.', role: 'PM Lead', apps: 7, logins: 14, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Shalini K.', role: 'PM', apps: 5, logins: 10, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Vishal T.', role: 'APM', apps: 3, logins: 4, status: 'inactive', avatar: '#EF4444' }
+                ],
+                aiInsight: 'Product team has lowest adoption (42%). Vishal T. hasn\'t logged in for 18 days. Productboard has 8 unused seats — downgrade plan.'
+            }
+        ]
+    },
+    finance: {
+        name: 'Finance',
+        icon: 'fas fa-dollar-sign',
+        iconBg: 'rgba(16,185,129,0.1)',
+        iconColor: 'var(--green)',
+        users: 28, apps: 9, adoption: 76, activeUsers: 21, avgLogins: 15.7,
+        spend: '$25.8K', waste: '$2.4K',
+        teams: [
+            {
+                id: 'fin-accounts', name: 'Accounts & Payables', icon: 'fas fa-file-invoice-dollar',
+                iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                users: 12, apps: 6, adoption: 83, activeUsers: 10, avgLogins: 18.2,
+                spend: '$12.6K', waste: '$0.9K',
+                topApps: ['Zoho Books', 'Razorpay', 'QuickBooks'],
+                members: [
+                    { name: 'Sunita R.', role: 'Finance Lead', apps: 6, logins: 22, status: 'active', avatar: '#10B981' },
+                    { name: 'Ramesh K.', role: 'Accountant', apps: 5, logins: 18, status: 'active', avatar: '#3B82F6' }
+                ],
+                aiInsight: 'Accounts team is well-optimized. QuickBooks usage is declining — consider migrating fully to Zoho Books to save $0.9K/yr.'
+            },
+            {
+                id: 'fin-fp', name: 'FP&A', icon: 'fas fa-chart-pie',
+                iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
+                users: 8, apps: 5, adoption: 75, activeUsers: 6, avgLogins: 14.6,
+                spend: '$8.4K', waste: '$0.9K',
+                topApps: ['Excel', 'Tableau', 'Adaptive Insights'],
+                members: [
+                    { name: 'Alok M.', role: 'FP&A Lead', apps: 5, logins: 18, status: 'active', avatar: '#6366F1' },
+                    { name: 'Nandini S.', role: 'Analyst', apps: 4, logins: 12, status: 'active', avatar: '#EC4899' }
+                ],
+                aiInsight: 'FP&A uses 2 BI tools (Tableau + Adaptive Insights). Standardizing on one saves $0.9K/yr.'
+            },
+            {
+                id: 'fin-compliance', name: 'Tax & Compliance', icon: 'fas fa-gavel',
+                iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                users: 8, apps: 4, adoption: 62, activeUsers: 5, avgLogins: 12.4,
+                spend: '$4.8K', waste: '$0.6K',
+                topApps: ['ClearTax', 'Zoho', 'Tally'],
+                members: [
+                    { name: 'Paresh D.', role: 'Tax Head', apps: 4, logins: 16, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Jyoti K.', role: 'Compliance Exec.', apps: 3, logins: 10, status: 'active', avatar: '#A855F7' }
+                ],
+                aiInsight: 'Tax team is lean. Tally usage dropped 60% after ClearTax adoption — consider full migration.'
+            }
+        ]
+    },
+    support: {
+        name: 'Customer Support',
+        icon: 'fas fa-headset',
+        iconBg: 'rgba(239,68,68,0.1)',
+        iconColor: 'var(--red)',
+        users: 52, apps: 8, adoption: 62, activeUsers: 32, avgLogins: 12.4,
+        spend: '$55.2K', waste: '$11.4K',
+        teams: [
+            {
+                id: 'sup-tier1', name: 'Tier 1 — Frontline', icon: 'fas fa-phone',
+                iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
+                users: 22, apps: 4, adoption: 68, activeUsers: 15, avgLogins: 14.2,
+                spend: '$18.6K', waste: '$4.2K',
+                topApps: ['Zendesk', 'Intercom', 'Freshdesk'],
+                members: [
+                    { name: 'Geeta S.', role: 'Team Lead', apps: 4, logins: 20, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Raman K.', role: 'Support Agent', apps: 3, logins: 16, status: 'active', avatar: '#10B981' },
+                    { name: 'Sonal D.', role: 'Support Agent', apps: 2, logins: 6, status: 'idle', avatar: '#F59E0B' }
+                ],
+                aiInsight: 'Tier 1 uses Zendesk + Intercom + Freshdesk — 3 tools doing the same thing. Consolidating to Zendesk alone saves $4.2K/yr.'
+            },
+            {
+                id: 'sup-tier2', name: 'Tier 2 — Technical', icon: 'fas fa-tools',
+                iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
+                users: 14, apps: 6, adoption: 71, activeUsers: 10, avgLogins: 12.8,
+                spend: '$17.4K', waste: '$3.6K',
+                topApps: ['Zendesk', 'Jira', 'Confluence'],
+                members: [
+                    { name: 'Manoj T.', role: 'Tech Lead', apps: 6, logins: 18, status: 'active', avatar: '#A855F7' },
+                    { name: 'Isha R.', role: 'Tech Support', apps: 5, logins: 14, status: 'active', avatar: '#EF4444' }
+                ],
+                aiInsight: 'Tier 2 team has good utilization. 2 Jira seats unused — can be reclaimed and reassigned to Tier 1.'
+            },
+            {
+                id: 'sup-success', name: 'Customer Success', icon: 'fas fa-star',
+                iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                users: 16, apps: 5, adoption: 50, activeUsers: 8, avgLogins: 9.6,
+                spend: '$19.2K', waste: '$3.6K',
+                topApps: ['Gainsight', 'Salesforce', 'Slack'],
+                members: [
+                    { name: 'Rashmi P.', role: 'CS Manager', apps: 5, logins: 14, status: 'active', avatar: '#10B981' },
+                    { name: 'Aditya V.', role: 'CSM', apps: 4, logins: 10, status: 'active', avatar: '#F97316' },
+                    { name: 'Megha K.', role: 'CSM', apps: 2, logins: 4, status: 'inactive', avatar: '#EF4444' }
+                ],
+                aiInsight: 'Customer Success has 50% adoption — 8 users barely touch Gainsight. Megha hasn\'t logged in for 30 days. Downgrade Gainsight plan to save $3.6K/yr.'
+            }
+        ]
+    },
+    hr: {
+        name: 'HR & Operations',
+        icon: 'fas fa-user-tie',
+        iconBg: 'rgba(20,184,166,0.1)',
+        iconColor: 'var(--teal)',
+        users: 35, apps: 11, adoption: 55, activeUsers: 19, avgLogins: 10.8,
+        spend: '$37.2K', waste: '$4.8K',
+        teams: [
+            {
+                id: 'hr-talent', name: 'Talent Acquisition', icon: 'fas fa-user-plus',
+                iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
+                users: 10, apps: 6, adoption: 60, activeUsers: 6, avgLogins: 12.4,
+                spend: '$12.6K', waste: '$1.8K',
+                topApps: ['LinkedIn Recruiter', 'Greenhouse', 'Calendly'],
+                members: [
+                    { name: 'Pragya M.', role: 'TA Lead', apps: 6, logins: 18, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Siddharth K.', role: 'Recruiter', apps: 4, logins: 14, status: 'active', avatar: '#10B981' },
+                    { name: 'Tanvi R.', role: 'Recruiter', apps: 3, logins: 6, status: 'idle', avatar: '#F59E0B' }
+                ],
+                aiInsight: 'Talent Acquisition has 4 LinkedIn Recruiter seats but only 2 active recruiters using them. Reclaim 2 seats to save $1.8K/yr.'
+            },
+            {
+                id: 'hr-people', name: 'People Operations', icon: 'fas fa-users-cog',
+                iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                users: 12, apps: 7, adoption: 58, activeUsers: 7, avgLogins: 10.2,
+                spend: '$14.4K', waste: '$1.8K',
+                topApps: ['BambooHR', 'Greythr', 'Darwinbox'],
+                members: [
+                    { name: 'Swati J.', role: 'HR Head', apps: 7, logins: 16, status: 'active', avatar: '#10B981' },
+                    { name: 'Ajay P.', role: 'HR Executive', apps: 5, logins: 12, status: 'active', avatar: '#6366F1' }
+                ],
+                aiInsight: 'People Ops uses 3 HRMS tools (BambooHR + Greythr + Darwinbox). Standardizing on Darwinbox saves $1.8K/yr.'
+            },
+            {
+                id: 'hr-admin', name: 'Admin & Facilities', icon: 'fas fa-building',
+                iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                users: 13, apps: 5, adoption: 46, activeUsers: 6, avgLogins: 8.4,
+                spend: '$10.2K', waste: '$1.2K',
+                topApps: ['Notion', 'Google Workspace', 'Envoy'],
+                members: [
+                    { name: 'Gayatri S.', role: 'Facilities Lead', apps: 5, logins: 12, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Vijay N.', role: 'Admin', apps: 3, logins: 8, status: 'idle', avatar: '#EF4444' }
+                ],
+                aiInsight: 'Admin team has lowest adoption at 46%. 7 members have zero app logins this month. Consider reducing seat count.'
+            }
+        ]
+    }
+};
+
+// Current drill state tracking
+var drillState = { dept: null, team: null };
+
+function openDeptDrill(deptId) {
+    var dept = drillData[deptId];
+    if (!dept) return;
+    drillState = { dept: deptId, team: null };
+    renderDeptView(dept, deptId);
+    var overlay = document.getElementById('drill-overlay');
+    if (overlay) overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDrill() {
+    var overlay = document.getElementById('drill-overlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    drillState = { dept: null, team: null };
+}
+
+function renderDeptView(dept, deptId) {
+    var panel = document.getElementById('drill-panel');
+    if (!panel) return;
+
+    var adoptionColor = dept.adoption >= 75 ? 'var(--green)' : dept.adoption >= 55 ? 'var(--orange)' : 'var(--red)';
+
+    var html = ''
+        + '<div class="drill-breadcrumb">'
+        + '  <a onclick="closeDrill()">TechCorp India</a>'
+        + '  <span class="sep"><i class="fas fa-chevron-right"></i></span>'
+        + '  <span class="current">' + dept.name + '</span>'
+        + '</div>'
+        + '<div class="drill-header">'
+        + '  <div class="drill-header-left">'
+        + '    <div class="drill-header-icon" style="background:' + dept.iconBg + ';color:' + dept.iconColor + '"><i class="' + dept.icon + '"></i></div>'
+        + '    <div>'
+        + '      <h2>' + dept.name + '</h2>'
+        + '      <div class="drill-subtitle">' + dept.teams.length + ' teams · ' + dept.users + ' members · ' + dept.apps + ' apps</div>'
+        + '    </div>'
+        + '  </div>'
+        + '  <button class="drill-close" onclick="closeDrill()" title="Close"><i class="fas fa-times"></i></button>'
+        + '</div>'
+        + '<div class="drill-kpi-strip">'
+        + '  <div class="drill-kpi"><span class="kpi-val" style="color:' + adoptionColor + '">' + dept.adoption + '%</span><span class="kpi-label">Adoption</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val">' + dept.activeUsers + '/' + dept.users + '</span><span class="kpi-label">Active Users</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val">' + dept.avgLogins + '</span><span class="kpi-label">Avg Logins/Wk</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val" style="color:var(--red)">' + (dept.waste || '—') + '</span><span class="kpi-label">Waste</span></div>'
+        + '</div>';
+
+    // Section title
+    html += '<div style="padding:20px 24px 8px;display:flex;align-items:center;justify-content:space-between">'
+        + '<h3 style="font-size:16px;font-weight:700;color:var(--gray-800);margin:0;display:flex;align-items:center;gap:8px"><i class="fas fa-users" style="color:var(--primary)"></i> Teams in ' + dept.name + '</h3>'
+        + '<span style="font-size:12px;color:var(--gray-400)">' + dept.teams.length + ' teams</span>'
+        + '</div>';
+
+    // Team cards
+    html += '<div class="drill-team-grid">';
+    dept.teams.forEach(function(team) {
+        var tColor = team.adoption >= 75 ? 'var(--green)' : team.adoption >= 55 ? 'var(--orange)' : 'var(--red)';
+        html += '<div class="drill-team-card" onclick="openTeamDrill(\'' + deptId + '\',\'' + team.id + '\')">'
+            + '  <div class="team-head">'
+            + '    <div class="team-icon" style="background:' + team.iconBg + ';color:' + team.iconColor + '"><i class="' + team.icon + '"></i></div>'
+            + '    <div>'
+            + '      <div class="team-name">' + team.name + '</div>'
+            + '      <div class="team-meta">' + team.users + ' members · ' + team.apps + ' apps</div>'
+            + '    </div>'
+            + '  </div>'
+            + '  <div class="team-bar"><div class="team-bar-fill" style="width:' + team.adoption + '%;background:' + tColor + '"></div></div>'
+            + '  <div class="team-stats">'
+            + '    <div><span>Adoption</span> <strong style="color:' + tColor + '">' + team.adoption + '%</strong></div>'
+            + '    <div><span>Active</span> <strong>' + team.activeUsers + '/' + team.users + '</strong></div>'
+            + '    <div><span>Spend</span> <strong>' + team.spend + '</strong></div>'
+            + '  </div>'
+            + '  <i class="fas fa-chevron-right drill-arrow"></i>'
+            + '</div>';
+    });
+    html += '</div>';
+
+    // AI insight for the whole dept
+    var topWasteTeam = dept.teams.reduce(function(a, b) { return parseFloat(a.waste.replace(/[^0-9.]/g,'')) > parseFloat(b.waste.replace(/[^0-9.]/g,'')) ? a : b; });
+    html += '<div class="drill-ai-insight">'
+        + '  <i class="fas fa-robot"></i>'
+        + '  <span><strong>AI Insight:</strong> ' + dept.name + ' has ' + dept.teams.length + ' teams. <strong>' + topWasteTeam.name + '</strong> has the highest waste (' + topWasteTeam.waste + '). Click any team to see member-level details and optimization opportunities.</span>'
+        + '</div>';
+
+    panel.innerHTML = html;
+}
+
+function openTeamDrill(deptId, teamId) {
+    var dept = drillData[deptId];
+    if (!dept) return;
+    var team = dept.teams.find(function(t) { return t.id === teamId; });
+    if (!team) return;
+    drillState = { dept: deptId, team: teamId };
+    renderTeamView(dept, team, deptId);
+}
+
+function renderTeamView(dept, team, deptId) {
+    var panel = document.getElementById('drill-panel');
+    if (!panel) return;
+    panel.scrollTop = 0;
+
+    var adoptionColor = team.adoption >= 75 ? 'var(--green)' : team.adoption >= 55 ? 'var(--orange)' : 'var(--red)';
+
+    var html = ''
+        + '<div class="drill-breadcrumb">'
+        + '  <a onclick="closeDrill()">TechCorp India</a>'
+        + '  <span class="sep"><i class="fas fa-chevron-right"></i></span>'
+        + '  <a onclick="openDeptDrill(\'' + deptId + '\')">' + dept.name + '</a>'
+        + '  <span class="sep"><i class="fas fa-chevron-right"></i></span>'
+        + '  <span class="current">' + team.name + '</span>'
+        + '</div>'
+        + '<div class="drill-header">'
+        + '  <div class="drill-header-left">'
+        + '    <div class="drill-header-icon" style="background:' + team.iconBg + ';color:' + team.iconColor + '"><i class="' + team.icon + '"></i></div>'
+        + '    <div>'
+        + '      <h2>' + team.name + '</h2>'
+        + '      <div class="drill-subtitle">' + team.users + ' members · ' + team.apps + ' apps · Part of ' + dept.name + '</div>'
+        + '    </div>'
+        + '  </div>'
+        + '  <button class="drill-close" onclick="closeDrill()" title="Close"><i class="fas fa-times"></i></button>'
+        + '</div>'
+        + '<div class="drill-kpi-strip">'
+        + '  <div class="drill-kpi"><span class="kpi-val" style="color:' + adoptionColor + '">' + team.adoption + '%</span><span class="kpi-label">Adoption</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val">' + team.activeUsers + '/' + team.users + '</span><span class="kpi-label">Active</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val">' + team.avgLogins + '</span><span class="kpi-label">Logins/Wk</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val" style="color:var(--red)">' + team.waste + '</span><span class="kpi-label">Waste</span></div>'
+        + '</div>';
+
+    // AI insight
+    html += '<div class="drill-ai-insight">'
+        + '  <i class="fas fa-robot"></i>'
+        + '  <span><strong>AI Insight:</strong> ' + team.aiInsight + '</span>'
+        + '</div>';
+
+    // Top apps used
+    html += '<div style="padding:0 24px 12px"><h4 style="font-size:14px;font-weight:700;color:var(--gray-800);margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-th-large" style="color:var(--primary)"></i> Top Apps</h4></div>';
+    html += '<div class="drill-app-list">';
+    team.topApps.forEach(function(app, i) {
+        var colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+        var c = colors[i % colors.length];
+        html += '<div class="drill-app-row">'
+            + '  <div class="app-icon" style="background:' + c + ';color:#fff;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;font-size:11px;font-weight:700">' + app.substring(0,2).toUpperCase() + '</div>'
+            + '  <div class="app-details"><div class="app-name">' + app + '</div><div class="app-usage">Used by ' + Math.max(1, Math.round(team.activeUsers * (0.9 - i * 0.15))) + ' of ' + team.users + ' members</div></div>'
+            + '</div>';
+    });
+    html += '</div>';
+
+    // Members table
+    html += '<div class="drill-member-section">'
+        + '  <h4><i class="fas fa-user-friends" style="color:var(--primary)"></i> Team Members (' + team.members.length + ')</h4>'
+        + '  <table class="drill-member-table">'
+        + '    <thead><tr><th>Member</th><th>Role</th><th>Apps Used</th><th>Logins/Wk</th><th>Status</th></tr></thead>'
+        + '    <tbody>';
+
+    team.members.forEach(function(m) {
+        var initials = m.name.split(' ').map(function(n) { return n[0]; }).join('').substring(0,2);
+        var statusClass = m.status;
+        var statusLabel = m.status === 'active' ? 'Active' : m.status === 'idle' ? 'Idle' : 'Inactive';
+        html += '<tr>'
+            + '<td><span class="member-avatar" style="background:' + m.avatar + '">' + initials + '</span>' + m.name + '</td>'
+            + '<td>' + m.role + '</td>'
+            + '<td>' + m.apps + ' / ' + team.apps + '</td>'
+            + '<td>' + m.logins + '</td>'
+            + '<td><span class="member-status ' + statusClass + '">' + statusLabel + '</span></td>'
+            + '</tr>';
+    });
+
+    html += '    </tbody></table></div>';
+
+    // Back button
+    html += '<div style="padding:0 24px 24px">'
+        + '  <button onclick="openDeptDrill(\'' + deptId + '\')" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;background:var(--gray-100);color:var(--gray-700);border:none;transition:all 0.2s" onmouseover="this.style.background=\'var(--primary-bg)\';this.style.color=\'var(--primary)\'" onmouseout="this.style.background=\'var(--gray-100)\';this.style.color=\'var(--gray-700)\'">'
+        + '    <i class="fas fa-arrow-left"></i> Back to ' + dept.name + ' teams'
+        + '  </button>'
+        + '</div>';
+
+    panel.innerHTML = html;
+}
+
+// Close drill on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        var overlay = document.getElementById('drill-overlay');
+        if (overlay && overlay.classList.contains('open')) {
+            if (drillState.team) {
+                // Go back to dept view
+                openDeptDrill(drillState.dept);
+            } else {
+                closeDrill();
+            }
+            e.preventDefault();
+        }
+    }
+});
+
+
+/* ==========================================================================
+   ORG EXPLORER — Nested Hierarchy: Org → Teams → People
+   Expenses visible at EVERY level. No department grouping.
+   ========================================================================== */
+
+var orgTreeData = [
+    {
+        id: 'zenith-digital',
+        name: 'Zenith Digital Solutions',
+        plan: 'Enterprise Plan',
+        icon: 'fas fa-building',
+        iconBg: 'linear-gradient(135deg,#7C3AED,#5B21B6)',
+        expense: { total: '$8.58M/yr', waste: '$115.2K/yr', potentialSavings: '$73.8K/yr', apps: 94, licenses: 820, wastedLicenses: 142 },
+        teams: [
+            {
+                id: 'z-growth-pod', name: 'Growth Pod', icon: 'fas fa-rocket',
+                color: '#7C3AED', iconBg: 'rgba(124,58,237,0.1)', iconColor: '#7C3AED',
+                expense: { total: '$128.4K/yr', waste: '$18.6K/yr', apps: 18, licenses: 128, wastedLicenses: 22 },
+                aiTip: 'HubSpot + Marketo overlap on email automation. Dropping Marketo saves $7.2K/yr. 8 unused Intercom seats.',
+                people: [
+                    { name: 'Arjun Mehta', role: 'Pod Lead', expense: '$14.4K/yr', apps: 14, logins: 32, status: 'active', avatar: '#7C3AED' },
+                    { name: 'Meera Kapoor', role: 'Growth Engineer', expense: '$10.8K/yr', apps: 11, logins: 28, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Rohit Jain', role: 'Product Marketer', expense: '$9.6K/yr', apps: 10, logins: 24, status: 'active', avatar: '#10B981' },
+                    { name: 'Sneha Deshmukh', role: 'Data Analyst', expense: '$8.4K/yr', apps: 8, logins: 20, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Vikram Patil', role: 'Campaign Specialist', expense: '$4.2K/yr', apps: 5, logins: 8, status: 'idle', avatar: '#EF4444' },
+                    { name: 'Kiran Rao', role: 'Content Writer', expense: '$2.4K/yr', apps: 3, logins: 4, status: 'inactive', avatar: '#6366F1' }
+                ]
+            },
+            {
+                id: 'z-platform-core', name: 'Platform Core', icon: 'fas fa-layer-group',
+                color: '#3B82F6', iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
+                expense: { total: '$175.8K/yr', waste: '$22.2K/yr', apps: 22, licenses: 156, wastedLicenses: 28 },
+                aiTip: '3 CI/CD tools running (Jenkins + GitHub Actions + CircleCI). Standardize on GitHub Actions: save $14.4K/yr.',
+                people: [
+                    { name: 'Suresh Kumar', role: 'Staff Engineer', expense: '$18.6K/yr', apps: 20, logins: 36, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Priya Sharma', role: 'Sr. Engineer', expense: '$14.4K/yr', apps: 16, logins: 30, status: 'active', avatar: '#EC4899' },
+                    { name: 'Rahul Krishnan', role: 'Engineer', expense: '$10.2K/yr', apps: 12, logins: 26, status: 'active', avatar: '#10B981' },
+                    { name: 'Deepa Murthy', role: 'Engineer', expense: '$9.6K/yr', apps: 11, logins: 24, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Ananya Reddy', role: 'SRE', expense: '$12.6K/yr', apps: 18, logins: 32, status: 'active', avatar: '#A855F7' },
+                    { name: 'Manoj Verma', role: 'DevOps', expense: '$10.8K/yr', apps: 14, logins: 28, status: 'active', avatar: '#F97316' },
+                    { name: 'Pooja Nair', role: 'Jr. Engineer', expense: '$3.6K/yr', apps: 4, logins: 6, status: 'inactive', avatar: '#EF4444' }
+                ]
+            },
+            {
+                id: 'z-customer360', name: 'Customer360', icon: 'fas fa-users',
+                color: '#10B981', iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                expense: { total: '$97.2K/yr', waste: '$16.8K/yr', apps: 14, licenses: 98, wastedLicenses: 18 },
+                aiTip: 'Zendesk + Freshdesk + Intercom for support — 3 tools same job. Consolidate to Zendesk: save $16.8K/yr.',
+                people: [
+                    { name: 'Geeta Saxena', role: 'CS Lead', expense: '$11.4K/yr', apps: 12, logins: 24, status: 'active', avatar: '#10B981' },
+                    { name: 'Rashmi Pandit', role: 'Success Manager', expense: '$9.6K/yr', apps: 10, logins: 22, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Aditya Vyas', role: 'Support Engineer', expense: '$7.2K/yr', apps: 8, logins: 18, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Raman Kaur', role: 'Support Agent', expense: '$4.8K/yr', apps: 6, logins: 16, status: 'active', avatar: '#A855F7' },
+                    { name: 'Sonal Dube', role: 'Support Agent', expense: '$3.6K/yr', apps: 4, logins: 6, status: 'idle', avatar: '#EC4899' },
+                    { name: 'Megha Kapoor', role: 'Onboarding Specialist', expense: '$1.8K/yr', apps: 2, logins: 3, status: 'inactive', avatar: '#EF4444' }
+                ]
+            },
+            {
+                id: 'z-revenue-engine', name: 'Revenue Engine', icon: 'fas fa-chart-line',
+                color: '#F59E0B', iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                expense: { total: '$114.6K/yr', waste: '$14.4K/yr', apps: 12, licenses: 86, wastedLicenses: 14 },
+                aiTip: 'Salesforce Enterprise tier used by 60% of team. Downgrading 5 seats to Professional saves $8.4K/yr. Gong has 4 unused licenses.',
+                people: [
+                    { name: 'Rajesh Verma', role: 'Revenue Lead', expense: '$15.6K/yr', apps: 12, logins: 28, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Anita Sen', role: 'Account Executive', expense: '$13.8K/yr', apps: 10, logins: 26, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Mohit Khanna', role: 'Account Executive', expense: '$11.4K/yr', apps: 9, logins: 22, status: 'active', avatar: '#10B981' },
+                    { name: 'Dinesh Rajan', role: 'BDR', expense: '$7.2K/yr', apps: 6, logins: 14, status: 'active', avatar: '#A855F7' },
+                    { name: 'Simran Thakur', role: 'BDR', expense: '$5.4K/yr', apps: 5, logins: 8, status: 'idle', avatar: '#EF4444' }
+                ]
+            },
+            {
+                id: 'z-ai-labs', name: 'AI & ML Labs', icon: 'fas fa-brain',
+                color: '#A855F7', iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
+                expense: { total: '$144.6K/yr', waste: '$25.8K/yr', apps: 16, licenses: 72, wastedLicenses: 18 },
+                aiTip: 'GPU cluster idle 40% weekends. Move to spot instances: save $18.6K/yr. 4 unused Weights & Biases seats.',
+                people: [
+                    { name: 'Dr. Anand Roy', role: 'ML Lead', expense: '$23.4K/yr', apps: 16, logins: 30, status: 'active', avatar: '#A855F7' },
+                    { name: 'Wei Zhang', role: 'ML Engineer', expense: '$19.2K/yr', apps: 14, logins: 28, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Prerna Gupta', role: 'Data Scientist', expense: '$15.6K/yr', apps: 12, logins: 24, status: 'active', avatar: '#EC4899' },
+                    { name: 'Kavya Menon', role: 'Data Engineer', expense: '$13.8K/yr', apps: 10, logins: 22, status: 'active', avatar: '#10B981' },
+                    { name: 'Harish Bhatt', role: 'Research Intern', expense: '$3.6K/yr', apps: 4, logins: 6, status: 'idle', avatar: '#F59E0B' }
+                ]
+            },
+            {
+                id: 'z-devinfra', name: 'DevInfra', icon: 'fas fa-server',
+                color: '#EF4444', iconBg: 'rgba(239,68,68,0.1)', iconColor: '#EF4444',
+                expense: { total: '$110.4K/yr', waste: '$9.6K/yr', apps: 20, licenses: 108, wastedLicenses: 12 },
+                aiTip: 'Datadog + New Relic + PagerDuty monitoring overlap. Consolidating saves $9.6K/yr.',
+                people: [
+                    { name: 'Tarun Singh', role: 'Infra Lead', expense: '$16.2K/yr', apps: 18, logins: 34, status: 'active', avatar: '#EF4444' },
+                    { name: 'Nikhil Mathur', role: 'Platform Eng.', expense: '$12.6K/yr', apps: 15, logins: 28, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Divya Pillai', role: 'SRE', expense: '$11.4K/yr', apps: 14, logins: 26, status: 'active', avatar: '#A855F7' },
+                    { name: 'Ajay Patil', role: 'DevOps', expense: '$9.6K/yr', apps: 12, logins: 22, status: 'active', avatar: '#10B981' }
+                ]
+            },
+            {
+                id: 'z-mobile-xp', name: 'Mobile Experience', icon: 'fas fa-mobile-alt',
+                color: '#6366F1', iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
+                expense: { total: '$55.8K/yr', waste: '$4.2K/yr', apps: 10, licenses: 64, wastedLicenses: 8 },
+                aiTip: 'Firebase Blaze plan overkill — downgrade to Spark for 2 staging projects: save $2.4K/yr.',
+                people: [
+                    { name: 'Amit Joshi', role: 'Mobile Lead', expense: '$12.6K/yr', apps: 10, logins: 28, status: 'active', avatar: '#6366F1' },
+                    { name: 'Rohan Shetty', role: 'iOS Engineer', expense: '$10.2K/yr', apps: 8, logins: 24, status: 'active', avatar: '#EC4899' },
+                    { name: 'Neha Kulkarni', role: 'Android Engineer', expense: '$9K/yr', apps: 7, logins: 20, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Sanjay Lal', role: 'QA', expense: '$5.4K/yr', apps: 5, logins: 14, status: 'idle', avatar: '#10B981' }
+                ]
+            },
+            {
+                id: 'z-analytics-hub', name: 'Analytics Hub', icon: 'fas fa-chart-pie',
+                color: '#EC4899', iconBg: 'rgba(236,72,153,0.1)', iconColor: '#EC4899',
+                expense: { total: '$67.2K/yr', waste: '$11.4K/yr', apps: 12, licenses: 54, wastedLicenses: 16 },
+                aiTip: 'Amplitude + Mixpanel + GA4 — paying for 3 analytics tools. Consolidate to Amplitude: save $11.4K/yr.',
+                people: [
+                    { name: 'Ravi Tiwari', role: 'Analytics Lead', expense: '$13.8K/yr', apps: 12, logins: 26, status: 'active', avatar: '#EC4899' },
+                    { name: 'Nandini Shah', role: 'BI Analyst', expense: '$9.6K/yr', apps: 8, logins: 20, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Alok Mehta', role: 'Data Analyst', expense: '$8.4K/yr', apps: 7, logins: 18, status: 'active', avatar: '#10B981' },
+                    { name: 'Lavanya Kaul', role: 'Analyst', expense: '$4.8K/yr', apps: 4, logins: 8, status: 'idle', avatar: '#F59E0B' }
+                ]
+            },
+            {
+                id: 'z-people-ops', name: 'People & Culture', icon: 'fas fa-heart',
+                color: '#14B8A6', iconBg: 'rgba(20,184,166,0.1)', iconColor: '#14B8A6',
+                expense: { total: '$44.4K/yr', waste: '$6.6K/yr', apps: 8, licenses: 68, wastedLicenses: 12 },
+                aiTip: '3 HRMS tools (BambooHR + Greythr + Darwinbox). 100% use Darwinbox — drop the other 2: save $6.6K/yr.',
+                people: [
+                    { name: 'Swati Joshi', role: 'People Lead', expense: '$9.6K/yr', apps: 8, logins: 20, status: 'active', avatar: '#14B8A6' },
+                    { name: 'Pragya Mishra', role: 'Talent Acquisition', expense: '$7.8K/yr', apps: 6, logins: 18, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Siddharth Kale', role: 'Recruiter', expense: '$5.4K/yr', apps: 5, logins: 14, status: 'active', avatar: '#A855F7' },
+                    { name: 'Tanvi Rane', role: 'HR Coordinator', expense: '$3.6K/yr', apps: 3, logins: 6, status: 'idle', avatar: '#F59E0B' }
+                ]
+            },
+            {
+                id: 'z-finance-ops', name: 'Finance & Compliance', icon: 'fas fa-calculator',
+                color: '#F97316', iconBg: 'rgba(249,115,22,0.1)', iconColor: '#F97316',
+                expense: { total: '$37.8K/yr', waste: '$4.2K/yr', apps: 9, licenses: 48, wastedLicenses: 6 },
+                aiTip: 'QuickBooks usage dropped 80% after Zoho Books — fully migrate: save $2.4K/yr. 2 unused Tally seats.',
+                people: [
+                    { name: 'Sunita Rao', role: 'Finance Lead', expense: '$10.2K/yr', apps: 9, logins: 22, status: 'active', avatar: '#F97316' },
+                    { name: 'Ramesh Kapoor', role: 'Accountant', expense: '$7.2K/yr', apps: 7, logins: 18, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Paresh Dalal', role: 'Tax Specialist', expense: '$6K/yr', apps: 6, logins: 16, status: 'active', avatar: '#10B981' },
+                    { name: 'Jyoti Kulkarni', role: 'Compliance Exec', expense: '$4.8K/yr', apps: 4, logins: 10, status: 'active', avatar: '#A855F7' }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'novabyte-tech',
+        name: 'NovaByte Technologies',
+        plan: 'Business Plan',
+        icon: 'fas fa-bolt',
+        iconBg: 'linear-gradient(135deg,#3B82F6,#1D4ED8)',
+        expense: { total: '$3.72M/yr', waste: '$55.8K/yr', potentialSavings: '$38.4K/yr', apps: 52, licenses: 410, wastedLicenses: 68 },
+        teams: [
+            {
+                id: 'n-product-velocity', name: 'Product Velocity', icon: 'fas fa-shipping-fast',
+                color: '#3B82F6', iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
+                expense: { total: '$102.6K/yr', waste: '$14.4K/yr', apps: 16, licenses: 94, wastedLicenses: 16 },
+                aiTip: 'Jira + Linear + Asana — 3 project management tools. Team uses Linear 90%. Drop Jira + Asana: save $10.8K/yr.',
+                people: [
+                    { name: 'James Chen', role: 'Engineering Lead', expense: '$20.4K/yr', apps: 16, logins: 34, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Sarah Williams', role: 'Staff Engineer', expense: '$16.2K/yr', apps: 14, logins: 30, status: 'active', avatar: '#EC4899' },
+                    { name: 'Alex Kumar', role: 'Sr. Engineer', expense: '$12.6K/yr', apps: 12, logins: 26, status: 'active', avatar: '#10B981' },
+                    { name: 'Maya Patel', role: 'Engineer', expense: '$9.6K/yr', apps: 10, logins: 22, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Daniel Kim', role: 'Engineer', expense: '$8.4K/yr', apps: 8, logins: 18, status: 'active', avatar: '#A855F7' },
+                    { name: 'Chris Baker', role: 'Jr. Engineer', expense: '$3.6K/yr', apps: 4, logins: 6, status: 'idle', avatar: '#EF4444' }
+                ]
+            },
+            {
+                id: 'n-cloud-native', name: 'Cloud Native', icon: 'fas fa-cloud',
+                color: '#10B981', iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                expense: { total: '$85.8K/yr', waste: '$9.6K/yr', apps: 14, licenses: 78, wastedLicenses: 12 },
+                aiTip: 'Reserved AWS instances unused 35% off-hours. Switch 4 to spot: save $7.2K/yr.',
+                people: [
+                    { name: 'David Park', role: 'Cloud Architect', expense: '$17.4K/yr', apps: 14, logins: 32, status: 'active', avatar: '#10B981' },
+                    { name: 'Lisa Tang', role: 'DevOps Engineer', expense: '$12.6K/yr', apps: 12, logins: 28, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Raul Fernandez', role: 'SRE', expense: '$10.8K/yr', apps: 10, logins: 24, status: 'active', avatar: '#F97316' },
+                    { name: 'Priyanka Das', role: 'Infra Engineer', expense: '$9K/yr', apps: 8, logins: 20, status: 'active', avatar: '#A855F7' }
+                ]
+            },
+            {
+                id: 'n-data-pipeline', name: 'Data Pipeline', icon: 'fas fa-database',
+                color: '#F59E0B', iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                expense: { total: '$67.2K/yr', waste: '$12.6K/yr', apps: 10, licenses: 56, wastedLicenses: 14 },
+                aiTip: 'Snowflake warehouse runs idle 50% of time. Schedule auto-suspend: save $10.2K/yr.',
+                people: [
+                    { name: 'Ritika Mehta', role: 'Data Lead', expense: '$15.6K/yr', apps: 10, logins: 26, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Tom Anderson', role: 'Data Engineer', expense: '$12K/yr', apps: 8, logins: 22, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Nisha Iyer', role: 'Data Analyst', expense: '$7.8K/yr', apps: 6, logins: 14, status: 'idle', avatar: '#EC4899' },
+                    { name: 'Arjun Basu', role: 'ETL Developer', expense: '$6.6K/yr', apps: 5, logins: 12, status: 'active', avatar: '#10B981' }
+                ]
+            },
+            {
+                id: 'n-growth-mktg', name: 'Growth Marketing', icon: 'fas fa-bullhorn',
+                color: '#EC4899', iconBg: 'rgba(236,72,153,0.1)', iconColor: '#EC4899',
+                expense: { total: '$55.8K/yr', waste: '$11.4K/yr', apps: 10, licenses: 62, wastedLicenses: 16 },
+                aiTip: '10 unused HubSpot seats. Semrush + Ahrefs overlap — pick one SEO tool: save $11.4K/yr.',
+                people: [
+                    { name: 'Priyanka Bajaj', role: 'Marketing Lead', expense: '$12.6K/yr', apps: 10, logins: 22, status: 'active', avatar: '#EC4899' },
+                    { name: 'Karthik Narayan', role: 'SEO Specialist', expense: '$10.2K/yr', apps: 8, logins: 18, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Rekha Sundaram', role: 'Content Lead', expense: '$7.8K/yr', apps: 6, logins: 14, status: 'active', avatar: '#10B981' },
+                    { name: 'Aditi Sharma', role: 'Campaign Mgr', expense: '$6K/yr', apps: 5, logins: 10, status: 'idle', avatar: '#F59E0B' }
+                ]
+            },
+            {
+                id: 'n-product-intel', name: 'Product Intelligence', icon: 'fas fa-search-dollar',
+                color: '#A855F7', iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
+                expense: { total: '$50.4K/yr', waste: '$7.8K/yr', apps: 8, licenses: 42, wastedLicenses: 10 },
+                aiTip: 'Productboard has 6 inactive seats. Hotjar + FullStory overlap sessions — drop FullStory: save $5.4K/yr.',
+                people: [
+                    { name: 'Gaurav Malhotra', role: 'PM Lead', expense: '$13.8K/yr', apps: 8, logins: 24, status: 'active', avatar: '#A855F7' },
+                    { name: 'Shalini Kapoor', role: 'Product Manager', expense: '$11.4K/yr', apps: 7, logins: 20, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Vishal Trivedi', role: 'UX Researcher', expense: '$7.2K/yr', apps: 5, logins: 12, status: 'active', avatar: '#10B981' },
+                    { name: 'Ankita Roy', role: 'Designer', expense: '$6K/yr', apps: 4, logins: 8, status: 'idle', avatar: '#EC4899' }
+                ]
+            },
+            {
+                id: 'n-support-cmd', name: 'Support Command', icon: 'fas fa-headset',
+                color: '#EF4444', iconBg: 'rgba(239,68,68,0.1)', iconColor: '#EF4444',
+                expense: { total: '$42.6K/yr', waste: '$7.2K/yr', apps: 6, licenses: 48, wastedLicenses: 8 },
+                aiTip: 'Intercom chat widget + Drift bot running simultaneously. Disable Drift: save $4.8K/yr.',
+                people: [
+                    { name: 'Manoj Tripathi', role: 'Support Lead', expense: '$10.8K/yr', apps: 6, logins: 22, status: 'active', avatar: '#EF4444' },
+                    { name: 'Isha Rawat', role: 'Tech Support', expense: '$8.4K/yr', apps: 5, logins: 18, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Nirav Shah', role: 'Support Agent', expense: '$5.4K/yr', apps: 4, logins: 16, status: 'active', avatar: '#10B981' },
+                    { name: 'Fatima Khan', role: 'Support Agent', expense: '$4.2K/yr', apps: 3, logins: 8, status: 'idle', avatar: '#F59E0B' }
+                ]
+            },
+            {
+                id: 'n-design-studio', name: 'Design Studio', icon: 'fas fa-pen-nib',
+                color: '#F97316', iconBg: 'rgba(249,115,22,0.1)', iconColor: '#F97316',
+                expense: { total: '$37.2K/yr', waste: '$5.4K/yr', apps: 8, licenses: 36, wastedLicenses: 6 },
+                aiTip: 'Paying for Figma + Sketch + Adobe XD. 100% work in Figma. Drop Sketch + XD: save $5.4K/yr.',
+                people: [
+                    { name: 'Varun Deshpande', role: 'Design Lead', expense: '$11.4K/yr', apps: 8, logins: 22, status: 'active', avatar: '#F97316' },
+                    { name: 'Pallavi Jha', role: 'UI Designer', expense: '$8.4K/yr', apps: 6, logins: 18, status: 'active', avatar: '#EC4899' },
+                    { name: 'Shruti Venkat', role: 'Design Systems', expense: '$7.2K/yr', apps: 5, logins: 14, status: 'active', avatar: '#A855F7' }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'cloudspark-labs',
+        name: 'CloudSpark Labs',
+        plan: 'Starter Plan',
+        icon: 'fas fa-flask',
+        iconBg: 'linear-gradient(135deg,#F59E0B,#D97706)',
+        expense: { total: '$25.2K/yr', waste: '$3.6K/yr', potentialSavings: '$2.4K/yr', apps: 14, licenses: 48, wastedLicenses: 8 },
+        teams: [
+            {
+                id: 'cs-innovation', name: 'Innovation Lab', icon: 'fas fa-lightbulb',
+                color: '#F59E0B', iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
+                expense: { total: '$15.6K/yr', waste: '$2.4K/yr', apps: 10, licenses: 32, wastedLicenses: 6 },
+                aiTip: 'Notion + Confluence both active. Team prefers Notion — drop Confluence: save $1.8K/yr.',
+                people: [
+                    { name: 'Rohit Sharma', role: 'Founder & CTO', expense: '$5.4K/yr', apps: 10, logins: 32, status: 'active', avatar: '#F59E0B' },
+                    { name: 'Dev Kapoor', role: 'Full-Stack Engineer', expense: '$4.2K/yr', apps: 8, logins: 26, status: 'active', avatar: '#3B82F6' },
+                    { name: 'Aisha Syed', role: 'Designer', expense: '$3K/yr', apps: 6, logins: 18, status: 'active', avatar: '#EC4899' },
+                    { name: 'Nitin Patel', role: 'ML Engineer', expense: '$1.8K/yr', apps: 4, logins: 12, status: 'active', avatar: '#10B981' }
+                ]
+            },
+            {
+                id: 'cs-go-to-market', name: 'Go-to-Market', icon: 'fas fa-flag',
+                color: '#10B981', iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
+                expense: { total: '$6.6K/yr', waste: '$1.2K/yr', apps: 6, licenses: 12, wastedLicenses: 2 },
+                aiTip: 'Mailchimp free tier should be enough — currently on Standard plan. Downgrade: save $1.2K/yr.',
+                people: [
+                    { name: 'Gayatri Sharma', role: 'BD Lead', expense: '$2.4K/yr', apps: 6, logins: 20, status: 'active', avatar: '#10B981' },
+                    { name: 'Vijay Nambiar', role: 'Content Marketer', expense: '$1.8K/yr', apps: 4, logins: 14, status: 'active', avatar: '#A855F7' },
+                    { name: 'Santosh Jain', role: 'Growth Hacker', expense: '$1.2K/yr', apps: 3, logins: 8, status: 'idle', avatar: '#F97316' }
+                ]
+            },
+            {
+                id: 'cs-ops', name: 'Ops & Admin', icon: 'fas fa-cog',
+                color: '#6366F1', iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
+                expense: { total: '$3K/yr', waste: '$0', apps: 4, licenses: 4, wastedLicenses: 0 },
+                aiTip: 'Lean ops — all licenses utilized. Consider annual billing for Slack and Zoom to save 20%.',
+                people: [
+                    { name: 'Rina Kapoor', role: 'Operations Head', expense: '$1.5K/yr', apps: 4, logins: 22, status: 'active', avatar: '#6366F1' },
+                    { name: 'Bhagyashree P.', role: 'Admin & Finance', expense: '$0.9K/yr', apps: 3, logins: 16, status: 'active', avatar: '#EC4899' }
+                ]
+            }
+        ]
+    }
+];
+
+
+/* ---------- Render the full org tree ---------- */
+function renderOrgTree() {
+    var root = document.getElementById('org-tree-root');
+    if (!root) return;
+    var html = '<div class="org-tree">';
+    orgTreeData.forEach(function(org) {
+        html += renderOrgNode(org);
+    });
+    html += '</div>';
+    root.innerHTML = html;
+}
+
+function renderOrgNode(org) {
+    var e = org.expense;
+    var teamCount = org.teams.length;
+    var totalPeople = 0;
+    org.teams.forEach(function(t) { totalPeople += t.people.length; });
+
+    var h = '<div class="org-node" id="node-' + org.id + '">'
+        + '<div class="org-node-header" onclick="toggleOrgNode(\'' + org.id + '\')">'
+        + '  <button class="org-toggle" id="toggle-' + org.id + '"><i class="fas fa-chevron-right"></i></button>'
+        + '  <div class="org-node-icon" style="background:' + org.iconBg + ';color:#fff"><i class="' + org.icon + '"></i></div>'
+        + '  <div class="org-node-info">'
+        + '    <div class="org-node-name">' + org.name + '</div>'
+        + '    <div class="org-node-meta">' + org.plan + ' · ' + teamCount + ' teams · ' + totalPeople + ' people</div>'
+        + '  </div>'
+        + '  <div class="org-node-kpis">'
+        + '    <div class="org-node-kpi expense"><span class="kv" style="color:#6D28D9">' + e.total + '</span><span class="kl">Total Spend</span></div>'
+        + '    <div class="org-node-kpi waste"><span class="kv" style="color:#DC2626">' + e.waste + '</span><span class="kl">Waste</span></div>'
+        + '    <div class="org-node-kpi"><span class="kv">' + e.apps + '</span><span class="kl">Apps</span></div>'
+        + '    <div class="org-node-kpi"><span class="kv">' + e.licenses + '</span><span class="kl">Licenses</span></div>'
+        + '  </div>'
+        + '</div>'
+        + '<div class="org-expense-bar">'
+        + '  <span class="org-expense-pill spend"><i class="fas fa-dollar-sign"></i> Spend: ' + e.total + '</span>'
+        + '  <span class="org-expense-pill waste"><i class="fas fa-exclamation-triangle"></i> Waste: ' + e.waste + '</span>'
+        + (e.potentialSavings ? '  <span class="org-expense-pill savings"><i class="fas fa-piggy-bank"></i> Savings: ' + e.potentialSavings + '</span>' : '')
+        + '  <span class="org-expense-pill apps"><i class="fas fa-cube"></i> ' + e.apps + ' Apps</span>'
+        + '  <span class="org-expense-pill licenses"><i class="fas fa-id-badge"></i> ' + e.wastedLicenses + ' Unused Licenses</span>'
+        + '</div>'
+        + '<div class="org-children" id="children-' + org.id + '">';
+
+    org.teams.forEach(function(team) {
+        team.orgId = org.id;
+        h += renderTeamNodeTree(team);
+    });
+
+    // Add Team button inside org
+    h += '<div style="padding:12px 18px"><button onclick="openAddTeamModal(\'' + org.id + '\')" style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;background:rgba(124,58,237,0.06);color:var(--primary);border:1.5px dashed rgba(124,58,237,0.3);transition:all 0.2s;width:100%"><i class="fas fa-plus-circle"></i> Add Team to ' + org.name.split(' ')[0] + '</button></div>';
+
+    h += '</div></div>';
+    return h;
+}
+
+function renderTeamNodeTree(team) {
+    var e = team.expense;
+    var wasteColor = (parseFloat(e.waste) > 3) ? '#DC2626' : (parseFloat(e.waste) > 1) ? '#B45309' : '#047857';
+
+    var h = '<div class="team-node" style="border-left-color:' + team.color + '" id="node-' + team.id + '">'
+        + '<div class="team-node-header" onclick="toggleOrgNode(\'' + team.id + '\')">'
+        + '  <button class="org-toggle" id="toggle-' + team.id + '"><i class="fas fa-chevron-right"></i></button>'
+        + '  <div class="team-node-icon" style="background:' + team.iconBg + ';color:' + team.iconColor + '"><i class="' + team.icon + '"></i></div>'
+        + '  <div class="team-node-info">'
+        + '    <div class="team-node-name">' + team.name + '</div>'
+        + '    <div class="team-node-meta">' + team.people.length + ' people · ' + e.apps + ' apps · ' + e.licenses + ' licenses</div>'
+        + '  </div>'
+        + '  <div class="team-node-kpis">'
+        + '    <div class="team-node-kpi expense"><span class="kv" style="color:#6D28D9">' + e.total + '</span><span class="kl">Spend</span></div>'
+        + '    <div class="team-node-kpi waste"><span class="kv" style="color:' + wasteColor + '">' + e.waste + '</span><span class="kl">Waste</span></div>'
+        + '    <div class="team-node-kpi"><span class="kv">' + e.apps + '</span><span class="kl">Apps</span></div>'
+        + '  </div>'
+        + '</div>'
+        + '<div class="team-expense-bar">'
+        + '  <span class="team-expense-pill spend"><i class="fas fa-dollar-sign"></i> ' + e.total + '</span>'
+        + '  <span class="team-expense-pill waste"><i class="fas fa-exclamation-triangle"></i> Waste: ' + e.waste + '</span>'
+        + '  <span class="team-expense-pill apps"><i class="fas fa-cube"></i> ' + e.apps + ' Apps</span>'
+        + '</div>'
+        + '<div class="team-children" id="children-' + team.id + '">';
+
+    // AI tip
+    if (team.aiTip) {
+        h += '<div class="team-ai-tip"><i class="fas fa-robot"></i><span><strong>AI Insight:</strong> ' + team.aiTip + '</span></div>';
+    }
+
+    // People — with prominent expense column
+    team.people.forEach(function(p) {
+        var initials = p.name.split(' ').map(function(n) { return n[0]; }).join('').substring(0, 2);
+        var statusLabel = p.status === 'active' ? 'Active' : p.status === 'idle' ? 'Idle' : 'Inactive';
+        h += '<div class="person-row">'
+            + '  <div class="person-avatar" style="background:' + p.avatar + '">' + initials + '</div>'
+            + '  <div class="person-info">'
+            + '    <div class="person-name">' + p.name + '</div>'
+            + '    <div class="person-role">' + p.role + '</div>'
+            + '  </div>'
+            + '  <div class="person-stats">'
+            + '    <div class="person-stat expense-stat"><span class="pv">' + p.expense + '</span><span class="pl">Expense</span></div>'
+            + '    <div class="person-stat"><span class="pv">' + p.apps + '</span><span class="pl">Apps</span></div>'
+            + '    <div class="person-stat"><span class="pv">' + p.logins + '</span><span class="pl">Logins/Wk</span></div>'
+            + '  </div>'
+            + '  <span class="person-status-dot ' + p.status + '">' + statusLabel + '</span>'
+            + '</div>';
+    });
+
+    // Add Person button inside team
+    h += '<div style="padding:10px 14px"><button onclick="openAddPersonModal(\'' + team.orgId + '\',\'' + team.id + '\')" style="display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:rgba(16,185,129,0.06);color:#10B981;border:1.5px dashed rgba(16,185,129,0.3);transition:all 0.2s;width:100%"><i class="fas fa-user-plus"></i> Add Person</button></div>';
+
+    h += '</div></div>';
+    return h;
+}
+
+/* ---------- Toggle expand/collapse ---------- */
+function toggleOrgNode(nodeId) {
+    var children = document.getElementById('children-' + nodeId);
+    var toggle = document.getElementById('toggle-' + nodeId);
+    if (!children || !toggle) return;
+    var isOpen = children.classList.contains('open');
+    if (isOpen) {
+        children.classList.remove('open');
+        toggle.classList.remove('open');
+    } else {
+        children.classList.add('open');
+        toggle.classList.add('open');
+    }
+}
+
+function expandAllOrgNodes() {
+    document.querySelectorAll('.org-children, .team-children').forEach(function(el) {
+        el.classList.add('open');
+    });
+    document.querySelectorAll('.org-toggle').forEach(function(el) {
+        el.classList.add('open');
+    });
+}
+
+function collapseAllOrgNodes() {
+    document.querySelectorAll('.org-children, .team-children').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    document.querySelectorAll('.org-toggle').forEach(function(el) {
+        el.classList.remove('open');
+    });
+}
+
+/* ---------- Initialize tree when Org Explorer section is shown ---------- */
+var _orgTreeRendered = false;
+
+document.addEventListener('click', function() {
+    var sec = document.getElementById('sec-org-explorer');
+    if (sec && sec.classList.contains('active') && !_orgTreeRendered) {
+        _orgTreeRendered = true;
+        renderOrgTree();
+    }
+});
+
+(function() {
+    var sec = document.getElementById('sec-org-explorer');
+    if (!sec) return;
+    var obs = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+            if (m.attributeName === 'class' && sec.classList.contains('active') && !_orgTreeRendered) {
+                _orgTreeRendered = true;
+                renderOrgTree();
+            }
+        });
+    });
+    obs.observe(sec, { attributes: true, attributeFilter: ['class'] });
+})();
+
+/* ==========================================================
+   ONBOARDING: Create Org / Add Team / Add Person
+   ========================================================== */
+
+// --- Populate org dropdowns ---
+function populateOrgDropdown(selectId) {
+    var sel = document.getElementById(selectId);
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Select Organization...</option>';
+    orgTreeData.forEach(function(org) {
+        sel.innerHTML += '<option value="' + org.id + '">' + org.name + '</option>';
+    });
+}
+
+function populateTeamDropdown(orgSelectId, teamSelectId) {
+    var orgSel = document.getElementById(orgSelectId);
+    var teamSel = document.getElementById(teamSelectId);
+    if (!orgSel || !teamSel) return;
+    var orgId = orgSel.value;
+    teamSel.innerHTML = '<option value="">Select Team...</option>';
+    var org = orgTreeData.find(function(o) { return o.id === orgId; });
+    if (!org) return;
+    org.teams.forEach(function(t) {
+        teamSel.innerHTML += '<option value="' + t.id + '">' + t.name + '</option>';
+    });
+}
+
+// --- Open Add Org (from Explorer header) ---
+function openAddOrgToExplorer() {
+    openModal('modal-create-org');
+}
+
+// --- Handle Create Org ---
+function handleCreateOrg() {
+    var nameEl = document.querySelector('#modal-create-org input[type="text"]');
+    var name = nameEl ? nameEl.value.trim() : '';
+    if (!name) { showToast('error', 'Organization name is required'); return; }
+
+    var allSelects = document.querySelectorAll('#modal-create-org select');
+    var planSel = allSelects.length >= 4 ? allSelects[3] : null;
+    var plan = planSel ? planSel.options[planSel.selectedIndex].text : 'Business';
+
+    var newOrg = {
+        id: 'org-' + Date.now(),
+        name: name,
+        plan: plan,
+        expense: { total: '$0', waste: '$0', potentialSavings: '$0', apps: 0, licenses: 0, wastedLicenses: 0 },
+        teams: []
+    };
+    orgTreeData.push(newOrg);
+    _orgTreeRendered = false;
+    var sec = document.getElementById('sec-org-explorer');
+    if (sec && sec.classList.contains('active')) {
+        _orgTreeRendered = true;
+        renderOrgTree();
+    }
+    closeModal('modal-create-org');
+    if (nameEl) nameEl.value = '';
+    showToast('success', '"' + name + '" organization created! You can now add teams to it.');
+}
+
+// --- Open Add Team Modal ---
+function openAddTeamModal(preselectedOrgId) {
+    populateOrgDropdown('add-team-org');
+    if (preselectedOrgId) {
+        document.getElementById('add-team-org').value = preselectedOrgId;
+    }
+    document.getElementById('add-team-name').value = '';
+    document.getElementById('add-team-budget').value = '';
+    document.getElementById('add-team-apps').value = '';
+    document.getElementById('add-team-desc').value = '';
+    openModal('modal-add-team');
+}
+
+// --- Handle Add Team ---
+function handleAddTeam() {
+    var orgId = document.getElementById('add-team-org').value;
+    var name = document.getElementById('add-team-name').value.trim();
+    if (!orgId) { showToast('error', 'Please select an organization'); return; }
+    if (!name) { showToast('error', 'Team name is required'); return; }
+
+    var iconSel = document.getElementById('add-team-icon');
+    var colorSel = document.getElementById('add-team-color');
+    var icon = iconSel.value;
+    var color = colorSel.value;
+    var budget = document.getElementById('add-team-budget').value.trim() || '$0';
+    var apps = parseInt(document.getElementById('add-team-apps').value) || 0;
+
+    var org = orgTreeData.find(function(o) { return o.id === orgId; });
+    if (!org) { showToast('error', 'Organization not found'); return; }
+
+    var newTeam = {
+        id: 'team-' + Date.now(),
+        orgId: orgId,
+        name: name,
+        icon: icon,
+        iconBg: color + '18',
+        iconColor: color,
+        color: color,
+        expense: { total: budget, waste: '$0', apps: apps, licenses: 0, wastedLicenses: 0 },
+        aiTip: '',
+        people: []
+    };
+    org.teams.push(newTeam);
+    _orgTreeRendered = false;
+    var sec = document.getElementById('sec-org-explorer');
+    if (sec && sec.classList.contains('active')) {
+        _orgTreeRendered = true;
+        renderOrgTree();
+    }
+    closeModal('modal-add-team');
+    showToast('success', '"' + name + '" team added to ' + org.name + '!');
+}
+
+// --- Open Add Person Modal ---
+function openAddPersonModal(preselectedOrgId, preselectedTeamId) {
+    populateOrgDropdown('add-person-org');
+    if (preselectedOrgId) {
+        document.getElementById('add-person-org').value = preselectedOrgId;
+        populateTeamDropdown('add-person-org', 'add-person-team');
+        if (preselectedTeamId) {
+            document.getElementById('add-person-team').value = preselectedTeamId;
+        }
+    }
+    document.getElementById('add-person-name').value = '';
+    document.getElementById('add-person-role').value = '';
+    document.getElementById('add-person-expense').value = '';
+    document.getElementById('add-person-apps').value = '';
+    document.getElementById('add-person-email').value = '';
+    document.getElementById('add-person-status').value = 'active';
+    openModal('modal-add-person');
+}
+
+// --- Handle Add Person ---
+function handleAddPerson() {
+    var orgId = document.getElementById('add-person-org').value;
+    var teamId = document.getElementById('add-person-team').value;
+    var name = document.getElementById('add-person-name').value.trim();
+    var role = document.getElementById('add-person-role').value.trim();
+    if (!orgId) { showToast('error', 'Please select an organization'); return; }
+    if (!teamId) { showToast('error', 'Please select a team'); return; }
+    if (!name) { showToast('error', 'Person name is required'); return; }
+    if (!role) { showToast('error', 'Role is required'); return; }
+
+    var expense = document.getElementById('add-person-expense').value.trim() || '$0';
+    var apps = parseInt(document.getElementById('add-person-apps').value) || 0;
+    var status = document.getElementById('add-person-status').value;
+
+    var org = orgTreeData.find(function(o) { return o.id === orgId; });
+    if (!org) { showToast('error', 'Organization not found'); return; }
+    var team = org.teams.find(function(t) { return t.id === teamId; });
+    if (!team) { showToast('error', 'Team not found'); return; }
+
+    var avatarColors = ['#7C3AED','#3B82F6','#10B981','#F59E0B','#EF4444','#EC4899','#6366F1','#14B8A6'];
+    var randomColor = avatarColors[Math.floor(Math.random() * avatarColors.length)];
+
+    var newPerson = {
+        name: name,
+        role: role,
+        expense: expense,
+        apps: apps,
+        logins: Math.floor(Math.random() * 20) + 5,
+        status: status,
+        avatar: randomColor
+    };
+    team.people.push(newPerson);
+    _orgTreeRendered = false;
+    var sec = document.getElementById('sec-org-explorer');
+    if (sec && sec.classList.contains('active')) {
+        _orgTreeRendered = true;
+        renderOrgTree();
+    }
+    closeModal('modal-add-person');
+    showToast('success', '"' + name + '" added to ' + team.name + '!');
+}
+
+/* ==========================================================
+   BULK IMPORT ENGINE
+   ========================================================== */
+
+var _bulkImportType = 'people'; // 'people' | 'teams' | 'orgs'
+var _bulkParsedData = [];       // parsed rows ready to import
+
+// --- Column definitions per type ---
+var BULK_COLUMNS = {
+    people: [
+        { key: 'name', label: 'Full Name', placeholder: 'Arjun Mehta', type: 'text' },
+        { key: 'role', label: 'Role', placeholder: 'Sr. Engineer', type: 'text' },
+        { key: 'expense', label: 'Expense', placeholder: '$9,600/yr', type: 'text' },
+        { key: 'apps', label: 'Apps', placeholder: '8', type: 'number' },
+        { key: 'email', label: 'Email', placeholder: 'arjun@co.com', type: 'email' },
+        { key: 'status', label: 'Status', placeholder: 'active', type: 'select', options: ['active','idle','inactive'] }
+    ],
+    teams: [
+        { key: 'name', label: 'Team Name', placeholder: 'Growth Pod', type: 'text' },
+        { key: 'icon', label: 'Icon', placeholder: 'fas fa-rocket', type: 'select', options: ['fas fa-rocket','fas fa-layer-group','fas fa-users','fas fa-chart-line','fas fa-brain','fas fa-server','fas fa-mobile-alt','fas fa-headset','fas fa-bullhorn','fas fa-pen-nib','fas fa-database','fas fa-cloud','fas fa-calculator','fas fa-heart','fas fa-flag','fas fa-cog','fas fa-search-dollar','fas fa-lightbulb','fas fa-shield-alt','fas fa-shipping-fast'] },
+        { key: 'color', label: 'Color', placeholder: '#7C3AED', type: 'select', options: ['#7C3AED','#3B82F6','#10B981','#F59E0B','#EF4444','#EC4899','#A855F7','#6366F1','#F97316','#14B8A6'] },
+        { key: 'budget', label: 'Budget', placeholder: '$15,000/yr', type: 'text' },
+        { key: 'apps', label: 'Apps', placeholder: '8', type: 'number' }
+    ],
+    orgs: [
+        { key: 'name', label: 'Org Name', placeholder: 'Acme Corp', type: 'text' },
+        { key: 'plan', label: 'Plan', placeholder: 'Business', type: 'select', options: ['Starter','Business','Enterprise'] }
+    ]
+};
+
+var ICON_LABELS = {
+    'fas fa-rocket': '🚀 Rocket', 'fas fa-layer-group': '📦 Layers', 'fas fa-users': '👥 People',
+    'fas fa-chart-line': '📈 Growth', 'fas fa-brain': '🧠 AI/ML', 'fas fa-server': '🖥 Infra',
+    'fas fa-mobile-alt': '📱 Mobile', 'fas fa-headset': '🎧 Support', 'fas fa-bullhorn': '📢 Marketing',
+    'fas fa-pen-nib': '✏️ Design', 'fas fa-database': '💾 Data', 'fas fa-cloud': '☁️ Cloud',
+    'fas fa-calculator': '🧮 Finance', 'fas fa-heart': '💜 People Ops', 'fas fa-flag': '🏁 GTM',
+    'fas fa-cog': '⚙️ Ops', 'fas fa-search-dollar': '🔍 Intel', 'fas fa-lightbulb': '💡 Innovation',
+    'fas fa-shield-alt': '🛡 Security', 'fas fa-shipping-fast': '⚡ Velocity'
+};
+
+var COLOR_LABELS = {
+    '#7C3AED': '💜 Purple', '#3B82F6': '💙 Blue', '#10B981': '💚 Green', '#F59E0B': '🧡 Amber',
+    '#EF4444': '❤️ Red', '#EC4899': '💗 Pink', '#A855F7': '🔮 Violet', '#6366F1': '💎 Indigo',
+    '#F97316': '🟠 Orange', '#14B8A6': '🩵 Teal'
+};
+
+// --- Open the Bulk Import modal ---
+function openBulkImportModal() {
+    _bulkParsedData = [];
+    _bulkImportType = 'people';
+    populateOrgDropdown('bulk-target-org');
+    document.getElementById('bulk-target-team').innerHTML = '<option value="">Select org first...</option>';
+    switchBulkType('people');
+    switchBulkTab('csv');
+    clearBulkPreview();
+    document.getElementById('bulk-paste-area').value = '';
+    document.getElementById('bulk-file-input').value = '';
+    document.getElementById('bulk-import-btn').disabled = true;
+    document.getElementById('bulk-status-text').textContent = '';
+    openModal('modal-bulk-import');
+}
+
+// --- Switch import type (people/teams/orgs) ---
+function switchBulkType(type) {
+    _bulkImportType = type;
+    _bulkParsedData = [];
+    clearBulkPreview();
+
+    document.querySelectorAll('.bulk-type-btn').forEach(function(el) { el.classList.remove('active'); });
+    var btn = document.getElementById('bulk-type-' + type);
+    if (btn) btn.classList.add('active');
+
+    // Show/hide target selectors
+    var targetWrap = document.getElementById('bulk-target-selectors');
+    var teamWrap = document.getElementById('bulk-team-selector-wrap');
+    if (type === 'people') {
+        targetWrap.style.display = 'flex';
+        teamWrap.style.display = 'block';
+    } else if (type === 'teams') {
+        targetWrap.style.display = 'flex';
+        teamWrap.style.display = 'none';
+    } else {
+        targetWrap.style.display = 'none';
+    }
+
+    // Rebuild dynamic table headers
+    buildDynamicTableHeaders();
+    // Reset dynamic rows
+    document.getElementById('bulk-dynamic-tbody').innerHTML = '';
+    addBulkDynamicRow();
+    addBulkDynamicRow();
+    addBulkDynamicRow();
+
+    // Update paste placeholder
+    var pa = document.getElementById('bulk-paste-area');
+    if (type === 'people') {
+        pa.placeholder = 'Paste rows here from Google Sheets / Excel...\nEach row = one person, columns separated by Tab or Comma.\n\nExample:\nArjun Mehta, Sr. Engineer, $9,600/yr, 8, arjun@company.com, active\nPriya Sharma, Product Lead, $12,300/yr, 12, priya@company.com, active\nVikram Patel, Designer, $8,400/yr, 6, vikram@company.com, idle';
+    } else if (type === 'teams') {
+        pa.placeholder = 'Paste rows here...\nEach row = one team.\n\nExample:\nGrowth Pod, fas fa-rocket, #7C3AED, $15K/yr, 8\nPlatform Core, fas fa-server, #3B82F6, $24.6K/yr, 14\nDesign Studio, fas fa-pen-nib, #EC4899, $9K/yr, 5';
+    } else {
+        pa.placeholder = 'Paste rows here...\nEach row = one organization.\n\nExample:\nAcme Corp, Enterprise\nStartup Labs, Starter\nGlobal Inc, Business';
+    }
+    pa.value = '';
+    document.getElementById('bulk-import-btn').disabled = true;
+}
+
+// --- Switch tab (csv/paste/manual) ---
+function switchBulkTab(tab) {
+    document.querySelectorAll('.bulk-import-tab').forEach(function(el) { el.classList.remove('active'); });
+    document.querySelectorAll('.bulk-import-panel').forEach(function(el) { el.classList.remove('active'); });
+    var tabEl = document.getElementById('bulk-tab-' + tab);
+    var panelEl = document.getElementById('bulk-panel-' + tab);
+    if (tabEl) tabEl.classList.add('active');
+    if (panelEl) panelEl.classList.add('active');
+}
+
+// --- Build dynamic table headers ---
+function buildDynamicTableHeaders() {
+    var cols = BULK_COLUMNS[_bulkImportType];
+    var h = '<tr>';
+    cols.forEach(function(c) { h += '<th>' + c.label + '</th>'; });
+    h += '<th style="width:36px"></th></tr>';
+    document.getElementById('bulk-dynamic-thead').innerHTML = h;
+}
+
+// --- Add a row to dynamic table ---
+function addBulkDynamicRow() {
+    var cols = BULK_COLUMNS[_bulkImportType];
+    var tbody = document.getElementById('bulk-dynamic-tbody');
+    var rowIdx = tbody.children.length;
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-row', rowIdx);
+
+    cols.forEach(function(c) {
+        var td = document.createElement('td');
+        if (c.type === 'select') {
+            var sel = document.createElement('select');
+            sel.setAttribute('data-key', c.key);
+            var opts = c.options;
+            opts.forEach(function(o) {
+                var opt = document.createElement('option');
+                opt.value = o;
+                if (c.key === 'icon') opt.textContent = ICON_LABELS[o] || o;
+                else if (c.key === 'color') opt.textContent = COLOR_LABELS[o] || o;
+                else opt.textContent = o;
+                sel.appendChild(opt);
+            });
+            td.appendChild(sel);
+        } else {
+            var inp = document.createElement('input');
+            inp.type = c.type === 'number' ? 'number' : 'text';
+            inp.placeholder = c.placeholder;
+            inp.setAttribute('data-key', c.key);
+            td.appendChild(inp);
+        }
+        tr.appendChild(td);
+    });
+
+    // Remove button
+    var tdRm = document.createElement('td');
+    var rmBtn = document.createElement('button');
+    rmBtn.className = 'bulk-row-remove';
+    rmBtn.innerHTML = '<i class="fas fa-times"></i>';
+    rmBtn.onclick = function() { tr.remove(); updateDynamicPreview(); };
+    tdRm.appendChild(rmBtn);
+    tr.appendChild(tdRm);
+
+    // Auto-update preview on input
+    tr.addEventListener('input', function() { updateDynamicPreview(); });
+    tr.addEventListener('change', function() { updateDynamicPreview(); });
+
+    tbody.appendChild(tr);
+}
+
+// --- Update preview from dynamic form ---
+function updateDynamicPreview() {
+    var cols = BULK_COLUMNS[_bulkImportType];
+    var rows = document.querySelectorAll('#bulk-dynamic-tbody tr');
+    var data = [];
+    rows.forEach(function(tr) {
+        var obj = {};
+        var hasValue = false;
+        cols.forEach(function(c) {
+            var el = tr.querySelector('[data-key="' + c.key + '"]');
+            var val = el ? el.value.trim() : '';
+            obj[c.key] = val;
+            if (val && c.key === 'name') hasValue = true;
+        });
+        if (hasValue) data.push(obj);
+    });
+    _bulkParsedData = data;
+    renderBulkPreview();
+}
+
+// --- Parse pasted text ---
+function parseBulkPaste() {
+    var raw = document.getElementById('bulk-paste-area').value.trim();
+    if (!raw) { showToast('error', 'Nothing to parse — paste some data first'); return; }
+
+    var lines = raw.split(/\n/).filter(function(l) { return l.trim().length > 0; });
+    var cols = BULK_COLUMNS[_bulkImportType];
+    var data = [];
+
+    lines.forEach(function(line) {
+        // Detect separator: tab first, then comma
+        var parts = line.indexOf('\t') >= 0 ? line.split('\t') : line.split(',');
+        parts = parts.map(function(p) { return p.trim(); });
+
+        var obj = {};
+        cols.forEach(function(c, i) {
+            obj[c.key] = parts[i] || '';
+        });
+        if (obj.name) data.push(obj);
+    });
+
+    _bulkParsedData = data;
+    renderBulkPreview();
+    if (data.length > 0) {
+        showToast('success', 'Parsed ' + data.length + ' ' + _bulkImportType + ' from clipboard');
+    } else {
+        showToast('error', 'No valid entries found. Check your format.');
+    }
+}
+
+// --- Handle CSV file upload ---
+function handleBulkFileUpload(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var text = e.target.result;
+        // Simple CSV parse (handles comma and tab)
+        var lines = text.split(/\r?\n/).filter(function(l) { return l.trim().length > 0; });
+
+        // Skip header row if it looks like a header
+        var firstLine = lines[0].toLowerCase();
+        if (firstLine.indexOf('name') >= 0 || firstLine.indexOf('role') >= 0 || firstLine.indexOf('team') >= 0 || firstLine.indexOf('org') >= 0) {
+            lines.shift();
+        }
+
+        var cols = BULK_COLUMNS[_bulkImportType];
+        var data = [];
+        lines.forEach(function(line) {
+            var parts = line.indexOf('\t') >= 0 ? line.split('\t') : line.split(',');
+            parts = parts.map(function(p) { return p.trim().replace(/^["']|["']$/g, ''); });
+            var obj = {};
+            cols.forEach(function(c, i) { obj[c.key] = parts[i] || ''; });
+            if (obj.name) data.push(obj);
+        });
+
+        _bulkParsedData = data;
+        renderBulkPreview();
+        showToast('success', 'Loaded ' + data.length + ' ' + _bulkImportType + ' from ' + file.name);
+    };
+    reader.readAsText(file);
+}
+
+// --- Render preview table ---
+function renderBulkPreview() {
+    var preview = document.getElementById('bulk-preview');
+    var countEl = document.getElementById('bulk-preview-count');
+    var thead = document.getElementById('bulk-preview-thead');
+    var tbody = document.getElementById('bulk-preview-tbody');
+    var importBtn = document.getElementById('bulk-import-btn');
+    var statusText = document.getElementById('bulk-status-text');
+
+    if (_bulkParsedData.length === 0) {
+        preview.style.display = 'none';
+        importBtn.disabled = true;
+        statusText.textContent = '';
+        return;
+    }
+
+    preview.style.display = 'block';
+    countEl.textContent = _bulkParsedData.length + ' ' + _bulkImportType + ' ready to import';
+    importBtn.disabled = false;
+    statusText.textContent = _bulkParsedData.length + ' entries parsed';
+
+    var cols = BULK_COLUMNS[_bulkImportType];
+    var h = '<tr>';
+    h += '<th>#</th>';
+    cols.forEach(function(c) { h += '<th>' + c.label + '</th>'; });
+    h += '</tr>';
+    thead.innerHTML = h;
+
+    var b = '';
+    _bulkParsedData.forEach(function(row, i) {
+        b += '<tr><td style="color:var(--gray-400);font-size:11px">' + (i + 1) + '</td>';
+        cols.forEach(function(c) {
+            var val = row[c.key] || '<span style="color:var(--gray-300)">—</span>';
+            if (c.key === 'icon' && ICON_LABELS[val]) val = ICON_LABELS[val];
+            if (c.key === 'color' && COLOR_LABELS[val]) val = COLOR_LABELS[val];
+            if (c.key === 'status') {
+                var sColor = val === 'active' ? '#10B981' : val === 'idle' ? '#F59E0B' : '#EF4444';
+                val = '<span style="color:' + sColor + ';font-weight:600">' + val + '</span>';
+            }
+            b += '<td>' + val + '</td>';
+        });
+        b += '</tr>';
+    });
+    tbody.innerHTML = b;
+}
+
+function clearBulkPreview() {
+    _bulkParsedData = [];
+    document.getElementById('bulk-preview').style.display = 'none';
+    document.getElementById('bulk-import-btn').disabled = true;
+    document.getElementById('bulk-status-text').textContent = '';
+    document.getElementById('bulk-preview-thead').innerHTML = '';
+    document.getElementById('bulk-preview-tbody').innerHTML = '';
+}
+
+// --- Drag & Drop for CSV zone ---
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        var zone = document.getElementById('bulk-drop-zone');
+        if (!zone) return;
+        zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            zone.classList.remove('drag-over');
+            var file = e.dataTransfer.files[0];
+            if (file) {
+                var input = document.getElementById('bulk-file-input');
+                var dt = new DataTransfer();
+                dt.items.add(file);
+                input.files = dt.files;
+                handleBulkFileUpload({ target: input });
+            }
+        });
+    });
+})();
+
+// --- Execute the bulk import ---
+function executeBulkImport() {
+    if (_bulkParsedData.length === 0) {
+        showToast('error', 'No data to import');
+        return;
+    }
+
+    var type = _bulkImportType;
+    var count = _bulkParsedData.length;
+    var avatarColors = ['#7C3AED','#3B82F6','#10B981','#F59E0B','#EF4444','#EC4899','#6366F1','#14B8A6'];
+
+    if (type === 'orgs') {
+        _bulkParsedData.forEach(function(row) {
+            if (!row.name) return;
+            var newOrg = {
+                id: 'org-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                name: row.name,
+                plan: row.plan || 'Business',
+                expense: { total: '$0', waste: '$0', potentialSavings: '$0', apps: 0, licenses: 0, wastedLicenses: 0 },
+                teams: []
+            };
+            orgTreeData.push(newOrg);
+        });
+        refreshOrgTree();
+        closeModal('modal-bulk-import');
+        showToast('success', count + ' organizations imported! 🎉');
+        return;
+    }
+
+    if (type === 'teams') {
+        var orgId = document.getElementById('bulk-target-org').value;
+        if (!orgId) { showToast('error', 'Select a target organization first'); return; }
+        var org = orgTreeData.find(function(o) { return o.id === orgId; });
+        if (!org) { showToast('error', 'Organization not found'); return; }
+
+        _bulkParsedData.forEach(function(row) {
+            if (!row.name) return;
+            var color = row.color || '#7C3AED';
+            var newTeam = {
+                id: 'team-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                orgId: orgId,
+                name: row.name,
+                icon: row.icon || 'fas fa-users',
+                iconBg: color + '18',
+                iconColor: color,
+                color: color,
+                expense: { total: row.budget || '$0', waste: '$0', apps: parseInt(row.apps) || 0, licenses: 0, wastedLicenses: 0 },
+                aiTip: '',
+                people: []
+            };
+            org.teams.push(newTeam);
+        });
+        refreshOrgTree();
+        closeModal('modal-bulk-import');
+        showToast('success', count + ' teams imported into ' + org.name + '! 🎉');
+        return;
+    }
+
+    if (type === 'people') {
+        var orgId = document.getElementById('bulk-target-org').value;
+        var teamId = document.getElementById('bulk-target-team').value;
+        if (!orgId) { showToast('error', 'Select a target organization first'); return; }
+        if (!teamId) { showToast('error', 'Select a target team first'); return; }
+        var org = orgTreeData.find(function(o) { return o.id === orgId; });
+        if (!org) { showToast('error', 'Organization not found'); return; }
+        var team = org.teams.find(function(t) { return t.id === teamId; });
+        if (!team) { showToast('error', 'Team not found'); return; }
+
+        _bulkParsedData.forEach(function(row) {
+            if (!row.name) return;
+            var newPerson = {
+                name: row.name,
+                role: row.role || 'Member',
+                expense: row.expense || '$0',
+                apps: parseInt(row.apps) || 0,
+                logins: Math.floor(Math.random() * 20) + 5,
+                status: row.status || 'active',
+                avatar: avatarColors[Math.floor(Math.random() * avatarColors.length)]
+            };
+            team.people.push(newPerson);
+        });
+        refreshOrgTree();
+        closeModal('modal-bulk-import');
+        showToast('success', count + ' people imported into ' + team.name + '! 🎉');
+        return;
+    }
+}
+
+function refreshOrgTree() {
+    _orgTreeRendered = false;
+    var sec = document.getElementById('sec-org-explorer');
+    if (sec && sec.classList.contains('active')) {
+        _orgTreeRendered = true;
+        renderOrgTree();
+    }
+}
+
+
+/* ============================================
+   HELP & SUPPORT WIDGET
+   ============================================ */
+
+var _helpWidgetOpen = false;
+var _helpChatType = '';
+var _helpSelectedSlot = null;
+
+// Agent personas for different chat types
+var _helpAgents = {
+    support: { name: 'Priya Sharma', role: 'Customer Success Lead', initial: 'P', gradient: 'linear-gradient(135deg, #7C3AED, #A78BFA)' },
+    demo:    { name: 'Rahul Mehta',  role: 'Solutions Engineer',    initial: 'R', gradient: 'linear-gradient(135deg, #3B82F6, #60A5FA)' },
+    sales:   { name: 'Aisha Khan',   role: 'Sales Director',        initial: 'A', gradient: 'linear-gradient(135deg, #10B981, #34D399)' },
+    issue:   { name: 'Priya Sharma', role: 'Customer Success Lead', initial: 'P', gradient: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }
+};
+
+// Chat auto-responses per type
+var _helpAutoResponses = {
+    support: [
+        "Thanks for reaching out! I'm here to help. Could you describe the issue you're facing?",
+        "I understand. Let me look into that for you right away.",
+        "I've checked our system — here's what I found. Would you like me to walk you through the fix?",
+        "Great! Is there anything else I can help you with today?"
+    ],
+    demo: [
+        "Hi! I'd love to show you what SaaSIQ can do. Would you prefer a live walkthrough or should I schedule a dedicated session?",
+        "Perfect! Our demos typically run 20-30 minutes. I'll cover spend analytics, org management, and our AI-powered insights.",
+        "Let me set that up for you. You'll receive a calendar invite with a Zoom link shortly.",
+        "Looking forward to showing you around! Feel free to ask any questions in the meantime."
+    ],
+    sales: [
+        "Hello! Thanks for your interest in SaaSIQ. I'd be happy to discuss how we can help your organization.",
+        "We offer flexible plans starting from $499/mo. What's the size of your SaaS portfolio?",
+        "Based on what you've shared, our Business plan at $1,999/mo would be ideal. It includes unlimited orgs and priority support.",
+        "I can set up a custom proposal for you. Would you like me to send it to your email?"
+    ],
+    issue: [
+        "Sorry to hear you're experiencing an issue! Please describe what happened and I'll escalate this immediately.",
+        "Thank you for the details. I've logged this as a priority ticket — our engineering team will investigate.",
+        "Your ticket ID is #SIQ-" + (Math.floor(Math.random() * 9000) + 1000) + ". You'll receive updates via email.",
+        "Is there anything else I can help with while our team works on the fix?"
+    ]
+};
+
+function toggleHelpWidget() {
+    _helpWidgetOpen = !_helpWidgetOpen;
+    var panel = document.getElementById('help-widget-panel');
+    var iconEl = document.getElementById('help-trigger-icon');
+    var closeEl = document.getElementById('help-trigger-close');
+    var badge = document.getElementById('help-trigger-badge');
+
+    if (_helpWidgetOpen) {
+        panel.classList.add('open');
+        iconEl.style.display = 'none';
+        closeEl.style.display = 'flex';
+        badge.style.display = 'none';
+        var label = document.getElementById('help-trigger-label');
+        if (label) label.style.display = 'none';
+        // Hide ping rings
+        document.querySelectorAll('.help-ping-ring').forEach(function(r) { r.style.display = 'none'; });
+    } else {
+        panel.classList.remove('open');
+        iconEl.style.display = 'flex';
+        closeEl.style.display = 'none';
+    }
+}
+
+function showHelpHome() {
+    document.querySelectorAll('.help-view').forEach(function(v) { v.classList.remove('active'); });
+    document.getElementById('help-view-home').classList.add('active');
+    _helpChatType = '';
+    _helpSelectedSlot = null;
+}
+
+function openHelpChat(type) {
+    _helpChatType = type;
+    var agent = _helpAgents[type];
+
+    if (type === 'demo') {
+        // Show schedule/booking view
+        document.querySelectorAll('.help-view').forEach(function(v) { v.classList.remove('active'); });
+        document.getElementById('help-view-schedule').classList.add('active');
+        initHelpTimeSlots();
+        return;
+    }
+
+    // Show chat view
+    document.querySelectorAll('.help-view').forEach(function(v) { v.classList.remove('active'); });
+    document.getElementById('help-view-chat').classList.add('active');
+
+    // Set agent info
+    var avatar = document.getElementById('help-chat-avatar');
+    avatar.style.background = agent.gradient;
+    avatar.textContent = agent.initial;
+    document.getElementById('help-chat-name').textContent = agent.name;
+    document.getElementById('help-chat-role').textContent = agent.role;
+    document.getElementById('help-typing-name').textContent = agent.name.split(' ')[0];
+
+    // Clear and start conversation
+    var msgs = document.getElementById('help-chat-messages');
+    msgs.innerHTML = '';
+    document.getElementById('help-chat-input').value = '';
+
+    // Send initial greeting after short delay
+    setTimeout(function() {
+        showHelpTyping();
+        setTimeout(function() {
+            hideHelpTyping();
+            addHelpMessage('agent', _helpAutoResponses[type][0]);
+        }, 1200);
+    }, 500);
+}
+
+var _helpResponseIndex = {};
+
+function addHelpMessage(sender, text) {
+    var msgs = document.getElementById('help-chat-messages');
+    var now = new Date();
+    var timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+    var div = document.createElement('div');
+    div.className = 'help-msg ' + sender;
+    div.innerHTML = text + '<div class="help-msg-time">' + timeStr + '</div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showHelpTyping() {
+    document.getElementById('help-chat-typing').style.display = 'flex';
+    var msgs = document.getElementById('help-chat-messages');
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideHelpTyping() {
+    document.getElementById('help-chat-typing').style.display = 'none';
+}
+
+function sendHelpMessage() {
+    var input = document.getElementById('help-chat-input');
+    var text = input.value.trim();
+    if (!text) return;
+
+    addHelpMessage('user', text);
+    input.value = '';
+
+    if (!_helpResponseIndex[_helpChatType]) _helpResponseIndex[_helpChatType] = 1;
+    var responses = _helpAutoResponses[_helpChatType];
+    var idx = _helpResponseIndex[_helpChatType];
+
+    if (idx < responses.length) {
+        setTimeout(function() {
+            showHelpTyping();
+            var delay = 1000 + Math.random() * 1500;
+            setTimeout(function() {
+                hideHelpTyping();
+                addHelpMessage('agent', responses[idx]);
+                _helpResponseIndex[_helpChatType] = idx + 1;
+            }, delay);
+        }, 400);
+    } else {
+        // Loop back with a generic friendly response
+        setTimeout(function() {
+            showHelpTyping();
+            setTimeout(function() {
+                hideHelpTyping();
+                var agent = _helpAgents[_helpChatType];
+                var generics = [
+                    "Of course! Let me help you with that.",
+                    "Great question — let me check on that for you.",
+                    "Sure thing! Give me just a moment.",
+                    "I appreciate you sharing that. Let me look into it.",
+                    "Absolutely, I'll have an update for you shortly."
+                ];
+                addHelpMessage('agent', generics[Math.floor(Math.random() * generics.length)]);
+            }, 1200);
+        }, 400);
+    }
+}
+
+// ===== Schedule / Book Demo Functions =====
+
+function initHelpTimeSlots() {
+    var today = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    document.getElementById('help-slot-today-date').textContent = months[today.getMonth()] + ' ' + today.getDate();
+    document.getElementById('help-slot-tomorrow-date').textContent = months[tomorrow.getMonth()] + ' ' + tomorrow.getDate();
+
+    // Generate time slots
+    var currentHour = today.getHours();
+    var todaySlots = generateTimeSlots(currentHour + 1);
+    var tomorrowSlots = generateTimeSlots(9);
+
+    renderTimeSlots('help-slot-times-today', todaySlots, months[today.getMonth()] + ' ' + today.getDate());
+    renderTimeSlots('help-slot-times-tomorrow', tomorrowSlots, months[tomorrow.getMonth()] + ' ' + tomorrow.getDate());
+
+    // Reset form
+    document.getElementById('help-schedule-form').style.display = 'none';
+    document.getElementById('help-schedule-success').style.display = 'none';
+    _helpSelectedSlot = null;
+}
+
+function generateTimeSlots(startHour) {
+    var slots = [];
+    for (var h = Math.max(startHour, 9); h <= 19; h++) {
+        if (slots.length >= 6) break;
+        var period = h >= 12 ? 'PM' : 'AM';
+        var displayHour = h > 12 ? h - 12 : h;
+        slots.push({ time: displayHour + ':00 ' + period, hour: h, available: Math.random() > 0.2 });
+        if (slots.length < 6 && h < 19) {
+            slots.push({ time: displayHour + ':30 ' + period, hour: h + 0.5, available: Math.random() > 0.3 });
+        }
+    }
+    return slots;
+}
+
+function renderTimeSlots(containerId, slots, dateLabel) {
+    var container = document.getElementById(containerId);
+    container.innerHTML = '';
+    if (slots.length === 0) {
+        container.innerHTML = '<span style="font-size:12px; color:var(--gray-400);">No slots available today</span>';
+        return;
+    }
+    slots.forEach(function(slot) {
+        var btn = document.createElement('button');
+        btn.className = 'help-time-btn' + (slot.available ? '' : ' unavailable');
+        btn.textContent = slot.time;
+        if (slot.available) {
+            btn.onclick = function() { selectHelpTimeSlot(btn, slot.time, dateLabel); };
+        }
+        container.appendChild(btn);
+    });
+}
+
+function selectHelpTimeSlot(btn, time, dateLabel) {
+    // Deselect previous
+    document.querySelectorAll('.help-time-btn.selected').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    _helpSelectedSlot = { time: time, date: dateLabel };
+
+    // Show form
+    document.getElementById('help-schedule-selected-time').textContent = time;
+    document.getElementById('help-schedule-selected-date').textContent = dateLabel;
+    document.getElementById('help-schedule-form').style.display = 'block';
+    document.getElementById('help-schedule-success').style.display = 'none';
+
+    // Scroll to form
+    var body = document.querySelector('.help-schedule-body');
+    setTimeout(function() { body.scrollTop = body.scrollHeight; }, 100);
+}
+
+function confirmDemoBooking() {
+    var name = document.getElementById('help-schedule-name').value.trim();
+    var email = document.getElementById('help-schedule-email').value.trim();
+
+    if (!name || !email) {
+        showToast('Please fill in your name and email', 'warning');
+        return;
+    }
+
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast('Please enter a valid email address', 'warning');
+        return;
+    }
+
+    // Show success
+    document.getElementById('help-schedule-form').style.display = 'none';
+    document.getElementById('help-schedule-success').style.display = 'block';
+    document.getElementById('help-success-detail').textContent =
+        _helpSelectedSlot.time + ' on ' + _helpSelectedSlot.date + ' · Calendar invite sent to ' + email;
+
+    // Clear form for next time
+    document.getElementById('help-schedule-name').value = '';
+    document.getElementById('help-schedule-email').value = '';
+    document.getElementById('help-schedule-company').value = '';
+
+    showToast('Demo booked successfully! 🎉', 'success');
+}
+
+// Auto-show hint after 1 second on landing page
+setTimeout(function() {
+    var trigger = document.getElementById('help-widget-trigger');
+    if (trigger && !_helpWidgetOpen) {
+        trigger.setAttribute('data-tooltip', 'Need help? We\'re online!');
+    }
+}, 2000);
