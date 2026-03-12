@@ -699,7 +699,8 @@ body.theme-dark .onboard-topbar .nav-pill-ghost:hover { color: #fff; }
 
 /* Renewal List */
 .renewal-list { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 12px; }
-.renewal-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); }
+.renewal-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); cursor: pointer; transition: var(--transition); }
+.renewal-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: var(--gray-50); }
 .app-icon {
     width: 36px; height: 36px; border-radius: 8px; display: flex;
     align-items: center; justify-content: center; font-weight: 800;
@@ -1555,8 +1556,14 @@ body.theme-dark .onboard-topbar .nav-pill-ghost:hover { color: #fff; }
 .toast {
     padding: 14px 20px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     font-size: 14px; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 440px;
-    animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards; color: #fff;
+    animation: toastIn 0.4s ease, toastOut 0.4s ease 5.2s forwards; color: #fff;
+    position: relative;
 }
+.toast-dismiss {
+    margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.7);
+    cursor: pointer; font-size: 14px; padding: 0 0 0 8px; flex-shrink: 0;
+}
+.toast-dismiss:hover { color: #fff; }
 .toast.success { background: #10B981; }
 .toast.danger { background: #EF4444; }
 .toast.info { background: #3B82F6; }
@@ -1918,7 +1925,7 @@ body.theme-dark .onboard-topbar .nav-pill-ghost:hover { color: #fff; }
 }
 .dept-card {
     border: 1px solid var(--gray-200); border-radius: var(--radius-sm);
-    padding: 16px; transition: var(--transition);
+    padding: 16px; transition: var(--transition); cursor: pointer;
 }
 .dept-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .dept-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
@@ -3295,7 +3302,7 @@ body.theme-dark .feature-flag-info p { color: #9CA3AF; }
    ============================================ */
 
 /* Floating Trigger Button */
-.help-widget { position: fixed; bottom: 24px; right: 24px; z-index: 10000; }
+.help-widget { position: fixed; bottom: 24px; right: 24px; z-index: 1999; }
 
 .help-widget-trigger {
     width: 68px; height: 68px; border-radius: 50%; border: none;
@@ -3383,7 +3390,7 @@ body.theme-dark .feature-flag-info p { color: #9CA3AF; }
     background: var(--red); color: #fff; font-size: 11px; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
     border: 2px solid #fff;
-    animation: helpBadgePulse 2s infinite;
+    animation: helpBadgePulse 4s infinite;
 }
 @keyframes helpBadgePulse {
     0%, 100% { transform: scale(1); }
@@ -3739,4 +3746,18 @@ body.theme-dark .help-ping-ring { border-color: var(--primary-light); }
         max-height: 75vh; bottom: 68px;
     }
     .help-widget-trigger { width: 50px; height: 50px; font-size: 20px; }
+}
+
+/* ===== ACCESSIBILITY — REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== GLOBAL CURSOR FIXES ===== */
+.drill-breadcrumb a:hover { text-decoration: underline; }
+body.theme-dark .renewal-item:hover { background: #252A3A; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 }

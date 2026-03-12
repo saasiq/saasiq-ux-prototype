@@ -494,6 +494,9 @@ function openModal(id) {
     if (modal) {
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
+        // Hide help widget behind modals
+        var hw = document.getElementById('help-widget');
+        if (hw) hw.style.zIndex = '1';
     }
 }
 
@@ -502,19 +505,44 @@ function closeModal(id) {
     if (modal) {
         modal.classList.remove('open');
         document.body.style.overflow = '';
+        // Restore help widget z-index if no modals left
+        if (document.querySelectorAll('.modal-overlay.open').length === 0) {
+            var hw = document.getElementById('help-widget');
+            if (hw) hw.style.zIndex = '';
+        }
     }
 }
 
-// Close modals with Escape key
+// Close modals with Escape key — closes topmost only
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        document.querySelectorAll('.modal-overlay.open').forEach(m => {
-            m.classList.remove('open');
-            document.body.style.overflow = '';
-        });
+        // Close help widget first if open
+        if (_helpWidgetOpen) { toggleHelpWidget(); return; }
+        // Close topmost modal only
+        var openModals = document.querySelectorAll('.modal-overlay.open');
+        if (openModals.length > 0) {
+            var topModal = openModals[openModals.length - 1];
+            topModal.classList.remove('open');
+            if (document.querySelectorAll('.modal-overlay.open').length === 0) {
+                document.body.style.overflow = '';
+            }
+            return;
+        }
         // Also close org dropdown
         const dd = document.getElementById('org-dropdown');
         if (dd) dd.classList.remove('open');
+    }
+});
+
+// Click backdrop to close modal
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal-overlay') && e.target.classList.contains('open')) {
+        e.target.classList.remove('open');
+        if (document.querySelectorAll('.modal-overlay.open').length === 0) {
+            document.body.style.overflow = '';
+            var hw = document.getElementById('help-widget');
+            if (hw) hw.style.zIndex = '';
+        }
     }
 });
 
@@ -525,9 +553,10 @@ function showToast(type, message) {
     const icons = { success: 'fa-check-circle', danger: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
     const toast = document.createElement('div');
     toast.className = 'toast ' + type;
-    toast.innerHTML = '<i class="fas ' + (icons[type] || 'fa-info-circle') + '"></i><span>' + message + '</span>';
+    toast.innerHTML = '<i class="fas ' + (icons[type] || 'fa-info-circle') + '"></i><span>' + message + '</span><button class="toast-dismiss" onclick="this.parentNode.remove()" aria-label="Dismiss"><i class="fas fa-times"></i></button>';
     container.appendChild(toast);
-    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
+    var duration = (type === 'danger' || type === 'warning') ? 6000 : 5000;
+    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, duration);
 }
 
 // ========== ORG DROPDOWN ==========
