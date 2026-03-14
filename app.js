@@ -6,6 +6,7 @@
 const SaaSIQFlags = {
     _flags: {
         partnerships: { enabled: false, label: 'Partnership & Barter Intelligence', description: 'Track service-exchange deals, barter ROI, and non-monetary SaaS procurement' },
+        'employee-lifecycle': { enabled: false, label: 'Employee Lifecycle Orchestration', description: 'Automated employee onboarding/offboarding with HRIS integration, workflow templates, and audit trails' },
     },
     init() {
         const saved = localStorage.getItem('saasiq_feature_flags');
@@ -49,6 +50,47 @@ const SaaSIQFlags = {
     getAll() { return this._flags; }
 };
 
+/* ========= APP STATE NAMESPACE ========= */
+var SaaSIQ = window.SaaSIQ || {};
+SaaSIQ.state = {
+    intgContext: null,   // set in _readCardMeta()
+    bulkImportType: 'people',
+    bulkParsedData: [],
+    helpWidgetOpen: false,
+    helpChatType: '',
+    helpSelectedSlot: null
+};
+
+// ========= ACCESSIBILITY ENHANCEMENTS =========
+document.addEventListener('DOMContentLoaded', function() {
+    // Add scope="col" to all table headers for screen readers
+    document.querySelectorAll('thead th').forEach(function(th) {
+        if (!th.getAttribute('scope')) th.setAttribute('scope', 'col');
+    });
+    // Add aria-label to icon-only buttons missing it
+    document.querySelectorAll('button').forEach(function(btn) {
+        if (!btn.getAttribute('aria-label') && !btn.textContent.trim() && btn.querySelector('i')) {
+            var icon = btn.querySelector('i');
+            var cls = icon.className || '';
+            if (cls.indexOf('fa-times') > -1) btn.setAttribute('aria-label', 'Close');
+            else if (cls.indexOf('fa-trash') > -1) btn.setAttribute('aria-label', 'Delete');
+            else if (cls.indexOf('fa-edit') > -1) btn.setAttribute('aria-label', 'Edit');
+            else if (cls.indexOf('fa-ellipsis') > -1) btn.setAttribute('aria-label', 'More options');
+            else if (cls.indexOf('fa-cog') > -1) btn.setAttribute('aria-label', 'Settings');
+            else if (cls.indexOf('fa-bell') > -1) btn.setAttribute('aria-label', 'Notifications');
+            else if (cls.indexOf('fa-search') > -1) btn.setAttribute('aria-label', 'Search');
+            else btn.setAttribute('aria-label', 'Action button');
+        }
+    });
+    // Add aria-label to modal close buttons
+    document.querySelectorAll('.close-btn').forEach(function(btn) {
+        if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', 'Close dialog');
+    });
+});
+
+// Auth state — tracks whether user has "logged in" via the login/signup form
+var _saasiqAuthenticated = false;
+
 // Page Navigation
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -58,6 +100,129 @@ function showPage(pageId) {
         window.scrollTo(0, 0);
         window.location.hash = pageId.replace('page-', '');
     }
+    // Mark authenticated when entering dashboard
+    if (pageId === 'page-dashboard') _saasiqAuthenticated = true;
+}
+
+// Navigate to a dashboard section from a landing page card
+// If the user hasn't logged in yet, shows a toast and redirects to login
+function navigateToSection(el) {
+    var sectionId = el.getAttribute('data-section');
+    if (!sectionId) return;
+
+    // Ripple animation
+    el.classList.add('card-clicked');
+    setTimeout(function() { el.classList.remove('card-clicked'); }, 600);
+
+    if (!_saasiqAuthenticated) {
+        // Show auth-gate notification
+        showAuthGateToast(sectionId);
+        return;
+    }
+
+    // Authenticated — navigate to dashboard section
+    showPage('page-dashboard');
+    showDashSectionDirect(sectionId);
+}
+
+// Auth-gate toast with login/signup CTA
+function showAuthGateToast(sectionId) {
+    var container = document.getElementById('toast-container');
+    if (!container) return;
+
+    // Remove any existing auth-gate toast to avoid stacking
+    var existing = container.querySelector('.toast-auth-gate');
+    if (existing) existing.remove();
+
+    var sectionLabels = {
+        'discovery': 'Shadow IT Discovery', 'spend': 'Spend Intelligence',
+        'usage': 'Usage Analytics', 'compliance': 'Compliance & Risk',
+        'contracts': 'Contract Intelligence', 'policies': 'Policy Engine',
+        'ai-insights': 'AI Insights', 'ai-copilot': 'AI Copilot',
+        'employee-onboarding': 'Onboarding', 'offboarding': 'Offboarding',
+        'lifecycle-analytics': 'Employee Lifecycle', 'approval-workflows': 'Approval Workflows',
+        'renewals': 'Smart Renewals', 'benchmarks': 'Industry Benchmarks',
+        'alerts': 'Alerts', 'self-service-portal': 'Self-Service Portal',
+        'dept-costs': 'Department Costs', 'dashboard-home': 'Dashboard',
+        'settings': 'Settings & Integrations'
+    };
+    var label = sectionLabels[sectionId] || 'this feature';
+
+    var toast = document.createElement('div');
+    toast.className = 'toast warning toast-auth-gate';
+    toast.innerHTML = '<div class="toast-auth-content">'
+        + '<i class="fas fa-lock"></i>'
+        + '<div class="toast-auth-text">'
+        + '<strong>Sign in to access ' + label + '</strong>'
+        + '<span>Create a free account or log in to explore the full dashboard.</span>'
+        + '</div>'
+        + '<div class="toast-auth-actions">'
+        + '<button onclick="this.closest(\'.toast\').remove();showPage(\'page-login\')" class="toast-auth-btn toast-auth-login">Log In</button>'
+        + '<button onclick="this.closest(\'.toast\').remove();showPage(\'page-signup\')" class="toast-auth-btn toast-auth-signup">Sign Up Free</button>'
+        + '</div>'
+        + '<button class="toast-dismiss" onclick="this.parentNode.parentNode.remove()" aria-label="Dismiss"><i class="fas fa-times"></i></button>'
+        + '</div>';
+    container.appendChild(toast);
+    setTimeout(function() { if (toast.parentNode) toast.remove(); }, 8000);
+}
+
+// Forgot Password modal
+function openForgotPassword() {
+    var emailVal = document.getElementById('login-email') ? document.getElementById('login-email').value : '';
+    _openLifecycleModal(
+        'Reset Your Password', '#3B82F6', 'fas fa-unlock-alt',
+        '<div style="text-align:center;padding:8px 0 16px">'
+        + '<p style="color:#6B7280;margin-bottom:20px">Enter your work email and we\'ll send you a secure reset link.</p>'
+        + '<input id="reset-email-input" type="email" placeholder="you@company.com" value="' + emailVal + '" required '
+        + 'style="width:100%;padding:12px 16px;border:1px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;transition:border .2s" '
+        + 'onfocus="this.style.borderColor=\'#3B82F6\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '</div>',
+        function() {
+            var email = document.getElementById('reset-email-input').value.trim();
+            if (!email || !email.includes('@')) { showToast('error', 'Please enter a valid email address'); return; }
+            var btn = document.querySelector('.lifecycle-modal-confirm');
+            if (btn) { btn.innerHTML = '<i class=\"fas fa-spinner fa-spin\"></i> Sending...'; btn.disabled = true; }
+            setTimeout(function() {
+                _closeLifecycleModal();
+                showToast('success', 'Password reset link sent to ' + email + '. Check your inbox!');
+            }, 1500);
+        },
+        '<i class="fas fa-paper-plane"></i> Send Reset Link',
+        '#3B82F6'
+    );
+}
+
+// Contact Sales modal
+function openContactSales() {
+    _openLifecycleModal(
+        'Contact Our Sales Team', '#7C3AED', 'fas fa-headset',
+        '<div style="padding:4px 0">'
+        + '<div style="display:grid;gap:12px">'
+        + '  <div><label style="font-size:12px;font-weight:600;color:#6B7280;margin-bottom:4px;display:block">Full Name</label>'
+        + '  <input id="sales-name" type="text" placeholder="Your name" style="width:100%;padding:10px 14px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none" required></div>'
+        + '  <div><label style="font-size:12px;font-weight:600;color:#6B7280;margin-bottom:4px;display:block">Work Email</label>'
+        + '  <input id="sales-email" type="email" placeholder="you@company.com" style="width:100%;padding:10px 14px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none" required></div>'
+        + '  <div><label style="font-size:12px;font-weight:600;color:#6B7280;margin-bottom:4px;display:block">Company Size</label>'
+        + '  <select id="sales-size" style="width:100%;padding:10px 14px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;color:#374151;outline:none">'
+        + '    <option value="">Select size</option><option>1-50</option><option>51-200</option><option>201-1000</option><option>1001-5000</option><option>5000+</option>'
+        + '  </select></div>'
+        + '  <div><label style="font-size:12px;font-weight:600;color:#6B7280;margin-bottom:4px;display:block">Message (optional)</label>'
+        + '  <textarea id="sales-message" rows="3" placeholder="Tell us about your SaaS management needs..." style="width:100%;padding:10px 14px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;resize:vertical;font-family:inherit"></textarea></div>'
+        + '</div></div>',
+        function() {
+            var name = document.getElementById('sales-name').value.trim();
+            var email = document.getElementById('sales-email').value.trim();
+            if (!name || !email || !email.includes('@')) { showToast('error', 'Please fill in your name and work email'); return; }
+            var btn = document.querySelector('.lifecycle-modal-confirm');
+            if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...'; btn.disabled = true; }
+            setTimeout(function() {
+                _closeLifecycleModal();
+                showToast('success', 'Thanks ' + name + '! Our sales team will reach out to ' + email + ' within 24 hours.');
+            }, 1500);
+        },
+        '<i class="fas fa-paper-plane"></i> Send Request',
+        '#7C3AED'
+    );
 }
 
 // Hash-based routing — allows direct URL access like #dashboard, #landing, #login
@@ -77,9 +242,35 @@ document.addEventListener('DOMContentLoaded', handleHash);
 
 // Dashboard Section Navigation
 function showDashSection(sectionId, event) {
+    // Feature flag guard — prevent accessing disabled sections
+    var flaggedSections = {
+        'employee-onboarding': 'employee-lifecycle',
+        'hardware-assets': 'employee-lifecycle',
+        'training-compliance': 'employee-lifecycle',
+        'lifecycle-analytics': 'employee-lifecycle',
+        'contractors': 'employee-lifecycle',
+        'approval-workflows': 'employee-lifecycle',
+        'self-service-portal': 'employee-lifecycle',
+        'partnerships': 'partnerships'
+    };
+    if (flaggedSections[sectionId] && !SaaSIQFlags.isEnabled(flaggedSections[sectionId])) {
+        showToast('warning', 'This feature is not enabled. Go to Settings → Feature Flags to activate it.');
+        return;
+    }
+
     // Update sidebar active state
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     if (event && event.currentTarget) event.currentTarget.classList.add('active');
+
+    // Auto-expand collapsible group if the clicked nav-item lives inside one
+    if (event && event.currentTarget) {
+        var group = event.currentTarget.closest('.nav-group');
+        if (group && group.classList.contains('nav-group--collapsed')) {
+            group.classList.remove('nav-group--collapsed');
+            var toggle = group.previousElementSibling;
+            if (toggle && toggle.classList.contains('nav-label--toggle')) toggle.classList.add('expanded');
+        }
+    }
 
     // Hide all sections, then show target
     document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
@@ -90,6 +281,29 @@ function showDashSection(sectionId, event) {
         var mainContent = document.querySelector('.main-content');
         if (mainContent) mainContent.scrollTo(0, 0);
     }
+
+    // Update document title for context
+    var sectionNames = {
+        'overview': 'Dashboard', 'apps': 'App Inventory', 'discovery': 'SaaS Discovery',
+        'contracts': 'Contracts', 'spend': 'Spend Analytics', 'optimization': 'Optimization',
+        'compliance': 'Compliance', 'policies': 'Policies', 'ai-insights': 'AI Insights',
+        'ai-copilot': 'AI Copilot', 'employee-onboarding': 'Onboarding', 'offboarding': 'Offboarding',
+        'hardware-assets': 'Hardware & Assets', 'training-compliance': 'Training & Docs',
+        'lifecycle-analytics': 'Lifecycle Analytics', 'contractors': 'Contractors',
+        'approval-workflows': 'Approvals', 'self-service-portal': 'Self-Service Portal',
+        'renewals': 'Renewals', 'benchmarks': 'Benchmarks', 'dept-costs': 'Dept Costs',
+        'org-explorer': 'Org Explorer', 'partnerships': 'Partnerships',
+        'alerts': 'Alerts', 'settings': 'Settings'
+    };
+    document.title = (sectionNames[sectionId] || 'Dashboard') + ' — SaaSIQ';
+}
+
+// Toggle collapsible nav group (accordion)
+function toggleNavGroup(labelEl) {
+    var group = labelEl.nextElementSibling;
+    if (!group) return;
+    labelEl.classList.toggle('expanded');
+    group.classList.toggle('nav-group--collapsed');
 }
 
 // Onboarding Steps
@@ -1449,10 +1663,1042 @@ function revokeEmployee(btn, name, appCount) {
 
 
 // ========================================================================
+//  EMPLOYEE ONBOARDING ORCHESTRATION — INTERACTIVE ACTIONS
+// ========================================================================
+
+/**
+ * Sync HRIS — simulates BambooHR / Workday sync
+ */
+function syncOnboardingHR(btn) {
+    if (btn.disabled) return;
+    var origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Syncing…';
+    showToast('info', 'Connecting to BambooHR…');
+
+    setTimeout(function() { showToast('info', 'Fetching new hire records — 248 employees scanned'); }, 1200);
+    setTimeout(function() { showToast('info', 'Cross-referencing with existing SaaS accounts…'); }, 2400);
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Synced ✓';
+        btn.style.opacity = '1';
+        btn.style.background = '#ECFDF5';
+        btn.style.color = '#059669';
+        btn.style.borderColor = '#059669';
+        showToast('success', 'HRIS sync complete — 1 new hire detected for next week, workflows auto-assigned');
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.opacity = '';
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+        }, 3000);
+    }, 3600);
+}
+
+/**
+ * Open Onboard Employee wizard modal
+ */
+function openOnboardWizard() {
+    var existing = document.getElementById('onboard-wizard-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'onboard-wizard-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden;max-height:90vh;overflow-y:auto">'
+        + '  <div style="padding:24px 28px;border-bottom:1px solid #E5E7EB">'
+        + '    <div style="display:flex;justify-content:space-between;align-items:center">'
+        + '      <h2 style="font-size:20px;font-weight:800;color:#111827;display:flex;align-items:center;gap:10px;margin:0"><span style="display:inline-flex;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;align-items:center;justify-content:center;font-size:14px"><i class="fas fa-user-plus"></i></span> Onboard New Employee</h2>'
+        + '      <button onclick="document.getElementById(\'onboard-wizard-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px">'
+        + '    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+        + '      <div>'
+        + '        <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Full Name *</label>'
+        + '        <input type="text" placeholder="e.g., Rahul Sharma" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#10B981\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '      </div>'
+        + '      <div>'
+        + '        <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Email *</label>'
+        + '        <input type="email" placeholder="rahul@company.com" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#10B981\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '      </div>'
+        + '    </div>'
+        + '    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">'
+        + '      <div>'
+        + '        <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Department *</label>'
+        + '        <select style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box;background:#fff;cursor:pointer">'
+        + '          <option value="">Select department</option>'
+        + '          <option value="engineering">Engineering</option>'
+        + '          <option value="sales">Sales & Marketing</option>'
+        + '          <option value="design">Design & Product</option>'
+        + '          <option value="finance">Finance & Ops</option>'
+        + '          <option value="hr">HR & People</option>'
+        + '        </select>'
+        + '      </div>'
+        + '      <div>'
+        + '        <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Job Title *</label>'
+        + '        <input type="text" placeholder="e.g., Sr. Frontend Engineer" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#10B981\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '      </div>'
+        + '    </div>'
+        + '    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">'
+        + '      <div>'
+        + '        <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Start Date *</label>'
+        + '        <input type="date" value="2026-03-20" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box">'
+        + '      </div>'
+        + '      <div>'
+        + '        <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Reporting Manager</label>'
+        + '        <input type="text" placeholder="Manager name" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#10B981\'" onblur="this.style.borderColor=\'#D1D5DB\'">'
+        + '      </div>'
+        + '    </div>'
+        + '    <div style="margin-top:20px">'
+        + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Workflow Template</label>'
+        + '      <div style="display:flex;flex-direction:column;gap:10px">'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;transition:all 0.2s" onmouseover="this.style.borderColor=\'#10B981\'" onmouseout="this.style.borderColor=\'#E5E7EB\'"><input type="radio" name="onb-template" value="auto" checked style="accent-color:#10B981"> <i class="fas fa-bolt" style="color:#10B981"></i> Auto-assign based on department (recommended)</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;transition:all 0.2s" onmouseover="this.style.borderColor=\'#10B981\'" onmouseout="this.style.borderColor=\'#E5E7EB\'"><input type="radio" name="onb-template" value="custom" style="accent-color:#10B981"> <i class="fas fa-sliders-h" style="color:#7C3AED"></i> Custom — select apps & hardware manually</label>'
+        + '      </div>'
+        + '    </div>'
+        + '    <div style="margin-top:16px">'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151"><input type="checkbox" checked style="accent-color:#10B981"> Send welcome email on start date</label>'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151;margin-top:8px"><input type="checkbox" checked style="accent-color:#10B981"> Notify manager when provisioning completes</label>'
+        + '      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:#374151;margin-top:8px"><input type="checkbox" style="accent-color:#10B981"> Require IT approval for hardware</label>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:10px;background:#F9FAFB">'
+        + '    <button onclick="document.getElementById(\'onboard-wizard-modal\').remove()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151">Cancel</button>'
+        + '    <button onclick="executeOnboard()" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;box-shadow:0 2px 10px rgba(16,185,129,0.3)"><i class="fas fa-user-plus"></i> Start Onboarding</button>'
+        + '  </div>'
+        + '</div>';
+
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+}
+
+function executeOnboard() {
+    var modal = document.getElementById('onboard-wizard-modal');
+    if (modal) modal.remove();
+    showToast('success', 'Onboarding initiated! SaaS apps will be provisioned automatically based on department template.');
+}
+
+/**
+ * Start onboarding for a specific employee in the pipeline
+ */
+function startOnboarding(btn, name) {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    var origHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.style.opacity = '0.7';
+
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Started';
+        btn.style.background = '#059669';
+        btn.style.opacity = '1';
+        showToast('success', 'Onboarding started for ' + name + ' — provisioning 12 apps and assigning hardware');
+
+        // Update status badge in the row
+        var row = btn.closest('.onb-pipeline-row');
+        if (row) {
+            row.setAttribute('data-status', 'in-progress');
+            var badges = row.querySelectorAll('span[style*="background:rgba(245,158,11"]');
+            badges.forEach(function(b) {
+                if (b.textContent.trim() === 'Pending') {
+                    b.textContent = 'In Progress';
+                    b.style.background = 'rgba(59,130,246,0.08)';
+                    b.style.color = '#3B82F6';
+                }
+            });
+        }
+
+        setTimeout(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+            btn.style.background = '';
+            btn.style.opacity = '';
+        }, 4000);
+    }, 1200);
+}
+
+/**
+ * Show onboard detail modal for an employee
+ */
+function showOnboardDetail(name) {
+    var existing = document.getElementById('onboard-detail-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'onboard-detail-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden;max-height:85vh;overflow-y:auto">'
+        + '  <div style="padding:24px 28px;border-bottom:1px solid #E5E7EB">'
+        + '    <div style="display:flex;justify-content:space-between;align-items:center">'
+        + '      <h2 style="font-size:18px;font-weight:800;color:#111827;margin:0">Onboarding Details — ' + name + '</h2>'
+        + '      <button onclick="document.getElementById(\'onboard-detail-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px">'
+        + '    <h4 style="font-size:14px;font-weight:700;color:#374151;margin:0 0 12px">SaaS App Provisioning</h4>'
+        + '    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fab fa-slack" style="color:#4A154B;width:18px;text-align:center"></i> Slack</span><span style="font-size:11px;font-weight:600;color:#10B981">✓ Provisioned</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fab fa-google" style="color:#4285F4;width:18px;text-align:center"></i> Google Workspace</span><span style="font-size:11px;font-weight:600;color:#10B981">✓ Provisioned</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fab fa-github" style="color:#333;width:18px;text-align:center"></i> GitHub</span><span style="font-size:11px;font-weight:600;color:#3B82F6"><i class="fas fa-spinner fa-spin" style="font-size:10px"></i> Provisioning…</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fab fa-jira" style="color:#0052CC;width:18px;text-align:center"></i> Jira</span><span style="font-size:11px;font-weight:600;color:#9CA3AF"><i class="fas fa-clock" style="font-size:10px"></i> Queued</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fas fa-video" style="color:#2D8CFF;width:18px;text-align:center"></i> Zoom</span><span style="font-size:11px;font-weight:600;color:#9CA3AF"><i class="fas fa-clock" style="font-size:10px"></i> Queued</span></div>'
+        + '    </div>'
+        + '    <h4 style="font-size:14px;font-weight:700;color:#374151;margin:0 0 12px">Hardware Assignment</h4>'
+        + '    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fas fa-laptop" style="color:#7C3AED;width:18px;text-align:center"></i> MacBook Pro 16"</span><span style="font-size:11px;font-weight:600;color:#F59E0B"><i class="fas fa-exclamation-triangle" style="font-size:10px"></i> IT Approval Needed</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fas fa-desktop" style="color:#3B82F6;width:18px;text-align:center"></i> 27" Monitor</span><span style="font-size:11px;font-weight:600;color:#10B981">✓ Ready</span></div>'
+        + '    </div>'
+        + '    <h4 style="font-size:14px;font-weight:700;color:#374151;margin:0 0 12px">Required Training</h4>'
+        + '    <div style="display:flex;flex-direction:column;gap:8px">'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fas fa-shield-alt" style="color:#EF4444;width:18px;text-align:center"></i> Security Awareness</span><span style="font-size:11px;font-weight:600;color:#9CA3AF">Not started</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fas fa-book" style="color:#7C3AED;width:18px;text-align:center"></i> Company Handbook</span><span style="font-size:11px;font-weight:600;color:#9CA3AF">Not started</span></div>'
+        + '      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F9FAFB;border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-size:13px"><i class="fas fa-gavel" style="color:#F59E0B;width:18px;text-align:center"></i> SOC2 Compliance</span><span style="font-size:11px;font-weight:600;color:#9CA3AF">Not started</span></div>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:10px;background:#F9FAFB">'
+        + '    <button onclick="document.getElementById(\'onboard-detail-modal\').remove()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151">Close</button>'
+        + '  </div>'
+        + '</div>';
+
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+}
+
+/**
+ * Filter onboarding pipeline by status
+ */
+function filterOnboardPipeline(status, chip) {
+    // Update active chip — scoped to the pipeline header only
+    var parent = chip ? chip.parentElement : null;
+    if (parent) parent.querySelectorAll('.onb-filter-chip').forEach(function(c) { c.classList.remove('active'); });
+    if (chip) chip.classList.add('active');
+
+    var rows = document.querySelectorAll('#onboard-pipeline-list .onb-pipeline-row');
+    rows.forEach(function(row) {
+        var rowStatus = row.getAttribute('data-status');
+        if (status === 'all' || rowStatus === status) {
+            row.style.display = 'flex';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+/**
+ * Preview a workflow template
+ */
+function previewTemplate(templateName) {
+    var templates = {
+        engineering: { name: 'Engineering', apps: 'GitHub, Jira, Slack, AWS, VS Code, DataDog, PagerDuty, Notion, Linear, Zoom, Google Workspace, 1Password', hardware: 'MacBook Pro 16", 27" Monitor, Keyboard, Mouse', trainings: 'Security Awareness, SOC2 Compliance, Engineering Handbook' },
+        sales: { name: 'Sales & Marketing', apps: 'Salesforce, HubSpot, Slack, Gong, Zoom, Google Workspace, Outreach, LinkedIn Sales Nav, Notion', hardware: 'MacBook Air, Headset', trainings: 'Sales Playbook, CRM Guide, Security Awareness, Product Overview, Competitive Intel' },
+        design: { name: 'Design & Product', apps: 'Figma, Notion, Linear, Miro, Slack, Zoom, Google Workspace, Loom', hardware: 'MacBook Pro 16", 27" 4K Monitor, Drawing Tablet', trainings: 'Design System Guide, Security Awareness' }
+    };
+    var t = templates[templateName];
+    if (!t) return;
+
+    var existing = document.getElementById('template-preview-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'template-preview-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+
+    var appsList = t.apps.split(', ').map(function(a) {
+        return '<span style="display:inline-block;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(124,58,237,0.06);color:#7C3AED;margin:2px">' + a + '</span>';
+    }).join('');
+
+    var hwList = t.hardware.split(', ').map(function(h) {
+        return '<span style="display:inline-block;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(59,130,246,0.06);color:#3B82F6;margin:2px">' + h + '</span>';
+    }).join('');
+
+    var trainList = t.trainings.split(', ').map(function(tr) {
+        return '<span style="display:inline-block;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(245,158,11,0.06);color:#D97706;margin:2px">' + tr + '</span>';
+    }).join('');
+
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden">'
+        + '  <div style="padding:20px 28px;border-bottom:1px solid #E5E7EB">'
+        + '    <div style="display:flex;justify-content:space-between;align-items:center">'
+        + '      <h2 style="font-size:18px;font-weight:800;color:#111827;margin:0"><i class="fas fa-project-diagram" style="color:#7C3AED;margin-right:8px"></i>' + t.name + ' Template</h2>'
+        + '      <button onclick="document.getElementById(\'template-preview-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px">'
+        + '    <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 8px"><i class="fas fa-box-open" style="color:#7C3AED;margin-right:6px"></i>SaaS Apps</h4>'
+        + '    <div style="display:flex;flex-wrap:wrap;gap:0;margin-bottom:20px">' + appsList + '</div>'
+        + '    <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 8px"><i class="fas fa-laptop" style="color:#3B82F6;margin-right:6px"></i>Hardware</h4>'
+        + '    <div style="display:flex;flex-wrap:wrap;gap:0;margin-bottom:20px">' + hwList + '</div>'
+        + '    <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 8px"><i class="fas fa-graduation-cap" style="color:#D97706;margin-right:6px"></i>Required Training</h4>'
+        + '    <div style="display:flex;flex-wrap:wrap;gap:0">' + trainList + '</div>'
+        + '  </div>'
+        + '  <div style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:space-between;gap:10px;background:#F9FAFB">'
+        + '    <button onclick="editTemplate(\'' + templateName + '\')" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151"><i class="fas fa-edit"></i> Edit Template</button>'
+        + '    <button onclick="document.getElementById(\'template-preview-modal\').remove()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:rgba(124,58,237,0.08);border:none;color:#7C3AED">Close</button>'
+        + '  </div>'
+        + '</div>';
+
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+}
+
+function editTemplate(templateName) {
+    var templates = {
+        engineering: { name: 'Engineering', icon: 'fa-code', color: '#7C3AED',
+            apps: ['GitHub','Jira','Slack','AWS','VS Code','DataDog','PagerDuty','Notion','Linear','Zoom','Google Workspace','1Password'],
+            hardware: ['MacBook Pro 16"','27" Monitor','Keyboard','Mouse'],
+            trainings: ['Security Awareness','SOC2 Compliance','Engineering Handbook'] },
+        sales: { name: 'Sales & Marketing', icon: 'fa-chart-line', color: '#F59E0B',
+            apps: ['Salesforce','HubSpot','Slack','Gong','Zoom','Google Workspace','Outreach','LinkedIn Sales Nav','Notion'],
+            hardware: ['MacBook Air','Headset'],
+            trainings: ['Sales Playbook','CRM Guide','Security Awareness','Product Overview','Competitive Intel'] },
+        design: { name: 'Design & Product', icon: 'fa-palette', color: '#EC4899',
+            apps: ['Figma','Notion','Linear','Miro','Slack','Zoom','Google Workspace','Loom'],
+            hardware: ['MacBook Pro 16"','27" 4K Monitor','Drawing Tablet'],
+            trainings: ['Design System Guide','Security Awareness'] }
+    };
+    var t = templates[templateName];
+    if (!t) return;
+
+    // Remove the preview modal
+    var prev = document.getElementById('template-preview-modal');
+    if (prev) prev.remove();
+
+    var allApps = ['GitHub','Jira','Slack','AWS','VS Code','DataDog','PagerDuty','Notion','Linear','Zoom','Google Workspace','1Password','Salesforce','HubSpot','Gong','Outreach','LinkedIn Sales Nav','Figma','Miro','Loom','Confluence','Asana','Monday.com','Trello'];
+    var allHW = ['MacBook Pro 16"','MacBook Pro 14"','MacBook Air','27" Monitor','27" 4K Monitor','24" Monitor','Drawing Tablet','Keyboard','Mouse','Headset','Webcam','Docking Station'];
+    var allTrainings = ['Security Awareness','SOC2 Compliance','Engineering Handbook','Sales Playbook','CRM Guide','Product Overview','Competitive Intel','Design System Guide','GDPR Overview','Data Privacy','Code of Conduct','Anti-Harassment'];
+
+    function buildChipGrid(allItems, selected, category) {
+        return allItems.map(function(item) {
+            var isSelected = selected.indexOf(item) !== -1;
+            return '<label style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;margin:3px;transition:all 0.15s;'
+                + (isSelected ? 'background:rgba(124,58,237,0.12);color:#7C3AED;border:1.5px solid #7C3AED' : 'background:#F3F4F6;color:#6B7280;border:1.5px solid transparent')
+                + '" onclick="this.querySelector(\'input\').checked=!this.querySelector(\'input\').checked;this.style.background=this.querySelector(\'input\').checked?\'rgba(124,58,237,0.12)\':\'#F3F4F6\';this.style.color=this.querySelector(\'input\').checked?\'#7C3AED\':\'#6B7280\';this.style.borderColor=this.querySelector(\'input\').checked?\'#7C3AED\':\'transparent\'">'
+                + '<input type="checkbox" name="tpl-' + category + '" value="' + item + '" ' + (isSelected ? 'checked' : '') + ' style="display:none">' + item + '</label>';
+        }).join('');
+    }
+
+    var overlay = document.createElement('div');
+    overlay.id = 'template-editor-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease';
+
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden">'
+        + '  <div style="padding:20px 28px;border-bottom:1px solid #E5E7EB;flex-shrink:0">'
+        + '    <div style="display:flex;justify-content:space-between;align-items:center">'
+        + '      <h2 style="font-size:18px;font-weight:800;color:#111827;margin:0"><i class="fas fa-edit" style="color:' + t.color + ';margin-right:8px"></i>Edit ' + t.name + ' Template</h2>'
+        + '      <button onclick="document.getElementById(\'template-editor-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '    </div>'
+        + '    <p style="margin:6px 0 0;font-size:13px;color:#6B7280">Toggle items to add or remove from this template</p>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px;overflow-y:auto;flex:1">'
+        + '    <div style="margin-bottom:20px">'
+        + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Template Name</label>'
+        + '      <input id="tpl-edit-name" type="text" value="' + t.name + '" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;color:#111827;box-sizing:border-box">'
+        + '    </div>'
+        + '    <div style="margin-bottom:20px">'
+        + '      <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 8px"><i class="fas fa-box-open" style="color:#7C3AED;margin-right:6px"></i>SaaS Apps <span style="font-weight:400;color:#9CA3AF">(' + t.apps.length + ' selected)</span></h4>'
+        + '      <div style="display:flex;flex-wrap:wrap;gap:0" id="tpl-apps-grid">' + buildChipGrid(allApps, t.apps, 'apps') + '</div>'
+        + '    </div>'
+        + '    <div style="margin-bottom:20px">'
+        + '      <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 8px"><i class="fas fa-laptop" style="color:#3B82F6;margin-right:6px"></i>Hardware <span style="font-weight:400;color:#9CA3AF">(' + t.hardware.length + ' selected)</span></h4>'
+        + '      <div style="display:flex;flex-wrap:wrap;gap:0" id="tpl-hw-grid">' + buildChipGrid(allHW, t.hardware, 'hw') + '</div>'
+        + '    </div>'
+        + '    <div style="margin-bottom:12px">'
+        + '      <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 8px"><i class="fas fa-graduation-cap" style="color:#D97706;margin-right:6px"></i>Required Training <span style="font-weight:400;color:#9CA3AF">(' + t.trainings.length + ' selected)</span></h4>'
+        + '      <div style="display:flex;flex-wrap:wrap;gap:0" id="tpl-train-grid">' + buildChipGrid(allTrainings, t.trainings, 'train') + '</div>'
+        + '    </div>'
+        + '  </div>'
+        + '  <div style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:space-between;gap:10px;background:#F9FAFB;flex-shrink:0">'
+        + '    <button onclick="document.getElementById(\'template-editor-modal\').remove()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151">Cancel</button>'
+        + '    <button id="tpl-save-btn" onclick="saveTemplateEdit(\'' + templateName + '\')" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#7C3AED;border:none;color:#fff"><i class="fas fa-check"></i> Save Changes</button>'
+        + '  </div>'
+        + '</div>';
+
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+}
+
+function saveTemplateEdit(templateName) {
+    var btn = document.getElementById('tpl-save-btn');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+
+    var selectedApps = document.querySelectorAll('input[name="tpl-apps"]:checked').length;
+    var selectedHW = document.querySelectorAll('input[name="tpl-hw"]:checked').length;
+    var selectedTrain = document.querySelectorAll('input[name="tpl-train"]:checked').length;
+    var newName = document.getElementById('tpl-edit-name') ? document.getElementById('tpl-edit-name').value : templateName;
+
+    setTimeout(function() {
+        var modal = document.getElementById('template-editor-modal');
+        if (modal) modal.remove();
+        showToast('success', 'Template "' + newName + '" updated — ' + selectedApps + ' apps, ' + selectedHW + ' hardware, ' + selectedTrain + ' trainings');
+    }, 1200);
+}
+
+// ========================================================================
+//  HARDWARE & ASSET MANAGEMENT
+// ========================================================================
+function openHardwareRequest() {
+    _openLifecycleModal('New Hardware Request', '#3B82F6', 'fa-laptop', ''
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Employee</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;color:#111827;background:#fff">'
+        + '    <option>Rahul Sharma — Engineering</option><option>Meera Krishnan — Sales</option><option>Ananya Patel — Design</option><option>Deepak Gupta — Engineering</option>'
+        + '  </select>'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Hardware Type</label>'
+        + '  <div style="display:flex;gap:8px;flex-wrap:wrap">'
+        + '    <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid #E5E7EB;border-radius:10px;cursor:pointer;font-size:13px"><input type="radio" name="hw-type" checked> <i class="fas fa-laptop" style="color:#3B82F6"></i> Laptop</label>'
+        + '    <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid #E5E7EB;border-radius:10px;cursor:pointer;font-size:13px"><input type="radio" name="hw-type"> <i class="fas fa-desktop" style="color:#7C3AED"></i> Monitor</label>'
+        + '    <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid #E5E7EB;border-radius:10px;cursor:pointer;font-size:13px"><input type="radio" name="hw-type"> <i class="fas fa-keyboard" style="color:#10B981"></i> Peripherals</label>'
+        + '  </div>'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Model / Specification</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;color:#111827;background:#fff">'
+        + '    <option>MacBook Pro 16" M4 Max — 36GB (Standard for Engineering)</option><option>MacBook Air 15" M4 — 16GB (Standard for Sales)</option><option>MacBook Pro 16" M4 Pro — 24GB (Standard for Design)</option><option>Custom — specify below</option>'
+        + '  </select>'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Shipping Address</label>'
+        + '  <input type="text" placeholder="Employee home address or office location" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box">'
+        + '</div>'
+        + '<div style="padding:12px 16px;background:rgba(59,130,246,0.04);border:1px solid rgba(59,130,246,0.12);border-radius:10px;font-size:12px;color:#3B82F6">'
+        + '  <i class="fas fa-info-circle"></i> Approval chain: <strong>Manager</strong> → <strong>IT Admin</strong> → <strong>Security</strong>. Estimated delivery: 3-5 business days.'
+        + '</div>',
+        function() { showToast('success', 'Hardware request submitted — sent to manager for approval'); });
+}
+
+function syncMDM() {
+    var btn = event.currentTarget || event.target;
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Synced!';
+        btn.style.background = '#10B981';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#10B981';
+        showToast('success', 'MDM sync complete — 142 devices synced from Jamf Pro & Intune. 2 new devices enrolled.');
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 3000);
+    }, 1800);
+}
+
+function generateReturnLabels() {
+    var btn = event.currentTarget || event.target;
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Labels Ready';
+        showToast('success', '5 prepaid return labels generated via FedEx — emails sent to offboarded employees');
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 3000);
+    }, 1500);
+}
+
+function sendReturnLabel(btn, name, email) {
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Sent';
+        btn.style.background = '#10B981';
+        showToast('success', 'Prepaid return label sent to ' + email);
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
+    }, 1000);
+}
+
+function filterAssets(status, el) {
+    var chips = el.parentElement.querySelectorAll('.onb-filter-chip');
+    chips.forEach(function(c) { c.classList.remove('active'); });
+    el.classList.add('active');
+    var rows = document.querySelectorAll('#asset-inventory-table tbody tr');
+    rows.forEach(function(row) {
+        if (status === 'all') { row.style.display = 'table-row'; }
+        else { row.style.display = row.getAttribute('data-asset-status') === status ? 'table-row' : 'none'; }
+    });
+}
+
+// ========================================================================
+//  TRAINING & COMPLIANCE
+// ========================================================================
+function sendTrainingReminders() {
+    var btn = event.currentTarget || event.target;
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+        btn.style.background = '#10B981';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#10B981';
+        showToast('success', 'Reminders sent to 4 employees with overdue trainings via email & Slack');
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 3000);
+    }, 1200);
+}
+
+function addTrainingModule() {
+    _openLifecycleModal('Add Training Module', '#D97706', 'fa-graduation-cap', ''
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Training Name</label>'
+        + '  <input type="text" placeholder="e.g. Security Awareness, Product Overview" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box">'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Assign To</label>'
+        + '  <div style="display:flex;gap:8px;flex-wrap:wrap">'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Engineering</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Sales</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Design</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> All Departments</label>'
+        + '  </div>'
+        + '</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">LMS Source</label>'
+        + '    <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;background:#fff"><option>Lessonly</option><option>Google Classroom</option><option>Custom Upload</option></select></div>'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Completion Deadline</label>'
+        + '    <input type="text" value="7 days from onboard" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box"></div>'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" checked> <span style="font-weight:600;color:#374151">Required for compliance</span> <span style="color:#6B7280">(blocks onboarding completion if not done)</span></label>'
+        + '</div>',
+        function() { showToast('success', 'Training module added — will be auto-assigned to new hires in selected departments'); });
+}
+
+function remindUnsigned() {
+    var btn = event.currentTarget || event.target;
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Reminder Sent';
+        showToast('success', 'DocuSign reminders sent for 2 unsigned documents (Meera — IP Agreement, Ananya — NDA)');
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 3000);
+    }, 1000);
+}
+
+// ========================================================================
+//  LIFECYCLE ANALYTICS & INTELLIGENCE
+// ========================================================================
+function exportComplianceReport() {
+    var btn = event.currentTarget || event.target;
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Downloaded';
+        btn.style.background = '#10B981';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#10B981';
+        showToast('success', 'SOC2/ISO 27001 compliance report exported — includes all onboarding evidence, access logs, and audit trail');
+        setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 3000);
+    }, 2000);
+}
+
+function revokeAnomalyAccess(btn, name) {
+    var parentDiv = btn.closest('div[style*="border"]');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Revoked';
+        btn.style.background = '#10B981';
+        if (parentDiv) {
+            parentDiv.style.borderColor = 'rgba(16,185,129,0.2)';
+            parentDiv.style.background = 'rgba(16,185,129,0.03)';
+        }
+        showToast('success', 'Emergency revocation complete for ' + name + ' — GitHub & AWS access removed, audit logged');
+    }, 1200);
+}
+
+function investigateAnomaly(btn, name) {
+    _openLifecycleModal('Investigate: ' + name, '#F59E0B', 'fa-search', ''
+        + '<div style="padding:14px 18px;background:rgba(245,158,11,0.04);border:1.5px solid rgba(245,158,11,0.15);border-radius:10px;margin-bottom:18px">'
+        + '  <div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:6px"><i class="fas fa-exclamation-triangle" style="margin-right:6px"></i>Suspicious Activity Summary</div>'
+        + '  <div style="font-size:13px;color:#374151;line-height:1.6">'
+        + '    <div><strong>Employee:</strong> ' + name + ' (notice period)</div>'
+        + '    <div><strong>Pattern:</strong> Large file downloads from Figma & Google Drive at 2:00–3:30 AM IST</div>'
+        + '    <div><strong>Duration:</strong> Last 3 consecutive days</div>'
+        + '    <div><strong>Data volume:</strong> ~4.2 GB total across 847 files</div>'
+        + '    <div><strong>Risk level:</strong> <span style="color:#EF4444;font-weight:700">HIGH — potential data exfiltration</span></div>'
+        + '  </div>'
+        + '</div>'
+        + '<div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Recommended Actions:</div>'
+        + '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F9FAFB;border-radius:8px;cursor:pointer;font-size:13px"><input type="checkbox" checked> Restrict Figma to view-only immediately</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F9FAFB;border-radius:8px;cursor:pointer;font-size:13px"><input type="checkbox" checked> Disable Google Drive downloads</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F9FAFB;border-radius:8px;cursor:pointer;font-size:13px"><input type="checkbox"> Notify manager (Ritu Menon)</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F9FAFB;border-radius:8px;cursor:pointer;font-size:13px"><input type="checkbox"> Escalate to Security team</label>'
+        + '</div>',
+        function() { showToast('success', 'Investigation actions applied for ' + name + ' — access restricted, security team notified'); });
+}
+
+function flagDeviation(btn) {
+    var parentDiv = btn.closest('div[style*="border"]');
+    btn.innerHTML = '<i class="fas fa-check"></i> Flagged';
+    btn.style.background = '#7C3AED';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    if (parentDiv) parentDiv.style.borderColor = 'rgba(124,58,237,0.25)';
+    showToast('info', 'Provisioning deviation flagged — template review task created for IT admin');
+}
+
+function applyLicenseOptimization(btn, appName, savings) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Applied';
+        btn.style.background = '#059669';
+        var row = btn.closest('tr');
+        if (row) row.style.background = 'rgba(16,185,129,0.04)';
+        showToast('success', appName + ' optimization applied — ' + savings + ' saved per year');
+    }, 1000);
+}
+
+function applyAllOptimizations(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Applying…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-double"></i> All Applied!';
+        btn.style.background = '#059669';
+        document.querySelectorAll('#sec-lifecycle-analytics table:last-of-type tbody tr').forEach(function(row) {
+            row.style.background = 'rgba(16,185,129,0.04)';
+            var applyBtn = row.querySelector('button');
+            if (applyBtn && !applyBtn.disabled) { applyBtn.innerHTML = '<i class="fas fa-check"></i> Applied'; applyBtn.disabled = true; applyBtn.style.background = '#059669'; }
+        });
+        showToast('success', 'All 3 license optimizations applied — $13.2K/yr total savings! Changes take effect at next billing cycle.');
+    }, 2000);
+}
+
+// ========================================================================
+//  CONTRACTOR MANAGEMENT
+// ========================================================================
+function addContractor() {
+    _openLifecycleModal('Add Contractor', '#DB2777', 'fa-id-badge', ''
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Full Name</label>'
+        + '    <input type="text" placeholder="e.g. John Smith" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box"></div>'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Company</label>'
+        + '    <input type="text" placeholder="e.g. TechServe India" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box"></div>'
+        + '</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Department</label>'
+        + '    <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;background:#fff"><option>Engineering</option><option>Design</option><option>Sales</option><option>Finance</option></select></div>'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Contract End Date</label>'
+        + '    <input type="date" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box"></div>'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Tools to Provision (limited set)</label>'
+        + '  <div style="display:flex;gap:8px;flex-wrap:wrap">'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Slack</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> GitHub</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Jira</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Figma</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> AWS</label>'
+        + '  </div>'
+        + '</div>'
+        + '<div style="padding:12px 16px;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.12);border-radius:10px;font-size:12px;color:#DB2777">'
+        + '  <i class="fas fa-shield-alt"></i> Access will <strong>auto-expire</strong> on contract end date. No manual offboarding needed.'
+        + '</div>',
+        function() { showToast('success', 'Contractor onboarded — time-bound access provisioned with auto-expiry'); });
+}
+
+function extendContract(btn, name) {
+    _openLifecycleModal('Extend Contract: ' + name, '#DB2777', 'fa-redo', ''
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">New End Date</label>'
+        + '  <input type="date" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box">'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Reason for Extension</label>'
+        + '  <textarea placeholder="Project deadline extended, additional scope…" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;min-height:80px;resize:vertical;box-sizing:border-box"></textarea>'
+        + '</div>'
+        + '<div style="padding:12px 16px;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.12);border-radius:10px;font-size:12px;color:#DB2777">'
+        + '  <i class="fas fa-info-circle"></i> Extension requires manager approval. Auto-deprovision date will update automatically.'
+        + '</div>',
+        function() { showToast('success', 'Contract extension request submitted for ' + name + ' — awaiting manager approval'); });
+}
+
+// ========================================================================
+//  APPROVAL WORKFLOWS
+// ========================================================================
+function approveRequest(btn, name, item) {
+    var rowDiv = btn.closest('div[style*="display:flex"]');
+    var buttons = rowDiv || btn.closest('div');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        buttons.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#10B981"><i class="fas fa-check-circle"></i> Approved</span>';
+        showToast('success', 'Approved ' + item + ' for ' + name + ' — forwarded to next approver in chain');
+    }, 800);
+}
+
+function rejectRequest(btn, name, item) {
+    _openLifecycleModal('Reject: ' + item + ' for ' + name, '#EF4444', 'fa-times-circle', ''
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Rejection Reason (required)</label>'
+        + '  <textarea id="reject-reason-input" placeholder="Budget exceeded, not approved for this role, alternative available…" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;min-height:80px;resize:vertical;box-sizing:border-box"></textarea>'
+        + '</div>'
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox"> Suggest alternative (e.g. lower tier)</label>'
+        + '</div>',
+        function() {
+            var reason = document.getElementById('reject-reason-input');
+            if (reason && !reason.value.trim()) { showToast('warning', 'Please enter a rejection reason'); return; }
+            var rowDiv = btn.closest('div[style*="display:flex"]');
+            var buttons = rowDiv || btn.closest('div');
+            buttons.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#EF4444"><i class="fas fa-times-circle"></i> Rejected</span>';
+            showToast('info', 'Rejected ' + item + ' for ' + name + ' — employee notified with reason');
+            _closeLifecycleModal();
+        }, 'Reject Request', '#EF4444');
+}
+
+function editApprovalChains() {
+    _openLifecycleModal('Edit Approval Chains', '#7C3AED', 'fa-project-diagram', ''
+        + '<div style="display:flex;flex-direction:column;gap:14px">'
+        + '  <div style="padding:14px 18px;background:#F9FAFB;border-radius:10px;border-left:3px solid #3B82F6">'
+        + '    <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:8px">Hardware Request</div>'
+        + '    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px">'
+        + '      <span style="padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(59,130,246,0.08);color:#3B82F6">Manager</span>'
+        + '      <i class="fas fa-arrow-right" style="font-size:10px;color:#9CA3AF"></i>'
+        + '      <span style="padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(245,158,11,0.08);color:#D97706">IT Admin</span>'
+        + '      <i class="fas fa-arrow-right" style="font-size:10px;color:#9CA3AF"></i>'
+        + '      <span style="padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(239,68,68,0.08);color:#EF4444">Security</span>'
+        + '    </div>'
+        + '    <div style="display:flex;gap:10px;font-size:12px"><span style="color:#6B7280">Escalation: <strong>24 hrs</strong></span><select style="padding:2px 8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px"><option>24 hrs</option><option>12 hrs</option><option>48 hrs</option></select></div>'
+        + '  </div>'
+        + '  <div style="padding:14px 18px;background:#F9FAFB;border-radius:10px;border-left:3px solid #F59E0B">'
+        + '    <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:8px">SaaS Access</div>'
+        + '    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px">'
+        + '      <span style="padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(59,130,246,0.08);color:#3B82F6">Manager</span>'
+        + '      <i class="fas fa-arrow-right" style="font-size:10px;color:#9CA3AF"></i>'
+        + '      <span style="padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(245,158,11,0.08);color:#D97706">IT Admin</span>'
+        + '    </div>'
+        + '    <div style="display:flex;gap:10px;font-size:12px"><span style="color:#6B7280">Escalation: <strong>12 hrs</strong></span><select style="padding:2px 8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px"><option>12 hrs</option><option>6 hrs</option><option>24 hrs</option></select></div>'
+        + '  </div>'
+        + '  <div style="padding:14px 18px;background:#F9FAFB;border-radius:10px;border-left:3px solid #EF4444">'
+        + '    <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:8px">Emergency Override</div>'
+        + '    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">'
+        + '      <span style="padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(239,68,68,0.08);color:#EF4444">CTO / CISO Only</span>'
+        + '    </div>'
+        + '    <div style="font-size:12px;color:#6B7280">Full audit log required · <label style="cursor:pointer"><input type="checkbox" checked> Require justification</label></div>'
+        + '  </div>'
+        + '</div>',
+        function() { showToast('success', 'Approval chains updated — changes effective immediately'); });
+}
+
+// ========================================================================
+//  SELF-SERVICE PORTAL
+// ========================================================================
+function addAIRecommendation(btn, recommendation) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Added';
+        btn.style.background = '#059669';
+        showToast('success', recommendation + ' — template updated');
+    }, 800);
+}
+
+function scheduleAIEvent(btn, description) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Scheduled';
+        btn.style.background = '#059669';
+        showToast('success', description);
+    }, 800);
+}
+
+function openPortalURL() {
+    var portalUrl = 'https://portal.saasiq.io/techcorp-india/employee';
+    _openLifecycleModal('Self-Service Portal URL', '#7C3AED', 'fa-link', ''
+        + '<p style="font-size:13px;color:#6B7280;margin:0 0 16px">Share this URL with employees so they can access their self-service portal.</p>'
+        + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:18px">'
+        + '  <input id="portal-url-field" type="text" value="' + portalUrl + '" readonly style="flex:1;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#F9FAFB;box-sizing:border-box;font-family:monospace">'
+        + '  <button onclick="document.getElementById(\'portal-url-field\').select();document.execCommand(\'copy\');this.innerHTML=\'<i class=&quot;fas fa-check&quot;></i> Copied\';this.style.background=\'#059669\';this.style.color=\'#fff\'" style="padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;background:#7C3AED;color:#fff;border:none;white-space:nowrap"><i class="fas fa-copy"></i> Copy</button>'
+        + '</div>'
+        + '<div style="border:1px solid #E5E7EB;border-radius:10px;padding:14px;background:#F9FAFB">'
+        + '  <h4 style="font-size:12px;font-weight:700;color:#374151;margin:0 0 10px">Embed Options</h4>'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;margin-bottom:8px;cursor:pointer"><input type="checkbox" checked> Allow tool requests</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;margin-bottom:8px;cursor:pointer"><input type="checkbox" checked> Show knowledge base</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;margin-bottom:8px;cursor:pointer"><input type="checkbox" checked> Show onboarding progress</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;cursor:pointer"><input type="checkbox"> Enable SSO-only access</label>'
+        + '</div>',
+    function() {
+        showToast('success', 'Portal URL copied and settings saved');
+    }, '<i class="fas fa-save"></i> Save Settings', '#7C3AED');
+}
+
+function configurePortal() {
+    _openLifecycleModal('Configure Self-Service Portal', '#7C3AED', 'fa-cog', ''
+        + '<div style="margin-bottom:20px">'
+        + '  <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 10px"><i class="fas fa-palette" style="margin-right:6px;color:#7C3AED"></i>Portal Branding</h4>'
+        + '  <div style="margin-bottom:10px"><label style="display:block;font-size:12px;font-weight:600;color:#6B7280;margin-bottom:4px">Company Name</label><input type="text" value="TechCorp India" style="width:100%;padding:8px 12px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:13px;box-sizing:border-box"></div>'
+        + '  <div><label style="display:block;font-size:12px;font-weight:600;color:#6B7280;margin-bottom:4px">Welcome Message</label><input type="text" value="Welcome aboard! Here is everything you need to get started." style="width:100%;padding:8px 12px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:13px;box-sizing:border-box"></div>'
+        + '</div>'
+        + '<div style="margin-bottom:20px">'
+        + '  <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 10px"><i class="fas fa-toggle-on" style="margin-right:6px;color:#10B981"></i>Portal Modules</h4>'
+        + '  <label style="display:flex;align-items:center;justify-content:space-between;padding:10px;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:6px;cursor:pointer"><span style="font-size:13px;color:#374151"><i class="fas fa-tasks" style="color:#3B82F6;margin-right:8px"></i>Onboarding Progress Tracker</span><input type="checkbox" checked></label>'
+        + '  <label style="display:flex;align-items:center;justify-content:space-between;padding:10px;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:6px;cursor:pointer"><span style="font-size:13px;color:#374151"><i class="fas fa-plus-circle" style="color:#7C3AED;margin-right:8px"></i>Tool Request Form</span><input type="checkbox" checked></label>'
+        + '  <label style="display:flex;align-items:center;justify-content:space-between;padding:10px;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:6px;cursor:pointer"><span style="font-size:13px;color:#374151"><i class="fas fa-bug" style="color:#EF4444;margin-right:8px"></i>Issue Reporting</span><input type="checkbox" checked></label>'
+        + '  <label style="display:flex;align-items:center;justify-content:space-between;padding:10px;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:6px;cursor:pointer"><span style="font-size:13px;color:#374151"><i class="fas fa-book" style="color:#3B82F6;margin-right:8px"></i>Knowledge Base</span><input type="checkbox" checked></label>'
+        + '  <label style="display:flex;align-items:center;justify-content:space-between;padding:10px;border:1px solid #E5E7EB;border-radius:8px;cursor:pointer"><span style="font-size:13px;color:#374151"><i class="fas fa-robot" style="color:#7C3AED;margin-right:8px"></i>AI Recommendations</span><input type="checkbox" checked></label>'
+        + '</div>'
+        + '<div>'
+        + '  <h4 style="font-size:13px;font-weight:700;color:#374151;margin:0 0 10px"><i class="fas fa-bell" style="margin-right:6px;color:#F59E0B"></i>Notifications</h4>'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;margin-bottom:6px;cursor:pointer"><input type="checkbox" checked> Email employee when portal is ready</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;cursor:pointer"><input type="checkbox"> Slack DM with portal link</label>'
+        + '</div>',
+    function() {
+        showToast('success', 'Self-Service Portal configuration saved');
+    }, '<i class="fas fa-check"></i> Save Config', '#7C3AED');
+}
+
+function reportIssue(issueType) {
+    var types = {
+        access: { title: "Can't Access a Tool", icon: 'fa-lock', color: '#EF4444', placeholder: 'Which tool can you not access? What error do you see?' },
+        permissions: { title: 'Wrong Permissions', icon: 'fa-user-shield', color: '#F59E0B', placeholder: 'Which tool has wrong permissions? What access level do you need?' },
+        other: { title: 'Other Issue', icon: 'fa-question-circle', color: '#6B7280', placeholder: 'Describe your issue in detail…' }
+    };
+    var t = types[issueType] || types.other;
+
+    _openLifecycleModal(t.title, t.color, t.icon, ''
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Employee</label>'
+        + '  <input type="text" value="Meera Krishnan — Sales" readonly style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#6B7280;background:#F9FAFB;box-sizing:border-box">'
+        + '</div>'
+        + (issueType === 'access' || issueType === 'permissions' ? ''
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Affected Tool</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#fff;box-sizing:border-box">'
+        + '    <option>Salesforce</option><option>HubSpot</option><option>Slack</option><option>Gong</option><option>Zoom</option><option>Google Workspace</option><option>Other…</option>'
+        + '  </select>'
+        + '</div>' : '')
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Description</label>'
+        + '  <textarea placeholder="' + t.placeholder + '" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;min-height:80px;resize:vertical;box-sizing:border-box;font-family:inherit"></textarea>'
+        + '</div>'
+        + '<div style="margin-bottom:10px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Priority</label>'
+        + '  <div style="display:flex;gap:8px">'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600"><input type="radio" name="issue-priority"> <span style="color:#6B7280">Low</span></label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid #F59E0B;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:rgba(245,158,11,0.06)"><input type="radio" name="issue-priority" checked> <span style="color:#D97706">Medium</span></label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid #EF4444;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600"><input type="radio" name="issue-priority"> <span style="color:#EF4444">High</span></label>'
+        + '  </div>'
+        + '</div>',
+    function() {
+        showToast('success', 'Issue reported — IT ticket #IT-' + (1042 + Math.floor(Math.random()*100)) + ' created, assigned to IT Helpdesk');
+    }, '<i class="fas fa-paper-plane"></i> Submit Issue', t.color);
+}
+
+function openWebhookDetail(type) {
+    var configs = {
+        incoming: { title: 'Incoming Webhooks', icon: 'fa-arrow-right', color: '#10B981',
+            items: [
+                { name: 'BambooHR — New Hire', url: '/webhooks/bamboo-newhire', status: 'Active', events: '142 received' },
+                { name: 'Workday — Termination', url: '/webhooks/workday-term', status: 'Active', events: '38 received' },
+                { name: 'Slack — User Created', url: '/webhooks/slack-user', status: 'Active', events: '89 received' }
+            ]},
+        outgoing: { title: 'Outgoing Webhooks', icon: 'fa-arrow-left', color: '#3B82F6',
+            items: [
+                { name: 'Slack #it-onboarding', url: 'https://hooks.slack.com/...', status: 'Active', events: 'On new hire' },
+                { name: 'PagerDuty — Security Alert', url: 'https://events.pagerduty.com/...', status: 'Active', events: 'On access anomaly' },
+                { name: 'Jira — Create Ticket', url: 'https://techcorp.atlassian.net/...', status: 'Active', events: 'On issue report' },
+                { name: 'Email — Manager Notify', url: 'SMTP relay', status: 'Active', events: 'On approval needed' },
+                { name: 'Teams — IT Channel', url: 'https://outlook.office.com/...', status: 'Paused', events: 'On hardware request' }
+            ]},
+        api: { title: 'Public REST API', icon: 'fa-key', color: '#F59E0B',
+            items: [
+                { name: 'API Key — Production', url: 'sk-prod-****-7f3a', status: 'Active', events: '2,340 calls/day' },
+                { name: 'API Key — Staging', url: 'sk-stg-****-b1c2', status: 'Active', events: '156 calls/day' },
+                { name: 'OAuth Client — CI/CD', url: 'client_id: saasiq-cicd', status: 'Active', events: '12 automations' }
+            ]},
+        connectors: { title: 'Custom Connectors', icon: 'fa-puzzle-piece', color: '#EC4899',
+            items: [
+                { name: 'Internal HRIS Adapter', url: 'connector-hris-v2', status: 'Published', events: 'SDK v2.1' },
+                { name: 'Finance ERP Bridge', url: 'connector-erp-v1', status: 'Draft', events: 'SDK v2.1' }
+            ]}
+    };
+    var c = configs[type];
+    if (!c) return;
+
+    var rows = c.items.map(function(item) {
+        var statusColor = item.status === 'Active' || item.status === 'Published' ? '#10B981' : '#F59E0B';
+        return '<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #E5E7EB;border-radius:10px;margin-bottom:8px">'
+            + '<div style="flex:1"><strong style="font-size:13px;color:#111827">' + item.name + '</strong><div style="font-size:11px;color:#9CA3AF;margin-top:2px;font-family:monospace">' + item.url + '</div></div>'
+            + '<span style="font-size:11px;font-weight:600;color:#6B7280">' + item.events + '</span>'
+            + '<span style="font-size:11px;font-weight:600;color:' + statusColor + ';padding:3px 8px;border-radius:6px;background:' + statusColor + '14">' + item.status + '</span>'
+            + '</div>';
+    }).join('');
+
+    _openLifecycleModal(c.title, c.color, c.icon, ''
+        + '<p style="font-size:13px;color:#6B7280;margin:0 0 14px">' + c.items.length + ' configured</p>'
+        + rows
+        + '<div style="margin-top:14px;padding:12px;background:#F9FAFB;border-radius:10px;border:1px dashed #D1D5DB;text-align:center;cursor:pointer;color:#7C3AED;font-size:13px;font-weight:600" onclick="showToast(\'info\',\'Webhook creation wizard opening…\')"><i class="fas fa-plus"></i> Add New</div>',
+    function() {
+        _closeLifecycleModal();
+    }, '<i class="fas fa-check"></i> Done', c.color);
+}
+
+function addAutoAssignmentRule() {
+    _openLifecycleModal('Add Auto-Assignment Rule', '#3B82F6', 'fa-th-list', ''
+        + '<p style="font-size:13px;color:#6B7280;margin:0 0 16px">Define which hardware gets auto-assigned when an employee joins a specific department.</p>'
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Department / Role</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#fff;box-sizing:border-box">'
+        + '    <option>Select department…</option><option>Engineering</option><option>Sales & Marketing</option><option>Design & Product</option><option>Finance & Ops</option><option>Customer Support</option><option>HR & People</option><option>Legal</option>'
+        + '  </select>'
+        + '</div>'
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Laptop</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#fff;box-sizing:border-box">'
+        + '    <option>MacBook Pro 16"</option><option>MacBook Pro 14"</option><option>MacBook Air 15"</option><option>MacBook Air 13"</option><option>ThinkPad X1 Carbon</option>'
+        + '  </select>'
+        + '</div>'
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Monitor</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#fff;box-sizing:border-box">'
+        + '    <option>27" 4K</option><option>24" Standard</option><option>27" 4K + Drawing Tablet</option><option>Dual 24" Setup</option><option>None</option>'
+        + '  </select>'
+        + '</div>'
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Peripherals</label>'
+        + '  <div style="display:flex;flex-wrap:wrap;gap:6px">'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Keyboard</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Mouse</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Headset</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Webcam</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Docking Station</label>'
+        + '  </div>'
+        + '</div>'
+        + '<div>'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">MDM Profile</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#fff;box-sizing:border-box">'
+        + '    <option>Jamf — Engineering</option><option>Jamf — Sales</option><option>Jamf — Design</option><option>Intune — Corporate</option><option>Custom…</option>'
+        + '  </select>'
+        + '</div>',
+    function() {
+        showToast('success', 'Auto-assignment rule created — new hires in this department will get hardware auto-provisioned');
+    }, '<i class="fas fa-plus"></i> Create Rule', '#3B82F6');
+}
+
+// ========================================================================
+//  ONBOARDING — Template & Config Actions
+// ========================================================================
+function addNewTemplate() {
+    _openLifecycleModal('Create Workflow Template', '#7C3AED', 'fa-project-diagram', ''
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Template Name</label>'
+        + '  <input type="text" placeholder="e.g. Customer Support, HR, Finance…" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;box-sizing:border-box">'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Base On Existing Template</label>'
+        + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;background:#fff">'
+        + '    <option>Start from scratch</option><option>Clone Engineering template</option><option>Clone Sales & Marketing template</option><option>Clone Design & Product template</option>'
+        + '  </select>'
+        + '</div>'
+        + '<div style="margin-bottom:18px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">SaaS Apps to Include</label>'
+        + '  <div style="display:flex;gap:6px;flex-wrap:wrap">'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Slack</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Google Workspace</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox" checked> Zoom</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Jira</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> GitHub</label>'
+        + '    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:12px"><input type="checkbox"> Notion</label>'
+        + '  </div>'
+        + '</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Automation Level</label>'
+        + '    <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;background:#fff"><option>Full Auto</option><option>Semi-Auto (require approval)</option><option>Manual</option></select></div>'
+        + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Hardware Kit</label>'
+        + '    <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;background:#fff"><option>MacBook Air + Standard</option><option>MacBook Pro + Extended</option><option>No hardware</option></select></div>'
+        + '</div>',
+        function() { showToast('success', 'Workflow template created — available for assignment to new hires'); });
+}
+
+function configureOnboarding() {
+    _openLifecycleModal('Onboarding Configuration', '#7C3AED', 'fa-cog', ''
+        + '<div style="display:flex;flex-direction:column;gap:14px">'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#F9FAFB;border-radius:10px">'
+        + '    <div><strong style="font-size:13px">Auto-provisioning</strong><div style="font-size:11px;color:#6B7280">Automatically provision apps when onboarding starts</div></div>'
+        + '    <label class="setting-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>'
+        + '  </div>'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#F9FAFB;border-radius:10px">'
+        + '    <div><strong style="font-size:13px">Slack Notifications</strong><div style="font-size:11px;color:#6B7280">Send updates to #it-ops and manager DM</div></div>'
+        + '    <label class="setting-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>'
+        + '  </div>'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#F9FAFB;border-radius:10px">'
+        + '    <div><strong style="font-size:13px">Hardware Auto-Order</strong><div style="font-size:11px;color:#6B7280">Auto-order hardware from role template on onboard start</div></div>'
+        + '    <label class="setting-toggle"><input type="checkbox"><span class="toggle-slider"></span></label>'
+        + '  </div>'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#F9FAFB;border-radius:10px">'
+        + '    <div><strong style="font-size:13px">Welcome Email</strong><div style="font-size:11px;color:#6B7280">Send Day-1 instructions email to new hire</div></div>'
+        + '    <label class="setting-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>'
+        + '  </div>'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#F9FAFB;border-radius:10px">'
+        + '    <div><strong style="font-size:13px">Buddy Auto-Assignment</strong><div style="font-size:11px;color:#6B7280">Assign a same-team buddy and send intro DM</div></div>'
+        + '    <label class="setting-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>'
+        + '  </div>'
+        + '  <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#F9FAFB;border-radius:10px">'
+        + '    <div><strong style="font-size:13px">SOC2 Compliance Check</strong><div style="font-size:11px;color:#6B7280">Block completion until all compliance trainings done</div></div>'
+        + '    <label class="setting-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>'
+        + '  </div>'
+        + '</div>',
+        function() { showToast('success', 'Onboarding configuration saved — changes take effect for next onboard'); });
+}
+
+// ========================================================================
+//  LIFECYCLE MODAL HELPER (shared modal for all lifecycle sections)
+// ========================================================================
+function _openLifecycleModal(title, color, icon, bodyHtml, onConfirm, confirmText, confirmColor) {
+    _closeLifecycleModal();
+    var overlay = document.createElement('div');
+    overlay.id = 'lifecycle-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease;padding:16px';
+    overlay.innerHTML = ''
+        + '<div style="background:#fff;border-radius:16px;width:95%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden">'
+        + '  <div style="padding:20px 28px;border-bottom:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:center;flex-shrink:0">'
+        + '    <h2 style="font-size:18px;font-weight:800;color:#111827;margin:0;display:flex;align-items:center;gap:10px"><i class="fas ' + icon + '" style="color:' + color + '"></i> ' + title + '</h2>'
+        + '    <button onclick="_closeLifecycleModal()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
+        + '  </div>'
+        + '  <div style="padding:24px 28px;overflow-y:auto;flex:1">' + bodyHtml + '</div>'
+        + '  <div id="lifecycle-modal-footer" style="padding:16px 28px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:10px;background:#F9FAFB;flex-shrink:0">'
+        + '    <button onclick="_closeLifecycleModal()" style="padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;border:1.5px solid #D1D5DB;color:#374151">Cancel</button>'
+        + '    <button id="lifecycle-modal-confirm" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:' + (confirmColor || color) + ';color:#fff;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.1)">' + (confirmText || '<i class="fas fa-check"></i> Confirm') + '</button>'
+        + '  </div>'
+        + '</div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) _closeLifecycleModal(); });
+    document.getElementById('lifecycle-modal-confirm').addEventListener('click', function() {
+        try {
+            if (onConfirm) onConfirm();
+        } catch(err) {
+            showToast('danger', 'Something went wrong. Please try again.');
+        }
+        _closeLifecycleModal();
+    });
+}
+
+function _closeLifecycleModal() {
+    var m = document.getElementById('lifecycle-modal');
+    if (m) m.remove();
+}
+
+
+// ========================================================================
 //  INTEGRATION MANAGEMENT — Connect / Configure / Disconnect
 // ========================================================================
 
-var _intgContext = { card: null, name: '', icon: '', iconBg: '', users: '', lastSync: '' };
+var _intgContext = SaaSIQ.state.intgContext = { card: null, name: '', icon: '', iconBg: '', users: '', lastSync: '' };
 
 /**
  * Gather metadata from the clicked integration card
@@ -3251,8 +4497,8 @@ function handleAddPerson() {
    BULK IMPORT ENGINE
    ========================================================== */
 
-var _bulkImportType = 'people'; // 'people' | 'teams' | 'orgs'
-var _bulkParsedData = [];       // parsed rows ready to import
+var _bulkImportType = SaaSIQ.state.bulkImportType; // 'people' | 'teams' | 'orgs'
+var _bulkParsedData = SaaSIQ.state.bulkParsedData;  // parsed rows ready to import
 
 // --- Column definitions per type ---
 var BULK_COLUMNS = {
@@ -3679,14 +4925,77 @@ function refreshOrgTree() {
     }
 }
 
+/* ============================================
+   HELP ARTICLE PREVIEW
+   ============================================ */
+var _helpArticles = {
+    'connect-google': {
+        title: 'How to connect your Google Workspace for SaaS discovery',
+        icon: 'fab fa-google',
+        color: '#4285F4',
+        content: '<p>SaaSIQ integrates with Google Workspace to automatically discover every SaaS application used across your organization.</p>'
+            + '<h4>Prerequisites</h4><ul><li>Google Workspace admin access (Super Admin recommended)</li><li>SaaSIQ Integrations permissions</li></ul>'
+            + '<h4>Step 1: Navigate to Integrations</h4><p>Go to <strong>Dashboard → Integrations</strong> and locate the Google Workspace card.</p>'
+            + '<h4>Step 2: Authorize Access</h4><p>Click <strong>Connect</strong> and sign in with your Google admin account. SaaSIQ requests read-only OAuth scopes for Directory, Drive activity, and Chrome extensions.</p>'
+            + '<h4>Step 3: Initial Sync</h4><p>The first scan typically completes within 10–15 minutes. SaaSIQ indexes OAuth grants, browser extensions, and email-linked SaaS subscriptions.</p>'
+            + '<h4>Step 4: Review Discoveries</h4><p>Head to <strong>SaaS Discovery</strong> to see newly found applications, categorized by risk level, department, and spend.</p>'
+    },
+    'ai-copilot': {
+        title: 'Understanding the AI Copilot and SaaS insights',
+        icon: 'fas fa-robot',
+        color: '#7C3AED',
+        content: '<p>The SaaSIQ AI Copilot analyzes your SaaS portfolio in real-time and surfaces actionable insights.</p>'
+            + '<h4>How It Works</h4><p>The copilot monitors license utilization, spend trends, and contract terms to generate recommendations automatically.</p>'
+            + '<h4>Types of Insights</h4><ul><li><strong>Cost Optimization</strong> — Identifies unused licenses, duplicate apps, and downgrade opportunities</li>'
+            + '<li><strong>Risk Alerts</strong> — Flags shadow IT, expiring contracts, and compliance gaps</li>'
+            + '<li><strong>Benchmark Comparisons</strong> — Shows how your spend compares to industry peers</li></ul>'
+            + '<h4>Acting on Recommendations</h4><p>Each insight card includes an <strong>Apply</strong> button that creates a task or triggers an automated workflow.</p>'
+    },
+    'renewal-alerts': {
+        title: 'Setting up contract renewal alerts',
+        icon: 'fas fa-bell',
+        color: '#F59E0B',
+        content: '<p>Never miss a renewal deadline. SaaSIQ sends automated alerts before contracts auto-renew.</p>'
+            + '<h4>Configure Alert Timing</h4><p>Go to <strong>Renewals & Contracts</strong> → click any contract → set alert triggers at 90, 60, and 30 days before renewal.</p>'
+            + '<h4>Notification Channels</h4><ul><li>In-app notifications (default)</li><li>Email digest — daily or weekly</li><li>Slack / Teams integration</li></ul>'
+            + '<h4>Bulk Alert Setup</h4><p>Use <strong>Scan Contracts</strong> to auto-detect renewal dates from uploaded PDFs, then apply alert rules in bulk.</p>'
+    },
+    'governance-policies': {
+        title: 'Creating and enforcing SaaS governance policies',
+        icon: 'fas fa-gavel',
+        color: '#10B981',
+        content: '<p>Governance policies let you control which SaaS tools are approved, who can procure new subscriptions, and how compliance is enforced.</p>'
+            + '<h4>Creating a Policy</h4><p>Navigate to <strong>Compliance</strong> → <strong>Policies</strong> → <strong>Add Rule</strong>. Define conditions (e.g., "block unapproved apps over $500/mo") and assign approvers.</p>'
+            + '<h4>Enforcement Modes</h4><ul><li><strong>Monitor</strong> — Log violations without blocking</li>'
+            + '<li><strong>Warn</strong> — Notify users and managers</li>'
+            + '<li><strong>Block</strong> — Prevent access until approved</li></ul>'
+            + '<h4>Policy Templates</h4><p>SaaSIQ includes pre-built templates for SOC 2, GDPR, DPDP Act, and HIPAA compliance frameworks.</p>'
+    }
+};
+
+function openHelpArticle(articleId) {
+    var article = _helpArticles[articleId];
+    if (!article) { showToast('info', 'Article not found'); return; }
+    closeModal('modal-help-center');
+    _openLifecycleModal(
+        article.title,
+        article.color,
+        article.icon,
+        '<div style="font-size:14px;line-height:1.7;color:#374151;max-height:420px;overflow-y:auto;padding-right:8px">' + article.content + '</div>',
+        function() { showToast('info', 'Article bookmarked — find it in your Help Center favorites'); },
+        '<i class="fas fa-bookmark"></i> Bookmark',
+        article.color
+    );
+}
+
 
 /* ============================================
    HELP & SUPPORT WIDGET
    ============================================ */
 
-var _helpWidgetOpen = false;
-var _helpChatType = '';
-var _helpSelectedSlot = null;
+var _helpWidgetOpen = SaaSIQ.state.helpWidgetOpen;
+var _helpChatType = SaaSIQ.state.helpChatType;
+var _helpSelectedSlot = SaaSIQ.state.helpSelectedSlot;
 
 // Agent personas for different chat types
 var _helpAgents = {
@@ -3969,3 +5278,191 @@ setTimeout(function() {
         trigger.setAttribute('data-tooltip', 'Need help? We\'re online!');
     }
 }, 2000);
+
+// ========================================================================
+//  SHADOW IT — MARK MANAGED / FLAG SHADOW IT
+// ========================================================================
+function markManaged(btn, appName) {
+    var card = btn.closest('.app-card');
+    if (!card) { showToast('success', appName + ' marked as managed'); return; }
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        var badge = card.querySelector('.status-badge');
+        if (badge) {
+            badge.textContent = 'Managed';
+            badge.className = 'status-badge active';
+        }
+        card.classList.remove('shadow');
+        card.classList.add('managed');
+        var riskBadge = card.querySelector('.risk-badge');
+        if (riskBadge) { riskBadge.textContent = 'Approved'; riskBadge.className = 'risk-badge low'; }
+        var actions = btn.parentElement;
+        if (actions) actions.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#10B981"><i class="fas fa-check-circle"></i> Managed</span>';
+        showToast('success', appName + ' moved to managed inventory — now tracked in SaaSIQ');
+    }, 700);
+}
+
+function flagShadowIT(btn, appName) {
+    var card = btn.closest('.app-card');
+    _openLifecycleModal('Flag ' + appName + ' as Shadow IT', '#EF4444', 'fa-exclamation-triangle', ''
+        + '<p style="font-size:13px;color:#6B7280;margin:0 0 16px">This will flag <strong>' + appName + '</strong> as unauthorized Shadow IT and notify the security team.</p>'
+        + '<div style="margin-bottom:16px">'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Action to Take</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:13px"><input type="radio" name="shadow-action" checked> Monitor only (no blocking)</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:13px"><input type="radio" name="shadow-action"> Block access via SSO policy</label>'
+        + '  <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;cursor:pointer;font-size:13px"><input type="radio" name="shadow-action"> Notify users + request migration</label>'
+        + '</div>'
+        + '<div>'
+        + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Reason</label>'
+        + '  <textarea placeholder="Why is this flagged? e.g., No SOC2 cert, data residency risk…" style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;min-height:60px;resize:vertical;box-sizing:border-box;font-family:inherit"></textarea>'
+        + '</div>',
+    function() {
+        if (card) {
+            var badge = card.querySelector('.status-badge');
+            if (badge) { badge.textContent = 'Flagged'; badge.className = 'status-badge danger'; }
+            var riskBadge = card.querySelector('.risk-badge');
+            if (riskBadge) { riskBadge.textContent = 'Shadow IT'; riskBadge.className = 'risk-badge high'; }
+            var actions = btn.parentElement;
+            if (actions) actions.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#EF4444"><i class="fas fa-flag"></i> Flagged</span>';
+        }
+        showToast('warning', appName + ' flagged as Shadow IT — security team notified');
+    }, '<i class="fas fa-flag"></i> Flag as Shadow IT', '#EF4444');
+}
+
+// ========================================================================
+//  SELF-SERVICE — REQUEST TOOL ACCESS
+// ========================================================================
+function requestToolAccess(btn, toolName) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="color:#7C3AED"></i> Requesting…';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check-circle" style="color:#10B981"></i> Requested';
+        btn.style.background = 'rgba(16,185,129,0.06)';
+        btn.style.borderColor = '#10B981';
+        btn.style.color = '#059669';
+        btn.style.opacity = '1';
+        showToast('success', 'Request for ' + toolName + ' sent — awaiting manager approval (Pradeep Rao)');
+    }, 900);
+}
+
+function browseAppCatalog() {
+    _openLifecycleModal('App Catalog', '#7C3AED', 'fa-th', ''
+        + '<p style="font-size:13px;color:#6B7280;margin:0 0 14px">Browse available apps and request access. Your manager will approve within 24 hours.</p>'
+        + '<div style="margin-bottom:16px"><input type="text" placeholder="Search apps…" style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;box-sizing:border-box"></div>'
+        + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'
+        + ['Notion','Loom','Asana','Monday.com','Trello','Miro','Confluence','Linear','ClickUp','Airtable','Coda','Webflow'].map(function(app) {
+            return '<div style="padding:12px;border:1.5px solid #E5E7EB;border-radius:10px;text-align:center;cursor:pointer;transition:all 0.15s;font-size:12px;font-weight:600;color:#374151" onmouseover="this.style.borderColor=\'#7C3AED\';this.style.background=\'rgba(124,58,237,0.04)\'" onmouseout="this.style.borderColor=\'#E5E7EB\';this.style.background=\'#fff\'" onclick="this.innerHTML=\'<i class=&quot;fas fa-check&quot; style=&quot;color:#10B981&quot;></i> Requested\';this.style.borderColor=\'#10B981\';this.style.pointerEvents=\'none\'">' + app + '</div>';
+        }).join('')
+        + '</div>',
+    function() {
+        showToast('success', 'App requests submitted — your manager will be notified');
+    }, '<i class="fas fa-paper-plane"></i> Submit Requests', '#7C3AED');
+}
+
+// ========================================================================
+//  ONBOARDING AUDIT REPORT + COMPLIANCE EXPORT
+// ========================================================================
+function generateAuditReport(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Report Ready';
+        btn.style.background = '#059669';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#059669';
+        showToast('success', 'Onboarding audit report generated — 23 onboards, 97% SLA compliance, 0 violations this quarter');
+    }, 1200);
+}
+
+function exportCompliancePDF(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Downloaded';
+        btn.style.background = '#059669';
+        btn.style.color = '#fff';
+        showToast('success', 'Compliance report exported as PDF — saasiq-compliance-Q1-2026.pdf');
+    }, 1000);
+}
+
+// ========================================================================
+//  RENEWALS — SCAN CONTRACTS + EXPORT CALENDAR
+// ========================================================================
+function scanContracts(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Scan Complete';
+        btn.style.background = '#059669';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#059693';
+        showToast('success', '47 contracts scanned — 3 new renewals detected, 2 auto-renewal clauses flagged');
+    }, 1500);
+}
+
+function exportCalendar(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting…';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Exported';
+        btn.style.background = '#059669';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#059693';
+        showToast('success', 'Renewal calendar exported — 12 events added to saasiq-renewals.ics');
+    }, 1000);
+}
+
+// ========================================================================
+//  BENCHMARKS — EXPORT PDF
+// ========================================================================
+function exportBenchmarkPDF(btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Downloaded';
+        btn.style.background = '#059669';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#059693';
+        showToast('success', 'CFO benchmark report generated — saasiq-benchmark-report-Q1-2026.pdf');
+    }, 1200);
+}
+
+// ========= SCROLL REVEAL ANIMATIONS =========
+(function() {
+    var style = document.createElement('style');
+    style.textContent = [
+        '.reveal-hidden { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }',
+        '.reveal-visible { opacity: 1; transform: translateY(0); }'
+    ].join('\n');
+    document.head.appendChild(style);
+
+    function initReveal() {
+        var selectors = '.problem-card, .need-card, .feature-card, .pricing-card, .section-header, .hero-image, .trusted-by';
+        var els = document.querySelectorAll(selectors);
+        if (!els.length) return;
+        els.forEach(function(el) { el.classList.add('reveal-hidden'); });
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var delay = Array.prototype.indexOf.call(entry.target.parentElement.children, entry.target) * 60;
+                    delay = Math.min(delay, 400);
+                    setTimeout(function() {
+                        entry.target.classList.add('reveal-visible');
+                    }, delay);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        els.forEach(function(el) { observer.observe(el); });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initReveal);
+    } else {
+        initReveal();
+    }
+})();
