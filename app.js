@@ -3471,7 +3471,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Ensure page-dashboard is visible if hash is #dashboard
   var hash = window.location.hash.replace('#', '');
-  if (hash === 'dashboard' || hash === '') {
+  if (hash === 'dashboard') {
     var pageDash = document.getElementById('page-dashboard');
     if (pageDash && !pageDash.classList.contains('active')) {
       document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
