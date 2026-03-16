@@ -1,5 +1,5 @@
 /* ========================================
-   SaaSIQ — Design System & Full Styles
+   SaaSIQ - Design System & Full Styles
    ======================================== */
 
 /* Skip-to-content accessibility link */
@@ -124,7 +124,7 @@ button:focus-visible, .btn:focus-visible, .nav-item:focus-visible {
 }
 .btn-icon:hover { background: var(--gray-100); color: var(--gray-800); }
 
-/* ========= LANDING PAGE — PREMIUM REDESIGN ========= */
+/* ========= LANDING PAGE - PREMIUM REDESIGN ========= */
 
 /* --- Keyframe Animations --- */
 @keyframes float-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
@@ -2503,7 +2503,7 @@ body.theme-dark .onboard-topbar .nav-pill-ghost:hover { color: #fff; }
     cursor: pointer; font-size: 14px; color: #E2E8F0; width: 100%;
 }
 .toggle-label span { display: flex; align-items: center; }
-/* toggle-switch uses label>input+span.toggle-slider pattern — see line ~1278 */
+/* toggle-switch uses label>input+span.toggle-slider pattern - see line ~1278 */
 
 /* ========= RESCAN PROGRESS ========= */
 .rescan-progress-ring { position: relative; width: 100px; height: 100px; }
@@ -4635,7 +4635,7 @@ body.theme-dark .help-ping-ring { border-color: var(--primary-light); }
     .help-widget-trigger { width: 50px; height: 50px; font-size: 20px; }
 }
 
-/* ===== ACCESSIBILITY — REDUCED MOTION ===== */
+/* ===== ACCESSIBILITY - REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -4695,7 +4695,7 @@ body.theme-dark ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
 /* ===== MAX-WIDTH FOR ULTRA-WIDE SCREENS ===== */
 .dash-section { max-width: 1600px; }
 
-/* ===== DARK MODE — EMPLOYEE LIFECYCLE SECTIONS ===== */
+/* ===== DARK MODE - EMPLOYEE LIFECYCLE SECTIONS ===== */
 body.theme-dark #sec-hardware-assets,
 body.theme-dark #sec-training-compliance,
 body.theme-dark #sec-lifecycle-analytics,
@@ -4743,7 +4743,7 @@ body.theme-dark #sec-lifecycle-analytics div[style*="background:var(--gray-50)"]
     background: #1E2235 !important;
     border-color: #2D3148 !important;
 }
-/* Dark mode — lifecycle modal */
+/* Dark mode - lifecycle modal */
 body.theme-dark #lifecycle-modal > div { background: #1A1D2E !important; }
 body.theme-dark #lifecycle-modal h2 { color: #E5E7EB !important; }
 body.theme-dark #lifecycle-modal label { color: #D1D5DB !important; }
@@ -4758,7 +4758,7 @@ body.theme-dark #lifecycle-modal #lifecycle-modal-footer {
     background: #141726 !important;
     border-color: #2D3148 !important;
 }
-/* Dark mode — template editor modal */
+/* Dark mode - template editor modal */
 body.theme-dark #template-editor-modal > div { background: #1A1D2E !important; }
 body.theme-dark #template-editor-modal h2 { color: #E5E7EB !important; }
 body.theme-dark #template-editor-modal input[type="text"] {
@@ -4768,7 +4768,7 @@ body.theme-dark #template-preview-modal > div { background: #1A1D2E !important; 
 body.theme-dark #template-preview-modal h2,
 body.theme-dark #template-preview-modal h4 { color: #E5E7EB !important; }
 
-/* ===== RESPONSIVE — LIFECYCLE SECTIONS ===== */
+/* ===== RESPONSIVE - LIFECYCLE SECTIONS ===== */
 @media (max-width: 900px) {
     #sec-hardware-assets div[style*="grid-template-columns:repeat(4"],
     #sec-training-compliance div[style*="grid-template-columns:repeat(4"],
@@ -4892,6 +4892,6 @@ body.theme-dark #template-preview-modal h4 { color: #E5E7EB !important; }
     }
 }
 
-/* ===== CONTRAST FIX — ENSURE READABLE TEXT ===== */
+/* ===== CONTRAST FIX - ENSURE READABLE TEXT ===== */
 .trust-logos span { color: var(--gray-500); }
 body.theme-dark .trust-logos span { color: var(--gray-400); }

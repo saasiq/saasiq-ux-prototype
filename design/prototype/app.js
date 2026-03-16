@@ -1,5 +1,5 @@
 /* ========================================
-   SaaSIQ — Interactive Prototype JS
+   SaaSIQ - Interactive Prototype JS
    ======================================== */
 
 /* ========= FEATURE FLAGS ========= */
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Auth state — tracks whether user has "logged in" via the login/signup form
+// Auth state - tracks whether user has "logged in" via the login/signup form
 var _saasiqAuthenticated = false;
 
 // Page Navigation
@@ -120,7 +120,7 @@ function navigateToSection(el) {
         return;
     }
 
-    // Authenticated — navigate to dashboard section
+    // Authenticated - navigate to dashboard section
     showPage('page-dashboard');
     showDashSectionDirect(sectionId);
 }
@@ -225,7 +225,7 @@ function openContactSales() {
     );
 }
 
-// Hash-based routing — allows direct URL access like #dashboard, #landing, #login
+// Hash-based routing - allows direct URL access like #dashboard, #landing, #login
 function handleHash() {
     const hash = window.location.hash.replace('#', '');
     if (hash) {
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', handleHash);
 
 // Dashboard Section Navigation
 function showDashSection(sectionId, event) {
-    // Feature flag guard — prevent accessing disabled sections
+    // Feature flag guard - prevent accessing disabled sections
     var flaggedSections = {
         'employee-onboarding': 'employee-lifecycle',
         'hardware-assets': 'employee-lifecycle',
@@ -295,7 +295,7 @@ function showDashSection(sectionId, event) {
         'org-explorer': 'Org Explorer', 'partnerships': 'Partnerships',
         'alerts': 'Alerts', 'settings': 'Settings'
     };
-    document.title = (sectionNames[sectionId] || 'Dashboard') + ' — SaaSIQ';
+    document.title = (sectionNames[sectionId] || 'Dashboard') + ' - SaaSIQ';
 }
 
 // Toggle collapsible nav group (accordion)
@@ -512,7 +512,7 @@ function showDashSectionDirect(sectionId) {
 }
 
 /**
- * Snooze an alert — fades it out with a "snoozed" state
+ * Snooze an alert - fades it out with a "snoozed" state
  */
 function snoozeAlert(btn) {
     var alertItem = btn.closest('.alert-item');
@@ -727,7 +727,7 @@ function closeModal(id) {
     }
 }
 
-// Close modals with Escape key — closes topmost only
+// Close modals with Escape key - closes topmost only
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         // Close help widget first if open
@@ -863,7 +863,7 @@ document.addEventListener('click', function(e) {
 const copilotResponses = [
     { q: /spend|cost|budget/i, a: 'Your total monthly SaaS spend is <strong>$704K</strong> across 47 apps. The top 3 cost drivers are Google Workspace ($36K), Microsoft 365 ($28.8K), and Slack ($18.5K). I see <strong>$120K/month in potential savings</strong> from unused licenses.' },
     { q: /shadow|unapproved|unsanctioned/i, a: 'I detected <strong>8 shadow IT applications</strong> being used without approval: CloudApp Pro, DataDog Lite, Notion, ChatGPT Plus, Grammarly, Canva Pro, Miro, and Loom. Total monthly cost: <strong>$4,200</strong>. Shall I create a review policy?' },
-    { q: /renew|contract|expir/i, a: 'You have <strong>4 contracts renewing in the next 30 days</strong>:<br>• Salesforce Enterprise — Mar 12 ($420K/yr, auto-renew ON)<br>• GitHub Enterprise — Mar 28 ($185K/yr)<br>• Zoom Business — Apr 1 ($96K/yr)<br>• Figma Org — Apr 15 ($54K/yr)<br>AI recommends negotiating Salesforce down by 34%.' },
+    { q: /renew|contract|expir/i, a: 'You have <strong>4 contracts renewing in the next 30 days</strong>:<br>• Salesforce Enterprise - Mar 12 ($420K/yr, auto-renew ON)<br>• GitHub Enterprise - Mar 28 ($185K/yr)<br>• Zoom Business - Apr 1 ($96K/yr)<br>• Figma Org - Apr 15 ($54K/yr)<br>AI recommends negotiating Salesforce down by 34%.' },
     { q: /compliance|risk|soc|gdpr/i, a: 'Compliance Score: <strong>A+ (87/100)</strong>. 42 of 47 apps are SOC2 certified. <strong>2 apps need HIPAA review</strong>, and <strong>3 apps are missing DPA agreements</strong>. Shall I generate a compliance action plan?' },
     { q: /user|utilization|unused|license/i, a: 'License utilization across your stack is <strong>67%</strong>. Apps with lowest utilization:<br>• Monday.com: 22% (28 of 128 seats)<br>• Asana Business: 34% (45 of 132 seats)<br>• Figma: 26% (12 of 47 seats)<br>Consolidating could save <strong>$384K/year</strong>.' },
 ];
@@ -1141,7 +1141,7 @@ function confirmAddWebhook() {
 }
 
 // ========================================================
-//  APPEARANCE ENGINE — Theme, Accent Color, Density
+//  APPEARANCE ENGINE - Theme, Accent Color, Density
 // ========================================================
 
 var _appearance = {
@@ -1347,10 +1347,10 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fun
     if (_appearance.theme === 'system') applyThemeToDOM('system');
 });
 
-// ========== OFFBOARDING CONSOLE — INTERACTIVE ACTIONS ==========
+// ========== OFFBOARDING CONSOLE - INTERACTIVE ACTIONS ==========
 
 /**
- * Sync HR Data — simulates HRMS sync with progress
+ * Sync HR Data - simulates HRMS sync with progress
  */
 function syncHRData(btn) {
     if (btn.disabled) return;
@@ -1367,7 +1367,7 @@ function syncHRData(btn) {
     showToast('info', 'Connecting to HRMS system…');
 
     setTimeout(function() {
-        showToast('info', 'Fetching employee records — 248 found');
+        showToast('info', 'Fetching employee records - 248 found');
     }, 1200);
 
     setTimeout(function() {
@@ -1380,7 +1380,7 @@ function syncHRData(btn) {
         btn.style.background = '#ECFDF5';
         btn.style.color = '#059669';
         btn.style.borderColor = '#059669';
-        showToast('success', 'HR Sync complete — 2 new departures detected, 1 updated');
+        showToast('success', 'HR Sync complete - 2 new departures detected, 1 updated');
         // Revert after 3s
         setTimeout(function() {
             btn.innerHTML = origHTML;
@@ -1395,7 +1395,7 @@ function syncHRData(btn) {
 }
 
 /**
- * Offboard Employee — opens a mock wizard modal
+ * Offboard Employee - opens a mock wizard modal
  */
 function openOffboardWizard() {
     // Check if modal already exists
@@ -1425,7 +1425,7 @@ function openOffboardWizard() {
         + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Revocation Scope</label>'
         + '      <div style="display:flex;flex-direction:column;gap:10px">'
         + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="all" checked style="accent-color:#7C3AED"> Revoke all SaaS access immediately</label>'
-        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="selective" style="accent-color:#7C3AED"> Selective — choose apps to revoke</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="selective" style="accent-color:#7C3AED"> Selective - choose apps to revoke</label>'
         + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151"><input type="radio" name="revoke-scope" value="scheduled" style="accent-color:#7C3AED"> Schedule revocation for departure date</label>'
         + '      </div>'
         + '    </div>'
@@ -1451,11 +1451,11 @@ function openOffboardWizard() {
 function executeOffboard() {
     var modal = document.getElementById('offboard-wizard-modal');
     if (modal) modal.remove();
-    showToast('success', 'Offboarding initiated — all SaaS access will be revoked and data transferred.');
+    showToast('success', 'Offboarding initiated - all SaaS access will be revoked and data transferred.');
 }
 
 /**
- * Revoke All Pending — bulk revoke with animated row removal
+ * Revoke All Pending - bulk revoke with animated row removal
  */
 function revokeAllPending(btn) {
     if (btn.disabled) return;
@@ -1606,7 +1606,7 @@ function revokeAllPending(btn) {
 }
 
 /**
- * Revoke single employee row — animates that row + updates count
+ * Revoke single employee row - animates that row + updates count
  */
 function revokeEmployee(btn, name, appCount) {
     if (btn.disabled) return;
@@ -1663,11 +1663,11 @@ function revokeEmployee(btn, name, appCount) {
 
 
 // ========================================================================
-//  EMPLOYEE ONBOARDING ORCHESTRATION — INTERACTIVE ACTIONS
+//  EMPLOYEE ONBOARDING ORCHESTRATION - INTERACTIVE ACTIONS
 // ========================================================================
 
 /**
- * Sync HRIS — simulates BambooHR / Workday sync
+ * Sync HRIS - simulates BambooHR / Workday sync
  */
 function syncOnboardingHR(btn) {
     if (btn.disabled) return;
@@ -1677,7 +1677,7 @@ function syncOnboardingHR(btn) {
     btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Syncing…';
     showToast('info', 'Connecting to BambooHR…');
 
-    setTimeout(function() { showToast('info', 'Fetching new hire records — 248 employees scanned'); }, 1200);
+    setTimeout(function() { showToast('info', 'Fetching new hire records - 248 employees scanned'); }, 1200);
     setTimeout(function() { showToast('info', 'Cross-referencing with existing SaaS accounts…'); }, 2400);
     setTimeout(function() {
         btn.innerHTML = '<i class="fas fa-check-circle"></i> Synced ✓';
@@ -1685,7 +1685,7 @@ function syncOnboardingHR(btn) {
         btn.style.background = '#ECFDF5';
         btn.style.color = '#059669';
         btn.style.borderColor = '#059669';
-        showToast('success', 'HRIS sync complete — 1 new hire detected for next week, workflows auto-assigned');
+        showToast('success', 'HRIS sync complete - 1 new hire detected for next week, workflows auto-assigned');
         setTimeout(function() {
             btn.innerHTML = origHTML;
             btn.disabled = false;
@@ -1758,7 +1758,7 @@ function openOnboardWizard() {
         + '      <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Workflow Template</label>'
         + '      <div style="display:flex;flex-direction:column;gap:10px">'
         + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;transition:all 0.2s" onmouseover="this.style.borderColor=\'#10B981\'" onmouseout="this.style.borderColor=\'#E5E7EB\'"><input type="radio" name="onb-template" value="auto" checked style="accent-color:#10B981"> <i class="fas fa-bolt" style="color:#10B981"></i> Auto-assign based on department (recommended)</label>'
-        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;transition:all 0.2s" onmouseover="this.style.borderColor=\'#10B981\'" onmouseout="this.style.borderColor=\'#E5E7EB\'"><input type="radio" name="onb-template" value="custom" style="accent-color:#10B981"> <i class="fas fa-sliders-h" style="color:#7C3AED"></i> Custom — select apps & hardware manually</label>'
+        + '        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#374151;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;transition:all 0.2s" onmouseover="this.style.borderColor=\'#10B981\'" onmouseout="this.style.borderColor=\'#E5E7EB\'"><input type="radio" name="onb-template" value="custom" style="accent-color:#10B981"> <i class="fas fa-sliders-h" style="color:#7C3AED"></i> Custom - select apps & hardware manually</label>'
         + '      </div>'
         + '    </div>'
         + '    <div style="margin-top:16px">'
@@ -1797,7 +1797,7 @@ function startOnboarding(btn, name) {
         btn.innerHTML = '<i class="fas fa-check"></i> Started';
         btn.style.background = '#059669';
         btn.style.opacity = '1';
-        showToast('success', 'Onboarding started for ' + name + ' — provisioning 12 apps and assigning hardware');
+        showToast('success', 'Onboarding started for ' + name + ' - provisioning 12 apps and assigning hardware');
 
         // Update status badge in the row
         var row = btn.closest('.onb-pipeline-row');
@@ -1837,7 +1837,7 @@ function showOnboardDetail(name) {
         + '<div style="background:#fff;border-radius:16px;width:95%;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden;max-height:85vh;overflow-y:auto">'
         + '  <div style="padding:24px 28px;border-bottom:1px solid #E5E7EB">'
         + '    <div style="display:flex;justify-content:space-between;align-items:center">'
-        + '      <h2 style="font-size:18px;font-weight:800;color:#111827;margin:0">Onboarding Details — ' + name + '</h2>'
+        + '      <h2 style="font-size:18px;font-weight:800;color:#111827;margin:0">Onboarding Details - ' + name + '</h2>'
         + '      <button onclick="document.getElementById(\'onboard-detail-modal\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6B7280;padding:4px"><i class="fas fa-times"></i></button>'
         + '    </div>'
         + '  </div>'
@@ -1875,7 +1875,7 @@ function showOnboardDetail(name) {
  * Filter onboarding pipeline by status
  */
 function filterOnboardPipeline(status, chip) {
-    // Update active chip — scoped to the pipeline header only
+    // Update active chip - scoped to the pipeline header only
     var parent = chip ? chip.parentElement : null;
     if (parent) parent.querySelectorAll('.onb-filter-chip').forEach(function(c) { c.classList.remove('active'); });
     if (chip) chip.classList.add('active');
@@ -2039,7 +2039,7 @@ function saveTemplateEdit(templateName) {
     setTimeout(function() {
         var modal = document.getElementById('template-editor-modal');
         if (modal) modal.remove();
-        showToast('success', 'Template "' + newName + '" updated — ' + selectedApps + ' apps, ' + selectedHW + ' hardware, ' + selectedTrain + ' trainings');
+        showToast('success', 'Template "' + newName + '" updated - ' + selectedApps + ' apps, ' + selectedHW + ' hardware, ' + selectedTrain + ' trainings');
     }, 1200);
 }
 
@@ -2051,7 +2051,7 @@ function openHardwareRequest() {
         + '<div style="margin-bottom:18px">'
         + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Employee</label>'
         + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;color:#111827;background:#fff">'
-        + '    <option>Rahul Sharma — Engineering</option><option>Meera Krishnan — Sales</option><option>Ananya Patel — Design</option><option>Deepak Gupta — Engineering</option>'
+        + '    <option>Rahul Sharma - Engineering</option><option>Meera Krishnan - Sales</option><option>Ananya Patel - Design</option><option>Deepak Gupta - Engineering</option>'
         + '  </select>'
         + '</div>'
         + '<div style="margin-bottom:18px">'
@@ -2065,7 +2065,7 @@ function openHardwareRequest() {
         + '<div style="margin-bottom:18px">'
         + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Model / Specification</label>'
         + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;color:#111827;background:#fff">'
-        + '    <option>MacBook Pro 16" M4 Max — 36GB (Standard for Engineering)</option><option>MacBook Air 15" M4 — 16GB (Standard for Sales)</option><option>MacBook Pro 16" M4 Pro — 24GB (Standard for Design)</option><option>Custom — specify below</option>'
+        + '    <option>MacBook Pro 16" M4 Max - 36GB (Standard for Engineering)</option><option>MacBook Air 15" M4 - 16GB (Standard for Sales)</option><option>MacBook Pro 16" M4 Pro - 24GB (Standard for Design)</option><option>Custom - specify below</option>'
         + '  </select>'
         + '</div>'
         + '<div style="margin-bottom:18px">'
@@ -2075,7 +2075,7 @@ function openHardwareRequest() {
         + '<div style="padding:12px 16px;background:rgba(59,130,246,0.04);border:1px solid rgba(59,130,246,0.12);border-radius:10px;font-size:12px;color:#3B82F6">'
         + '  <i class="fas fa-info-circle"></i> Approval chain: <strong>Manager</strong> → <strong>IT Admin</strong> → <strong>Security</strong>. Estimated delivery: 3-5 business days.'
         + '</div>',
-        function() { showToast('success', 'Hardware request submitted — sent to manager for approval'); });
+        function() { showToast('success', 'Hardware request submitted - sent to manager for approval'); });
 }
 
 function syncMDM() {
@@ -2088,7 +2088,7 @@ function syncMDM() {
         btn.style.background = '#10B981';
         btn.style.color = '#fff';
         btn.style.borderColor = '#10B981';
-        showToast('success', 'MDM sync complete — 142 devices synced from Jamf Pro & Intune. 2 new devices enrolled.');
+        showToast('success', 'MDM sync complete - 142 devices synced from Jamf Pro & Intune. 2 new devices enrolled.');
         setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 3000);
     }, 1800);
 }
@@ -2100,7 +2100,7 @@ function generateReturnLabels() {
     btn.disabled = true;
     setTimeout(function() {
         btn.innerHTML = '<i class="fas fa-check"></i> Labels Ready';
-        showToast('success', '5 prepaid return labels generated via FedEx — emails sent to offboarded employees');
+        showToast('success', '5 prepaid return labels generated via FedEx - emails sent to offboarded employees');
         setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 3000);
     }, 1500);
 }
@@ -2170,7 +2170,7 @@ function addTrainingModule() {
         + '<div style="margin-bottom:18px">'
         + '  <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" checked> <span style="font-weight:600;color:#374151">Required for compliance</span> <span style="color:#6B7280">(blocks onboarding completion if not done)</span></label>'
         + '</div>',
-        function() { showToast('success', 'Training module added — will be auto-assigned to new hires in selected departments'); });
+        function() { showToast('success', 'Training module added - will be auto-assigned to new hires in selected departments'); });
 }
 
 function remindUnsigned() {
@@ -2180,7 +2180,7 @@ function remindUnsigned() {
     btn.disabled = true;
     setTimeout(function() {
         btn.innerHTML = '<i class="fas fa-check"></i> Reminder Sent';
-        showToast('success', 'DocuSign reminders sent for 2 unsigned documents (Meera — IP Agreement, Ananya — NDA)');
+        showToast('success', 'DocuSign reminders sent for 2 unsigned documents (Meera - IP Agreement, Ananya - NDA)');
         setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; }, 3000);
     }, 1000);
 }
@@ -2198,7 +2198,7 @@ function exportComplianceReport() {
         btn.style.background = '#10B981';
         btn.style.color = '#fff';
         btn.style.borderColor = '#10B981';
-        showToast('success', 'SOC2/ISO 27001 compliance report exported — includes all onboarding evidence, access logs, and audit trail');
+        showToast('success', 'SOC2/ISO 27001 compliance report exported - includes all onboarding evidence, access logs, and audit trail');
         setTimeout(function() { btn.innerHTML = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }, 3000);
     }, 2000);
 }
@@ -2214,7 +2214,7 @@ function revokeAnomalyAccess(btn, name) {
             parentDiv.style.borderColor = 'rgba(16,185,129,0.2)';
             parentDiv.style.background = 'rgba(16,185,129,0.03)';
         }
-        showToast('success', 'Emergency revocation complete for ' + name + ' — GitHub & AWS access removed, audit logged');
+        showToast('success', 'Emergency revocation complete for ' + name + ' - GitHub & AWS access removed, audit logged');
     }, 1200);
 }
 
@@ -2227,7 +2227,7 @@ function investigateAnomaly(btn, name) {
         + '    <div><strong>Pattern:</strong> Large file downloads from Figma & Google Drive at 2:00–3:30 AM IST</div>'
         + '    <div><strong>Duration:</strong> Last 3 consecutive days</div>'
         + '    <div><strong>Data volume:</strong> ~4.2 GB total across 847 files</div>'
-        + '    <div><strong>Risk level:</strong> <span style="color:#EF4444;font-weight:700">HIGH — potential data exfiltration</span></div>'
+        + '    <div><strong>Risk level:</strong> <span style="color:#EF4444;font-weight:700">HIGH - potential data exfiltration</span></div>'
         + '  </div>'
         + '</div>'
         + '<div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Recommended Actions:</div>'
@@ -2237,7 +2237,7 @@ function investigateAnomaly(btn, name) {
         + '  <label style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F9FAFB;border-radius:8px;cursor:pointer;font-size:13px"><input type="checkbox"> Notify manager (Ritu Menon)</label>'
         + '  <label style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F9FAFB;border-radius:8px;cursor:pointer;font-size:13px"><input type="checkbox"> Escalate to Security team</label>'
         + '</div>',
-        function() { showToast('success', 'Investigation actions applied for ' + name + ' — access restricted, security team notified'); });
+        function() { showToast('success', 'Investigation actions applied for ' + name + ' - access restricted, security team notified'); });
 }
 
 function flagDeviation(btn) {
@@ -2247,7 +2247,7 @@ function flagDeviation(btn) {
     btn.style.color = '#fff';
     btn.disabled = true;
     if (parentDiv) parentDiv.style.borderColor = 'rgba(124,58,237,0.25)';
-    showToast('info', 'Provisioning deviation flagged — template review task created for IT admin');
+    showToast('info', 'Provisioning deviation flagged - template review task created for IT admin');
 }
 
 function applyLicenseOptimization(btn, appName, savings) {
@@ -2258,7 +2258,7 @@ function applyLicenseOptimization(btn, appName, savings) {
         btn.style.background = '#059669';
         var row = btn.closest('tr');
         if (row) row.style.background = 'rgba(16,185,129,0.04)';
-        showToast('success', appName + ' optimization applied — ' + savings + ' saved per year');
+        showToast('success', appName + ' optimization applied - ' + savings + ' saved per year');
     }, 1000);
 }
 
@@ -2273,7 +2273,7 @@ function applyAllOptimizations(btn) {
             var applyBtn = row.querySelector('button');
             if (applyBtn && !applyBtn.disabled) { applyBtn.innerHTML = '<i class="fas fa-check"></i> Applied'; applyBtn.disabled = true; applyBtn.style.background = '#059669'; }
         });
-        showToast('success', 'All 3 license optimizations applied — $13.2K/yr total savings! Changes take effect at next billing cycle.');
+        showToast('success', 'All 3 license optimizations applied - $13.2K/yr total savings! Changes take effect at next billing cycle.');
     }, 2000);
 }
 
@@ -2307,7 +2307,7 @@ function addContractor() {
         + '<div style="padding:12px 16px;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.12);border-radius:10px;font-size:12px;color:#DB2777">'
         + '  <i class="fas fa-shield-alt"></i> Access will <strong>auto-expire</strong> on contract end date. No manual offboarding needed.'
         + '</div>',
-        function() { showToast('success', 'Contractor onboarded — time-bound access provisioned with auto-expiry'); });
+        function() { showToast('success', 'Contractor onboarded - time-bound access provisioned with auto-expiry'); });
 }
 
 function extendContract(btn, name) {
@@ -2323,7 +2323,7 @@ function extendContract(btn, name) {
         + '<div style="padding:12px 16px;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.12);border-radius:10px;font-size:12px;color:#DB2777">'
         + '  <i class="fas fa-info-circle"></i> Extension requires manager approval. Auto-deprovision date will update automatically.'
         + '</div>',
-        function() { showToast('success', 'Contract extension request submitted for ' + name + ' — awaiting manager approval'); });
+        function() { showToast('success', 'Contract extension request submitted for ' + name + ' - awaiting manager approval'); });
 }
 
 // ========================================================================
@@ -2336,7 +2336,7 @@ function approveRequest(btn, name, item) {
     btn.disabled = true;
     setTimeout(function() {
         buttons.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#10B981"><i class="fas fa-check-circle"></i> Approved</span>';
-        showToast('success', 'Approved ' + item + ' for ' + name + ' — forwarded to next approver in chain');
+        showToast('success', 'Approved ' + item + ' for ' + name + ' - forwarded to next approver in chain');
     }, 800);
 }
 
@@ -2355,7 +2355,7 @@ function rejectRequest(btn, name, item) {
             var rowDiv = btn.closest('div[style*="display:flex"]');
             var buttons = rowDiv || btn.closest('div');
             buttons.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#EF4444"><i class="fas fa-times-circle"></i> Rejected</span>';
-            showToast('info', 'Rejected ' + item + ' for ' + name + ' — employee notified with reason');
+            showToast('info', 'Rejected ' + item + ' for ' + name + ' - employee notified with reason');
             _closeLifecycleModal();
         }, 'Reject Request', '#EF4444');
 }
@@ -2391,7 +2391,7 @@ function editApprovalChains() {
         + '    <div style="font-size:12px;color:#6B7280">Full audit log required · <label style="cursor:pointer"><input type="checkbox" checked> Require justification</label></div>'
         + '  </div>'
         + '</div>',
-        function() { showToast('success', 'Approval chains updated — changes effective immediately'); });
+        function() { showToast('success', 'Approval chains updated - changes effective immediately'); });
 }
 
 // ========================================================================
@@ -2403,7 +2403,7 @@ function addAIRecommendation(btn, recommendation) {
     setTimeout(function() {
         btn.innerHTML = '<i class="fas fa-check"></i> Added';
         btn.style.background = '#059669';
-        showToast('success', recommendation + ' — template updated');
+        showToast('success', recommendation + ' - template updated');
     }, 800);
 }
 
@@ -2473,7 +2473,7 @@ function reportIssue(issueType) {
     _openLifecycleModal(t.title, t.color, t.icon, ''
         + '<div style="margin-bottom:16px">'
         + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Employee</label>'
-        + '  <input type="text" value="Meera Krishnan — Sales" readonly style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#6B7280;background:#F9FAFB;box-sizing:border-box">'
+        + '  <input type="text" value="Meera Krishnan - Sales" readonly style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#6B7280;background:#F9FAFB;box-sizing:border-box">'
         + '</div>'
         + (issueType === 'access' || issueType === 'permissions' ? ''
         + '<div style="margin-bottom:16px">'
@@ -2495,7 +2495,7 @@ function reportIssue(issueType) {
         + '  </div>'
         + '</div>',
     function() {
-        showToast('success', 'Issue reported — IT ticket #IT-' + (1042 + Math.floor(Math.random()*100)) + ' created, assigned to IT Helpdesk');
+        showToast('success', 'Issue reported - IT ticket #IT-' + (1042 + Math.floor(Math.random()*100)) + ' created, assigned to IT Helpdesk');
     }, '<i class="fas fa-paper-plane"></i> Submit Issue', t.color);
 }
 
@@ -2503,23 +2503,23 @@ function openWebhookDetail(type) {
     var configs = {
         incoming: { title: 'Incoming Webhooks', icon: 'fa-arrow-right', color: '#10B981',
             items: [
-                { name: 'BambooHR — New Hire', url: '/webhooks/bamboo-newhire', status: 'Active', events: '142 received' },
-                { name: 'Workday — Termination', url: '/webhooks/workday-term', status: 'Active', events: '38 received' },
-                { name: 'Slack — User Created', url: '/webhooks/slack-user', status: 'Active', events: '89 received' }
+                { name: 'BambooHR - New Hire', url: '/webhooks/bamboo-newhire', status: 'Active', events: '142 received' },
+                { name: 'Workday - Termination', url: '/webhooks/workday-term', status: 'Active', events: '38 received' },
+                { name: 'Slack - User Created', url: '/webhooks/slack-user', status: 'Active', events: '89 received' }
             ]},
         outgoing: { title: 'Outgoing Webhooks', icon: 'fa-arrow-left', color: '#3B82F6',
             items: [
                 { name: 'Slack #it-onboarding', url: 'https://hooks.slack.com/...', status: 'Active', events: 'On new hire' },
-                { name: 'PagerDuty — Security Alert', url: 'https://events.pagerduty.com/...', status: 'Active', events: 'On access anomaly' },
-                { name: 'Jira — Create Ticket', url: 'https://techcorp.atlassian.net/...', status: 'Active', events: 'On issue report' },
-                { name: 'Email — Manager Notify', url: 'SMTP relay', status: 'Active', events: 'On approval needed' },
-                { name: 'Teams — IT Channel', url: 'https://outlook.office.com/...', status: 'Paused', events: 'On hardware request' }
+                { name: 'PagerDuty - Security Alert', url: 'https://events.pagerduty.com/...', status: 'Active', events: 'On access anomaly' },
+                { name: 'Jira - Create Ticket', url: 'https://techcorp.atlassian.net/...', status: 'Active', events: 'On issue report' },
+                { name: 'Email - Manager Notify', url: 'SMTP relay', status: 'Active', events: 'On approval needed' },
+                { name: 'Teams - IT Channel', url: 'https://outlook.office.com/...', status: 'Paused', events: 'On hardware request' }
             ]},
         api: { title: 'Public REST API', icon: 'fa-key', color: '#F59E0B',
             items: [
-                { name: 'API Key — Production', url: 'sk-prod-****-7f3a', status: 'Active', events: '2,340 calls/day' },
-                { name: 'API Key — Staging', url: 'sk-stg-****-b1c2', status: 'Active', events: '156 calls/day' },
-                { name: 'OAuth Client — CI/CD', url: 'client_id: saasiq-cicd', status: 'Active', events: '12 automations' }
+                { name: 'API Key - Production', url: 'sk-prod-****-7f3a', status: 'Active', events: '2,340 calls/day' },
+                { name: 'API Key - Staging', url: 'sk-stg-****-b1c2', status: 'Active', events: '156 calls/day' },
+                { name: 'OAuth Client - CI/CD', url: 'client_id: saasiq-cicd', status: 'Active', events: '12 automations' }
             ]},
         connectors: { title: 'Custom Connectors', icon: 'fa-puzzle-piece', color: '#EC4899',
             items: [
@@ -2582,16 +2582,16 @@ function addAutoAssignmentRule() {
         + '<div>'
         + '  <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">MDM Profile</label>'
         + '  <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;color:#374151;background:#fff;box-sizing:border-box">'
-        + '    <option>Jamf — Engineering</option><option>Jamf — Sales</option><option>Jamf — Design</option><option>Intune — Corporate</option><option>Custom…</option>'
+        + '    <option>Jamf - Engineering</option><option>Jamf - Sales</option><option>Jamf - Design</option><option>Intune - Corporate</option><option>Custom…</option>'
         + '  </select>'
         + '</div>',
     function() {
-        showToast('success', 'Auto-assignment rule created — new hires in this department will get hardware auto-provisioned');
+        showToast('success', 'Auto-assignment rule created - new hires in this department will get hardware auto-provisioned');
     }, '<i class="fas fa-plus"></i> Create Rule', '#3B82F6');
 }
 
 // ========================================================================
-//  ONBOARDING — Template & Config Actions
+//  ONBOARDING - Template & Config Actions
 // ========================================================================
 function addNewTemplate() {
     _openLifecycleModal('Create Workflow Template', '#7C3AED', 'fa-project-diagram', ''
@@ -2622,7 +2622,7 @@ function addNewTemplate() {
         + '  <div><label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Hardware Kit</label>'
         + '    <select style="width:100%;padding:10px 14px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:14px;background:#fff"><option>MacBook Air + Standard</option><option>MacBook Pro + Extended</option><option>No hardware</option></select></div>'
         + '</div>',
-        function() { showToast('success', 'Workflow template created — available for assignment to new hires'); });
+        function() { showToast('success', 'Workflow template created - available for assignment to new hires'); });
 }
 
 function configureOnboarding() {
@@ -2653,7 +2653,7 @@ function configureOnboarding() {
         + '    <label class="setting-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>'
         + '  </div>'
         + '</div>',
-        function() { showToast('success', 'Onboarding configuration saved — changes take effect for next onboard'); });
+        function() { showToast('success', 'Onboarding configuration saved - changes take effect for next onboard'); });
 }
 
 // ========================================================================
@@ -2695,7 +2695,7 @@ function _closeLifecycleModal() {
 
 
 // ========================================================================
-//  INTEGRATION MANAGEMENT — Connect / Configure / Disconnect
+//  INTEGRATION MANAGEMENT - Connect / Configure / Disconnect
 // ========================================================================
 
 var _intgContext = SaaSIQ.state.intgContext = { card: null, name: '', icon: '', iconBg: '', users: '', lastSync: '' };
@@ -2899,7 +2899,7 @@ function openIntegrationConfigure(btn) {
 
     document.getElementById('config-intg-name').textContent = _intgContext.name;
     document.getElementById('config-intg-title').textContent = _intgContext.name;
-    document.getElementById('config-last-sync').textContent = _intgContext.lastSync || 'Last sync: —';
+    document.getElementById('config-last-sync').textContent = _intgContext.lastSync || 'Last sync: -';
 
     var iconWrap = document.getElementById('config-intg-icon-wrap');
     iconWrap.innerHTML = '<i class="' + _intgContext.icon + '"></i>';
@@ -2921,7 +2921,7 @@ function triggerManualSync() {
     if (syncEl) syncEl.textContent = 'Syncing...';
     setTimeout(function() {
         if (syncEl) syncEl.textContent = 'Last sync: Just now';
-        showToast('success', _intgContext.name + ' sync complete — all data up to date.');
+        showToast('success', _intgContext.name + ' sync complete - all data up to date.');
         // Also update the card in the main grid
         if (_intgContext.card) {
             var metaSpans = _intgContext.card.querySelectorAll('.intg-meta span');
@@ -2962,7 +2962,7 @@ function executeIntegrationDisconnect() {
 
 
 // ========================================================================
-//  DISCOVERED APPS — Mark Managed / Flag Shadow IT / Filter
+//  DISCOVERED APPS - Mark Managed / Flag Shadow IT / Filter
 // ========================================================================
 
 function markAsManaged(btn) {
@@ -3119,15 +3119,15 @@ const partnerData = {
             { date: 'Jan 20, 2026', service: 'Mobile App Wireframes', hours: '24 hrs', value: '$7.2K', status: 'Delivered' }
         ],
         ai: {
-            headline: 'Downsize to 40 seats — save $7.2K/year',
+            headline: 'Downsize to 40 seats - save $7.2K/year',
             confidence: 'Confidence: 92% · Based on 55 days of usage data',
             currentSeats: '50 seats', currentHours: '120 design hrs',
             recSeats: '40 seats', recHours: '96 design hrs',
             savings: '$7.2K/yr',
             insights: [
-                { icon: 'fa-chart-line', color: 'var(--blue)', text: '12 seats have had zero logins in 45+ days — consistent non-usage pattern' },
+                { icon: 'fa-chart-line', color: 'var(--blue)', text: '12 seats have had zero logins in 45+ days - consistent non-usage pattern' },
                 { icon: 'fa-users', color: 'var(--orange)', text: '76% utilization is below the 85% efficiency threshold for barter deals' },
-                { icon: 'fa-clock', color: 'var(--primary)', text: 'Renewal in 310 days — renegotiate early for 10% better terms' },
+                { icon: 'fa-clock', color: 'var(--primary)', text: 'Renewal in 310 days - renegotiate early for 10% better terms' },
                 { icon: 'fa-dollar-sign', color: 'var(--green)', text: 'Downsizing saves 24 design hours ($7.2K) with zero productivity impact' }
             ],
             actions: [
@@ -3156,19 +3156,19 @@ const partnerData = {
             { date: 'Dec 10, 2025', service: 'Infrastructure Audit', hours: '20 hrs', value: '$5.4K', status: 'Delivered' }
         ],
         ai: {
-            headline: 'Renegotiate to 50 seats — save $27K/year',
+            headline: 'Renegotiate to 50 seats - save $27K/year',
             confidence: 'Confidence: 96% · Based on 100 days of usage data',
             currentSeats: '75 seats', currentHours: '200 consulting hrs',
             recSeats: '50 seats', recHours: '134 consulting hrs',
             savings: '$27K/yr',
             insights: [
-                { icon: 'fa-exclamation-circle', color: 'var(--red)', text: '33 of 75 seats (44%) have zero logins in 60 days — critical waste' },
-                { icon: 'fa-dollar-sign', color: 'var(--red)', text: 'You\'re committing $54K in consulting for licenses worth $66K — tight margin' },
+                { icon: 'fa-exclamation-circle', color: 'var(--red)', text: '33 of 75 seats (44%) have zero logins in 60 days - critical waste' },
+                { icon: 'fa-dollar-sign', color: 'var(--red)', text: 'You\'re committing $54K in consulting for licenses worth $66K - tight margin' },
                 { icon: 'fa-building', color: 'var(--blue)', text: 'Industry benchmark: similar companies use 55-65 seats for this team size' },
-                { icon: 'fa-lightbulb', color: 'var(--green)', text: 'Downsizing saves 66 consulting hours ($27K) — reinvest in high-impact projects' }
+                { icon: 'fa-lightbulb', color: 'var(--green)', text: 'Downsizing saves 66 consulting hours ($27K) - reinvest in high-impact projects' }
             ],
             actions: [
-                { num: 1, text: 'Audit 33 inactive users — remove or reassign licenses immediately' },
+                { num: 1, text: 'Audit 33 inactive users - remove or reassign licenses immediately' },
                 { num: 2, text: 'Renegotiate deal from 75 → 50 seats with Atlassian' },
                 { num: 3, text: 'Reduce service commitment proportionally from 200 → 134 hours' },
                 { num: 4, text: 'Implement monthly seat utilization monitoring to prevent future waste' }
@@ -3194,16 +3194,16 @@ const partnerData = {
             { date: 'Mar 3, 2026', service: 'SEO Optimization Sprint', hours: '24 hrs', value: '$2.7K', status: 'In Progress' }
         ],
         ai: {
-            headline: 'Healthy deal — recommend renewing at current terms',
+            headline: 'Healthy deal - recommend renewing at current terms',
             confidence: 'Confidence: 98% · Based on 38 days of usage data',
             currentSeats: '20 seats', currentHours: '160 content hrs',
             recSeats: '20 seats', recHours: '160 content hrs',
             savings: '$0 (already optimized)',
             insights: [
-                { icon: 'fa-check-circle', color: 'var(--green)', text: '90% utilization — well above the 85% efficiency threshold' },
+                { icon: 'fa-check-circle', color: 'var(--green)', text: '90% utilization - well above the 85% efficiency threshold' },
                 { icon: 'fa-thumbs-up', color: 'var(--green)', text: 'Positive ROI: $24K software value received for $18K in services' },
-                { icon: 'fa-chart-line', color: 'var(--blue)', text: 'Usage trending upward — 2 remaining seats likely to be filled within 60 days' },
-                { icon: 'fa-star', color: 'var(--orange)', text: 'This is your most cost-effective partnership — model for future deals' }
+                { icon: 'fa-chart-line', color: 'var(--blue)', text: 'Usage trending upward - 2 remaining seats likely to be filled within 60 days' },
+                { icon: 'fa-star', color: 'var(--orange)', text: 'This is your most cost-effective partnership - model for future deals' }
             ],
             actions: [
                 { num: 1, text: 'Renew at current terms when deal comes up for review' },
@@ -3316,7 +3316,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /* ==========================================================================
-   NESTED DRILL-DOWN ENGINE — Org → Department → Team → Members
+   NESTED DRILL-DOWN ENGINE - Org → Department → Team → Members
    ========================================================================== */
 
 var drillData = {
@@ -3342,7 +3342,7 @@ var drillData = {
                     { name: 'Vikram P.', role: 'Jr. Engineer', apps: 5, logins: 12, status: 'idle', avatar: '#EF4444' },
                     { name: 'Kiran R.', role: 'Intern', apps: 3, logins: 4, status: 'inactive', avatar: '#6366F1' }
                 ],
-                aiInsight: 'Backend team has 91% adoption — highest in Engineering. Vikram P. has used only 5 of 14 apps in 30 days. Consider reassigning 2 AWS seats from inactive interns.'
+                aiInsight: 'Backend team has 91% adoption - highest in Engineering. Vikram P. has used only 5 of 14 apps in 30 days. Consider reassigning 2 AWS seats from inactive interns.'
             },
             {
                 id: 'eng-frontend', name: 'Frontend Team', icon: 'fas fa-laptop-code',
@@ -3369,7 +3369,7 @@ var drillData = {
                     { name: 'Ananya R.', role: 'SRE', apps: 14, logins: 32, status: 'active', avatar: '#3B82F6' },
                     { name: 'Manoj V.', role: 'DevOps Eng.', apps: 12, logins: 28, status: 'active', avatar: '#F97316' }
                 ],
-                aiInsight: 'DevOps has the highest per-user spend ($3.7K/user). 3 monitoring tools overlap (Datadog + New Relic + PagerDuty) — consolidating saves $10.8K/yr.'
+                aiInsight: 'DevOps has the highest per-user spend ($3.7K/user). 3 monitoring tools overlap (Datadog + New Relic + PagerDuty) - consolidating saves $10.8K/yr.'
             },
             {
                 id: 'eng-data', name: 'Data Engineering', icon: 'fas fa-database',
@@ -3383,7 +3383,7 @@ var drillData = {
                     { name: 'Harish B.', role: 'Data Eng.', apps: 6, logins: 14, status: 'idle', avatar: '#6366F1' },
                     { name: 'Pooja N.', role: 'Analyst', apps: 4, logins: 8, status: 'inactive', avatar: '#EF4444' }
                 ],
-                aiInsight: 'Data team has 5 unused Snowflake compute credits. Pooja N. hasn\'t logged into any tool in 21 days — possible offboarding candidate.'
+                aiInsight: 'Data team has 5 unused Snowflake compute credits. Pooja N. hasn\'t logged into any tool in 21 days - possible offboarding candidate.'
             },
             {
                 id: 'eng-qa', name: 'QA & Testing', icon: 'fas fa-vial',
@@ -3409,7 +3409,7 @@ var drillData = {
                     { name: 'Divya P.', role: 'iOS Dev', apps: 7, logins: 24, status: 'active', avatar: '#EC4899' },
                     { name: 'Nikhil M.', role: 'Android Dev', apps: 7, logins: 20, status: 'active', avatar: '#10B981' }
                 ],
-                aiInsight: 'Mobile team is well-optimized. Firebase plan could downgrade from Blaze to Spark — saves $2.1K/yr based on actual usage.'
+                aiInsight: 'Mobile team is well-optimized. Firebase plan could downgrade from Blaze to Spark - saves $2.1K/yr based on actual usage.'
             }
         ]
     },
@@ -3519,7 +3519,7 @@ var drillData = {
                     { name: 'Shalini K.', role: 'PM', apps: 5, logins: 10, status: 'active', avatar: '#F59E0B' },
                     { name: 'Vishal T.', role: 'APM', apps: 3, logins: 4, status: 'inactive', avatar: '#EF4444' }
                 ],
-                aiInsight: 'Product team has lowest adoption (42%). Vishal T. hasn\'t logged in for 18 days. Productboard has 8 unused seats — downgrade plan.'
+                aiInsight: 'Product team has lowest adoption (42%). Vishal T. hasn\'t logged in for 18 days. Productboard has 8 unused seats - downgrade plan.'
             }
         ]
     },
@@ -3541,7 +3541,7 @@ var drillData = {
                     { name: 'Sunita R.', role: 'Finance Lead', apps: 6, logins: 22, status: 'active', avatar: '#10B981' },
                     { name: 'Ramesh K.', role: 'Accountant', apps: 5, logins: 18, status: 'active', avatar: '#3B82F6' }
                 ],
-                aiInsight: 'Accounts team is well-optimized. QuickBooks usage is declining — consider migrating fully to Zoho Books to save $0.9K/yr.'
+                aiInsight: 'Accounts team is well-optimized. QuickBooks usage is declining - consider migrating fully to Zoho Books to save $0.9K/yr.'
             },
             {
                 id: 'fin-fp', name: 'FP&A', icon: 'fas fa-chart-pie',
@@ -3565,7 +3565,7 @@ var drillData = {
                     { name: 'Paresh D.', role: 'Tax Head', apps: 4, logins: 16, status: 'active', avatar: '#F59E0B' },
                     { name: 'Jyoti K.', role: 'Compliance Exec.', apps: 3, logins: 10, status: 'active', avatar: '#A855F7' }
                 ],
-                aiInsight: 'Tax team is lean. Tally usage dropped 60% after ClearTax adoption — consider full migration.'
+                aiInsight: 'Tax team is lean. Tally usage dropped 60% after ClearTax adoption - consider full migration.'
             }
         ]
     },
@@ -3578,7 +3578,7 @@ var drillData = {
         spend: '$55.2K', waste: '$11.4K',
         teams: [
             {
-                id: 'sup-tier1', name: 'Tier 1 — Frontline', icon: 'fas fa-phone',
+                id: 'sup-tier1', name: 'Tier 1 - Frontline', icon: 'fas fa-phone',
                 iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
                 users: 22, apps: 4, adoption: 68, activeUsers: 15, avgLogins: 14.2,
                 spend: '$18.6K', waste: '$4.2K',
@@ -3588,10 +3588,10 @@ var drillData = {
                     { name: 'Raman K.', role: 'Support Agent', apps: 3, logins: 16, status: 'active', avatar: '#10B981' },
                     { name: 'Sonal D.', role: 'Support Agent', apps: 2, logins: 6, status: 'idle', avatar: '#F59E0B' }
                 ],
-                aiInsight: 'Tier 1 uses Zendesk + Intercom + Freshdesk — 3 tools doing the same thing. Consolidating to Zendesk alone saves $4.2K/yr.'
+                aiInsight: 'Tier 1 uses Zendesk + Intercom + Freshdesk - 3 tools doing the same thing. Consolidating to Zendesk alone saves $4.2K/yr.'
             },
             {
-                id: 'sup-tier2', name: 'Tier 2 — Technical', icon: 'fas fa-tools',
+                id: 'sup-tier2', name: 'Tier 2 - Technical', icon: 'fas fa-tools',
                 iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
                 users: 14, apps: 6, adoption: 71, activeUsers: 10, avgLogins: 12.8,
                 spend: '$17.4K', waste: '$3.6K',
@@ -3600,7 +3600,7 @@ var drillData = {
                     { name: 'Manoj T.', role: 'Tech Lead', apps: 6, logins: 18, status: 'active', avatar: '#A855F7' },
                     { name: 'Isha R.', role: 'Tech Support', apps: 5, logins: 14, status: 'active', avatar: '#EF4444' }
                 ],
-                aiInsight: 'Tier 2 team has good utilization. 2 Jira seats unused — can be reclaimed and reassigned to Tier 1.'
+                aiInsight: 'Tier 2 team has good utilization. 2 Jira seats unused - can be reclaimed and reassigned to Tier 1.'
             },
             {
                 id: 'sup-success', name: 'Customer Success', icon: 'fas fa-star',
@@ -3613,7 +3613,7 @@ var drillData = {
                     { name: 'Aditya V.', role: 'CSM', apps: 4, logins: 10, status: 'active', avatar: '#F97316' },
                     { name: 'Megha K.', role: 'CSM', apps: 2, logins: 4, status: 'inactive', avatar: '#EF4444' }
                 ],
-                aiInsight: 'Customer Success has 50% adoption — 8 users barely touch Gainsight. Megha hasn\'t logged in for 30 days. Downgrade Gainsight plan to save $3.6K/yr.'
+                aiInsight: 'Customer Success has 50% adoption - 8 users barely touch Gainsight. Megha hasn\'t logged in for 30 days. Downgrade Gainsight plan to save $3.6K/yr.'
             }
         ]
     },
@@ -3712,7 +3712,7 @@ function renderDeptView(dept, deptId) {
         + '  <div class="drill-kpi"><span class="kpi-val" style="color:' + adoptionColor + '">' + dept.adoption + '%</span><span class="kpi-label">Adoption</span></div>'
         + '  <div class="drill-kpi"><span class="kpi-val">' + dept.activeUsers + '/' + dept.users + '</span><span class="kpi-label">Active Users</span></div>'
         + '  <div class="drill-kpi"><span class="kpi-val">' + dept.avgLogins + '</span><span class="kpi-label">Avg Logins/Wk</span></div>'
-        + '  <div class="drill-kpi"><span class="kpi-val" style="color:var(--red)">' + (dept.waste || '—') + '</span><span class="kpi-label">Waste</span></div>'
+        + '  <div class="drill-kpi"><span class="kpi-val" style="color:var(--red)">' + (dept.waste || '-') + '</span><span class="kpi-label">Waste</span></div>'
         + '</div>';
 
     // Section title
@@ -3864,7 +3864,7 @@ document.addEventListener('keydown', function(e) {
 
 
 /* ==========================================================================
-   ORG EXPLORER — Nested Hierarchy: Org → Teams → People
+   ORG EXPLORER - Nested Hierarchy: Org → Teams → People
    Expenses visible at EVERY level. No department grouping.
    ========================================================================== */
 
@@ -3910,7 +3910,7 @@ var orgTreeData = [
                 id: 'z-customer360', name: 'Customer360', icon: 'fas fa-users',
                 color: '#10B981', iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
                 expense: { total: '$97.2K/yr', waste: '$16.8K/yr', apps: 14, licenses: 98, wastedLicenses: 18 },
-                aiTip: 'Zendesk + Freshdesk + Intercom for support — 3 tools same job. Consolidate to Zendesk: save $16.8K/yr.',
+                aiTip: 'Zendesk + Freshdesk + Intercom for support - 3 tools same job. Consolidate to Zendesk: save $16.8K/yr.',
                 people: [
                     { name: 'Geeta Saxena', role: 'CS Lead', expense: '$11.4K/yr', apps: 12, logins: 24, status: 'active', avatar: '#10B981' },
                     { name: 'Rashmi Pandit', role: 'Success Manager', expense: '$9.6K/yr', apps: 10, logins: 22, status: 'active', avatar: '#3B82F6' },
@@ -3962,7 +3962,7 @@ var orgTreeData = [
                 id: 'z-mobile-xp', name: 'Mobile Experience', icon: 'fas fa-mobile-alt',
                 color: '#6366F1', iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
                 expense: { total: '$55.8K/yr', waste: '$4.2K/yr', apps: 10, licenses: 64, wastedLicenses: 8 },
-                aiTip: 'Firebase Blaze plan overkill — downgrade to Spark for 2 staging projects: save $2.4K/yr.',
+                aiTip: 'Firebase Blaze plan overkill - downgrade to Spark for 2 staging projects: save $2.4K/yr.',
                 people: [
                     { name: 'Amit Joshi', role: 'Mobile Lead', expense: '$12.6K/yr', apps: 10, logins: 28, status: 'active', avatar: '#6366F1' },
                     { name: 'Rohan Shetty', role: 'iOS Engineer', expense: '$10.2K/yr', apps: 8, logins: 24, status: 'active', avatar: '#EC4899' },
@@ -3974,7 +3974,7 @@ var orgTreeData = [
                 id: 'z-analytics-hub', name: 'Analytics Hub', icon: 'fas fa-chart-pie',
                 color: '#EC4899', iconBg: 'rgba(236,72,153,0.1)', iconColor: '#EC4899',
                 expense: { total: '$67.2K/yr', waste: '$11.4K/yr', apps: 12, licenses: 54, wastedLicenses: 16 },
-                aiTip: 'Amplitude + Mixpanel + GA4 — paying for 3 analytics tools. Consolidate to Amplitude: save $11.4K/yr.',
+                aiTip: 'Amplitude + Mixpanel + GA4 - paying for 3 analytics tools. Consolidate to Amplitude: save $11.4K/yr.',
                 people: [
                     { name: 'Ravi Tiwari', role: 'Analytics Lead', expense: '$13.8K/yr', apps: 12, logins: 26, status: 'active', avatar: '#EC4899' },
                     { name: 'Nandini Shah', role: 'BI Analyst', expense: '$9.6K/yr', apps: 8, logins: 20, status: 'active', avatar: '#3B82F6' },
@@ -3986,7 +3986,7 @@ var orgTreeData = [
                 id: 'z-people-ops', name: 'People & Culture', icon: 'fas fa-heart',
                 color: '#14B8A6', iconBg: 'rgba(20,184,166,0.1)', iconColor: '#14B8A6',
                 expense: { total: '$44.4K/yr', waste: '$6.6K/yr', apps: 8, licenses: 68, wastedLicenses: 12 },
-                aiTip: '3 HRMS tools (BambooHR + Greythr + Darwinbox). 100% use Darwinbox — drop the other 2: save $6.6K/yr.',
+                aiTip: '3 HRMS tools (BambooHR + Greythr + Darwinbox). 100% use Darwinbox - drop the other 2: save $6.6K/yr.',
                 people: [
                     { name: 'Swati Joshi', role: 'People Lead', expense: '$9.6K/yr', apps: 8, logins: 20, status: 'active', avatar: '#14B8A6' },
                     { name: 'Pragya Mishra', role: 'Talent Acquisition', expense: '$7.8K/yr', apps: 6, logins: 18, status: 'active', avatar: '#3B82F6' },
@@ -3998,7 +3998,7 @@ var orgTreeData = [
                 id: 'z-finance-ops', name: 'Finance & Compliance', icon: 'fas fa-calculator',
                 color: '#F97316', iconBg: 'rgba(249,115,22,0.1)', iconColor: '#F97316',
                 expense: { total: '$37.8K/yr', waste: '$4.2K/yr', apps: 9, licenses: 48, wastedLicenses: 6 },
-                aiTip: 'QuickBooks usage dropped 80% after Zoho Books — fully migrate: save $2.4K/yr. 2 unused Tally seats.',
+                aiTip: 'QuickBooks usage dropped 80% after Zoho Books - fully migrate: save $2.4K/yr. 2 unused Tally seats.',
                 people: [
                     { name: 'Sunita Rao', role: 'Finance Lead', expense: '$10.2K/yr', apps: 9, logins: 22, status: 'active', avatar: '#F97316' },
                     { name: 'Ramesh Kapoor', role: 'Accountant', expense: '$7.2K/yr', apps: 7, logins: 18, status: 'active', avatar: '#3B82F6' },
@@ -4020,7 +4020,7 @@ var orgTreeData = [
                 id: 'n-product-velocity', name: 'Product Velocity', icon: 'fas fa-shipping-fast',
                 color: '#3B82F6', iconBg: 'rgba(59,130,246,0.1)', iconColor: '#3B82F6',
                 expense: { total: '$102.6K/yr', waste: '$14.4K/yr', apps: 16, licenses: 94, wastedLicenses: 16 },
-                aiTip: 'Jira + Linear + Asana — 3 project management tools. Team uses Linear 90%. Drop Jira + Asana: save $10.8K/yr.',
+                aiTip: 'Jira + Linear + Asana - 3 project management tools. Team uses Linear 90%. Drop Jira + Asana: save $10.8K/yr.',
                 people: [
                     { name: 'James Chen', role: 'Engineering Lead', expense: '$20.4K/yr', apps: 16, logins: 34, status: 'active', avatar: '#3B82F6' },
                     { name: 'Sarah Williams', role: 'Staff Engineer', expense: '$16.2K/yr', apps: 14, logins: 30, status: 'active', avatar: '#EC4899' },
@@ -4058,7 +4058,7 @@ var orgTreeData = [
                 id: 'n-growth-mktg', name: 'Growth Marketing', icon: 'fas fa-bullhorn',
                 color: '#EC4899', iconBg: 'rgba(236,72,153,0.1)', iconColor: '#EC4899',
                 expense: { total: '$55.8K/yr', waste: '$11.4K/yr', apps: 10, licenses: 62, wastedLicenses: 16 },
-                aiTip: '10 unused HubSpot seats. Semrush + Ahrefs overlap — pick one SEO tool: save $11.4K/yr.',
+                aiTip: '10 unused HubSpot seats. Semrush + Ahrefs overlap - pick one SEO tool: save $11.4K/yr.',
                 people: [
                     { name: 'Priyanka Bajaj', role: 'Marketing Lead', expense: '$12.6K/yr', apps: 10, logins: 22, status: 'active', avatar: '#EC4899' },
                     { name: 'Karthik Narayan', role: 'SEO Specialist', expense: '$10.2K/yr', apps: 8, logins: 18, status: 'active', avatar: '#3B82F6' },
@@ -4070,7 +4070,7 @@ var orgTreeData = [
                 id: 'n-product-intel', name: 'Product Intelligence', icon: 'fas fa-search-dollar',
                 color: '#A855F7', iconBg: 'rgba(168,85,247,0.1)', iconColor: '#A855F7',
                 expense: { total: '$50.4K/yr', waste: '$7.8K/yr', apps: 8, licenses: 42, wastedLicenses: 10 },
-                aiTip: 'Productboard has 6 inactive seats. Hotjar + FullStory overlap sessions — drop FullStory: save $5.4K/yr.',
+                aiTip: 'Productboard has 6 inactive seats. Hotjar + FullStory overlap sessions - drop FullStory: save $5.4K/yr.',
                 people: [
                     { name: 'Gaurav Malhotra', role: 'PM Lead', expense: '$13.8K/yr', apps: 8, logins: 24, status: 'active', avatar: '#A855F7' },
                     { name: 'Shalini Kapoor', role: 'Product Manager', expense: '$11.4K/yr', apps: 7, logins: 20, status: 'active', avatar: '#3B82F6' },
@@ -4115,7 +4115,7 @@ var orgTreeData = [
                 id: 'cs-innovation', name: 'Innovation Lab', icon: 'fas fa-lightbulb',
                 color: '#F59E0B', iconBg: 'rgba(245,158,11,0.1)', iconColor: '#F59E0B',
                 expense: { total: '$15.6K/yr', waste: '$2.4K/yr', apps: 10, licenses: 32, wastedLicenses: 6 },
-                aiTip: 'Notion + Confluence both active. Team prefers Notion — drop Confluence: save $1.8K/yr.',
+                aiTip: 'Notion + Confluence both active. Team prefers Notion - drop Confluence: save $1.8K/yr.',
                 people: [
                     { name: 'Rohit Sharma', role: 'Founder & CTO', expense: '$5.4K/yr', apps: 10, logins: 32, status: 'active', avatar: '#F59E0B' },
                     { name: 'Dev Kapoor', role: 'Full-Stack Engineer', expense: '$4.2K/yr', apps: 8, logins: 26, status: 'active', avatar: '#3B82F6' },
@@ -4127,7 +4127,7 @@ var orgTreeData = [
                 id: 'cs-go-to-market', name: 'Go-to-Market', icon: 'fas fa-flag',
                 color: '#10B981', iconBg: 'rgba(16,185,129,0.1)', iconColor: '#10B981',
                 expense: { total: '$6.6K/yr', waste: '$1.2K/yr', apps: 6, licenses: 12, wastedLicenses: 2 },
-                aiTip: 'Mailchimp free tier should be enough — currently on Standard plan. Downgrade: save $1.2K/yr.',
+                aiTip: 'Mailchimp free tier should be enough - currently on Standard plan. Downgrade: save $1.2K/yr.',
                 people: [
                     { name: 'Gayatri Sharma', role: 'BD Lead', expense: '$2.4K/yr', apps: 6, logins: 20, status: 'active', avatar: '#10B981' },
                     { name: 'Vijay Nambiar', role: 'Content Marketer', expense: '$1.8K/yr', apps: 4, logins: 14, status: 'active', avatar: '#A855F7' },
@@ -4138,7 +4138,7 @@ var orgTreeData = [
                 id: 'cs-ops', name: 'Ops & Admin', icon: 'fas fa-cog',
                 color: '#6366F1', iconBg: 'rgba(99,102,241,0.1)', iconColor: '#6366F1',
                 expense: { total: '$3K/yr', waste: '$0', apps: 4, licenses: 4, wastedLicenses: 0 },
-                aiTip: 'Lean ops — all licenses utilized. Consider annual billing for Slack and Zoom to save 20%.',
+                aiTip: 'Lean ops - all licenses utilized. Consider annual billing for Slack and Zoom to save 20%.',
                 people: [
                     { name: 'Rina Kapoor', role: 'Operations Head', expense: '$1.5K/yr', apps: 4, logins: 22, status: 'active', avatar: '#6366F1' },
                     { name: 'Bhagyashree P.', role: 'Admin & Finance', expense: '$0.9K/yr', apps: 3, logins: 16, status: 'active', avatar: '#EC4899' }
@@ -4233,7 +4233,7 @@ function renderTeamNodeTree(team) {
         h += '<div class="team-ai-tip"><i class="fas fa-robot"></i><span><strong>AI Insight:</strong> ' + team.aiTip + '</span></div>';
     }
 
-    // People — with prominent expense column
+    // People - with prominent expense column
     team.people.forEach(function(p) {
         var initials = p.name.split(' ').map(function(n) { return n[0]; }).join('').substring(0, 2);
         var statusLabel = p.status === 'active' ? 'Active' : p.status === 'idle' ? 'Idle' : 'Inactive';
@@ -4690,7 +4690,7 @@ function updateDynamicPreview() {
 // --- Parse pasted text ---
 function parseBulkPaste() {
     var raw = document.getElementById('bulk-paste-area').value.trim();
-    if (!raw) { showToast('error', 'Nothing to parse — paste some data first'); return; }
+    if (!raw) { showToast('error', 'Nothing to parse - paste some data first'); return; }
 
     var lines = raw.split(/\n/).filter(function(l) { return l.trim().length > 0; });
     var cols = BULK_COLUMNS[_bulkImportType];
@@ -4783,7 +4783,7 @@ function renderBulkPreview() {
     _bulkParsedData.forEach(function(row, i) {
         b += '<tr><td style="color:var(--gray-400);font-size:11px">' + (i + 1) + '</td>';
         cols.forEach(function(c) {
-            var val = row[c.key] || '<span style="color:var(--gray-300)">—</span>';
+            var val = row[c.key] || '<span style="color:var(--gray-300)">-</span>';
             if (c.key === 'icon' && ICON_LABELS[val]) val = ICON_LABELS[val];
             if (c.key === 'color' && COLOR_LABELS[val]) val = COLOR_LABELS[val];
             if (c.key === 'status') {
@@ -4946,9 +4946,9 @@ var _helpArticles = {
         color: '#7C3AED',
         content: '<p>The SaaSIQ AI Copilot analyzes your SaaS portfolio in real-time and surfaces actionable insights.</p>'
             + '<h4>How It Works</h4><p>The copilot monitors license utilization, spend trends, and contract terms to generate recommendations automatically.</p>'
-            + '<h4>Types of Insights</h4><ul><li><strong>Cost Optimization</strong> — Identifies unused licenses, duplicate apps, and downgrade opportunities</li>'
-            + '<li><strong>Risk Alerts</strong> — Flags shadow IT, expiring contracts, and compliance gaps</li>'
-            + '<li><strong>Benchmark Comparisons</strong> — Shows how your spend compares to industry peers</li></ul>'
+            + '<h4>Types of Insights</h4><ul><li><strong>Cost Optimization</strong> - Identifies unused licenses, duplicate apps, and downgrade opportunities</li>'
+            + '<li><strong>Risk Alerts</strong> - Flags shadow IT, expiring contracts, and compliance gaps</li>'
+            + '<li><strong>Benchmark Comparisons</strong> - Shows how your spend compares to industry peers</li></ul>'
             + '<h4>Acting on Recommendations</h4><p>Each insight card includes an <strong>Apply</strong> button that creates a task or triggers an automated workflow.</p>'
     },
     'renewal-alerts': {
@@ -4957,7 +4957,7 @@ var _helpArticles = {
         color: '#F59E0B',
         content: '<p>Never miss a renewal deadline. SaaSIQ sends automated alerts before contracts auto-renew.</p>'
             + '<h4>Configure Alert Timing</h4><p>Go to <strong>Renewals & Contracts</strong> → click any contract → set alert triggers at 90, 60, and 30 days before renewal.</p>'
-            + '<h4>Notification Channels</h4><ul><li>In-app notifications (default)</li><li>Email digest — daily or weekly</li><li>Slack / Teams integration</li></ul>'
+            + '<h4>Notification Channels</h4><ul><li>In-app notifications (default)</li><li>Email digest - daily or weekly</li><li>Slack / Teams integration</li></ul>'
             + '<h4>Bulk Alert Setup</h4><p>Use <strong>Scan Contracts</strong> to auto-detect renewal dates from uploaded PDFs, then apply alert rules in bulk.</p>'
     },
     'governance-policies': {
@@ -4966,9 +4966,9 @@ var _helpArticles = {
         color: '#10B981',
         content: '<p>Governance policies let you control which SaaS tools are approved, who can procure new subscriptions, and how compliance is enforced.</p>'
             + '<h4>Creating a Policy</h4><p>Navigate to <strong>Compliance</strong> → <strong>Policies</strong> → <strong>Add Rule</strong>. Define conditions (e.g., "block unapproved apps over $500/mo") and assign approvers.</p>'
-            + '<h4>Enforcement Modes</h4><ul><li><strong>Monitor</strong> — Log violations without blocking</li>'
-            + '<li><strong>Warn</strong> — Notify users and managers</li>'
-            + '<li><strong>Block</strong> — Prevent access until approved</li></ul>'
+            + '<h4>Enforcement Modes</h4><ul><li><strong>Monitor</strong> - Log violations without blocking</li>'
+            + '<li><strong>Warn</strong> - Notify users and managers</li>'
+            + '<li><strong>Block</strong> - Prevent access until approved</li></ul>'
             + '<h4>Policy Templates</h4><p>SaaSIQ includes pre-built templates for SOC 2, GDPR, DPDP Act, and HIPAA compliance frameworks.</p>'
     }
 };
@@ -4982,7 +4982,7 @@ function openHelpArticle(articleId) {
         article.color,
         article.icon,
         '<div style="font-size:14px;line-height:1.7;color:#374151;max-height:420px;overflow-y:auto;padding-right:8px">' + article.content + '</div>',
-        function() { showToast('info', 'Article bookmarked — find it in your Help Center favorites'); },
+        function() { showToast('info', 'Article bookmarked - find it in your Help Center favorites'); },
         '<i class="fas fa-bookmark"></i> Bookmark',
         article.color
     );
@@ -5010,7 +5010,7 @@ var _helpAutoResponses = {
     support: [
         "Thanks for reaching out! I'm here to help. Could you describe the issue you're facing?",
         "I understand. Let me look into that for you right away.",
-        "I've checked our system — here's what I found. Would you like me to walk you through the fix?",
+        "I've checked our system - here's what I found. Would you like me to walk you through the fix?",
         "Great! Is there anything else I can help you with today?"
     ],
     demo: [
@@ -5027,7 +5027,7 @@ var _helpAutoResponses = {
     ],
     issue: [
         "Sorry to hear you're experiencing an issue! Please describe what happened and I'll escalate this immediately.",
-        "Thank you for the details. I've logged this as a priority ticket — our engineering team will investigate.",
+        "Thank you for the details. I've logged this as a priority ticket - our engineering team will investigate.",
         "Your ticket ID is #SIQ-" + (Math.floor(Math.random() * 9000) + 1000) + ". You'll receive updates via email.",
         "Is there anything else I can help with while our team works on the fix?"
     ]
@@ -5157,7 +5157,7 @@ function sendHelpMessage() {
                 var agent = _helpAgents[_helpChatType];
                 var generics = [
                     "Of course! Let me help you with that.",
-                    "Great question — let me check on that for you.",
+                    "Great question - let me check on that for you.",
                     "Sure thing! Give me just a moment.",
                     "I appreciate you sharing that. Let me look into it.",
                     "Absolutely, I'll have an update for you shortly."
@@ -5280,7 +5280,7 @@ setTimeout(function() {
 }, 2000);
 
 // ========================================================================
-//  SHADOW IT — MARK MANAGED / FLAG SHADOW IT
+//  SHADOW IT - MARK MANAGED / FLAG SHADOW IT
 // ========================================================================
 function markManaged(btn, appName) {
     var card = btn.closest('.app-card');
@@ -5299,7 +5299,7 @@ function markManaged(btn, appName) {
         if (riskBadge) { riskBadge.textContent = 'Approved'; riskBadge.className = 'risk-badge low'; }
         var actions = btn.parentElement;
         if (actions) actions.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#10B981"><i class="fas fa-check-circle"></i> Managed</span>';
-        showToast('success', appName + ' moved to managed inventory — now tracked in SaaSIQ');
+        showToast('success', appName + ' moved to managed inventory - now tracked in SaaSIQ');
     }, 700);
 }
 
@@ -5326,12 +5326,12 @@ function flagShadowIT(btn, appName) {
             var actions = btn.parentElement;
             if (actions) actions.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#EF4444"><i class="fas fa-flag"></i> Flagged</span>';
         }
-        showToast('warning', appName + ' flagged as Shadow IT — security team notified');
+        showToast('warning', appName + ' flagged as Shadow IT - security team notified');
     }, '<i class="fas fa-flag"></i> Flag as Shadow IT', '#EF4444');
 }
 
 // ========================================================================
-//  SELF-SERVICE — REQUEST TOOL ACCESS
+//  SELF-SERVICE - REQUEST TOOL ACCESS
 // ========================================================================
 function requestToolAccess(btn, toolName) {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="color:#7C3AED"></i> Requesting…';
@@ -5343,7 +5343,7 @@ function requestToolAccess(btn, toolName) {
         btn.style.borderColor = '#10B981';
         btn.style.color = '#059669';
         btn.style.opacity = '1';
-        showToast('success', 'Request for ' + toolName + ' sent — awaiting manager approval (Pradeep Rao)');
+        showToast('success', 'Request for ' + toolName + ' sent - awaiting manager approval (Pradeep Rao)');
     }, 900);
 }
 
@@ -5357,7 +5357,7 @@ function browseAppCatalog() {
         }).join('')
         + '</div>',
     function() {
-        showToast('success', 'App requests submitted — your manager will be notified');
+        showToast('success', 'App requests submitted - your manager will be notified');
     }, '<i class="fas fa-paper-plane"></i> Submit Requests', '#7C3AED');
 }
 
@@ -5372,7 +5372,7 @@ function generateAuditReport(btn) {
         btn.style.background = '#059669';
         btn.style.color = '#fff';
         btn.style.borderColor = '#059669';
-        showToast('success', 'Onboarding audit report generated — 23 onboards, 97% SLA compliance, 0 violations this quarter');
+        showToast('success', 'Onboarding audit report generated - 23 onboards, 97% SLA compliance, 0 violations this quarter');
     }, 1200);
 }
 
@@ -5383,12 +5383,12 @@ function exportCompliancePDF(btn) {
         btn.innerHTML = '<i class="fas fa-check"></i> Downloaded';
         btn.style.background = '#059669';
         btn.style.color = '#fff';
-        showToast('success', 'Compliance report exported as PDF — saasiq-compliance-Q1-2026.pdf');
+        showToast('success', 'Compliance report exported as PDF - saasiq-compliance-Q1-2026.pdf');
     }, 1000);
 }
 
 // ========================================================================
-//  RENEWALS — SCAN CONTRACTS + EXPORT CALENDAR
+//  RENEWALS - SCAN CONTRACTS + EXPORT CALENDAR
 // ========================================================================
 function scanContracts(btn) {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning…';
@@ -5398,7 +5398,7 @@ function scanContracts(btn) {
         btn.style.background = '#059669';
         btn.style.color = '#fff';
         btn.style.borderColor = '#059693';
-        showToast('success', '47 contracts scanned — 3 new renewals detected, 2 auto-renewal clauses flagged');
+        showToast('success', '47 contracts scanned - 3 new renewals detected, 2 auto-renewal clauses flagged');
     }, 1500);
 }
 
@@ -5410,12 +5410,12 @@ function exportCalendar(btn) {
         btn.style.background = '#059669';
         btn.style.color = '#fff';
         btn.style.borderColor = '#059693';
-        showToast('success', 'Renewal calendar exported — 12 events added to saasiq-renewals.ics');
+        showToast('success', 'Renewal calendar exported - 12 events added to saasiq-renewals.ics');
     }, 1000);
 }
 
 // ========================================================================
-//  BENCHMARKS — EXPORT PDF
+//  BENCHMARKS - EXPORT PDF
 // ========================================================================
 function exportBenchmarkPDF(btn) {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -5425,7 +5425,7 @@ function exportBenchmarkPDF(btn) {
         btn.style.background = '#059669';
         btn.style.color = '#fff';
         btn.style.borderColor = '#059693';
-        showToast('success', 'CFO benchmark report generated — saasiq-benchmark-report-Q1-2026.pdf');
+        showToast('success', 'CFO benchmark report generated - saasiq-benchmark-report-Q1-2026.pdf');
     }, 1200);
 }
 
