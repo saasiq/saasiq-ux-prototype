@@ -6998,34 +6998,115 @@ body.theme-dark .gw-pricing-btn.outline:hover {
   align-items: center;
   justify-content: center;
   padding: 32px;
+  transition: background 0.8s ease;
+  position: relative;
+  overflow: hidden;
 }
 .gw-scene-content {
   text-align: center;
   color: #fff;
   max-width: 600px;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .gw-scene-content h2 {
   font-size: 28px;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   letter-spacing: -0.5px;
 }
 .gw-scene-content p {
-  font-size: 16px;
+  font-size: 15px;
   color: #9ca3af;
   line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Scene icon ring with pulse */
+.scene-icon-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  position: relative;
+  background: rgba(255,255,255,0.06);
+  border: 2px solid var(--accent, #7C3AED);
+  animation: sceneIconIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.scene-icon-ring i {
+  font-size: 28px;
+  color: var(--accent, #7C3AED);
+}
+.scene-ring-pulse {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid var(--accent, #7C3AED);
+  animation: sceneRingPulse 1.5s ease-out infinite;
+  opacity: 0.4;
+}
+@keyframes sceneIconIn {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes sceneRingPulse {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Scene stat */
+.scene-stat-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  animation: sceneStatIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 .gw-scene-content .scene-stat {
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 800;
-  color: #7C3AED;
-  display: block;
-  margin-bottom: 8px;
+  display: inline;
+  line-height: 1.1;
 }
+.scene-stat-suffix {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+}
+@keyframes sceneStatIn {
+  0% { transform: translateY(16px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Scene dots / progress indicator */
+.scene-counter {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.scene-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: all 0.3s;
+}
+.scene-dot.active {
+  width: 24px;
+  border-radius: 3px;
+  background: var(--dot-accent, #7C3AED);
+}
+.scene-dot.done {
+  background: rgba(255,255,255,0.35);
+}
+
+/* Remove old scene-icon */
 .gw-scene-content .scene-icon {
-  font-size: 48px;
-  color: #7C3AED;
-  margin-bottom: 16px;
+  display: none;
 }
 .gw-video-controls {
   display: flex;
