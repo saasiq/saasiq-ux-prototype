@@ -5864,3 +5864,494 @@ function exportBenchmarkPDF(btn) {
     initReveal();
   }
 })();
+
+/* ================================================================
+   GROWW-INSPIRED LANDING PAGE INTERACTIONS
+   ================================================================ */
+(function() {
+  function initGrowwLanding() {
+    // --- Nav scroll shadow ---
+    var nav = document.querySelector('.gw-nav');
+    if (nav) {
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 10) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+      });
+    }
+
+    // --- Draw mini chart (discovery) ---
+    drawMiniChart('gw-discovery-chart', [5, 8, 12, 15, 18, 22, 28, 32, 35, 38, 40, 42, 44, 47], '#10B981');
+
+    // --- Draw fund chart (savings) ---
+    drawFundChart('gw-savings-chart');
+
+    // --- Animate trust counter ---
+    animateTrustCounter();
+
+    // --- Scroll-reveal animations ---
+    initScrollReveal();
+
+    // --- Animated stat counters ---
+    initCountUp();
+
+    // --- Feature card mouse glow ---
+    initCardGlow();
+  }
+
+  /* ===== Scroll Reveal ===== */
+  function initScrollReveal() {
+    var revealEls = document.querySelectorAll('.gw-reveal, .gw-stagger-reveal');
+    if (!revealEls.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(function(el) { observer.observe(el); });
+  }
+
+  /* ===== Count-up on scroll ===== */
+  function initCountUp() {
+    var counters = document.querySelectorAll('.gw-count-up');
+    if (!counters.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        if (el.dataset.counted) return;
+        el.dataset.counted = '1';
+        var target = parseFloat(el.dataset.target);
+        var prefix = el.dataset.prefix || '';
+        var suffix = el.dataset.suffix || '';
+        var format = el.dataset.format || '';
+        var duration = 1200;
+        var start = performance.now();
+
+        function update(now) {
+          var elapsed = now - start;
+          var progress = Math.min(elapsed / duration, 1);
+          // ease-out cubic
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = Math.round(eased * target);
+          if (format === 'short') {
+            if (current >= 1000000) el.textContent = prefix + (current / 1000000).toFixed(1) + 'M';
+            else if (current >= 1000) el.textContent = prefix + (current / 1000).toFixed(0) + 'K';
+            else el.textContent = prefix + current;
+          } else {
+            el.textContent = prefix + current + suffix;
+          }
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.3 });
+
+    counters.forEach(function(el) { observer.observe(el); });
+  }
+
+  /* ===== Card mouse-follow glow ===== */
+  function initCardGlow() {
+    var cards = document.querySelectorAll('.gw-feature-card');
+    cards.forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+        var y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+        card.style.setProperty('--mouse-x', x + '%');
+        card.style.setProperty('--mouse-y', y + '%');
+      });
+    });
+  }
+
+  function drawMiniChart(containerId, data, color) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    var canvas = document.createElement('canvas');
+    container.appendChild(canvas);
+    var ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = container.offsetWidth * 2;
+      canvas.height = container.offsetHeight * 2;
+      canvas.style.width = container.offsetWidth + 'px';
+      canvas.style.height = container.offsetHeight + 'px';
+      draw();
+    }
+
+    function draw() {
+      var w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      var max = Math.max.apply(null, data);
+      var min = Math.min.apply(null, data);
+      var range = max - min || 1;
+      var step = w / (data.length - 1);
+      var padding = 8;
+
+      // Draw gradient fill
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      for (var i = 0; i < data.length; i++) {
+        var x = i * step;
+        var y = padding + (1 - (data[i] - min) / range) * (h - padding * 2);
+        if (i === 0) ctx.lineTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      var grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, color + '40');
+      grad.addColorStop(1, color + '05');
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Draw line
+      ctx.beginPath();
+      for (var i = 0; i < data.length; i++) {
+        var x = i * step;
+        var y = padding + (1 - (data[i] - min) / range) * (h - padding * 2);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+  }
+
+  function drawFundChart(containerId) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    // Mutual fund style data - generally upward with some volatility
+    var data = [];
+    var val = 100;
+    for (var i = 0; i < 60; i++) {
+      val += (Math.random() - 0.35) * 8;
+      if (val < 80) val = 80 + Math.random() * 10;
+      data.push(val);
+    }
+    drawMiniChart(containerId, data, '#10B981');
+  }
+
+  function animateTrustCounter() {
+    var el = document.getElementById('gw-trust-count');
+    if (!el) return;
+    var target = 500;
+    var seen = false;
+
+    function doCount() {
+      var current = 0;
+      var step = Math.ceil(target / 60);
+      var interval = setInterval(function() {
+        current += step;
+        if (current >= target) { current = target; clearInterval(interval); }
+        el.textContent = current.toLocaleString();
+      }, 20);
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !seen) {
+        seen = true;
+        doCount();
+      }
+    }, { threshold: 0.3 });
+    observer.observe(el);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGrowwLanding);
+  } else {
+    initGrowwLanding();
+  }
+})();
+
+/* ================================================================
+   BOOK A DEMO — Calendar + Time Picker
+   ================================================================ */
+(function() {
+  var currentMonth, currentYear, selectedDate = null, selectedTime = null;
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function init() {
+    var now = new Date();
+    currentMonth = now.getMonth();
+    currentYear = now.getFullYear();
+  }
+  init();
+
+  window.openBookDemo = function() {
+    selectedDate = null;
+    selectedTime = null;
+    document.getElementById('demoStep1').style.display = 'grid';
+    document.getElementById('demoStep2').style.display = 'none';
+    document.getElementById('demoStep3').style.display = 'none';
+    var now = new Date();
+    currentMonth = now.getMonth();
+    currentYear = now.getFullYear();
+    renderCalendar();
+    renderTimeSlots();
+    document.getElementById('selectedDateLabel').textContent = 'Select a date';
+    document.getElementById('bookDemoModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeBookDemo = function() {
+    document.getElementById('bookDemoModal').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.changeMonth = function(dir) {
+    currentMonth += dir;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  };
+
+  function renderCalendar() {
+    document.getElementById('calMonthYear').textContent = months[currentMonth] + ' ' + currentYear;
+    var grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+    var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    var today = new Date();
+    today.setHours(0,0,0,0);
+
+    // Previous month blanks
+    for (var i = 0; i < firstDay; i++) {
+      var blank = document.createElement('button');
+      blank.className = 'gw-cal-date other-month disabled';
+      blank.textContent = '';
+      blank.disabled = true;
+      grid.appendChild(blank);
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+      var btn = document.createElement('button');
+      btn.className = 'gw-cal-date';
+      btn.textContent = d;
+      var dateObj = new Date(currentYear, currentMonth, d);
+      dateObj.setHours(0,0,0,0);
+
+      var dayOfWeek = dateObj.getDay();
+      if (dateObj < today || dayOfWeek === 0 || dayOfWeek === 6) {
+        btn.classList.add('disabled');
+        btn.disabled = true;
+      } else {
+        btn.setAttribute('data-date', currentYear + '-' + (currentMonth+1) + '-' + d);
+        btn.onclick = function() { selectDate(this); };
+      }
+
+      if (dateObj.getTime() === today.getTime()) {
+        btn.classList.add('today');
+      }
+      if (selectedDate) {
+        var selParts = selectedDate.split('-');
+        if (parseInt(selParts[0]) === currentYear && parseInt(selParts[1]) === currentMonth+1 && parseInt(selParts[2]) === d) {
+          btn.classList.add('selected');
+        }
+      }
+      grid.appendChild(btn);
+    }
+  }
+
+  function selectDate(el) {
+    selectedDate = el.getAttribute('data-date');
+    selectedTime = null;
+    var all = document.querySelectorAll('.gw-cal-date');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
+    el.classList.add('selected');
+    var parts = selectedDate.split('-');
+    var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+    var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    document.getElementById('selectedDateLabel').textContent = dayNames[dateObj.getDay()] + ', ' + months[dateObj.getMonth()] + ' ' + parts[2];
+    renderTimeSlots();
+  }
+
+  function renderTimeSlots() {
+    var container = document.getElementById('timeSlots');
+    container.innerHTML = '';
+    if (!selectedDate) {
+      container.innerHTML = '<p style="color:#9ca3af;font-size:13px;text-align:center;padding:16px">Pick a date to see available times</p>';
+      return;
+    }
+    var times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM'];
+    for (var i = 0; i < times.length; i++) {
+      var slot = document.createElement('button');
+      slot.className = 'gw-time-slot';
+      slot.textContent = times[i];
+      slot.setAttribute('data-time', times[i]);
+      slot.onclick = function() { selectTime(this); };
+      container.appendChild(slot);
+    }
+  }
+
+  function selectTime(el) {
+    selectedTime = el.getAttribute('data-time');
+    var all = document.querySelectorAll('.gw-time-slot');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
+    el.classList.add('selected');
+    // Proceed to step 2
+    setTimeout(function() {
+      document.getElementById('demoStep1').style.display = 'none';
+      document.getElementById('demoStep2').style.display = 'block';
+      var parts = selectedDate.split('-');
+      var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      var dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      document.getElementById('demoDateTimeSummary').textContent = dayNames[dateObj.getDay()] + ', ' + months[dateObj.getMonth()] + ' ' + parts[2] + ', ' + parts[0] + ' at ' + selectedTime;
+    }, 300);
+  }
+
+  window.confirmDemo = function() {
+    var name = document.getElementById('demoName').value.trim();
+    var email = document.getElementById('demoEmail').value.trim();
+    if (!name || !email) {
+      if (typeof showToast === 'function') showToast('error', 'Please fill in your name and email');
+      return;
+    }
+    document.getElementById('demoStep2').style.display = 'none';
+    document.getElementById('demoStep3').style.display = 'block';
+    document.getElementById('confirmedEmail').textContent = email;
+    document.getElementById('confirmedDateTime').textContent = document.getElementById('demoDateTimeSummary').textContent;
+    if (typeof showToast === 'function') showToast('success', 'Demo booked! Check your email for confirmation.');
+  };
+
+  // Close on overlay click
+  var overlay = document.getElementById('bookDemoModal');
+  if (overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) window.closeBookDemo();
+    });
+  }
+})();
+
+/* ================================================================
+   WATCH DEMO — Animated Video Walkthrough
+   ================================================================ */
+(function() {
+  var videoTimer = null;
+  var videoPlaying = false;
+  var videoElapsed = 0;
+  var videoDuration = 105; // 1:45 in seconds
+
+  var scenes = [
+    { at: 0, icon: 'fas fa-layer-group', title: 'Welcome to SaaSIQ', text: 'The AI-powered SaaS spend intelligence platform', stat: '' },
+    { at: 12, icon: 'fas fa-plug', title: 'Connect in Seconds', text: 'One-click integrations with Google Workspace, Okta, Azure AD, Slack and 400+ apps', stat: '400+' },
+    { at: 24, icon: 'fas fa-search', title: 'Discover Shadow IT', text: 'SaaSIQ automatically finds every app, license, and user across your entire organization', stat: '47 apps' },
+    { at: 36, icon: 'fas fa-chart-line', title: 'AI Spend Intelligence', text: 'Machine learning analyzes spend patterns, detects anomalies, and surfaces hidden savings', stat: '$702K' },
+    { at: 48, icon: 'fas fa-dollar-sign', title: 'Save Millions', text: 'One-click license reclamation, renewal alerts, and AI negotiation scripts', stat: '30%' },
+    { at: 60, icon: 'fas fa-shield-alt', title: 'Enterprise Compliance', text: 'SOC2, GDPR, DPDP compliance scoring with real-time risk alerts', stat: '98.5%' },
+    { at: 72, icon: 'fas fa-robot', title: 'AI Copilot', text: 'Ask in plain English — get instant answers, actions, and recommendations', stat: '' },
+    { at: 84, icon: 'fas fa-user-plus', title: 'People Ops Automation', text: 'Onboard employees across all tools in 10 minutes, offboard in 1 click', stat: '92%' },
+    { at: 96, icon: 'fas fa-rocket', title: 'Start Saving Today', text: 'Join 500+ companies that have reclaimed millions in wasted SaaS spend', stat: '$7.2M' }
+  ];
+
+  window.openWatchDemo = function() {
+    videoElapsed = 0;
+    videoPlaying = false;
+    var modal = document.getElementById('watchDemoModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    // Reset to poster
+    document.querySelector('.gw-video-poster').style.display = 'flex';
+    document.getElementById('demoVideoScreen').style.display = 'none';
+    if (document.getElementById('videoProgress')) document.getElementById('videoProgress').style.width = '0%';
+  };
+
+  window.closeWatchDemo = function() {
+    stopVideo();
+    document.getElementById('watchDemoModal').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.playDemoVideo = function() {
+    document.querySelector('.gw-video-poster').style.display = 'none';
+    document.getElementById('demoVideoScreen').style.display = 'flex';
+    videoPlaying = true;
+    videoElapsed = 0;
+    updateScene();
+    videoTimer = setInterval(tick, 1000);
+    var btn = document.getElementById('videoPlayPause');
+    if (btn) btn.innerHTML = '<i class="fas fa-pause"></i>';
+  };
+
+  window.toggleDemoVideo = function() {
+    var btn = document.getElementById('videoPlayPause');
+    if (videoPlaying) {
+      clearInterval(videoTimer);
+      videoPlaying = false;
+      if (btn) btn.innerHTML = '<i class="fas fa-play"></i>';
+    } else {
+      videoPlaying = true;
+      videoTimer = setInterval(tick, 1000);
+      if (btn) btn.innerHTML = '<i class="fas fa-pause"></i>';
+    }
+  };
+
+  function stopVideo() {
+    clearInterval(videoTimer);
+    videoPlaying = false;
+    videoElapsed = 0;
+  }
+
+  function tick() {
+    videoElapsed++;
+    if (videoElapsed >= videoDuration) {
+      clearInterval(videoTimer);
+      videoPlaying = false;
+      var btn = document.getElementById('videoPlayPause');
+      if (btn) btn.innerHTML = '<i class="fas fa-redo"></i>';
+    }
+    var pct = Math.min((videoElapsed / videoDuration) * 100, 100);
+    document.getElementById('videoProgress').style.width = pct + '%';
+    var mins = Math.floor(videoElapsed / 60);
+    var secs = videoElapsed % 60;
+    document.getElementById('videoTime').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs + ' / 1:45';
+    updateScene();
+  }
+
+  function updateScene() {
+    var currentScene = scenes[0];
+    for (var i = scenes.length - 1; i >= 0; i--) {
+      if (videoElapsed >= scenes[i].at) {
+        currentScene = scenes[i];
+        break;
+      }
+    }
+    var container = document.querySelector('.gw-scene-content');
+    if (!container) return;
+    var html = '<div class="scene-icon"><i class="' + currentScene.icon + '"></i></div>';
+    if (currentScene.stat) {
+      html += '<span class="scene-stat">' + currentScene.stat + '</span>';
+    }
+    html += '<h2>' + currentScene.title + '</h2>';
+    html += '<p>' + currentScene.text + '</p>';
+    container.innerHTML = html;
+  }
+
+  // Close on overlay click
+  var overlay = document.getElementById('watchDemoModal');
+  if (overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) window.closeWatchDemo();
+    });
+  }
+
+  // Close modals on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (document.getElementById('bookDemoModal').classList.contains('active')) window.closeBookDemo();
+      if (document.getElementById('watchDemoModal').classList.contains('active')) window.closeWatchDemo();
+    }
+  });
+})();
