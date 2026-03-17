@@ -5466,3 +5466,188 @@ function exportBenchmarkPDF(btn) {
         initReveal();
     }
 })();
+
+/* ========= DEMO BOOKING WIDGET ========= */
+var _demoSelectedSlot = null;
+var _demoSelectedDay = '';
+
+function openDemoWidget() {
+    var w = document.getElementById('demo-widget');
+    if (w) { w.classList.add('open'); demoWidgetStep(1); }
+}
+
+function closeDemoWidget() {
+    var w = document.getElementById('demo-widget');
+    if (w) w.classList.remove('open');
+    _demoSelectedSlot = null;
+    _demoSelectedDay = '';
+    var banner = document.querySelector('.demo-selected-banner');
+    if (banner) banner.style.display = 'none';
+    document.querySelectorAll('.demo-slot').forEach(function(s) { s.classList.remove('selected'); });
+    var nameEl = document.getElementById('dw-name');
+    var emailEl = document.getElementById('dw-email');
+    var compEl = document.getElementById('dw-company');
+    if (nameEl) nameEl.value = '';
+    if (emailEl) emailEl.value = '';
+    if (compEl) compEl.value = '';
+}
+
+function demoWidgetStep(step) {
+    for (var i = 1; i <= 3; i++) {
+        var el = document.getElementById('demo-step-' + i);
+        if (el) el.style.display = (i === step) ? 'block' : 'none';
+    }
+    var backBtn = document.getElementById('demo-back-btn');
+    if (backBtn) backBtn.style.display = (step > 1 && step < 3) ? 'inline-flex' : 'none';
+}
+
+function switchDemoDay(btn, day) {
+    document.querySelectorAll('.demo-tab').forEach(function(t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+
+    var today = new Date();
+    var dayLabel = document.querySelector('.demo-day-label');
+    var slotsContainer = document.querySelector('.demo-slots');
+
+    var slots = [];
+    var label = '';
+    if (day === 'today') {
+        label = 'Today';
+        var h = today.getHours();
+        var times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM'];
+        times.forEach(function(t) {
+            var tH = parseInt(t);
+            if (t.indexOf('PM') > -1 && tH !== 12) tH += 12;
+            slots.push({ time: t, available: tH > h });
+        });
+    } else if (day === 'tomorrow') {
+        label = 'Tomorrow';
+        slots = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM'].map(function(t) {
+            return { time: t, available: true };
+        });
+    } else {
+        label = 'This Week';
+        slots = ['9:00 AM','10:00 AM','11:00 AM','2:00 PM','3:00 PM'].map(function(t) {
+            return { time: t, available: true };
+        });
+    }
+
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var dateOffset = day === 'today' ? 0 : day === 'tomorrow' ? 1 : 3;
+    var d = new Date(today); d.setDate(d.getDate() + dateOffset);
+    var dateStr = months[d.getMonth()] + ' ' + d.getDate();
+
+    if (dayLabel) dayLabel.innerHTML = '<strong>' + label + '</strong> <span style="color:#9CA3AF;font-weight:400">' + dateStr + '</span>';
+    _demoSelectedDay = label + ' ' + dateStr;
+
+    if (slotsContainer) {
+        slotsContainer.innerHTML = '';
+        slots.forEach(function(s) {
+            var btn = document.createElement('button');
+            btn.className = 'demo-slot' + (s.available ? '' : ' unavailable');
+            btn.textContent = s.time;
+            if (s.available) {
+                btn.onclick = function() { selectDemoSlot(btn); };
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.4';
+                btn.style.textDecoration = 'line-through';
+                btn.style.cursor = 'not-allowed';
+            }
+            slotsContainer.appendChild(btn);
+        });
+    }
+}
+
+function selectDemoSlot(slotBtn) {
+    document.querySelectorAll('.demo-slot').forEach(function(s) { s.classList.remove('selected'); });
+    slotBtn.classList.add('selected');
+    _demoSelectedSlot = slotBtn.textContent;
+
+    var banner = document.querySelector('.demo-selected-banner');
+    if (banner) {
+        banner.style.display = 'flex';
+        banner.querySelector('strong').textContent = _demoSelectedSlot;
+        banner.querySelector('span').textContent = _demoSelectedDay || 'Today';
+    }
+
+    setTimeout(function() { demoWidgetStep(2); }, 400);
+}
+
+function submitDemoWidget() {
+    var name = document.getElementById('dw-name');
+    var email = document.getElementById('dw-email');
+    if (!name || !name.value.trim()) { showToast('error', 'Please enter your name'); return; }
+    if (!email || !email.value.trim() || email.value.indexOf('@') === -1) { showToast('error', 'Please enter a valid email'); return; }
+
+    var dtEl = document.getElementById('demo-confirm-datetime');
+    var emEl = document.getElementById('demo-confirm-email');
+    if (dtEl) dtEl.textContent = _demoSelectedSlot + ' on ' + (_demoSelectedDay || 'Today');
+    if (emEl) emEl.textContent = email.value.trim();
+
+    demoWidgetStep(3);
+    showToast('success', 'Demo booked successfully!');
+}
+
+/* ========= WATCH A DEMO VIDEO MODAL ========= */
+function openDemoVideo() {
+    var overlay = document.getElementById('demo-video-overlay');
+    if (overlay) { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; startDemoVideo(); }
+}
+
+function closeDemoVideo() {
+    var overlay = document.getElementById('demo-video-overlay');
+    if (overlay) { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    clearInterval(window._demoVideoTimer);
+}
+
+function startDemoVideo() {
+    var scenes = [
+        { title: 'Welcome to SaaSIQ', sub: 'Your AI-powered SaaS management platform', icon: 'fas fa-layer-group', bg: '#7C3AED' },
+        { title: 'Discovery Engine', sub: 'We scan your org and find every SaaS app - even shadow IT', icon: 'fas fa-search', bg: '#3B82F6',
+          demo: '<div class="dv-demo-grid"><div class="dv-app"><i class="fab fa-slack" style="color:#4A154B"></i><span>Slack</span><b style="color:#10B981">Managed</b></div><div class="dv-app"><i class="fab fa-figma" style="color:#F24E1E"></i><span>Figma</span><b style="color:#EF4444">Shadow IT</b></div><div class="dv-app"><i class="fab fa-salesforce" style="color:#00A1E0"></i><span>Salesforce</span><b style="color:#10B981">Managed</b></div><div class="dv-app"><i class="fab fa-aws" style="color:#FF9900"></i><span>AWS</span><b style="color:#10B981">Managed</b></div><div class="dv-app"><i class="fas fa-envelope" style="color:#EA4335"></i><span>Mailchimp</span><b style="color:#EF4444">Shadow IT</b></div><div class="dv-app"><i class="fab fa-github" style="color:#333"></i><span>GitHub</span><b style="color:#10B981">Managed</b></div></div>' },
+        { title: 'Spend Intelligence', sub: 'Real-time visibility into every dollar spent on SaaS', icon: 'fas fa-chart-pie', bg: '#10B981',
+          demo: '<div class="dv-spend-card"><div class="dv-spend-row"><span>Total SaaS Spend</span><strong>$10.14M</strong></div><div class="dv-spend-bar"><div style="width:65%;background:#7C3AED"></div></div><div class="dv-spend-row"><span>Waste Identified</span><strong style="color:#EF4444">$2.4M</strong></div><div class="dv-spend-bar"><div style="width:24%;background:#EF4444"></div></div><div class="dv-spend-row"><span>Potential Savings</span><strong style="color:#10B981">$1.8M</strong></div><div class="dv-spend-bar"><div style="width:18%;background:#10B981"></div></div></div>' },
+        { title: 'AI Copilot', sub: 'Ask anything in plain English - get instant answers', icon: 'fas fa-robot', bg: '#7C3AED',
+          demo: '<div class="dv-chat"><div class="dv-chat-user">Show me all unused licenses</div><div class="dv-chat-bot"><i class="fas fa-robot"></i><div>Found <b>142 unused Salesforce seats</b> ($420K/yr), <b>89 Zoom seats</b> ($213K/yr), and <b>67 Adobe CC seats</b> ($214K/yr). Total: <b>$847K/yr</b> in potential savings.</div></div></div>' },
+        { title: 'Compliance & Security', sub: 'Automated monitoring for SOC 2, ISO 27001, GDPR, DPDP', icon: 'fas fa-shield-alt', bg: '#EF4444',
+          demo: '<div class="dv-compliance"><div class="dv-comp-item ok"><i class="fas fa-check-circle"></i> SOC 2 - Compliant</div><div class="dv-comp-item ok"><i class="fas fa-check-circle"></i> ISO 27001 - Compliant</div><div class="dv-comp-item warn"><i class="fas fa-exclamation-triangle"></i> GDPR - 3 Issues</div><div class="dv-comp-item ok"><i class="fas fa-check-circle"></i> DPDP - Compliant</div></div>' },
+        { title: 'License Optimization', sub: 'Reclaim unused licenses and right-size your SaaS stack', icon: 'fas fa-sliders-h', bg: '#F59E0B',
+          demo: '<div class="dv-license"><div class="dv-lic-row"><span>Salesforce</span><div class="dv-lic-bar"><div style="width:65%"></div></div><span>142/400 unused</span></div><div class="dv-lic-row"><span>Zoom</span><div class="dv-lic-bar"><div style="width:45%"></div></div><span>89/200 unused</span></div><div class="dv-lic-row"><span>Adobe CC</span><div class="dv-lic-bar"><div style="width:55%"></div></div><span>67/120 unused</span></div></div>' },
+        { title: 'Get Started Today', sub: 'Join 400+ enterprises saving millions with SaaSIQ', icon: 'fas fa-rocket', bg: '#7C3AED', isCta: true }
+    ];
+
+    var currentScene = 0;
+    var container = document.querySelector('.dv-scene-content');
+    var progress = document.querySelector('.dv-progress-fill');
+    var counter = document.querySelector('.dv-scene-counter');
+    var prevBtn = document.querySelector('.dv-prev');
+    var nextBtn = document.querySelector('.dv-next');
+
+    function renderScene(idx) {
+        var s = scenes[idx];
+        var html = '<div class="dv-scene-icon" style="background:' + s.bg + '"><i class="' + s.icon + '"></i></div>'
+            + '<h3>' + s.title + '</h3>'
+            + '<p>' + s.sub + '</p>';
+        if (s.demo) html += '<div class="dv-demo-area">' + s.demo + '</div>';
+        if (s.isCta) html += '<div class="dv-cta-row"><button class="btn-cta-green btn-lg" onclick="closeDemoVideo();showPage(\'page-login\')">Get Started Free</button><button class="btn-cta-outline btn-lg" onclick="closeDemoVideo();openDemoWidget()"><i class="fas fa-calendar-alt"></i> Book a Demo</button></div>';
+        container.innerHTML = html;
+        progress.style.width = ((idx + 1) / scenes.length * 100) + '%';
+        counter.textContent = (idx + 1) + ' / ' + scenes.length;
+        prevBtn.style.opacity = idx === 0 ? '0.3' : '1';
+        prevBtn.style.pointerEvents = idx === 0 ? 'none' : 'auto';
+    }
+
+    function goNext() { if (currentScene < scenes.length - 1) { currentScene++; renderScene(currentScene); } }
+    function goPrev() { if (currentScene > 0) { currentScene--; renderScene(currentScene); } }
+
+    prevBtn.onclick = goPrev;
+    nextBtn.onclick = goNext;
+
+    renderScene(0);
+
+    clearInterval(window._demoVideoTimer);
+    window._demoVideoTimer = setInterval(function() {
+        if (currentScene < scenes.length - 1) { goNext(); } else { clearInterval(window._demoVideoTimer); }
+    }, 6000);
+}
