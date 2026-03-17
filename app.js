@@ -6236,33 +6236,123 @@ function exportBenchmarkPDF(btn) {
 })();
 
 /* ================================================================
-   WATCH DEMO — Animated Video Walkthrough
+   WATCH DEMO — Cinematic Animated Video Walkthrough with Audio
    ================================================================ */
 (function() {
   var videoTimer = null;
   var videoPlaying = false;
   var videoElapsed = 0;
   var videoDuration = 105; // 1:45 in seconds
+  var currentSceneIndex = -1;
+  var audioCtx = null;
 
   var scenes = [
-    { at: 0, icon: 'fas fa-layer-group', title: 'Welcome to SaaSIQ', text: 'The AI-powered SaaS spend intelligence platform', stat: '' },
-    { at: 12, icon: 'fas fa-plug', title: 'Connect in Seconds', text: 'One-click integrations with Google Workspace, Okta, Azure AD, Slack and 400+ apps', stat: '400+' },
-    { at: 24, icon: 'fas fa-search', title: 'Discover Shadow IT', text: 'SaaSIQ automatically finds every app, license, and user across your entire organization', stat: '47 apps' },
-    { at: 36, icon: 'fas fa-chart-line', title: 'AI Spend Intelligence', text: 'Machine learning analyzes spend patterns, detects anomalies, and surfaces hidden savings', stat: '$702K' },
-    { at: 48, icon: 'fas fa-dollar-sign', title: 'Save Millions', text: 'One-click license reclamation, renewal alerts, and AI negotiation scripts', stat: '30%' },
-    { at: 60, icon: 'fas fa-shield-alt', title: 'Enterprise Compliance', text: 'SOC2, GDPR, DPDP compliance scoring with real-time risk alerts', stat: '98.5%' },
-    { at: 72, icon: 'fas fa-robot', title: 'AI Copilot', text: 'Ask in plain English — get instant answers, actions, and recommendations', stat: '' },
-    { at: 84, icon: 'fas fa-user-plus', title: 'People Ops Automation', text: 'Onboard employees across all tools in 10 minutes, offboard in 1 click', stat: '92%' },
-    { at: 96, icon: 'fas fa-rocket', title: 'Start Saving Today', text: 'Join 500+ companies that have reclaimed millions in wasted SaaS spend', stat: '$7.2M' }
+    { at: 0, icon: 'fas fa-layer-group', title: 'Welcome to SaaSIQ', text: 'The AI-powered SaaS spend intelligence platform', stat: '', bg: 'linear-gradient(135deg, #0f1117 0%, #1a1033 100%)', accent: '#7C3AED' },
+    { at: 5, icon: 'fas fa-plug', title: 'Connect in Seconds', text: '400+ one-click integrations with Google, Okta, Azure AD, Slack & more', stat: '400+', bg: 'linear-gradient(135deg, #0f1117 0%, #0c1a2e 100%)', accent: '#3B82F6' },
+    { at: 12, icon: 'fas fa-search', title: 'Discover Shadow IT', text: 'Instantly find every app, license, and user across your organization', stat: '47', statSuffix: ' apps found', bg: 'linear-gradient(135deg, #0f1117 0%, #0a1f1a 100%)', accent: '#10B981' },
+    { at: 19, icon: 'fas fa-chart-line', title: 'AI Spend Intelligence', text: 'ML detects anomalies, surfaces hidden savings, predicts future waste', stat: '$702K', statSuffix: ' saved', bg: 'linear-gradient(135deg, #0f1117 0%, #1a1033 100%)', accent: '#A855F7' },
+    { at: 27, icon: 'fas fa-dollar-sign', title: 'Save Millions Instantly', text: 'One-click license reclamation, renewal alerts, AI negotiation scripts', stat: '30%', statSuffix: ' avg savings', bg: 'linear-gradient(135deg, #0f1117 0%, #1a0f0a 100%)', accent: '#F59E0B' },
+    { at: 35, icon: 'fas fa-shield-alt', title: 'Enterprise Compliance', text: 'SOC2, GDPR, DPDP scoring — real-time risk alerts & audit trails', stat: '98.5%', statSuffix: ' score', bg: 'linear-gradient(135deg, #0f1117 0%, #0a1f1a 100%)', accent: '#10B981' },
+    { at: 43, icon: 'fas fa-robot', title: 'AI Copilot', text: 'Ask in plain English — get instant answers, actions & recommendations', stat: '', bg: 'linear-gradient(135deg, #0f1117 0%, #0c1a2e 100%)', accent: '#3B82F6' },
+    { at: 52, icon: 'fas fa-user-plus', title: 'People Ops Automation', text: 'Onboard across all tools in 10 min — offboard in 1 click', stat: '92%', statSuffix: ' faster', bg: 'linear-gradient(135deg, #0f1117 0%, #1a0a1a 100%)', accent: '#EC4899' },
+    { at: 61, icon: 'fas fa-chart-area', title: 'Predictive Forecasting', text: 'See waste before it happens — forecast based on hiring & usage', stat: '$1.2M', statSuffix: ' prevented', bg: 'linear-gradient(135deg, #0f1117 0%, #1a1033 100%)', accent: '#7C3AED' },
+    { at: 70, icon: 'fas fa-building', title: 'M&A Due Diligence', text: 'See SaaS overlap in 10 minutes — find consolidation savings', stat: '$540K+', statSuffix: ' found', bg: 'linear-gradient(135deg, #0f1117 0%, #0c1a2e 100%)', accent: '#3B82F6' },
+    { at: 79, icon: 'fas fa-smile', title: 'Employee Experience Score', text: 'Measure if your stack helps or hurts — predict attrition risk', stat: '8.7', statSuffix: '/10 avg', bg: 'linear-gradient(135deg, #0f1117 0%, #1a0f0a 100%)', accent: '#F59E0B' },
+    { at: 88, icon: 'fas fa-rocket', title: 'Start Saving Today', text: 'Join 500+ companies that reclaimed millions in wasted SaaS spend', stat: '$7.2M', statSuffix: ' avg saved/yr', bg: 'linear-gradient(135deg, #1a1033 0%, #7C3AED 100%)', accent: '#fff' }
   ];
+
+  // --- Web Audio: synth sounds ---
+  function initAudio() {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) { audioCtx = null; }
+  }
+
+  function playWhoosh() {
+    if (!audioCtx) return;
+    try {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.3);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.3);
+    } catch(e) {}
+  }
+
+  function playTick() {
+    if (!audioCtx) return;
+    try {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.08);
+    } catch(e) {}
+  }
+
+  function playChime() {
+    if (!audioCtx) return;
+    try {
+      var freqs = [523, 659, 784, 1047];
+      freqs.forEach(function(f, i) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = f;
+        gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.12);
+        gain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + i * 0.12 + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.12 + 0.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + i * 0.12);
+        osc.stop(audioCtx.currentTime + i * 0.12 + 0.5);
+      });
+    } catch(e) {}
+  }
+
+  function playBgDrone() {
+    if (!audioCtx) return;
+    try {
+      var osc = audioCtx.createOscillator();
+      var osc2 = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 80;
+      osc2.type = 'sine';
+      osc2.frequency.value = 120;
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.025, audioCtx.currentTime + 2);
+      gain.gain.setValueAtTime(0.025, audioCtx.currentTime + videoDuration - 3);
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + videoDuration);
+      osc.connect(gain);
+      osc2.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime);
+      osc2.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + videoDuration);
+      osc2.stop(audioCtx.currentTime + videoDuration);
+    } catch(e) {}
+  }
 
   window.openWatchDemo = function() {
     videoElapsed = 0;
     videoPlaying = false;
+    currentSceneIndex = -1;
     var modal = document.getElementById('watchDemoModal');
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    // Reset to poster
     document.querySelector('.gw-video-poster').style.display = 'flex';
     document.getElementById('demoVideoScreen').style.display = 'none';
     if (document.getElementById('videoProgress')) document.getElementById('videoProgress').style.width = '0%';
@@ -6275,11 +6365,14 @@ function exportBenchmarkPDF(btn) {
   };
 
   window.playDemoVideo = function() {
+    initAudio();
     document.querySelector('.gw-video-poster').style.display = 'none';
     document.getElementById('demoVideoScreen').style.display = 'flex';
     videoPlaying = true;
     videoElapsed = 0;
-    updateScene();
+    currentSceneIndex = -1;
+    updateScene(true);
+    playBgDrone();
     videoTimer = setInterval(tick, 1000);
     var btn = document.getElementById('videoPlayPause');
     if (btn) btn.innerHTML = '<i class="fas fa-pause"></i>';
@@ -6302,6 +6395,11 @@ function exportBenchmarkPDF(btn) {
     clearInterval(videoTimer);
     videoPlaying = false;
     videoElapsed = 0;
+    currentSceneIndex = -1;
+    if (audioCtx) {
+      try { audioCtx.close(); } catch(e) {}
+      audioCtx = null;
+    }
   }
 
   function tick() {
@@ -6309,6 +6407,7 @@ function exportBenchmarkPDF(btn) {
     if (videoElapsed >= videoDuration) {
       clearInterval(videoTimer);
       videoPlaying = false;
+      playChime();
       var btn = document.getElementById('videoPlayPause');
       if (btn) btn.innerHTML = '<i class="fas fa-redo"></i>';
     }
@@ -6317,26 +6416,63 @@ function exportBenchmarkPDF(btn) {
     var mins = Math.floor(videoElapsed / 60);
     var secs = videoElapsed % 60;
     document.getElementById('videoTime').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs + ' / 1:45';
-    updateScene();
+    updateScene(false);
+    playTick();
   }
 
-  function updateScene() {
-    var currentScene = scenes[0];
+  function getSceneIndex() {
     for (var i = scenes.length - 1; i >= 0; i--) {
-      if (videoElapsed >= scenes[i].at) {
-        currentScene = scenes[i];
-        break;
-      }
+      if (videoElapsed >= scenes[i].at) return i;
     }
+    return 0;
+  }
+
+  function updateScene(force) {
+    var newIndex = getSceneIndex();
+    var sceneChanged = (newIndex !== currentSceneIndex);
+    if (!sceneChanged && !force) return;
+    currentSceneIndex = newIndex;
+    var scene = scenes[newIndex];
     var container = document.querySelector('.gw-scene-content');
-    if (!container) return;
-    var html = '<div class="scene-icon"><i class="' + currentScene.icon + '"></i></div>';
-    if (currentScene.stat) {
-      html += '<span class="scene-stat">' + currentScene.stat + '</span>';
-    }
-    html += '<h2>' + currentScene.title + '</h2>';
-    html += '<p>' + currentScene.text + '</p>';
-    container.innerHTML = html;
+    var sceneEl = document.querySelector('.gw-video-scene');
+    if (!container || !sceneEl) return;
+
+    if (sceneChanged) playWhoosh();
+
+    // Animate bg
+    sceneEl.style.background = scene.bg;
+
+    // Fade out
+    container.style.opacity = '0';
+    container.style.transform = 'translateY(20px) scale(0.95)';
+
+    setTimeout(function() {
+      var html = '<div class="scene-icon-ring" style="--accent:' + scene.accent + '">';
+      html += '<i class="' + scene.icon + '"></i>';
+      html += '<div class="scene-ring-pulse"></div>';
+      html += '</div>';
+      if (scene.stat) {
+        html += '<div class="scene-stat-wrap">';
+        html += '<span class="scene-stat" style="color:' + scene.accent + '">' + scene.stat + '</span>';
+        if (scene.statSuffix) html += '<span class="scene-stat-suffix">' + scene.statSuffix + '</span>';
+        html += '</div>';
+      }
+      html += '<h2>' + scene.title + '</h2>';
+      html += '<p>' + scene.text + '</p>';
+      // Scene counter
+      html += '<div class="scene-counter">';
+      for (var i = 0; i < scenes.length; i++) {
+        html += '<span class="scene-dot' + (i === newIndex ? ' active' : '') + (i < newIndex ? ' done' : '') + '" style="' + (i === newIndex ? '--dot-accent:' + scene.accent : '') + '"></span>';
+      }
+      html += '</div>';
+      container.innerHTML = html;
+
+      // Fade in
+      requestAnimationFrame(function() {
+        container.style.opacity = '1';
+        container.style.transform = 'translateY(0) scale(1)';
+      });
+    }, 200);
   }
 
   // Close on overlay click
