@@ -6,7 +6,7 @@
     <title>SaaSIQ - AI-Powered SaaS Spend Intelligence</title>
     <meta name="description" content="SaaSIQ - AI-Powered SaaS Spend Intelligence and Shadow IT Governance Platform. Discover, manage, and optimize your entire SaaS portfolio.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237C3AED'/><text x='16' y='22' font-size='18' font-weight='800' text-anchor='middle' fill='white' font-family='sans-serif'>S</text></svg>" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css?v=24">
+    <link rel="stylesheet" href="styles.css?v=21">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -558,8 +558,11 @@
 
 <!-- ==================== LANDING PAGE ==================== -->
 <div id="page-landing" class="page active">
+    <!-- Floating decorative orbs -->
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
 
-    <!-- ===== NAV ===== -->
     <nav class="landing-nav">
         <div class="landing-nav-inner">
             <div class="logo">
@@ -567,180 +570,92 @@
                 <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
             </div>
             <div class="nav-links">
-                <a href="javascript:void(0)" onclick="scrollToSection('products-showcase')">Product</a>
-                <a href="javascript:void(0)" onclick="scrollToSection('solutions')">Solutions</a>
+                <a href="javascript:void(0)" onclick="scrollToSection('problems')">Problems</a>
                 <a href="javascript:void(0)" onclick="scrollToSection('features')">Features</a>
-                <a href="javascript:void(0)" onclick="scrollToSection('testimonials-wall')">Clients</a>
+                <a href="javascript:void(0)" onclick="scrollToSection('customer-needs')">What You Need</a>
                 <a href="javascript:void(0)" onclick="scrollToSection('pricing')">Pricing</a>
-            </div>
-            <div class="nav-right">
-                <div class="nav-search">
-                    <i class="fas fa-search"></i>
-                    <span>Search SaaSIQ...</span>
-                    <kbd>&#8984;K</kbd>
-                </div>
-                <button class="theme-toggle-btn" onclick="toggleLandingTheme()" title="Toggle dark mode">
+                <a href="javascript:void(0)" onclick="showPage('page-login')">Login</a>
+                <button class="landing-theme-toggle" onclick="toggleLandingTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
                     <i class="fas fa-moon" id="landing-theme-icon"></i>
                 </button>
-                <button class="btn-cta-green" onclick="showPage('page-login')">Login/Sign up</button>
+                <button class="btn btn-primary btn-glow" onclick="showPage('page-signup')">Start Free Trial</button>
             </div>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </nav>
 
-    <!-- ===== HERO ===== -->
-    <section class="g-hero">
-        <div class="g-hero-inner">
-            <div class="g-hero-eyebrow">
-                <i class="fas fa-trophy"></i>
-                India's #1 SaaS Management Platform
+    <section class="hero">
+        <div class="hero-badge"><span class="hero-badge-dot"></span> Trusted by 500+ companies worldwide</div>
+        <h1>Stop Wasting <br><span class="gradient-text">30% of Your SaaS Budget</span></h1>
+        <p class="hero-sub">AI-powered SaaS spend intelligence & people operations. Discover shadow IT, optimize licenses, automate onboarding & offboarding, enforce compliance. All from one platform.</p>
+        <div class="hero-cta">
+            <button class="btn btn-primary btn-lg btn-glow" onclick="showPage('page-signup')">
+                <i class="fas fa-rocket"></i> Start Free 14-Day Trial
+            </button>
+            <button class="btn btn-outline btn-lg btn-glass" onclick="showPage('page-demo')">
+                <i class="fas fa-play-circle"></i> Watch Demo
+            </button>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-num">$7.2M</span>
+                <span class="hero-stat-label">Avg. savings per customer/year</span>
             </div>
-            <p class="g-hero-sub-top">Trusted by 400+ enterprises</p>
-            <h1 class="g-hero-title">Manage your SaaS,<br>the intelligent way</h1>
-            <p class="g-hero-sub">Discover every app. Optimize every dollar. Automate every workflow.</p>
-            <div class="g-hero-ctas">
-                <button class="btn-cta-green btn-lg" onclick="showPage('page-login')">Get started</button>
-                <button class="btn-cta-outline btn-lg" onclick="openDemoWidget()"><i class="fas fa-calendar-alt"></i> Book a Demo</button>
-                <button class="btn-cta-text" onclick="openDemoVideo()"><i class="fas fa-play-circle"></i> Watch a Demo</button>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-num">5 min</span>
+                <span class="hero-stat-label">Setup time</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-num">400+</span>
+                <span class="hero-stat-label">SaaS integrations</span>
             </div>
         </div>
-    </section>
-
-    <!-- ===== SCROLLING STATS TICKER ===== -->
-    <section class="g-ticker">
-        <div class="g-ticker-track">
-            <div class="g-ticker-items">
-                <span class="g-ticker-item"><strong>$7.2M</strong> avg savings identified <i class="fas fa-arrow-up" style="color:#10B981"></i></span>
-                <span class="g-ticker-item"><strong>187</strong> avg shadow apps discovered <i class="fas fa-exclamation-circle" style="color:#F59E0B"></i></span>
-                <span class="g-ticker-item"><strong>5 min</strong> setup time <i class="fas fa-bolt" style="color:#3B82F6"></i></span>
-                <span class="g-ticker-item"><strong>61%</strong> avg license utilization <i class="fas fa-chart-line" style="color:#8B5CF6"></i></span>
-                <span class="g-ticker-item"><strong>400+</strong> enterprises trust us <i class="fas fa-shield-alt" style="color:#10B981"></i></span>
-                <span class="g-ticker-item"><strong>23%</strong> avg cost reduction <i class="fas fa-arrow-down" style="color:#EF4444"></i></span>
-            </div>
-            <div class="g-ticker-items" aria-hidden="true">
-                <span class="g-ticker-item"><strong>$7.2M</strong> avg savings identified <i class="fas fa-arrow-up" style="color:#10B981"></i></span>
-                <span class="g-ticker-item"><strong>187</strong> avg shadow apps discovered <i class="fas fa-exclamation-circle" style="color:#F59E0B"></i></span>
-                <span class="g-ticker-item"><strong>5 min</strong> setup time <i class="fas fa-bolt" style="color:#3B82F6"></i></span>
-                <span class="g-ticker-item"><strong>61%</strong> avg license utilization <i class="fas fa-chart-line" style="color:#8B5CF6"></i></span>
-                <span class="g-ticker-item"><strong>400+</strong> enterprises trust us <i class="fas fa-shield-alt" style="color:#10B981"></i></span>
-                <span class="g-ticker-item"><strong>23%</strong> avg cost reduction <i class="fas fa-arrow-down" style="color:#EF4444"></i></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== PRODUCT SHOWCASE 1: Discovery ===== -->
-    <section class="g-showcase" id="products-showcase">
-        <div class="g-showcase-inner">
-            <div class="g-showcase-text">
-                <span class="g-showcase-label">SaaS Discovery</span>
-                <h2>See everything your<br>company uses</h2>
-                <p>AI-powered discovery finds every SaaS application across your organization - including shadow IT no one knows about. One dashboard, complete visibility.</p>
-                <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="shadow-it">Learn more <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="g-showcase-visual">
-                <div class="g-card-stack">
-                    <div class="g-app-card">
-                        <div class="g-app-icon" style="background:#635BFF"><i class="fab fa-stripe-s"></i></div>
-                        <div><strong>Stripe</strong><span class="g-app-status managed">Managed</span></div>
-                        <div class="g-app-spend">$14,200/yr</div>
-                    </div>
-                    <div class="g-app-card">
-                        <div class="g-app-icon" style="background:#FF6C37"><i class="fas fa-mail-bulk"></i></div>
-                        <div><strong>Postman</strong><span class="g-app-status shadow">Shadow IT</span></div>
-                        <div class="g-app-spend">$8,400/yr</div>
-                    </div>
-                    <div class="g-app-card">
-                        <div class="g-app-icon" style="background:#00A4EF"><i class="fab fa-microsoft"></i></div>
-                        <div><strong>Microsoft 365</strong><span class="g-app-status managed">Managed</span></div>
-                        <div class="g-app-spend">$186,000/yr</div>
-                    </div>
-                    <div class="g-app-card">
-                        <div class="g-app-icon" style="background:#E01E5A"><i class="fab fa-slack"></i></div>
-                        <div><strong>Slack</strong><span class="g-app-status risk">Review Needed</span></div>
-                        <div class="g-app-spend">$42,000/yr</div>
-                    </div>
+        <div class="hero-image">
+            <div class="mock-dashboard-glow"></div>
+            <div class="mock-dashboard-preview">
+                <div class="mock-topbar">
+                    <div class="mock-dots"><span></span><span></span><span></span></div>
+                    <div class="mock-url">app.saasiq.io/dashboard</div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== PRODUCT SHOWCASE 2: Spend Intelligence ===== -->
-    <section class="g-showcase g-showcase-alt">
-        <div class="g-showcase-inner g-showcase-reverse">
-            <div class="g-showcase-text">
-                <span class="g-showcase-label">Spend Intelligence</span>
-                <h2>Know where every<br>dollar goes</h2>
-                <p>Real-time spend analytics with AI-powered optimization recommendations. Identify waste, negotiate better, and forecast accurately.</p>
-                <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="spend-intelligence">Learn more <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="g-showcase-visual">
-                <div class="g-spend-card">
-                    <div class="g-spend-header">
-                        <h4>Total SaaS Spend</h4>
-                        <span class="g-spend-badge">This Quarter</span>
+                <div class="mock-body">
+                    <div class="mock-sidebar-mini">
+                        <div class="mock-nav-item active"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
                     </div>
-                    <div class="g-spend-amount">$10,140,000</div>
-                    <div class="g-spend-change positive"><i class="fas fa-arrow-up"></i> 18% YoY growth</div>
-                    <div class="g-spend-bar-group">
-                        <div class="g-spend-bar"><div class="g-spend-bar-fill" style="width:65%;background:#7C3AED"></div><span>Engineering 65%</span></div>
-                        <div class="g-spend-bar"><div class="g-spend-bar-fill" style="width:20%;background:#3B82F6"></div><span>Sales 20%</span></div>
-                        <div class="g-spend-bar"><div class="g-spend-bar-fill" style="width:10%;background:#10B981"></div><span>Marketing 10%</span></div>
-                        <div class="g-spend-bar"><div class="g-spend-bar-fill" style="width:5%;background:#F59E0B"></div><span>Others 5%</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== PRODUCT SHOWCASE 3: Compliance ===== -->
-    <section class="g-showcase">
-        <div class="g-showcase-inner">
-            <div class="g-showcase-text">
-                <span class="g-showcase-label">Compliance & Security</span>
-                <h2>Stay compliant,<br>stay secure</h2>
-                <p>Automated compliance monitoring for SOC 2, ISO 27001, GDPR, and DPDP. Instant access reviews, audit-ready reports, and real-time risk scoring.</p>
-                <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="risk-governance">Learn more <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="g-showcase-visual">
-                <div class="g-compliance-grid">
-                    <div class="g-compliance-item ok"><i class="fas fa-check-circle"></i><strong>SOC 2</strong><span>Compliant</span></div>
-                    <div class="g-compliance-item ok"><i class="fas fa-check-circle"></i><strong>ISO 27001</strong><span>Compliant</span></div>
-                    <div class="g-compliance-item warn"><i class="fas fa-exclamation-triangle"></i><strong>GDPR</strong><span>3 Issues</span></div>
-                    <div class="g-compliance-item ok"><i class="fas fa-check-circle"></i><strong>DPDP</strong><span>Compliant</span></div>
-                    <div class="g-compliance-item risk"><i class="fas fa-times-circle"></i><strong>HIPAA</strong><span>Not Ready</span></div>
-                    <div class="g-compliance-item ok"><i class="fas fa-check-circle"></i><strong>PCI DSS</strong><span>Compliant</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== DARK SECTION: AI Copilot ===== -->
-    <section class="g-dark-section">
-        <div class="g-dark-inner">
-            <div class="g-dark-text">
-                <span class="g-showcase-label light">AI Copilot</span>
-                <h2>Your AI-powered SaaS<br>command center</h2>
-                <p>Ask anything about your SaaS stack in plain English. Get instant answers, recommendations, and automated actions.</p>
-                <a href="javascript:void(0)" class="g-learn-more light" onclick="navigateToSection(this)" data-section="ai-copilot">Learn more <i class="fas fa-arrow-right"></i></a>
-                <div class="g-dark-ctas">
-                    <button class="btn-cta-green" onclick="showPage('page-login')">Get started</button>
-                    <button class="btn-cta-ghost" onclick="openDemoWidget()"><i class="fas fa-calendar-alt"></i> Book a Demo</button>
-                    <button class="btn-cta-text light" onclick="openDemoVideo()"><i class="fas fa-play-circle"></i> Watch a Demo</button>
-                </div>
-            </div>
-            <div class="g-dark-visual">
-                <div class="g-chat-window">
-                    <div class="g-chat-msg user">Which tools have unused licenses?</div>
-                    <div class="g-chat-msg bot">
-                        <div class="g-chat-avatar"><i class="fas fa-robot"></i></div>
-                        <div>I found <strong>23 tools</strong> with unused licenses worth <strong>$847K/yr</strong> in potential savings. Top 3:
-                            <ul>
-                                <li>Salesforce - 142 unused seats ($420K)</li>
-                                <li>Zoom - 89 unused seats ($213K)</li>
-                                <li>Adobe CC - 67 unused seats ($214K)</li>
-                            </ul>
+                    <div class="mock-content">
+                        <div class="mock-cards">
+                            <div class="mock-card-mini purple">
+                                <span>$2.5M</span>
+                                <small>Total Spend</small>
+                            </div>
+                            <div class="mock-card-mini green">
+                                <span>$702K</span>
+                                <small>Savings Found</small>
+                            </div>
+                            <div class="mock-card-mini orange">
+                                <span>47</span>
+                                <small>Shadow Apps</small>
+                            </div>
+                            <div class="mock-card-mini red">
+                                <span>12</span>
+                                <small>Renewals Soon</small>
+                            </div>
+                        </div>
+                        <div class="mock-chart-area">
+                            <div class="mock-chart">
+                                <div class="chart-bar" style="height: 40%"></div>
+                                <div class="chart-bar" style="height: 65%"></div>
+                                <div class="chart-bar" style="height: 55%"></div>
+                                <div class="chart-bar" style="height: 80%"></div>
+                                <div class="chart-bar" style="height: 45%"></div>
+                                <div class="chart-bar" style="height: 70%"></div>
+                                <div class="chart-bar" style="height: 90%"></div>
+                                <div class="chart-bar" style="height: 60%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -748,373 +663,566 @@
         </div>
     </section>
 
-    <!-- ===== SOLUTIONS ===== -->
-    <section id="solutions" class="g-solutions-section">
-        <div class="g-solutions-inner">
-            <h2>Solutions for every team</h2>
-            <p class="g-solutions-sub">Purpose-built for the people who manage, secure, and pay for SaaS</p>
-            <div class="g-solutions-grid">
-                <div class="g-solution-card">
-                    <div class="g-solution-icon" style="background:rgba(124,58,237,0.1);color:#7C3AED"><i class="fas fa-money-bill-wave"></i></div>
-                    <h3>For Finance & Procurement</h3>
-                    <p>Gain full visibility into SaaS spend, eliminate duplicate tools, and negotiate better contracts with benchmark data.</p>
-                    <ul>
-                        <li>Real-time spend dashboards</li>
-                        <li>Contract lifecycle management</li>
-                        <li>Vendor benchmarking</li>
-                        <li>Budget forecasting & alerts</li>
-                    </ul>
-                    <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="spend-intelligence">Explore <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="g-solution-card">
-                    <div class="g-solution-icon" style="background:rgba(239,68,68,0.1);color:#EF4444"><i class="fas fa-shield-alt"></i></div>
-                    <h3>For IT & Security</h3>
-                    <p>Discover shadow IT, enforce compliance, automate access reviews, and eliminate security blind spots.</p>
-                    <ul>
-                        <li>Shadow IT discovery & remediation</li>
-                        <li>Automated compliance monitoring</li>
-                        <li>Real-time risk scoring</li>
-                        <li>SSO & access governance</li>
-                    </ul>
-                    <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="risk-governance">Explore <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="g-solution-card">
-                    <div class="g-solution-icon" style="background:rgba(16,185,129,0.1);color:#10B981"><i class="fas fa-users"></i></div>
-                    <h3>For People Operations</h3>
-                    <p>Automate onboarding & offboarding, manage employee lifecycle, and ensure every team member has the right tools from day one.</p>
-                    <ul>
-                        <li>Day-1 provisioning orchestration</li>
-                        <li>Instant offboarding & deprovisioning</li>
-                        <li>Employee app catalog</li>
-                        <li>Approval workflows</li>
-                    </ul>
-                    <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="onboarding">Explore <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="g-solution-card">
-                    <div class="g-solution-icon" style="background:rgba(59,130,246,0.1);color:#3B82F6"><i class="fas fa-user-tie"></i></div>
-                    <h3>For CIOs & IT Leaders</h3>
-                    <p>Get a single pane of glass for your entire SaaS portfolio. Make data-driven decisions with AI-powered insights.</p>
-                    <ul>
-                        <li>Executive dashboards & reporting</li>
-                        <li>AI Copilot for instant answers</li>
-                        <li>M&A due diligence tools</li>
-                        <li>Board-ready analytics</li>
-                    </ul>
-                    <a href="javascript:void(0)" class="g-learn-more" onclick="navigateToSection(this)" data-section="ai-copilot">Explore <i class="fas fa-arrow-right"></i></a>
-                </div>
+    <section class="trusted-by">
+        <p>Trusted by engineering teams at</p>
+        <div class="trust-logos-track">
+            <div class="trust-logos">
+                <span>TCS</span><span>Infosys</span><span>Wipro</span><span>Razorpay</span><span>Freshworks</span><span>Zoho</span><span>Swiggy</span><span>PhonePe</span>
+                <span>TCS</span><span>Infosys</span><span>Wipro</span><span>Razorpay</span><span>Freshworks</span><span>Zoho</span><span>Swiggy</span><span>PhonePe</span>
             </div>
         </div>
     </section>
 
-    <!-- ===== FEATURES GRID ===== -->
-    <section id="features" class="g-features-section">
-        <div class="g-features-inner">
-            <h2>Everything you need to<br>manage SaaS at scale</h2>
-            <p class="g-features-sub">16 powerful modules, one platform</p>
-            <div class="g-section-ctas">
-                <button class="btn-cta-green" onclick="showPage('page-login')">Get started</button>
-                <button class="btn-cta-outline" onclick="openDemoWidget()"><i class="fas fa-calendar-alt"></i> Book a Demo</button>
+    <!-- ==================== REAL PROBLEMS SECTION ==================== -->
+    <section id="problems" class="problems-section">
+        <div class="section-header">
+            <span class="section-badge" style="background:rgba(239,68,68,0.1);color:#EF4444">Real Problems</span>
+            <h2>The <span class="gradient-text">Ugly Truth</span> Nobody Talks About</h2>
+            <p>These aren't hypothetical scenarios. This is happening inside your company RIGHT NOW.</p>
+        </div>
+
+        <div class="problems-timeline">
+            <!-- Problem 1 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#EF4444,#DC2626)">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Finance Nightmare</div>
+                    <h3>The $216K Invoice Nobody Can Explain</h3>
+                    <p>Your CFO sees a $24K Salesforce charge. IT spends <strong>3 days</strong> manually cross-referencing admin consoles with HR lists. Discovers 22 ghost licenses (people who left), 18 users who never log in, 11 who changed roles. <strong>$46K/year wasted on ONE tool.</strong></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">$46K</span><span>wasted per year</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">3 days</span><span>to manually audit</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">1 of 120+</span><span>tools to check</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ shows this in 10 seconds.</strong> Auto-reclamation already recovered 30 licenses before the bill came.</div>
+                </div>
             </div>
-            <div class="g-features-grid">
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="shadow-it">
-                    <div class="feature-icon purple"><i class="fas fa-search"></i></div>
-                    <h3>Shadow IT Discovery</h3>
-                    <p>Find every app across your org</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+
+            <!-- Problem 2 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#DC2626,#991B1B)">
+                    <i class="fas fa-user-secret"></i>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="spend-intelligence">
-                    <div class="feature-icon green"><i class="fas fa-chart-pie"></i></div>
-                    <h3>Spend Intelligence</h3>
-                    <p>Real-time spend analytics & optimization</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                <div class="problem-content">
+                    <div class="problem-tag">Security Breach</div>
+                    <h3>Hacked Because of a Tool We Didn't Know Existed</h3>
+                    <p>A developer pastes <strong>production API responses with customer PII</strong> into a free JSON tool. No SOC2, no encryption, servers in unknown country. 6 months later - customer data found on the dark web. The CTO's reaction: <em>"What the hell is JSONCrack? We never approved this."</em></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">$75K+</span><span>legal fees</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">3 clients</span><span>lost</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">6 months</span><span>reputation damage</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ detects unapproved tools within 24 hours.</strong> Flags Shadow IT, checks compliance, alerts IT admin immediately.</div>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="usage-analytics">
-                    <div class="feature-icon blue"><i class="fas fa-chart-bar"></i></div>
-                    <h3>Usage Analytics</h3>
-                    <p>Deep adoption & utilization insights</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Problem 3 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706)">
+                    <i class="fas fa-user-slash"></i>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="risk-governance">
-                    <div class="feature-icon red"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Compliance & Risk</h3>
-                    <p>Automated compliance monitoring</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                <div class="problem-content">
+                    <div class="problem-tag">Security Risk</div>
+                    <h3>Employee Left 8 Months Ago. Still Has Full Access.</h3>
+                    <p>Vikram left in June. HR deactivated his email. IT collected his laptop. But <strong>nobody checked</strong>: his GitHub (push access to production), AWS (admin access), Figma, Notion, 12 other tools he signed up for directly. <strong>8 months later, his accounts are still active.</strong></p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#FEE2E2;color:#DC2626;font-size:11px;font-weight:600;border-radius:6px"><i class="fab fa-github"></i> GitHub - push access</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#FEF3C7;color:#B45309;font-size:11px;font-weight:600;border-radius:6px"><i class="fab fa-aws"></i> AWS - admin IAM</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#DBEAFE;color:#1D4ED8;font-size:11px;font-weight:600;border-radius:6px"><i class="fab fa-figma"></i> Figma - editor</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#F3E8FF;color:#7C3AED;font-size:11px;font-weight:600;border-radius:6px"><i class="fab fa-slack"></i> Slack - 4 workspaces</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#D1FAE5;color:#047857;font-size:11px;font-weight:600;border-radius:6px"><i class="fas fa-clipboard"></i> Notion - wiki access</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#E5E7EB;color:#4B5563;font-size:11px;font-weight:600;border-radius:6px">+17 more tools</span>
+                    </div>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">23 tools</span><span>still accessible</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">8 months</span><span>undetected</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">120+</span><span>tools to check manually</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ shows ALL access in one screen.</strong> One click to revoke everything. Automated offboarding in 5 minutes, not 5 days.</div>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="contract-intelligence">
-                    <div class="feature-icon orange"><i class="fas fa-file-contract"></i></div>
-                    <h3>Contract Intelligence</h3>
-                    <p>AI-powered contract analysis</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Problem 4 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)">
+                    <i class="fas fa-file-contract"></i>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="policy-engine">
-                    <div class="feature-icon teal"><i class="fas fa-gavel"></i></div>
-                    <h3>Policy Engine</h3>
-                    <p>Governance rules & automation</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                <div class="problem-content">
+                    <div class="problem-tag">Missed Renewal</div>
+                    <h3>The $1.44M Contract That Nobody Negotiated</h3>
+                    <p>AWS contract auto-renewed at the same rate. But AWS usage dropped 20%, cheaper instances launched 6 months ago, and competitors got 25-35% discounts. <strong>Nobody noticed the renewal window</strong> because the person who signed it left, and the contract PDF is buried in someone's Google Drive.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">$288K-$432K</span><span>savings lost</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">1 year</span><span>locked in again</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">0 people</span><span>tracking renewals</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ extracts renewal dates from contracts.</strong> Sends 90/60/30-day alerts with negotiation data and benchmark pricing.</div>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="ai-insights">
-                    <div class="feature-icon purple"><i class="fas fa-brain"></i></div>
-                    <h3>AI Insights</h3>
-                    <p>Predictive analytics & recommendations</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Problem 5 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">
+                    <i class="fas fa-clone"></i>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="ai-copilot">
-                    <div class="feature-icon green"><i class="fas fa-robot"></i></div>
-                    <h3>AI Copilot</h3>
-                    <p>Natural language SaaS assistant</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                <div class="problem-content">
+                    <div class="problem-tag">Duplicate Waste</div>
+                    <h3>Paying for 4 Video Calling Tools. Using 1.</h3>
+                    <p>Audit reveals: Zoom ($8,500/mo), Google Meet (free, bundled), Teams (free, bundled), Webex ($2,200/mo, 6 users), Loom ($1,500/mo, 4 users), Around ($960/mo, 8 users). <strong>6 video tools. Could use 1.</strong> Same pattern across project management, design, notes, and communication: 4-5 tools per category.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">$158K/yr</span><span>video tools alone</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">$240K-$480K/yr</span><span>all duplicate categories</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">5+ categories</span><span>with duplicates</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ auto-categorizes every tool.</strong> Shows overlap report, recommends consolidation, calculates exact savings.</div>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="onboarding">
-                    <div class="feature-icon blue"><i class="fas fa-user-plus"></i></div>
-                    <h3>Onboarding</h3>
-                    <p>Day-1 provisioning orchestration</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Problem 6 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">
+                    <i class="fas fa-brain"></i>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="offboarding">
-                    <div class="feature-icon red"><i class="fas fa-user-minus"></i></div>
-                    <h3>Offboarding</h3>
-                    <p>Automated access revocation</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                <div class="problem-content">
+                    <div class="problem-tag">Shadow AI Crisis</div>
+                    <h3>$408K Spent on AI Tools Nobody Approved</h3>
+                    <p>28 engineers on ChatGPT Plus. 18 on GitHub Copilot. 6 on Claude Pro. 4 on Cursor. 3 on v0. 2 on Midjourney. 1 intern on Jasper AI. <strong>CTO thinks they only use Copilot.</strong> Real danger: engineers pasting production code into ChatGPT, legal team uploading confidential contracts to Claude.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">$408K/yr</span><span>untracked AI spend</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">62 users</span><span>using AI without approval</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">DPDP violation</span><span>if customer data leaks</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ's Shadow AI Console</strong> detects every AI tool within 48 hours. Shows users, risk level, data exposure, and recommends Enterprise alternatives with DLP controls.</div>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="renewal-hub">
-                    <div class="feature-icon orange"><i class="fas fa-sync-alt"></i></div>
-                    <h3>Smart Renewals</h3>
-                    <p>Never miss a renewal again</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Problem 7 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#10B981,#059669)">
+                    <i class="fas fa-calculator"></i>
                 </div>
-                <div class="feature-card feature-card--clickable" onclick="navigateToSection(this)" data-section="benchmarks">
-                    <div class="feature-icon teal"><i class="fas fa-balance-scale"></i></div>
-                    <h3>Industry Benchmarks</h3>
-                    <p>Compare spend with peers</p>
-                    <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                <div class="problem-content">
+                    <div class="problem-tag">Finance Pain</div>
+                    <h3>5-8 Days Every Quarter Just to Reconcile SaaS Bills</h3>
+                    <p>AWS in USD on Visa. Salesforce PDF in someone's email. Google on a different card. 12 tools show as "STRIPE*" on statements. 8 tools expensed through Zoho Expense. GitHub on the CTO's personal card. <strong>Nobody knows what the company pays for software.</strong></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">5-8 days</span><span>per quarter wasted</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">50+ sources</span><span>to cross-reference</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">20-30 days/yr</span><span>on reconciliation</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ auto-reconciles everything.</strong> One dashboard, all charges, all vendors, all departments, GST-ready. Finance closes books in 2 hours, not 5 days.</div>
                 </div>
+            </div>
+
+            <!-- Problem 8 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#7C3AED,#6D28D9)">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">People Ops Chaos</div>
+                    <h3>New Hire Waits 11 Days to Get Their Tools. Then Quits.</h3>
+                    <p>Priya joins as Senior PM on Monday. HR sends a Slack message to IT. IT creates a ticket. 3 days later she has email. Day 5: Jira access. Day 8: Figma. Day 11: AWS staging. By then she's already told her recruiter friend: <strong>"This company is disorganized. I made a mistake."</strong> She leaves in 2 months. Cost to replace: ₹12L+.</p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">11 days</span><span>avg. time to full access</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">23 tools</span><span>to provision manually</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">₹12L+</span><span>cost per early attrition</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ provisions everything in 10 minutes.</strong> Role-based templates auto-assign Slack, Jira, GitHub, AWS, Figma before Day 1. HR triggers, IT reviews, zero tickets needed.</div>
+                </div>
+            </div>
+
+            <!-- Problem 9 -->
+            <div class="problem-card">
+                <div class="problem-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706)">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="problem-content">
+                    <div class="problem-tag">Compliance Gap</div>
+                    <h3>Auditor Asks "Who Has Access to What?" Nobody Knows.</h3>
+                    <p>SOC 2 audit. Auditor asks for a complete access matrix across all SaaS tools. IT admin opens 14 admin consoles, exports 14 CSVs, spends <strong>3 weeks cross-referencing</strong>. Finds 47 users who shouldn't have access. 12 ex-contractors still on Notion. 5 former interns on GitHub. Auditor flags it. <strong>Board gets a letter.</strong></p>
+                    <div class="problem-stat">
+                        <div class="problem-stat-item"><span class="stat-big">3 weeks</span><span>to prepare access reports</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">47 users</span><span>with unauthorized access</span></div>
+                        <div class="problem-stat-item"><span class="stat-big">$200K+</span><span>audit remediation cost</span></div>
+                    </div>
+                    <div class="problem-solve"><i class="fas fa-magic"></i> <strong>SaaSIQ generates audit-ready access reports in 30 seconds.</strong> Real-time who-has-what matrix, contractor tracking, automated deprovisioning logs. SOC 2 and DPDP ready on Day 1.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-cta-banner">
+            <p>Does any of this sound familiar? You're not alone.</p>
+            <button class="btn btn-primary btn-lg btn-glow" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> Fix It Now. Start Free Trial</button>
+        </div>
+    </section>
+
+    <!-- ==================== WHAT CUSTOMERS REALLY WANT ==================== -->
+    <section id="customer-needs" class="customer-needs-section">
+        <div class="section-header">
+            <span class="section-badge" style="background:rgba(16,185,129,0.1);color:#10B981">What You Actually Need</span>
+            <h2>13 Things <span class="gradient-text">Every IT Admin Asks For</span></h2>
+            <p>We talked to 200+ IT admins, CIOs, and CFOs. These are their exact words.</p>
+        </div>
+
+        <div class="needs-grid">
+            <!-- Need 1 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">01</div>
+                    <div class="need-icon-sm"><i class="fas fa-binoculars"></i></div>
+                </div>
+                <h3>"Show Me Everything We Use. In One Place."</h3>
+                <p>4 different partial lists, zero single source of truth. ONE screen showing all 187 apps: who uses it, cost, owner, status.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> I have Google admin, Okta, credit card statements, and expense reports. None of them match.</div>
+                <div class="need-tag need-tag-green">Table Stakes</div>
+            </div>
+
+            <!-- Need 2 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">02</div>
+                    <div class="need-icon-sm"><i class="fas fa-dollar-sign"></i></div>
+                </div>
+                <h3>"Show Me Where I'm Wasting. With Proof."</h3>
+                <p>The IT admin KNOWS there's waste. Can't prove it. Needs a PDF with specific names, numbers, and proof for the CFO in 5 minutes.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> My CFO said "prove it." I couldn't. It would've taken 3 weeks to manually audit 120 tools.</div>
+                <div class="need-tag need-tag-green">Core Value</div>
+            </div>
+
+            <!-- Need 3 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">03</div>
+                    <div class="need-icon-sm"><i class="fas fa-calendar-check"></i></div>
+                </div>
+                <h3>"Alert Me BEFORE a Renewal. Not After."</h3>
+                <p>Auto-renewal clauses buried in page 14 of contracts. The person who signed it left. Finance sees the charge and assumes it's correct.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> We auto-renewed Salesforce at full price. 30 days earlier, we could've saved $48K.</div>
+                <div class="need-tag need-tag-purple">High Impact</div>
+            </div>
+
+            <!-- Need 4 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">04</div>
+                    <div class="need-icon-sm"><i class="fas fa-user-times"></i></div>
+                </div>
+                <h3>"When Someone Leaves, Kill ALL Their Access"</h3>
+                <p>HR disables email. IT collects laptop. But 15+ direct signups, OAuth tokens, and cloud access remain active for months.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> An ex-employee still had AWS admin access 6 months after leaving. I found out by accident.</div>
+                <div class="need-tag need-tag-red">Security Must-Have</div>
+            </div>
+
+            <!-- Need 5 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">05</div>
+                    <div class="need-icon-sm"><i class="fas fa-user-plus"></i></div>
+                </div>
+                <h3>"Day 1 = Fully Provisioned. No Excuses."</h3>
+                <p>New hires wait 5-11 days to get all their tools. HR sends emails, IT opens tickets, managers chase access. First impression: chaos.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> My new PM waited 9 days for Jira access. She almost left.</div>
+                <div class="need-tag need-tag-blue">Retention</div>
+            </div>
+
+            <!-- Need 6 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">06</div>
+                    <div class="need-icon-sm"><i class="fas fa-robot"></i></div>
+                </div>
+                <h3>"Don't Just Show Problems. FIX Them."</h3>
+                <p>Every customer has tried a tool that "showed pretty dashboards" but they still had to manually remove users from 120 admin consoles.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> The last tool created MORE work. I need it to reclaim licenses without me lifting a finger.</div>
+                <div class="need-tag need-tag-purple">Differentiator</div>
+            </div>
+
+            <!-- Need 7 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">07</div>
+                    <div class="need-icon-sm"><i class="fas fa-building"></i></div>
+                </div>
+                <h3>"Show Spend By Department."</h3>
+                <p>SaaS budget is one giant P&amp;L number. Nobody knows Engineering spends $24.6K/mo while Marketing spends $10.5K.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> The moment I showed the VP of Eng his team wastes $3.3K/mo, he cared for the first time.</div>
+                <div class="need-tag need-tag-blue">CFO Favorite</div>
+            </div>
+
+            <!-- Need 8 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">08</div>
+                    <div class="need-icon-sm"><i class="fas fa-user-tag"></i></div>
+                </div>
+                <h3>"Who Owns This Tool? Who Approved It?"</h3>
+                <p>CFO asks "Who bought Notion?" Nobody knows. The person who bought it left 8 months ago. Subscription still running. No owner.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> We found 6 tools where the buyer had left. $84K/yr in orphaned subscriptions.</div>
+                <div class="need-tag need-tag-orange">Governance</div>
+            </div>
+
+            <!-- Need 9 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">09</div>
+                    <div class="need-icon-sm"><i class="fas fa-tasks"></i></div>
+                </div>
+                <h3>"Control Who Can Buy Software"</h3>
+                <p>Anyone with a company card can buy any tool. No approval. Three teams bought 3 different survey tools last quarter.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> If they'd asked IT first, we'd have said 'we already have Typeform.' Nobody asked.</div>
+                <div class="need-tag need-tag-orange">Prevention</div>
+            </div>
+
+            <!-- Need 10 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">10</div>
+                    <div class="need-icon-sm"><i class="fas fa-balance-scale"></i></div>
+                </div>
+                <h3>"Am I Overpaying vs Similar Companies?"</h3>
+                <p>No reference point. Is $2,200/user/yr for Salesforce a good deal or a ripoff? They don't know, and vendors exploit this.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> I showed my Salesforce AE that peers pay $14,200. Got a 20% discount in one email.</div>
+                <div class="need-tag need-tag-green">Negotiation Power</div>
+            </div>
+
+            <!-- Need 11 -->
+            <div class="need-card">
+                <div class="need-top">
+                    <div class="need-num">11</div>
+                    <div class="need-icon-sm"><i class="fas fa-clipboard-check"></i></div>
+                </div>
+                <h3>"Prove Compliance. Fast."</h3>
+                <p>Auditor: "Show me SOC2 certs for all vendors." IT admin: "Uh... I have some... somewhere..." One screen showing every vendor's compliance status.</p>
+                <div class="need-quote"><i class="fas fa-quote-left"></i> Our SOC2 audit took 3 weeks to prep. With SaaSIQ, it would take 30 minutes.</div>
+                <div class="need-tag need-tag-purple">DPDP Ready</div>
+            </div>
+
+            <!-- Dealbreaker 1 -->
+            <div class="need-card need-card-critical">
+                <div class="need-top">
+                    <div class="need-num need-num-critical"><i class="fas fa-bolt"></i></div>
+                    <div class="need-icon-sm need-icon-critical"><i class="fas fa-plug"></i></div>
+                </div>
+                <h3>"Does It Work With Okta / Google / Slack?"</h3>
+                <p>If the answer is "no" to even ONE of their core tools, the deal is dead. Must integrate Day 1 with Google Workspace, Okta, Azure AD, Slack.</p>
+                <div class="need-quote need-quote-critical"><i class="fas fa-quote-left"></i> We use Okta + Darwinbox + Zoho Books. If it doesn't connect to all three, it's useless.</div>
+                <div class="need-tag need-tag-red">Dealbreaker</div>
+            </div>
+
+            <!-- Dealbreaker 2 -->
+            <div class="need-card need-card-critical">
+                <div class="need-top">
+                    <div class="need-num need-num-critical"><i class="fas fa-bolt"></i></div>
+                    <div class="need-icon-sm need-icon-critical"><i class="fas fa-clock"></i></div>
+                </div>
+                <h3>"Setup in 30 Minutes. My IT Team is 2 People."</h3>
+                <p>Indian mid-market "IT team" is often 1-2 people. Connect Google Workspace, see results, click to fix. Done. 15 min/week max.</p>
+                <div class="need-quote need-quote-critical"><i class="fas fa-quote-left"></i> I'm the IT admin AND the office manager. If it takes more than 30 minutes to set up, I won't use it.</div>
+                <div class="need-tag need-tag-red">Dealbreaker</div>
+            </div>
+        </div>
+
+        <div class="section-cta-banner">
+            <div class="cta-badge-inline">
+                <i class="fas fa-check-circle"></i>
+                <span><strong>SaaSIQ delivers all 13.</strong> Not someday. On Day 1.</span>
+            </div>
+            <button class="btn btn-primary btn-lg btn-glow" onclick="showPage('page-signup')"><i class="fas fa-rocket"></i> See It In Action. Start Free Trial</button>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="section-header">
+            <span class="section-badge">Features</span>
+            <h2>Everything You Need to <span class="gradient-text">Control SaaS Chaos</span></h2>
+            <p>From discovery to optimization, people ops to compliance. Powered by AI at every step.</p>
+        </div>
+        <div class="features-grid">
+            <!-- Row 1: Discovery & Intelligence -->
+            <div class="feature-card feature-card--clickable" data-section="discovery" onclick="navigateToSection(this)">
+                <div class="feature-icon purple"><i class="fas fa-search"></i></div>
+                <h3>Shadow IT Discovery</h3>
+                <p>Auto-detect every SaaS tool your employees use. SSO, email receipts, browser extensions: nothing hides.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="spend" onclick="navigateToSection(this)">
+                <div class="feature-icon green"><i class="fas fa-chart-line"></i></div>
+                <h3>Spend Intelligence</h3>
+                <p>AI analyzes spend patterns, detects anomalies, predicts costs, and finds savings you didn't know existed.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="usage" onclick="navigateToSection(this)">
+                <div class="feature-icon blue"><i class="fas fa-chart-bar"></i></div>
+                <h3>Usage Analytics</h3>
+                <p>Track real usage per license. Spot ghost accounts, identify underused tools, and recommend right-sizing to save 30-40%.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="compliance" onclick="navigateToSection(this)">
+                <div class="feature-icon orange"><i class="fas fa-shield-alt"></i></div>
+                <h3>Compliance & Risk</h3>
+                <p>Auto risk-score every vendor. GDPR, DPDP, SOC 2, ISO 27001 compliance at a glance. Audit-ready reports.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Row 2: Contracts & Governance -->
+            <div class="feature-card feature-card--clickable" data-section="contracts" onclick="navigateToSection(this)">
+                <div class="feature-icon red"><i class="fas fa-file-contract"></i></div>
+                <h3>Contract Intelligence</h3>
+                <p>NLP-powered contract analysis. Never miss a renewal. Get AI-driven negotiation benchmarks.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="policies" onclick="navigateToSection(this)">
+                <div class="feature-icon purple"><i class="fas fa-gavel"></i></div>
+                <h3>Policy Engine</h3>
+                <p>Set auto-approval rules, spending limits, and app restrictions. Enforce governance without slowing teams down.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="ai-insights" onclick="navigateToSection(this)">
+                <div class="feature-icon green"><i class="fas fa-lightbulb"></i></div>
+                <h3>AI Insights</h3>
+                <p>Proactive AI recommendations: duplicate app consolidation, cost anomalies, renewal risks. Surfaced before you ask.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="ai-copilot" onclick="navigateToSection(this)">
+                <div class="feature-icon teal"><i class="fas fa-robot"></i></div>
+                <h3>AI Copilot</h3>
+                <p>"How much do we spend on project tools?" Ask in plain English. Get instant answers with data.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Row 3: People Operations -->
+            <div class="feature-card feature-card--clickable" data-section="employee-onboarding" onclick="navigateToSection(this)">
+                <div class="feature-icon purple"><i class="fas fa-user-plus"></i></div>
+                <h3>Onboarding Orchestration</h3>
+                <p>Role-based templates auto-provision Slack, Jira, GitHub, AWS on Day 1. HR triggers, IT reviews. Zero tickets needed.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="offboarding" onclick="navigateToSection(this)">
+                <div class="feature-icon red"><i class="fas fa-user-slash"></i></div>
+                <h3>Offboarding Console</h3>
+                <p>One-click revoke all SaaS access for departing employees. Sync with HR systems. Zero lingering accounts.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="lifecycle-analytics" onclick="navigateToSection(this)">
+                <div class="feature-icon blue"><i class="fas fa-users-cog"></i></div>
+                <h3>Employee Lifecycle</h3>
+                <p>Track every employee's SaaS footprint from hire to exit. Hardware tracking, training compliance, contractor management: all in one place.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="approval-workflows" onclick="navigateToSection(this)">
+                <div class="feature-icon green"><i class="fas fa-clipboard-check"></i></div>
+                <h3>Approval Workflows</h3>
+                <p>Multi-level approval chains for software requests. Auto-route to managers, IT, and finance. Full audit trail built in.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+
+            <!-- Row 4: Renewals & Alerts -->
+            <div class="feature-card feature-card--clickable" data-section="renewals" onclick="navigateToSection(this)">
+                <div class="feature-icon blue"><i class="fas fa-sync-alt"></i></div>
+                <h3>Smart Renewal Engine</h3>
+                <p>90/60/30-day renewal alerts with benchmark pricing, usage data, and AI negotiation scripts. Never overpay again.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="benchmarks" onclick="navigateToSection(this)">
+                <div class="feature-icon orange"><i class="fas fa-chart-pie"></i></div>
+                <h3>Industry Benchmarks</h3>
+                <p>Compare your SaaS spend against industry peers. Know if you're overpaying, with proof for vendor negotiations.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="alerts" onclick="navigateToSection(this)">
+                <div class="feature-icon teal"><i class="fas fa-bell"></i></div>
+                <h3>Alerts & Notifications</h3>
+                <p>Real-time alerts for renewals, budget overruns, compliance gaps, and shadow IT. Via Slack, email, or in-app.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+            <div class="feature-card feature-card--clickable" data-section="self-service-portal" onclick="navigateToSection(this)">
+                <div class="feature-icon orange"><i class="fas fa-laptop-code"></i></div>
+                <h3>Self-Service Portal</h3>
+                <p>Employees request tools, report issues, and browse the app catalog without opening IT tickets. API & webhook ready.</p>
+                <span class="feature-card-arrow"><i class="fas fa-arrow-right"></i></span>
             </div>
         </div>
     </section>
 
-    <!-- ===== TESTIMONIAL WALL ===== -->
-    <section id="testimonials-wall" class="g-testimonials-section">
-        <div class="g-testimonials-inner">
-            <h2>Trusted by <span class="g-count-highlight">400+</span> enterprises</h2>
-            <div class="g-testimonial-wall">
-                <div class="g-test-card g-test-lg">
-                    <p>"SaaSIQ found $2.4M in waste we didn't know existed. The ROI was visible within the first week."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#7C3AED">RS</div>
-                        <div><strong>Rahul Sharma</strong><span>CTO, TechCorp India</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card">
-                    <p>"Setup took 5 minutes. Our IT team of 3 people manages 200+ tools now."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#10B981">PG</div>
-                        <div><strong>Priya Gupta</strong><span>VP Engineering, Razorpay</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card">
-                    <p>"The AI Copilot is incredible. I ask questions in plain English and get instant answers about our entire SaaS stack."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#3B82F6">AK</div>
-                        <div><strong>Amit Kumar</strong><span>CFO, Freshworks</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card g-test-lg">
-                    <p>"We passed our SOC 2 audit in half the time. SaaSIQ's compliance module is a game-changer for fast-growing startups."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#E86C25">SK</div>
-                        <div><strong>Sneha Kapoor</strong><span>Head of IT, Swiggy</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card">
-                    <p>"47 shadow IT apps found on day one. SaaSIQ basically paid for itself."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#EF4444">VR</div>
-                        <div><strong>Vikram Rao</strong><span>CISO, PhonePe</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card">
-                    <p>"Best SaaS management tool in India. The support team is responsive and the product keeps getting better."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#F59E0B">NM</div>
-                        <div><strong>Neha Mehta</strong><span>IT Director, Zoho</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card">
-                    <p>"Offboarding used to take 3 days. Now it's fully automated and instant. No more zombie accounts."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#0D9488">DK</div>
-                        <div><strong>Deepak Krishnan</strong><span>People Ops, Infosys</span></div>
-                    </div>
-                </div>
-                <div class="g-test-card g-test-lg">
-                    <p>"SaaSIQ's contract intelligence saved us $800K on renewals this year. The benchmarking data is incredibly accurate."</p>
-                    <div class="g-test-author">
-                        <div class="g-test-avatar" style="background:#8B5CF6">AP</div>
-                        <div><strong>Ananya Patel</strong><span>Procurement Head, Wipro</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== PRICING / CONTACT SALES ===== -->
     <section id="pricing" class="pricing-section">
-        <div class="pricing-header">
+        <div class="section-header">
+            <span class="section-badge">Pricing</span>
             <h2>Simple, Transparent Pricing</h2>
             <p>One platform fee. Unlimited users. No per-seat surprises.</p>
         </div>
-        <div class="pricing-grid" style="max-width:1100px;margin:0 auto;padding:0 24px">
+        <div class="pricing-grid">
             <div class="pricing-card">
                 <h3>Growth</h3>
-                <p class="pricing-desc">For startups & small teams getting SaaS under control</p>
+                <div class="price">$499<span>/mo</span></div>
                 <ul>
-                    <li>Up to 100 employees</li>
-                    <li>Unlimited users</li>
-                    <li>SaaS Discovery & Inventory</li>
-                    <li>Basic Spend Analytics</li>
-                    <li>Shadow IT Detection</li>
-                    <li>Email & Slack Alerts</li>
-                    <li>Up to 20 Integrations</li>
-                    <li>14-day free trial</li>
+                    <li><i class="fas fa-check"></i> Up to 100 employees</li>
+                    <li><i class="fas fa-check"></i> Unlimited users</li>
+                    <li><i class="fas fa-check"></i> SaaS Discovery & Spend Analytics</li>
+                    <li><i class="fas fa-check"></i> Email & Slack Alerts</li>
+                    <li><i class="fas fa-check"></i> Up to 20 Integrations</li>
+                    <li><i class="fas fa-check"></i> 14-day free trial</li>
                 </ul>
-                <button class="btn btn-outline" onclick="showToast('info','Our sales team will reach out within 24 hours!')">Contact Sales</button>
+                <button class="btn btn-outline" onclick="showPage('page-signup')">Start Free Trial</button>
             </div>
             <div class="pricing-card featured">
                 <div class="pricing-badge">Most Popular</div>
                 <h3>Business</h3>
-                <p class="pricing-desc">For growing companies scaling SaaS operations</p>
+                <div class="price">$1,999<span>/mo</span></div>
                 <ul>
-                    <li>Up to 1,000 employees</li>
-                    <li>Unlimited users</li>
-                    <li>Everything in Growth</li>
-                    <li>AI Spend Intelligence & Copilot</li>
-                    <li>License Optimization</li>
-                    <li>Compliance Scoring</li>
-                    <li>Contract Management</li>
-                    <li>Onboarding / Offboarding Automation</li>
-                    <li>Unlimited Integrations</li>
-                    <li>Priority support</li>
+                    <li><i class="fas fa-check"></i> Up to 1,000 employees</li>
+                    <li><i class="fas fa-check"></i> Unlimited users</li>
+                    <li><i class="fas fa-check"></i> Everything in Growth</li>
+                    <li><i class="fas fa-check"></i> AI Spend Intelligence & Copilot</li>
+                    <li><i class="fas fa-check"></i> License Optimization</li>
+                    <li><i class="fas fa-check"></i> Compliance Scoring</li>
+                    <li><i class="fas fa-check"></i> Contract Management</li>
+                    <li><i class="fas fa-check"></i> Unlimited Integrations</li>
                 </ul>
-                <button class="btn btn-primary" onclick="showToast('info','Our sales team will reach out within 24 hours!')">Contact Sales</button>
+                <button class="btn btn-primary" onclick="showPage('page-signup')">Start Free Trial</button>
             </div>
             <div class="pricing-card">
                 <h3>Enterprise</h3>
-                <p class="pricing-desc">For large organizations with complex SaaS estates</p>
+                <div class="price">Custom</div>
                 <ul>
-                    <li>Unlimited employees</li>
-                    <li>Everything in Business</li>
-                    <li>Negotiation AI & Savings Share</li>
-                    <li>M&A SaaS Due Diligence</li>
-                    <li>Custom Integrations & API</li>
-                    <li>Dedicated CSM & Support</li>
-                    <li>On-prem / Private Cloud</li>
-                    <li>SLA & Uptime Guarantee</li>
-                    <li>Board-ready Reporting</li>
+                    <li><i class="fas fa-check"></i> Unlimited employees</li>
+                    <li><i class="fas fa-check"></i> Everything in Business</li>
+                    <li><i class="fas fa-check"></i> Negotiation AI & Savings Share</li>
+                    <li><i class="fas fa-check"></i> Custom Integrations & API</li>
+                    <li><i class="fas fa-check"></i> Dedicated CSM & Support</li>
+                    <li><i class="fas fa-check"></i> On-prem / Private Cloud</li>
+                    <li><i class="fas fa-check"></i> SLA & Uptime Guarantee</li>
                 </ul>
-                <button class="btn btn-outline" onclick="showToast('info','Our sales team will reach out within 24 hours!')">Contact Sales</button>
+                <button class="btn btn-outline" onclick="openContactSales()">Contact Sales</button>
             </div>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="landing-footer">
+        <div class="footer-glow"></div>
         <div class="footer-inner">
             <div class="footer-brand">
-                <div class="logo" style="margin-bottom:12px">
+                <div class="logo">
                     <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
                     <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
                 </div>
-                <p>India's #1 AI-powered SaaS spend intelligence platform.</p>
+                <p>AI-powered SaaS spend intelligence for modern enterprises. Discover, optimize, comply.</p>
                 <div class="footer-social">
-                    <a href="javascript:void(0)"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
-                    <a href="javascript:void(0)"><i class="fab fa-github"></i></a>
-                    <a href="javascript:void(0)"><i class="fab fa-youtube"></i></a>
+                    <a href="javascript:void(0)" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="javascript:void(0)" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="javascript:void(0)" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 </div>
             </div>
             <div class="footer-links">
-                <div><h4>Product</h4><a href="javascript:void(0)" onclick="scrollToSection('products-showcase')">Discovery</a><a href="javascript:void(0)" onclick="scrollToSection('features')">Features</a><a href="javascript:void(0)" onclick="scrollToSection('pricing')">Pricing</a><a href="javascript:void(0)">Integrations</a></div>
-                <div><h4>Company</h4><a href="javascript:void(0)">About</a><a href="javascript:void(0)">Blog</a><a href="javascript:void(0)">Careers</a><a href="javascript:void(0)">Contact</a></div>
+                <div><h4>Product</h4><a href="javascript:void(0)" onclick="scrollToSection('features')">Features</a><a href="javascript:void(0)" onclick="scrollToSection('pricing')">Pricing</a><a href="javascript:void(0)" onclick="showPage('page-dashboard');showDashSectionDirect('integrations')">Integrations</a><a href="javascript:void(0)" onclick="showPage('page-dashboard');showDashSectionDirect('settings')">API</a></div>
+                <div><h4>Company</h4><a href="javascript:void(0)">About</a><a href="javascript:void(0)">Blog</a><a href="javascript:void(0)">Careers</a><a href="javascript:void(0)" onclick="showToast('info','Our sales team will reach out within 24 hours!')">Contact</a></div>
                 <div><h4>Legal</h4><a href="javascript:void(0)">Privacy</a><a href="javascript:void(0)">Terms</a><a href="javascript:void(0)">GDPR</a><a href="javascript:void(0)">DPDP</a></div>
             </div>
         </div>
-        <div class="footer-bottom">© 2026 SaaSIQ. All rights reserved. Built with love in India.</div>
+        <div class="footer-bottom">© 2026 SaaSIQ. All rights reserved. Built with ❤️ in India.</div>
     </footer>
-
-
-
-    <!-- ===== WATCH A DEMO VIDEO MODAL ===== -->
-    <div class="dv-overlay" id="demo-video-overlay">
-        <div class="dv-modal">
-            <div class="dv-header">
-                <div class="dv-header-left">
-                    <div class="logo-icon" style="width:32px;height:32px;font-size:14px"><i class="fas fa-layer-group"></i></div>
-                    <span style="font-weight:700;font-size:15px;color:#fff">SaaSIQ Product Tour</span>
-                </div>
-                <button class="dv-close" onclick="closeDemoVideo()"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="dv-progress"><div class="dv-progress-fill"></div></div>
-            <div class="dv-scene-content"></div>
-            <div class="dv-footer">
-                <button class="dv-prev"><i class="fas fa-arrow-left"></i></button>
-                <span class="dv-scene-counter">1 / 7</span>
-                <button class="dv-next"><i class="fas fa-arrow-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== FLOATING DEMO WIDGET ===== -->
-    <div class="demo-widget" id="demo-widget">
-        <div class="demo-widget-header">
-            <div class="demo-widget-header-left">
-                <button class="demo-widget-back" onclick="demoWidgetStep(1)" id="demo-back-btn" style="display:none"><i class="fas fa-arrow-left"></i></button>
-                <div class="demo-widget-avatar"><i class="fas fa-calendar-check"></i></div>
-                <div><strong>Book a Demo</strong><p>Pick a time that works for you</p></div>
-            </div>
-            <button class="demo-widget-close" onclick="closeDemoWidget()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="demo-widget-step" id="demo-step-1">
-            <p style="font-size:14px;color:#6B7280;margin-bottom:16px">Choose a convenient slot and one of our team members will personally walk you through SaaSIQ.</p>
-            <div class="demo-widget-tabs">
-                <button class="demo-tab active" onclick="switchDemoDay(this,'today')">Today</button>
-                <button class="demo-tab" onclick="switchDemoDay(this,'tomorrow')">Tomorrow</button>
-                <button class="demo-tab" onclick="switchDemoDay(this,'week')">This Week</button>
-            </div>
-            <div class="demo-day-label">Today</div>
-            <div class="demo-slots">
-                <button class="demo-slot" onclick="selectDemoSlot(this)">9:00 AM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">9:30 AM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">10:00 AM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">10:30 AM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">11:00 AM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">11:30 AM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">2:00 PM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">2:30 PM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">3:00 PM</button>
-                <button class="demo-slot" onclick="selectDemoSlot(this)">3:30 PM</button>
-            </div>
-            <div class="demo-selected-banner" style="display:none">
-                <i class="fas fa-check-circle"></i>
-                <div><strong></strong><span></span></div>
-            </div>
-        </div>
-        <div class="demo-widget-step" id="demo-step-2" style="display:none">
-            <input type="text" placeholder="Your full name" class="demo-widget-input" id="dw-name">
-            <input type="email" placeholder="Work email address" class="demo-widget-input" id="dw-email">
-            <input type="text" placeholder="Company name (optional)" class="demo-widget-input" id="dw-company">
-            <button class="btn btn-cta-green" style="width:100%;margin-top:8px;border-radius:10px;padding:14px" onclick="submitDemoWidget()"><i class="fas fa-calendar-check"></i> Confirm Booking</button>
-        </div>
-        <div class="demo-widget-step" id="demo-step-3" style="display:none">
-            <div class="demo-confirm-card">
-                <div class="demo-confirm-icon"><i class="fas fa-check-circle"></i></div>
-                <h4>You're All Set!</h4>
-                <p>Your demo is booked for <strong id="demo-confirm-datetime"></strong></p>
-                <p class="demo-confirm-sub">We'll send a calendar invite to <strong id="demo-confirm-email"></strong></p>
-                <button class="btn btn-cta-green" style="width:100%;margin-top:16px;border-radius:10px;padding:14px" onclick="closeDemoWidget()">Done</button>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <!-- ==================== LOGIN PAGE ==================== -->
@@ -7431,6 +7539,6 @@ Vikram Patel, Designer, $8,400/yr, 6, vikram@company.com, idle"></textarea>
 <!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
 
-<script src="app.js?v=24"></script>
+<script src="app.js?v=21"></script>
 </body>
 </html>
