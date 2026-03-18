@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SaaSIQ AI-Powered SaaS Spend Intelligence</title>
   <meta name="description" content="SaaSIQ AI-Powered SaaS Spend Intelligence and Shadow IT Governance Platform. Discover, manage, and optimize your entire SaaS portfolio.">
+  <!-- Open Graph / Social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SaaSIQ — AI-Powered SaaS Spend Intelligence">
+  <meta property="og:description" content="Discover shadow IT, reclaim wasted licenses, and unlock millions in hidden savings — all powered by AI that never sleeps.">
+  <meta property="og:image" content="https://saasiq.github.io/saasiq-ux-prototype/og-image.png">
+  <meta property="og:url" content="https://saasiq.github.io/saasiq-ux-prototype/">
+  <meta property="og:site_name" content="SaaSIQ">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SaaSIQ — AI-Powered SaaS Spend Intelligence">
+  <meta name="twitter:description" content="Discover shadow IT, reclaim wasted licenses, and unlock millions in hidden savings.">
+  <meta name="twitter:image" content="https://saasiq.github.io/saasiq-ux-prototype/og-image.png">
+  <!-- Canonical -->
+  <link rel="canonical" href="https://saasiq.github.io/saasiq-ux-prototype/">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237C3AED'/><text x='16' y='22' font-size='18' font-weight='800' text-anchor='middle' fill='white' font-family='sans-serif'>S</text></svg>" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=28">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -554,13 +568,35 @@
   </style>
 </head>
 <body>
+
+<!-- ===== SEARCH OVERLAY (Cmd+K) ===== -->
+<div class="gw-search-overlay" id="gwSearchOverlay" onclick="if(event.target===this)closeSearchOverlay()">
+  <div class="gw-search-modal">
+    <div class="gw-search-input-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" id="gwSearchInput" placeholder="Search features, docs, pricing..." autocomplete="off">
+      <kbd onclick="closeSearchOverlay()">ESC</kbd>
+    </div>
+    <div class="gw-search-hints">
+      <p>Quick links</p>
+      <div class="gw-search-hint-item" onclick="scrollToSection('features');closeSearchOverlay()"><i class="fas fa-th-large"></i> Features <kbd>F</kbd></div>
+      <div class="gw-search-hint-item" onclick="scrollToSection('pricing');closeSearchOverlay()"><i class="fas fa-tag"></i> Pricing <kbd>P</kbd></div>
+      <div class="gw-search-hint-item" onclick="scrollToSection('how-it-works');closeSearchOverlay()"><i class="fas fa-play-circle"></i> How It Works <kbd>H</kbd></div>
+      <div class="gw-search-hint-item" onclick="openBookDemo();closeSearchOverlay()"><i class="fas fa-calendar-alt"></i> Book a Demo <kbd>D</kbd></div>
+      <div class="gw-search-hint-item" onclick="openContactSales();closeSearchOverlay()"><i class="fas fa-headset"></i> Contact Sales <kbd>C</kbd></div>
+    </div>
+  </div>
+</div>
 <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
 <!-- ==================== LANDING PAGE (Groww-inspired) ==================== -->
 <div id="page-landing" class="page active">
 
+  <!-- Skip to content for accessibility -->
+  <a href="#gw-main-content" class="gw-skip-nav">Skip to main content</a>
+
   <!-- ===== NAVIGATION ===== -->
-  <nav class="gw-nav">
+  <nav class="gw-nav" role="navigation" aria-label="Main navigation">
     <div class="gw-nav-inner">
       <div class="logo">
         <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
@@ -575,15 +611,33 @@
         <a href="javascript:void(0)" class="gw-nav-more" onclick="scrollToSection('testimonials')">More</a>
       </div>
       <div class="gw-nav-right">
-        <div class="gw-search-box" onclick="this.querySelector('input').focus()">
+        <div class="gw-search-box" onclick="openSearchOverlay()">
           <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search SaaSIQ..." readonly>
+          <span class="gw-search-placeholder">Search SaaSIQ...</span>
           <kbd>⌘K</kbd>
         </div>
         <button class="landing-theme-toggle" onclick="toggleLandingTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
           <i class="fas fa-moon" id="landing-theme-icon"></i>
         </button>
         <button class="gw-login-btn" onclick="showPage('page-login')">Login/Sign up</button>
+        <!-- Mobile hamburger -->
+        <button class="gw-hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="gw-hamburger-line"></span>
+          <span class="gw-hamburger-line"></span>
+          <span class="gw-hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile nav drawer -->
+    <div class="gw-mobile-nav" id="gwMobileNav" role="dialog" aria-label="Navigation menu">
+      <a href="javascript:void(0)" onclick="scrollToSection('how-it-works');closeMobileNav()">How It Works</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('why-saasiq');closeMobileNav()">Why SaaSIQ</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('only-saasiq');closeMobileNav()">Only SaaSIQ</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('features');closeMobileNav()">Features</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('pricing');closeMobileNav()">Pricing</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('testimonials');closeMobileNav()">Testimonials</a>
+      <div class="gw-mobile-nav-cta">
+        <button class="gw-login-btn" onclick="showPage('page-login');closeMobileNav()">Login / Sign up</button>
       </div>
     </div>
   </nav>
@@ -614,7 +668,7 @@
   </div>
 
   <!-- ===== HERO SECTION ===== -->
-  <section class="gw-hero">
+  <section id="gw-main-content" class="gw-hero">
     <!-- Floating gradient orbs -->
     <div class="gw-hero-orbs">
       <div class="gw-orb gw-orb-1"></div>
@@ -715,7 +769,7 @@
     <p class="gw-trust-sub">Trusted by 500+ companies across 30+ countries</p>
     <!-- Trusted logos -->
     <div class="gw-trust-logos-row">
-      <span>Flipkart</span><span>Razorpay</span><span>Freshworks</span><span>Zerodha</span><span>Postman</span><span>Swiggy</span><span>MPL</span><span>CoinDCX</span>
+      <span class="gw-logo-brand"><i class="fab fa-slack"></i> Slack</span><span class="gw-logo-brand"><i class="fab fa-salesforce"></i> Salesforce</span><span class="gw-logo-brand"><i class="fab fa-hubspot"></i> HubSpot</span><span class="gw-logo-brand"><i class="fab fa-stripe"></i> Stripe</span><span class="gw-logo-brand"><i class="fab fa-figma"></i> Figma</span><span class="gw-logo-brand"><i class="fab fa-atlassian"></i> Atlassian</span><span class="gw-logo-brand"><i class="fas fa-cloud"></i> Snowflake</span><span class="gw-logo-brand"><i class="fab fa-aws"></i> AWS</span>
     </div>
   </section>
 
@@ -1028,51 +1082,51 @@
         <p>"We found $180K in wasted licenses in the first week. SaaSIQ paid for itself in 2 days."</p>
         <div class="gw-testi-author">
           <div class="gw-testi-avatar" style="background:#7C3AED">RS</div>
-          <div><strong>Raghav Sinha</strong><span>VP Engineering, ScaleUp Technologies</span></div>
+          <div><strong>Ryan Schultz</strong><span>VP Engineering, ScaleUp Technologies</span></div>
         </div>
       </div>
       <div class="gw-testi-card" style="grid-column: 3/4; grid-row: 1;">
-        <p>"Your support team is excellent"</p>
+        <p>"Support team is world-class — 10/10."</p>
         <div class="gw-testi-author">
           <div class="gw-testi-avatar" style="background:#3B82F6">PG</div>
-          <div><strong>Palak Gupta</strong><span>IT Director</span></div>
+          <div><strong>Priya Gupta</strong><span>IT Director, NovaTech</span></div>
         </div>
       </div>
       <div class="gw-testi-card" style="grid-column: 4/6; grid-row: 1;">
-        <p>"SaaSIQ was the platform where I first got onboard to SaaS management and it made things quite easier to discover and optimize. SaaSIQ actually helped me make better-informed decisions."</p>
+        <p>"SaaSIQ was the platform where I first got onboard to SaaS management and it made things quite easier to discover and optimize. It actually helped me make better-informed decisions."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#10B981">AP</div>
-          <div><strong>Ankit Puri</strong><span>Technical Product Specialist at Google</span></div>
+          <div class="gw-testi-avatar" style="background:#10B981">ML</div>
+          <div><strong>Marcus Lehmann</strong><span>Technical Product Specialist at Google</span></div>
         </div>
       </div>
       <div class="gw-testi-card" style="grid-column: 6/7; grid-row: 1/3;">
-        <p>"I want to give the feedback 10/10. SaaSIQ reduced our SaaS audit time from 3 weeks to 2 days. I will recommend to all IT teams."</p>
+        <p>"SaaSIQ reduced our SaaS audit time from 3 weeks to 2 days. I would recommend to every IT team out there."</p>
         <div class="gw-testi-author">
           <div class="gw-testi-avatar" style="background:#F59E0B">SK</div>
-          <div><strong>Shivam Kushwaha</strong><span>CTO, Finserv Corp</span></div>
+          <div><strong>Sofia Kim</strong><span>CTO, Finserv Corp</span></div>
         </div>
       </div>
 
       <!-- Row 2 -->
       <div class="gw-testi-card" style="grid-column: 1/2; grid-row: 2;">
-        <p>"Your support team has been quite helpful in answering my queries. Helps in making the right choices."</p>
+        <p>"The support team has been incredibly helpful answering our queries. Helps in making the right choices."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#EC4899">SM</div>
-          <div><strong>Sangeeta Mukherjee</strong><span>CFO</span></div>
+          <div class="gw-testi-avatar" style="background:#EC4899">CM</div>
+          <div><strong>Claire Martin</strong><span>CFO, Ascend Finance</span></div>
         </div>
       </div>
       <div class="gw-testi-card" style="grid-column: 2/4; grid-row: 2;">
-        <p>"SaaSIQ is a great platform for SaaS management. Interactive and clean UI. Features like creating your own optimization policies are great. Very responsive support team."</p>
+        <p>"SaaSIQ is a great platform for SaaS management. Interactive and clean UI. Features like custom optimization policies are outstanding. Very responsive support team."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#6366F1">AS</div>
-          <div><strong>Anoop Singh</strong><span>Team Lead at Expocraft Technology</span></div>
+          <div class="gw-testi-avatar" style="background:#6366F1">AT</div>
+          <div><strong>Amir Tanaka</strong><span>Team Lead, CloudOps Inc.</span></div>
         </div>
       </div>
       <div class="gw-testi-card" style="grid-column: 4/6; grid-row: 2;">
-        <p>"You guys are really being helpful to the new IT admins. God bless you and your organization!"</p>
+        <p>"A game-changer for IT admins. Onboarding was effortless and the ROI was immediate."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#14B8A6">UR</div>
-          <div><strong>Uttam Raj</strong><span>IT Admin</span></div>
+          <div class="gw-testi-avatar" style="background:#14B8A6">JR</div>
+          <div><strong>James Robinson</strong><span>IT Admin, DataBridge</span></div>
         </div>
       </div>
     </div>
@@ -1086,29 +1140,29 @@
       <div class="gw-testi-card">
         <p>"I started optimizing SaaS because of SaaSIQ. All this while I was losing money on unused licenses."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#7C3AED">AB</div>
-          <div><strong>Abhinav Sohni</strong><span>VP Engineering at Tixdo</span></div>
+          <div class="gw-testi-avatar" style="background:#7C3AED">AO</div>
+          <div><strong>Alex Okonkwo</strong><span>VP Engineering, Tixdo</span></div>
         </div>
       </div>
       <div class="gw-testi-card">
         <p>"I love that there are so many integrations. The data and analysis really helped me choose the best tools for my team."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#3B82F6">SB</div>
-          <div><strong>Sahil Bansal</strong><span>Developer at Flipkart</span></div>
+          <div class="gw-testi-avatar" style="background:#3B82F6">EB</div>
+          <div><strong>Elena Bergstrom</strong><span>Engineering Manager, Shopify</span></div>
         </div>
       </div>
       <div class="gw-testi-card">
         <p>"When it comes to SaaS management, being able to trust the platform is a big deal. SaaSIQ is transparent and data-based."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#10B981">PG</div>
-          <div><strong>Puneet Gupta</strong><span>Senior Product Manager at Ittiam</span></div>
+          <div class="gw-testi-avatar" style="background:#10B981">DN</div>
+          <div><strong>Daniel Nakamura</strong><span>Senior Product Manager, Twilio</span></div>
         </div>
       </div>
       <div class="gw-testi-card">
-        <p>"The experience with SaaSIQ has been lovely. SaaS optimization sounds extremely simple and non-scary to me now."</p>
+        <p>"SaaS optimization sounds extremely simple and non-scary now. The onboarding was seamless."</p>
         <div class="gw-testi-author">
-          <div class="gw-testi-avatar" style="background:#F97316">RV</div>
-          <div><strong>Ravali</strong><span>Engineer at Fourth Frontier</span></div>
+          <div class="gw-testi-avatar" style="background:#F97316">LF</div>
+          <div><strong>Luisa Fernandez</strong><span>Engineer, Mercado Libre</span></div>
         </div>
       </div>
     </div>
@@ -1123,43 +1177,52 @@
     <div class="gw-pricing-grid gw-stagger-reveal">
       <div class="gw-pricing-card">
         <h3>Growth</h3>
-        <div class="gw-price">$499<span>/mo</span></div>
+        <div class="gw-price-label">For startups & small teams</div>
         <ul>
           <li><i class="fas fa-check"></i> Up to 100 employees</li>
-          <li><i class="fas fa-check"></i> Unlimited users</li>
-          <li><i class="fas fa-check"></i> SaaS Discovery & Spend</li>
+          <li><i class="fas fa-check"></i> Unlimited admin users</li>
+          <li><i class="fas fa-check"></i> SaaS Discovery & Shadow IT</li>
+          <li><i class="fas fa-check"></i> Spend Tracking & Analytics</li>
           <li><i class="fas fa-check"></i> Email & Slack Alerts</li>
           <li><i class="fas fa-check"></i> Up to 20 Integrations</li>
+          <li><i class="fas fa-check"></i> Basic Usage Analytics</li>
           <li><i class="fas fa-check"></i> 14-day free trial</li>
         </ul>
-        <button class="gw-pricing-btn outline" onclick="showPage('page-signup')">Start Free Trial</button>
+        <button class="gw-pricing-btn outline" onclick="openContactSales()">Contact Sales</button>
       </div>
       <div class="gw-pricing-card featured">
         <div class="gw-pricing-badge">Most Popular</div>
         <h3>Business</h3>
-        <div class="gw-price">$1,999<span>/mo</span></div>
+        <div class="gw-price-label">For scaling companies</div>
         <ul>
           <li><i class="fas fa-check"></i> Up to 1,000 employees</li>
           <li><i class="fas fa-check"></i> Everything in Growth</li>
           <li><i class="fas fa-check"></i> AI Spend Intelligence</li>
-          <li><i class="fas fa-check"></i> License Optimization</li>
-          <li><i class="fas fa-check"></i> Compliance Scoring</li>
-          <li><i class="fas fa-check"></i> Contract Management</li>
+          <li><i class="fas fa-check"></i> License Optimization Engine</li>
+          <li><i class="fas fa-check"></i> Compliance & Risk Scoring</li>
+          <li><i class="fas fa-check"></i> Contract Management & Renewals</li>
           <li><i class="fas fa-check"></i> Unlimited Integrations</li>
+          <li><i class="fas fa-check"></i> Onboarding & Offboarding Automation</li>
+          <li><i class="fas fa-check"></i> Department Cost Allocation</li>
+          <li><i class="fas fa-check"></i> Priority Support</li>
         </ul>
-        <button class="gw-pricing-btn primary" onclick="showPage('page-signup')">Start Free Trial</button>
+        <button class="gw-pricing-btn primary" onclick="openContactSales()">Contact Sales</button>
       </div>
       <div class="gw-pricing-card">
         <h3>Enterprise</h3>
-        <div class="gw-price">Custom</div>
+        <div class="gw-price-label">For large organizations</div>
         <ul>
           <li><i class="fas fa-check"></i> Unlimited employees</li>
           <li><i class="fas fa-check"></i> Everything in Business</li>
-          <li><i class="fas fa-check"></i> Negotiation AI</li>
-          <li><i class="fas fa-check"></i> Custom Integrations & API</li>
-          <li><i class="fas fa-check"></i> Dedicated CSM</li>
-          <li><i class="fas fa-check"></i> On-prem / Private Cloud</li>
-          <li><i class="fas fa-check"></i> SLA & Uptime Guarantee</li>
+          <li><i class="fas fa-check"></i> AI Negotiation Copilot</li>
+          <li><i class="fas fa-check"></i> Custom Integrations & API Access</li>
+          <li><i class="fas fa-check"></i> Dedicated Customer Success Manager</li>
+          <li><i class="fas fa-check"></i> On-prem / Private Cloud Deployment</li>
+          <li><i class="fas fa-check"></i> SLA & 99.9% Uptime Guarantee</li>
+          <li><i class="fas fa-check"></i> M&A SaaS Due Diligence</li>
+          <li><i class="fas fa-check"></i> Predictive Waste Forecasting</li>
+          <li><i class="fas fa-check"></i> SSO / SCIM Provisioning</li>
+          <li><i class="fas fa-check"></i> Custom Reporting & Dashboards</li>
         </ul>
         <button class="gw-pricing-btn outline" onclick="openContactSales()">Contact Sales</button>
       </div>
@@ -1311,9 +1374,9 @@
         </div>
       </div>
       <div class="gw-footer-links">
-        <div><h4>Product</h4><a href="javascript:void(0)" onclick="scrollToSection('features')">Features</a><a href="javascript:void(0)" onclick="scrollToSection('pricing')">Pricing</a><a href="javascript:void(0)">Integrations</a><a href="javascript:void(0)">API</a></div>
-        <div><h4>Company</h4><a href="javascript:void(0)">About</a><a href="javascript:void(0)">Blog</a><a href="javascript:void(0)">Careers</a><a href="javascript:void(0)" onclick="showToast('info','Our sales team will reach out within 24 hours!')">Contact</a></div>
-        <div><h4>Legal</h4><a href="javascript:void(0)">Privacy</a><a href="javascript:void(0)">Terms</a><a href="javascript:void(0)">GDPR</a><a href="javascript:void(0)">DPDP</a></div>
+        <div><h4>Product</h4><a href="javascript:void(0)" onclick="scrollToSection('features')">Features</a><a href="javascript:void(0)" onclick="scrollToSection('pricing')">Pricing</a><a href="javascript:void(0)" onclick="showToast('info','Integrations page coming soon — 400+ connectors available!')">Integrations</a><a href="javascript:void(0)" onclick="showToast('info','API docs coming soon. Contact sales for early access.')">API</a></div>
+        <div><h4>Company</h4><a href="javascript:void(0)" onclick="showToast('info','About page coming soon!')">About</a><a href="javascript:void(0)" onclick="showToast('info','Blog launching soon — subscribe for updates!')">Blog</a><a href="javascript:void(0)" onclick="showToast('info','We are hiring! Send your resume to careers@saasiq.io')">Careers</a><a href="javascript:void(0)" onclick="openContactSales()">Contact</a></div>
+        <div><h4>Legal</h4><a href="javascript:void(0)" onclick="showToast('info','Privacy policy available upon request. Contact legal@saasiq.io')">Privacy</a><a href="javascript:void(0)" onclick="showToast('info','Terms of service available upon request. Contact legal@saasiq.io')">Terms</a><a href="javascript:void(0)" onclick="showToast('info','SaaSIQ is GDPR compliant. Contact us for our data processing agreement.')">GDPR</a><a href="javascript:void(0)" onclick="showToast('info','SaaSIQ is DPDP compliant. Contact us for details.')">DPDP</a></div>
       </div>
     </div>
     <div class="gw-footer-bottom">© 2026 SaaSIQ. All rights reserved.</div>
@@ -1438,7 +1501,7 @@
           </div>
           <div class="form-group">
             <label for="signup-company">Company Name</label>
-            <input id="signup-company" type="text" placeholder="TechCorp India" required>
+            <input id="signup-company" type="text" placeholder="TechCorp Global" required>
           </div>
           <div class="form-group">
             <label for="signup-size">Company Size</label>
@@ -1470,10 +1533,10 @@
   <div class="onboarding-container">
     <div class="onboard-topbar">
       <button class="back-link" onclick="showPage('page-signup')"><i class="fas fa-arrow-left"></i> Back</button>
-      <button class="nav-pill nav-pill-ghost" onclick="showPage('page-landing')"><i class="fas fa-home"></i> Home</button>
+      <button class="nav-pill nav-pill-ghost" onclick="goHome()"><i class="fas fa-home"></i> Home</button>
     </div>
     <div class="onboarding-header">
-      <div class="logo" onclick="showPage('page-landing')" style="cursor:pointer">
+      <div class="logo" onclick="goHome()" style="cursor:pointer">
         <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
         <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
       </div>
@@ -1698,7 +1761,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <div class="logo" onclick="showPage('page-landing')">
+        <div class="logo" onclick="goHome()" style="cursor:pointer">
           <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
           <span class="logo-text">SaaS<span class="logo-highlight">IQ</span></span>
         </div>
@@ -1707,13 +1770,13 @@
         <div class="org-selector" onclick="toggleOrgDropdown()">
           <div class="avatar-sm">TC</div>
           <div>
-            <strong>TechCorp India</strong>
-            <span>Business Plan</span>
+            <strong>TechCorp Global</strong>
+            <span>Enterprise</span>
           </div>
           <i class="fas fa-chevron-down org-chevron"></i>
         </div>
         <div class="org-dropdown" id="org-dropdown">
-          <div class="org-dropdown-item active"><div class="avatar-xs">TC</div><div><strong>TechCorp India</strong><span>Business Plan · Unlimited users</span></div><i class="fas fa-check"></i></div>
+          <div class="org-dropdown-item active"><div class="avatar-xs">TC</div><div><strong>TechCorp Global</strong><span>Enterprise · Unlimited users</span></div><i class="fas fa-check"></i></div>
           <div class="org-dropdown-item"><div class="avatar-xs" style="background:#3B82F6">TG</div><div><strong>TechCorp Global</strong><span>Enterprise · 120 users</span></div></div>
           <div class="org-dropdown-item"><div class="avatar-xs" style="background:#10B981">TS</div><div><strong>TechCorp Sandbox</strong><span>Free Trial · 5 users</span></div></div>
           <div class="org-dropdown-divider"></div>
@@ -1725,7 +1788,7 @@
         <!-- 1. Command Center (merges: Dashboard Home + Alerts + AI Insights) -->
         <div class="nav-section">
           <span class="nav-label">Overview</span>
-          <a class="nav-item active" href="#" role="button" onclick="showConsolidatedView('command-center', event); return false;">
+          <a class="nav-item active" href="#" role="button" data-tooltip="Command Center" onclick="showConsolidatedView('command-center', event); return false;">
             <i class="fas fa-th-large" aria-hidden="true"></i> Command Center
             <span class="nav-badge red">3</span>
           </a>
@@ -1733,7 +1796,7 @@
         <!-- 2. SaaS Portfolio (merges: Discovery + Usage Analytics) -->
         <div class="nav-section">
           <span class="nav-label">Inventory</span>
-          <a class="nav-item" href="#" role="button" onclick="showConsolidatedView('portfolio', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="SaaS Portfolio" onclick="showConsolidatedView('portfolio', event); return false;">
             <i class="fas fa-layer-group" aria-hidden="true"></i> SaaS Portfolio
             <span class="nav-badge red">47</span>
           </a>
@@ -1741,21 +1804,21 @@
         <!-- 3. Financial Intelligence (merges: Spend + Dept Costs + Benchmarks) -->
         <div class="nav-section">
           <span class="nav-label">Finance</span>
-          <a class="nav-item" href="#" role="button" onclick="showConsolidatedView('financial', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="Financial Intelligence" onclick="showConsolidatedView('financial', event); return false;">
             <i class="fas fa-chart-line" aria-hidden="true"></i> Financial Intelligence
           </a>
         </div>
         <!-- 4. Risk & Governance (merges: Compliance + Policies) -->
         <div class="nav-section">
           <span class="nav-label">Governance</span>
-          <a class="nav-item" href="#" role="button" onclick="showConsolidatedView('governance', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="Risk & Governance" onclick="showConsolidatedView('governance', event); return false;">
             <i class="fas fa-shield-alt" aria-hidden="true"></i> Risk & Governance
             <span class="nav-badge orange">5</span>
           </a>
         </div>
         <!-- 5. Contracts & Renewals (merges: Contracts + Renewals) -->
         <div class="nav-section">
-          <a class="nav-item" href="#" role="button" onclick="showConsolidatedView('contracts-renewals', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="Contracts & Renewals" onclick="showConsolidatedView('contracts-renewals', event); return false;">
             <i class="fas fa-file-contract" aria-hidden="true"></i> Contracts & Renewals
             <span class="nav-badge yellow">12</span>
           </a>
@@ -1767,26 +1830,26 @@
             <i class="fas fa-chevron-down nav-chevron"></i>
           </span>
           <div class="nav-group nav-group--collapsed" id="nav-group-ops">
-            <a class="nav-item" href="#" role="button" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('employee-onboarding', event); return false;">
+            <a class="nav-item" href="#" role="button" data-tooltip="Onboarding" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('employee-onboarding', event); return false;">
               <i class="fas fa-user-plus" aria-hidden="true"></i> Onboarding
               <span class="nav-badge green">3</span>
             </a>
-            <a class="nav-item" href="#" role="button" onclick="showDashSection('offboarding', event); return false;">
+            <a class="nav-item" href="#" role="button" data-tooltip="Offboarding" onclick="showDashSection('offboarding', event); return false;">
               <i class="fas fa-user-slash" aria-hidden="true"></i> Offboarding
               <span class="nav-badge orange">4</span>
             </a>
-            <a class="nav-item" href="#" role="button" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('lifecycle-analytics', event); return false;">
+            <a class="nav-item" href="#" role="button" data-tooltip="Lifecycle Analytics" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('lifecycle-analytics', event); return false;">
               <i class="fas fa-chart-pie" aria-hidden="true"></i> Lifecycle Analytics
             </a>
-            <a class="nav-item" href="#" role="button" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('contractors', event); return false;">
+            <a class="nav-item" href="#" role="button" data-tooltip="Contractors" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('contractors', event); return false;">
               <i class="fas fa-id-badge" aria-hidden="true"></i> Contractors
               <span class="nav-badge yellow">2</span>
             </a>
-            <a class="nav-item" href="#" role="button" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('approval-workflows', event); return false;">
+            <a class="nav-item" href="#" role="button" data-tooltip="Approvals" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('approval-workflows', event); return false;">
               <i class="fas fa-check-double" aria-hidden="true"></i> Approvals
               <span class="nav-badge orange">3</span>
             </a>
-            <a class="nav-item" href="#" role="button" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('self-service-portal', event); return false;">
+            <a class="nav-item" href="#" role="button" data-tooltip="Self-Service" data-feature-flag="employee-lifecycle" style="display:none" onclick="showDashSection('self-service-portal', event); return false;">
               <i class="fas fa-hand-pointer" aria-hidden="true"></i> Self-Service
             </a>
           </div>
@@ -1794,18 +1857,18 @@
         <!-- 7. AI Copilot (unchanged) -->
         <div class="nav-section">
           <span class="nav-label">AI</span>
-          <a class="nav-item" href="#" role="button" onclick="showDashSection('ai-copilot', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="AI Copilot" onclick="showDashSection('ai-copilot', event); return false;">
             <i class="fas fa-comments" aria-hidden="true"></i> AI Copilot
           </a>
         </div>
         <!-- Utility -->
         <div class="nav-section">
           <span class="nav-label">System</span>
-          <a class="nav-item" href="#" role="button" onclick="showDashSection('org-explorer', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="Org Explorer" onclick="showDashSection('org-explorer', event); return false;">
             <i class="fas fa-sitemap" aria-hidden="true"></i> Org Explorer
             <span class="nav-badge purple">NEW</span>
           </a>
-          <a class="nav-item" href="#" role="button" onclick="showDashSection('settings', event); return false;">
+          <a class="nav-item" href="#" role="button" data-tooltip="Settings" onclick="showDashSection('settings', event); return false;">
             <i class="fas fa-cog" aria-hidden="true"></i> Settings
           </a>
         </div>
@@ -5607,7 +5670,7 @@
                 <div class="settings-form">
                   <div class="form-group">
                     <label>Organization Name</label>
-                    <input type="text" value="TechCorp India Pvt. Ltd.">
+                    <input type="text" value="TechCorp Global Inc.">
                   </div>
                   <div class="form-row">
                     <div class="form-group">
@@ -6945,7 +7008,7 @@
           <h3>Rahul Sharma</h3>
           <div class="profile-banner-meta">
             <span class="profile-badge">Admin</span>
-            <span class="profile-org">· TechCorp India</span>
+            <span class="profile-org">· TechCorp Global</span>
           </div>
           <div class="profile-status"><i class="fas fa-circle"></i> Online · Last active just now</div>
         </div>
@@ -7284,7 +7347,7 @@ Vikram Patel, Designer, $8,400/yr, 6, vikram@company.com, idle"></textarea>
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
           <div class="avatar-sm" style="flex-shrink:0">TC</div>
           <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:8px"><strong style="color:#E2E8F0;font-size:15px">TechCorp India</strong><span style="background:var(--primary);color:white;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600">CURRENT</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><strong style="color:#E2E8F0;font-size:15px">TechCorp Global</strong><span style="background:var(--primary);color:white;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600">CURRENT</span></div>
             <span style="color:#A0AEC0;font-size:12px">Business Plan · Unlimited users · 47 apps tracked</span>
           </div>
           <button class="btn btn-outline" style="font-size:12px;padding:6px 12px" onclick="showDashSectionDirect('settings');closeModal('modal-manage-orgs')"><i class="fas fa-cog"></i></button>
