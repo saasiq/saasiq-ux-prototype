@@ -91,6 +91,17 @@ document.addEventListener('DOMContentLoaded', function() {
 // Auth state tracks whether user has "logged in" via the login/signup form
 var _saasiqAuthenticated = false;
 
+// Smart home navigation — standard SaaS behavior:
+// If authenticated → go to dashboard; if not → go to landing page
+function goHome() {
+  if (_saasiqAuthenticated) {
+    showPage('page-dashboard');
+    if (typeof showDashSectionDirect === 'function') showDashSectionDirect('dashboard-home');
+  } else {
+    showPage('page-landing');
+  }
+}
+
 // Page Navigation
 function showPage(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -191,6 +202,54 @@ function openForgotPassword() {
     '#3B82F6'
   );
 }
+
+// ===== MOBILE NAV TOGGLE =====
+function toggleMobileNav() {
+  var btn = document.querySelector('.gw-hamburger');
+  var nav = document.getElementById('gwMobileNav');
+  if (!btn || !nav) return;
+  var isOpen = nav.classList.toggle('open');
+  btn.classList.toggle('active', isOpen);
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+function closeMobileNav() {
+  var btn = document.querySelector('.gw-hamburger');
+  var nav = document.getElementById('gwMobileNav');
+  if (nav) nav.classList.remove('open');
+  if (btn) { btn.classList.remove('active'); btn.setAttribute('aria-expanded', 'false'); }
+}
+
+// ===== SEARCH OVERLAY (Cmd+K) =====
+function openSearchOverlay() {
+  var overlay = document.getElementById('gwSearchOverlay');
+  if (overlay) {
+    overlay.classList.add('open');
+    setTimeout(function() {
+      var inp = document.getElementById('gwSearchInput');
+      if (inp) inp.focus();
+    }, 100);
+  }
+}
+function closeSearchOverlay() {
+  var overlay = document.getElementById('gwSearchOverlay');
+  if (overlay) overlay.classList.remove('open');
+}
+// ⌘K / Ctrl+K keyboard shortcut
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    var overlay = document.getElementById('gwSearchOverlay');
+    if (overlay && overlay.classList.contains('open')) {
+      closeSearchOverlay();
+    } else {
+      openSearchOverlay();
+    }
+  }
+  if (e.key === 'Escape') {
+    closeSearchOverlay();
+    closeMobileNav();
+  }
+});
 
 // Contact Sales modal
 function openContactSales() {
@@ -839,7 +898,7 @@ function closeDemo() {
   clearInterval(demoState.timer);
   clearInterval(demoState.timerInterval);
   demoState.playing = true;
-  showPage('page-landing');
+  goHome();
 }
 
 // Hook into showPage to init demo when navigating to it
