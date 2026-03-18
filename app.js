@@ -5913,6 +5913,26 @@ function exportBenchmarkPDF(btn) {
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
     revealEls.forEach(function(el) { observer.observe(el); });
+
+    // --- Alternating slide-in cards ---
+    var slideEls = document.querySelectorAll('.gw-slide-in');
+    if (!slideEls.length) return;
+
+    // Auto-assign alternating directions: first = left, second = right, third = left ...
+    slideEls.forEach(function(el, i) {
+      el.classList.add(i % 2 === 0 ? 'from-left' : 'from-right');
+    });
+
+    var slideObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          slideObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+
+    slideEls.forEach(function(el) { slideObserver.observe(el); });
   }
 
   /* ===== Count-up on scroll ===== */
@@ -5958,7 +5978,7 @@ function exportBenchmarkPDF(btn) {
 
   /* ===== Card mouse-follow glow ===== */
   function initCardGlow() {
-    var cards = document.querySelectorAll('.gw-feature-card');
+    var cards = document.querySelectorAll('.gw-feature-card, .gw-only-card, .gw-product-card');
     cards.forEach(function(card) {
       card.addEventListener('mousemove', function(e) {
         var rect = card.getBoundingClientRect();
