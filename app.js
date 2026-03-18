@@ -5913,6 +5913,21 @@ function exportBenchmarkPDF(btn) {
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
     revealEls.forEach(function(el) { observer.observe(el); });
+
+    // --- Alternating slide-in cards ---
+    var slideEls = document.querySelectorAll('.gw-slide-in');
+    if (!slideEls.length) return;
+
+    var slideObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          slideObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    slideEls.forEach(function(el) { slideObserver.observe(el); });
   }
 
   /* ===== Count-up on scroll ===== */

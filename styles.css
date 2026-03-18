@@ -5460,6 +5460,27 @@ body.theme-dark .exp-score-card:hover {
 .gw-stagger-reveal.visible > *:nth-child(7) { transition-delay: 0.48s; }
 .gw-stagger-reveal.visible > *:nth-child(8) { transition-delay: 0.56s; }
 
+/* ===== ALTERNATING SLIDE-IN ANIMATIONS ===== */
+.gw-slide-in {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gw-slide-in[data-direction="left"] {
+  transform: translateX(-80px) scale(0.96);
+}
+.gw-slide-in[data-direction="right"] {
+  transform: translateX(80px) scale(0.96);
+}
+.gw-slide-in.visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+/* Staggered delays for sequential card reveals */
+.gw-slide-in[data-delay="1"] { transition-delay: 0.15s; }
+.gw-slide-in[data-delay="2"] { transition-delay: 0.3s; }
+.gw-slide-in[data-delay="3"] { transition-delay: 0.45s; }
+.gw-slide-in[data-delay="4"] { transition-delay: 0.6s; }
+
 /* ===== CARD TILT / GLOW ===== */
 .gw-tilt-card {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
