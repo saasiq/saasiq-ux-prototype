@@ -5978,7 +5978,7 @@ function exportBenchmarkPDF(btn) {
 
   /* ===== Card mouse-follow glow ===== */
   function initCardGlow() {
-    var cards = document.querySelectorAll('.gw-feature-card');
+    var cards = document.querySelectorAll('.gw-feature-card, .gw-only-card, .gw-product-card');
     cards.forEach(function(card) {
       card.addEventListener('mousemove', function(e) {
         var rect = card.getBoundingClientRect();
