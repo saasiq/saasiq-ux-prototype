@@ -5463,23 +5463,19 @@ body.theme-dark .exp-score-card:hover {
 /* ===== ALTERNATING SLIDE-IN ANIMATIONS ===== */
 .gw-slide-in {
   opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
-.gw-slide-in[data-direction="left"] {
-  transform: translateX(-80px) scale(0.96);
+.gw-slide-in.from-left {
+  transform: translateX(-120px) rotate(-1.5deg) scale(0.92);
 }
-.gw-slide-in[data-direction="right"] {
-  transform: translateX(80px) scale(0.96);
+.gw-slide-in.from-right {
+  transform: translateX(120px) rotate(1.5deg) scale(0.92);
 }
 .gw-slide-in.visible {
   opacity: 1;
-  transform: translateX(0) scale(1);
+  transform: translateX(0) rotate(0deg) scale(1);
 }
-/* Staggered delays for sequential card reveals */
-.gw-slide-in[data-delay="1"] { transition-delay: 0.15s; }
-.gw-slide-in[data-delay="2"] { transition-delay: 0.3s; }
-.gw-slide-in[data-delay="3"] { transition-delay: 0.45s; }
-.gw-slide-in[data-delay="4"] { transition-delay: 0.6s; }
 
 /* ===== CARD TILT / GLOW ===== */
 .gw-tilt-card {
@@ -5720,8 +5716,9 @@ body.theme-dark .exp-score-card:hover {
   letter-spacing: -0.5px; margin-bottom: 48px; line-height: 1.2;
 }
 .gw-product-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  display: flex; flex-direction: column; gap: 48px;
   text-align: left;
+  max-width: 680px; margin: 0 auto;
 }
 .gw-product-card {
   padding: 40px;
@@ -7231,7 +7228,7 @@ body.theme-dark .gw-demo-confirmed p { color: #6b7280; }
   .gw-hero-desc { font-size: 15px; }
   .gw-hero-stats { flex-direction: column; gap: 0; }
   .gw-hero-stat-divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, rgba(124,58,237,0.15), transparent); }
-  .gw-product-grid { grid-template-columns: 1fr; }
+  .gw-product-grid { max-width: 100%; }
   .gw-hiw-steps { flex-direction: column; align-items: center; }
   .gw-hiw-connector { padding-top: 0; transform: rotate(90deg); }
   .gw-dark-block-split { grid-template-columns: 1fr; gap: 32px; }

@@ -5918,6 +5918,11 @@ function exportBenchmarkPDF(btn) {
     var slideEls = document.querySelectorAll('.gw-slide-in');
     if (!slideEls.length) return;
 
+    // Auto-assign alternating directions: first = left, second = right, third = left ...
+    slideEls.forEach(function(el, i) {
+      el.classList.add(i % 2 === 0 ? 'from-left' : 'from-right');
+    });
+
     var slideObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
@@ -5925,7 +5930,7 @@ function exportBenchmarkPDF(btn) {
           slideObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
 
     slideEls.forEach(function(el) { slideObserver.observe(el); });
   }
